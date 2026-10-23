@@ -1,0 +1,51 @@
+# Debug Toolpack 10.9.9: action_declare_war from the game (4.5) + game master war rules in possible.
+# diplomatic_actions are LIOS: this later-loaded file replaces only this one action, the rest of the game file stays untouched.
+action_declare_war = {
+	icon = "GFX_diplomacy_status_war"
+	requires_actor_independence = no # You are able to declare war only on your overlord when being a vassal, this special case is handled in code instead.
+	requires_recipient_independence = no
+	requires_alliance_vote = yes
+	requires_unanimous_vote = yes
+	auto_accepted = yes
+	should_show_auto_accept_message_actor = yes
+	should_show_auto_accept_message_recipient = yes
+	should_open_auto_accept_message_recipient = yes
+	should_notify_all_communications = yes
+	action_type = aggressive
+
+	possible = {
+		# --- Debug Toolpack: game master war rules (dtp_rule_nopvp / dtp_rule_np / dtp_rule_prot) ---
+		custom_tooltip = { fail_text = dtp_war_banned NOT = { AND = { OR = { is_ai = no has_global_flag = dtp_war_ai } has_global_flag = dtp_rule_nopvp NOT = { has_global_flag = dtp_war_soft } } } }
+		custom_tooltip = { fail_text = dtp_war_np NOT = { AND = { has_country_flag = dtp_rule_np NOT = { has_global_flag = dtp_war_soft } } } }
+		custom_tooltip = { fail_text = dtp_war_prot NOT = { AND = { OR = { is_ai = no has_global_flag = dtp_war_ai } from = { has_country_flag = dtp_rule_prot } NOT = { has_global_flag = dtp_war_soft } } } }
+		custom_tooltip = {
+			fail_text = "requires_recipient_not_subject_of_federation_member"
+			NOT = {
+				any_federation_ally = {
+					is_overlord_to = fromfrom
+				}
+			}
+		}
+		custom_tooltip = {
+			fail_text = "the_fe_is_busy_with_synth_queen"
+			OR = {
+				from = { is_fallen_empire = no }
+				AND = {
+					NOT = { has_global_flag = synth_queen_happened }
+					from = {
+						is_fallen_empire = yes
+					}
+				}
+			}
+		}
+	}
+
+	on_accept = {
+		hidden_effect = {
+			set_country_flag = has_declared_war
+			country_event = { # Patron Objective Counter: po_declare_war
+				id = shroud.10440
+			}
+		}
+	}
+}

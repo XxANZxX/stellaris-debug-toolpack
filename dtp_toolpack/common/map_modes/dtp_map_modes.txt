@@ -1,0 +1,59 @@
+# Debug Toolpack 10.9.9 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dtp_rules_map_mode = {
+	icon = "GFX_dtp_map_mode"
+	enable_terra_incognita = yes
+	can_change_point_of_view = no
+	display_claims = no
+	color = {
+		type = country_and_borders
+		value = rgb { 255 140 30 255 }
+		custom_tooltip = dtp_mm_viol
+		condition = {
+			has_global_flag = dtp_viol_open
+			exists = event_target:dtp_violator
+			is_same_value = event_target:dtp_violator
+		}
+	}
+	color = {
+		type = country_and_borders
+		value = rgb { 60 220 110 255 }
+		custom_tooltip = dtp_mm_prot
+		condition = {
+			has_country_flag = dtp_rule_prot
+		}
+	}
+	color = {
+		type = country_and_borders
+		value = rgb { 230 50 50 255 }
+		custom_tooltip = dtp_mm_np
+		condition = {
+			has_country_flag = dtp_rule_np
+		}
+	}
+	color = {
+		type = country_and_borders
+		value = rgb { 70 140 255 255 }
+		custom_tooltip = dtp_mm_ban
+		condition = {
+			is_ai = no
+			has_global_flag = dtp_rule_nopvp
+		}
+	}
+	color = {
+		type = country_and_borders
+		value = rgb { 220 220 235 255 }
+		custom_tooltip = dtp_mm_pl
+		condition = {
+			is_ai = no
+		}
+	}
+	color = {
+		type = country_and_borders
+		value = rgb { 70 70 80 255 }
+		custom_tooltip = dtp_mm_ai
+		condition = {
+			always = yes
+		}
+	}
+}
+

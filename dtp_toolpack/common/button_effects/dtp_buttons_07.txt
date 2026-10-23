@@ -1,0 +1,5729 @@
+# Debug Toolpack 10.9.9 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dtp_b_sc_sc_neutron_star = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		dtp_tp_star = yes
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_force from = {
+				dtp_force_active = yes
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_s
+					}
+					hidden_effect = {
+						event_target:dtp_s = {
+							set_variable = { which = dtp_wm value = 0 }
+							if = {
+								limit = {
+									has_star_flag = dtp_marked
+								}
+								set_variable = { which = dtp_wm value = 1 }
+								dtp_unmark_sys = yes
+							}
+							set_star_class = sc_neutron_star
+							if = {
+								limit = {
+									check_variable = { which = dtp_wm value = 1 }
+								}
+								dtp_mark_sys = yes
+							}
+						}
+					}
+					dtp_result = { CODE = 37 }
+				}
+				else = {
+					dtp_fail = { CODE = 37 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 37 }
+			}
+		}
+	}
+}
+
+dtp_b_sc_sc_pulsar = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		dtp_tp_star = yes
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_force from = {
+				dtp_force_active = yes
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_s
+					}
+					hidden_effect = {
+						event_target:dtp_s = {
+							set_variable = { which = dtp_wm value = 0 }
+							if = {
+								limit = {
+									has_star_flag = dtp_marked
+								}
+								set_variable = { which = dtp_wm value = 1 }
+								dtp_unmark_sys = yes
+							}
+							set_star_class = sc_pulsar
+							if = {
+								limit = {
+									check_variable = { which = dtp_wm value = 1 }
+								}
+								dtp_mark_sys = yes
+							}
+						}
+					}
+					dtp_result = { CODE = 37 }
+				}
+				else = {
+					dtp_fail = { CODE = 37 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 37 }
+			}
+		}
+	}
+}
+
+dtp_b_pl_tr_ok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		from = {
+			has_country_flag = dtp_arm_pl_tr
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+						exists = event_target:dtp_r
+					}
+					event_target:dtp_p = {
+						set_owner = event_target:dtp_r
+						set_controller = event_target:dtp_r
+					}
+					dtp_result = { CODE = 8 }
+				}
+				else = {
+					dtp_fail = { CODE = 8 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 8 }
+			}
+		}
+	}
+}
+
+dtp_b_pl_tr_ok_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		from = {
+			has_country_flag = dtp_arm_pl_tr
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+		}
+	}
+}
+
+dtp_b_colony_rm_ok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		from = {
+			has_country_flag = dtp_arm_colony_rm
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_force from = {
+				dtp_force_active = yes
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						destroy_colony = yes
+					}
+					dtp_result = { CODE = 33 }
+				}
+				else = {
+					dtp_fail = { CODE = 33 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 33 }
+			}
+		}
+	}
+}
+
+dtp_b_colony_rm_ok_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		from = {
+			has_country_flag = dtp_arm_colony_rm
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+		}
+	}
+}
+
+dtp_b_fl_rep = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					event_target:dtp_f = {
+						repair_percentage = 1
+					}
+					dtp_result = { CODE = 16 }
+				}
+				else = {
+					dtp_fail = { CODE = 16 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 16 }
+			}
+		}
+	}
+}
+
+dtp_b_fl_move = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_f = {
+						set_location = event_target:dtp_p
+					}
+					dtp_result = { CODE = 18 }
+				}
+				else = {
+					dtp_fail = { CODE = 18 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 18 }
+			}
+		}
+	}
+}
+
+dtp_b_fl_tr = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_arm_fl_tr
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+			from = {
+				set_country_flag = dtp_arm_fl_tr
+			}
+		}
+	}
+}
+
+dtp_b_fl_del = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_arm_fl_del
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+			from = {
+				set_country_flag = dtp_arm_fl_del
+			}
+		}
+	}
+}
+
+dtp_b_fl_new0 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						create_fleet_from_naval_cap = { fraction = 0.1 }
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_fl_new1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						create_fleet_from_naval_cap = { fraction = 0.25 }
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_fl_new2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						create_fleet_from_naval_cap = { fraction = 0.5 }
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_fl_mrep = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						every_owned_fleet = {
+							repair_percentage = 1
+						}
+					}
+					dtp_result = { CODE = 16 }
+				}
+				else = {
+					dtp_fail = { CODE = 16 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 16 }
+			}
+		}
+	}
+}
+
+dtp_b_mass_fl = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_arm_mass_fl
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+			from = {
+				set_country_flag = dtp_arm_mass_fl
+			}
+		}
+	}
+}
+
+dtp_b_sh_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_corvette_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 0 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_corvette = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_shz value = 0 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_shz value = 0 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_destroyer_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 1 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_destroyer = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_shz value = 1 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_shz value = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_cruiser_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 2 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_cruiser = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_shz value = 2 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_shz value = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_battleship_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 3 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_battleship = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_shz value = 3 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_shz value = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_titan_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 4 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_titan = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_shz value = 4 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_shz value = 4 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_juggernaut_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 5 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_juggernaut = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_shz value = 5 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_shz value = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_colossus_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_colossus = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_shz value = 6 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_shz value = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_science_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 7 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_science = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_shz value = 7 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_shz value = 7 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_constructor_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 8 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_constructor = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_shz value = 8 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_shz value = 8 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_cnt_l = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_m10 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				change_variable = { which = dtp_shn value = -10 }
+				if = {
+					limit = {
+						check_variable = { which = dtp_shn value > 100 }
+					}
+					set_variable = { which = dtp_shn value = 100 }
+				}
+				if = {
+					limit = {
+						check_variable = { which = dtp_shn value < 1 }
+					}
+					set_variable = { which = dtp_shn value = 1 }
+				}
+			}
+		}
+	}
+}
+
+dtp_b_sh_m1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				change_variable = { which = dtp_shn value = -1 }
+				if = {
+					limit = {
+						check_variable = { which = dtp_shn value > 100 }
+					}
+					set_variable = { which = dtp_shn value = 100 }
+				}
+				if = {
+					limit = {
+						check_variable = { which = dtp_shn value < 1 }
+					}
+					set_variable = { which = dtp_shn value = 1 }
+				}
+			}
+		}
+	}
+}
+
+dtp_b_sh_cnt = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_p1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				change_variable = { which = dtp_shn value = 1 }
+				if = {
+					limit = {
+						check_variable = { which = dtp_shn value > 100 }
+					}
+					set_variable = { which = dtp_shn value = 100 }
+				}
+				if = {
+					limit = {
+						check_variable = { which = dtp_shn value < 1 }
+					}
+					set_variable = { which = dtp_shn value = 1 }
+				}
+			}
+		}
+	}
+}
+
+dtp_b_sh_p10 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				change_variable = { which = dtp_shn value = 10 }
+				if = {
+					limit = {
+						check_variable = { which = dtp_shn value > 100 }
+					}
+					set_variable = { which = dtp_shn value = 100 }
+				}
+				if = {
+					limit = {
+						check_variable = { which = dtp_shn value < 1 }
+					}
+					set_variable = { which = dtp_shn value = 1 }
+				}
+			}
+		}
+	}
+}
+
+dtp_b_sh_loc_c = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_sh_atp
+			} }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_country_flag = dtp_sh_atp
+			}
+		}
+	}
+}
+
+dtp_b_sh_loc_p = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			has_country_flag = dtp_sh_atp
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				remove_country_flag = dtp_sh_atp
+			}
+		}
+	}
+}
+
+dtp_b_sh_tpl = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_sh_go_corvette = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 0 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		if = {
+			limit = {
+				from = {
+					has_country_flag = dtp_sh_atp
+				}
+			}
+			custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		}
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_shc value = from.dtp_shn }
+							set_variable = { which = dtp_shk value = from.dtp_shz }
+							capital_scope = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_sh_atp
+								}
+								exists = event_target:dtp_p
+							}
+							event_target:dtp_p = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								exists = event_target:dtp_sh_proto
+							}
+							clear_global_event_target = dtp_sh_proto
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 0 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = corvette
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 1 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = destroyer
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 2 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = cruiser
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 3 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = battleship
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 4 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = titan
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 5 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = juggernaut
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 6 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = colossus
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 7 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = science
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 8 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = constructor
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						event_target:dtp_t = {
+							create_fleet = {
+								name = random
+								effect = {
+									set_owner = event_target:dtp_t
+									while = {
+										limit = {
+											event_target:dtp_t = {
+												check_variable = { which = dtp_shc value > 0 }
+											}
+										}
+										if = {
+											limit = {
+												exists = event_target:dtp_sh_proto
+											}
+											create_ship = {
+												name = random
+												design = event_target:dtp_sh_proto
+											}
+										}
+										else = {
+											if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 0 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = corvette
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 1 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = destroyer
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 2 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = cruiser
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 3 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = battleship
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 4 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = titan
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 5 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = juggernaut
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 6 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = colossus
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 7 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = science
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 8 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = constructor
+												}
+											}
+										}
+										event_target:dtp_t = {
+											change_variable = { which = dtp_shc value = -1 }
+										}
+									}
+									set_location = { target = event_target:dtp_sh_loc distance = 15 angle = random }
+								}
+							}
+						}
+						log = "DTP FLEET: constructor"
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_go_destroyer = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		if = {
+			limit = {
+				from = {
+					has_country_flag = dtp_sh_atp
+				}
+			}
+			custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		}
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_shc value = from.dtp_shn }
+							set_variable = { which = dtp_shk value = from.dtp_shz }
+							capital_scope = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_sh_atp
+								}
+								exists = event_target:dtp_p
+							}
+							event_target:dtp_p = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								exists = event_target:dtp_sh_proto
+							}
+							clear_global_event_target = dtp_sh_proto
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 0 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = corvette
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 1 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = destroyer
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 2 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = cruiser
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 3 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = battleship
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 4 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = titan
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 5 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = juggernaut
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 6 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = colossus
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 7 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = science
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 8 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = constructor
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						event_target:dtp_t = {
+							create_fleet = {
+								name = random
+								effect = {
+									set_owner = event_target:dtp_t
+									while = {
+										limit = {
+											event_target:dtp_t = {
+												check_variable = { which = dtp_shc value > 0 }
+											}
+										}
+										if = {
+											limit = {
+												exists = event_target:dtp_sh_proto
+											}
+											create_ship = {
+												name = random
+												design = event_target:dtp_sh_proto
+											}
+										}
+										else = {
+											if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 0 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = corvette
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 1 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = destroyer
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 2 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = cruiser
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 3 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = battleship
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 4 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = titan
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 5 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = juggernaut
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 6 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = colossus
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 7 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = science
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 8 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = constructor
+												}
+											}
+										}
+										event_target:dtp_t = {
+											change_variable = { which = dtp_shc value = -1 }
+										}
+									}
+									set_location = { target = event_target:dtp_sh_loc distance = 15 angle = random }
+								}
+							}
+						}
+						log = "DTP FLEET: constructor"
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_go_cruiser = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		if = {
+			limit = {
+				from = {
+					has_country_flag = dtp_sh_atp
+				}
+			}
+			custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		}
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_shc value = from.dtp_shn }
+							set_variable = { which = dtp_shk value = from.dtp_shz }
+							capital_scope = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_sh_atp
+								}
+								exists = event_target:dtp_p
+							}
+							event_target:dtp_p = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								exists = event_target:dtp_sh_proto
+							}
+							clear_global_event_target = dtp_sh_proto
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 0 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = corvette
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 1 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = destroyer
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 2 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = cruiser
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 3 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = battleship
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 4 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = titan
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 5 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = juggernaut
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 6 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = colossus
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 7 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = science
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 8 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = constructor
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						event_target:dtp_t = {
+							create_fleet = {
+								name = random
+								effect = {
+									set_owner = event_target:dtp_t
+									while = {
+										limit = {
+											event_target:dtp_t = {
+												check_variable = { which = dtp_shc value > 0 }
+											}
+										}
+										if = {
+											limit = {
+												exists = event_target:dtp_sh_proto
+											}
+											create_ship = {
+												name = random
+												design = event_target:dtp_sh_proto
+											}
+										}
+										else = {
+											if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 0 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = corvette
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 1 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = destroyer
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 2 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = cruiser
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 3 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = battleship
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 4 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = titan
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 5 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = juggernaut
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 6 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = colossus
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 7 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = science
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 8 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = constructor
+												}
+											}
+										}
+										event_target:dtp_t = {
+											change_variable = { which = dtp_shc value = -1 }
+										}
+									}
+									set_location = { target = event_target:dtp_sh_loc distance = 15 angle = random }
+								}
+							}
+						}
+						log = "DTP FLEET: constructor"
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_go_battleship = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		if = {
+			limit = {
+				from = {
+					has_country_flag = dtp_sh_atp
+				}
+			}
+			custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		}
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_shc value = from.dtp_shn }
+							set_variable = { which = dtp_shk value = from.dtp_shz }
+							capital_scope = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_sh_atp
+								}
+								exists = event_target:dtp_p
+							}
+							event_target:dtp_p = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								exists = event_target:dtp_sh_proto
+							}
+							clear_global_event_target = dtp_sh_proto
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 0 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = corvette
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 1 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = destroyer
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 2 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = cruiser
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 3 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = battleship
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 4 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = titan
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 5 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = juggernaut
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 6 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = colossus
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 7 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = science
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 8 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = constructor
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						event_target:dtp_t = {
+							create_fleet = {
+								name = random
+								effect = {
+									set_owner = event_target:dtp_t
+									while = {
+										limit = {
+											event_target:dtp_t = {
+												check_variable = { which = dtp_shc value > 0 }
+											}
+										}
+										if = {
+											limit = {
+												exists = event_target:dtp_sh_proto
+											}
+											create_ship = {
+												name = random
+												design = event_target:dtp_sh_proto
+											}
+										}
+										else = {
+											if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 0 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = corvette
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 1 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = destroyer
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 2 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = cruiser
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 3 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = battleship
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 4 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = titan
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 5 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = juggernaut
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 6 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = colossus
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 7 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = science
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 8 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = constructor
+												}
+											}
+										}
+										event_target:dtp_t = {
+											change_variable = { which = dtp_shc value = -1 }
+										}
+									}
+									set_location = { target = event_target:dtp_sh_loc distance = 15 angle = random }
+								}
+							}
+						}
+						log = "DTP FLEET: constructor"
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_go_titan = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 4 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		if = {
+			limit = {
+				from = {
+					has_country_flag = dtp_sh_atp
+				}
+			}
+			custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		}
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_shc value = from.dtp_shn }
+							set_variable = { which = dtp_shk value = from.dtp_shz }
+							capital_scope = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_sh_atp
+								}
+								exists = event_target:dtp_p
+							}
+							event_target:dtp_p = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								exists = event_target:dtp_sh_proto
+							}
+							clear_global_event_target = dtp_sh_proto
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 0 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = corvette
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 1 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = destroyer
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 2 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = cruiser
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 3 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = battleship
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 4 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = titan
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 5 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = juggernaut
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 6 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = colossus
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 7 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = science
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 8 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = constructor
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						event_target:dtp_t = {
+							create_fleet = {
+								name = random
+								effect = {
+									set_owner = event_target:dtp_t
+									while = {
+										limit = {
+											event_target:dtp_t = {
+												check_variable = { which = dtp_shc value > 0 }
+											}
+										}
+										if = {
+											limit = {
+												exists = event_target:dtp_sh_proto
+											}
+											create_ship = {
+												name = random
+												design = event_target:dtp_sh_proto
+											}
+										}
+										else = {
+											if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 0 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = corvette
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 1 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = destroyer
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 2 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = cruiser
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 3 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = battleship
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 4 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = titan
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 5 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = juggernaut
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 6 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = colossus
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 7 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = science
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 8 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = constructor
+												}
+											}
+										}
+										event_target:dtp_t = {
+											change_variable = { which = dtp_shc value = -1 }
+										}
+									}
+									set_location = { target = event_target:dtp_sh_loc distance = 15 angle = random }
+								}
+							}
+						}
+						log = "DTP FLEET: constructor"
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_go_juggernaut = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 5 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		if = {
+			limit = {
+				from = {
+					has_country_flag = dtp_sh_atp
+				}
+			}
+			custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		}
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_shc value = from.dtp_shn }
+							set_variable = { which = dtp_shk value = from.dtp_shz }
+							capital_scope = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_sh_atp
+								}
+								exists = event_target:dtp_p
+							}
+							event_target:dtp_p = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								exists = event_target:dtp_sh_proto
+							}
+							clear_global_event_target = dtp_sh_proto
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 0 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = corvette
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 1 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = destroyer
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 2 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = cruiser
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 3 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = battleship
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 4 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = titan
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 5 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = juggernaut
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 6 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = colossus
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 7 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = science
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 8 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = constructor
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						event_target:dtp_t = {
+							create_fleet = {
+								name = random
+								effect = {
+									set_owner = event_target:dtp_t
+									while = {
+										limit = {
+											event_target:dtp_t = {
+												check_variable = { which = dtp_shc value > 0 }
+											}
+										}
+										if = {
+											limit = {
+												exists = event_target:dtp_sh_proto
+											}
+											create_ship = {
+												name = random
+												design = event_target:dtp_sh_proto
+											}
+										}
+										else = {
+											if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 0 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = corvette
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 1 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = destroyer
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 2 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = cruiser
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 3 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = battleship
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 4 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = titan
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 5 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = juggernaut
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 6 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = colossus
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 7 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = science
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 8 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = constructor
+												}
+											}
+										}
+										event_target:dtp_t = {
+											change_variable = { which = dtp_shc value = -1 }
+										}
+									}
+									set_location = { target = event_target:dtp_sh_loc distance = 15 angle = random }
+								}
+							}
+						}
+						log = "DTP FLEET: constructor"
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_go_colossus = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 6 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		if = {
+			limit = {
+				from = {
+					has_country_flag = dtp_sh_atp
+				}
+			}
+			custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		}
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_shc value = from.dtp_shn }
+							set_variable = { which = dtp_shk value = from.dtp_shz }
+							capital_scope = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_sh_atp
+								}
+								exists = event_target:dtp_p
+							}
+							event_target:dtp_p = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								exists = event_target:dtp_sh_proto
+							}
+							clear_global_event_target = dtp_sh_proto
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 0 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = corvette
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 1 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = destroyer
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 2 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = cruiser
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 3 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = battleship
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 4 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = titan
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 5 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = juggernaut
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 6 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = colossus
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 7 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = science
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 8 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = constructor
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						event_target:dtp_t = {
+							create_fleet = {
+								name = random
+								effect = {
+									set_owner = event_target:dtp_t
+									while = {
+										limit = {
+											event_target:dtp_t = {
+												check_variable = { which = dtp_shc value > 0 }
+											}
+										}
+										if = {
+											limit = {
+												exists = event_target:dtp_sh_proto
+											}
+											create_ship = {
+												name = random
+												design = event_target:dtp_sh_proto
+											}
+										}
+										else = {
+											if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 0 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = corvette
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 1 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = destroyer
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 2 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = cruiser
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 3 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = battleship
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 4 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = titan
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 5 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = juggernaut
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 6 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = colossus
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 7 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = science
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 8 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = constructor
+												}
+											}
+										}
+										event_target:dtp_t = {
+											change_variable = { which = dtp_shc value = -1 }
+										}
+									}
+									set_location = { target = event_target:dtp_sh_loc distance = 15 angle = random }
+								}
+							}
+						}
+						log = "DTP FLEET: constructor"
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_go_science = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		if = {
+			limit = {
+				from = {
+					has_country_flag = dtp_sh_atp
+				}
+			}
+			custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		}
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_shc value = from.dtp_shn }
+							set_variable = { which = dtp_shk value = from.dtp_shz }
+							capital_scope = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_sh_atp
+								}
+								exists = event_target:dtp_p
+							}
+							event_target:dtp_p = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								exists = event_target:dtp_sh_proto
+							}
+							clear_global_event_target = dtp_sh_proto
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 0 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = corvette
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 1 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = destroyer
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 2 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = cruiser
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 3 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = battleship
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 4 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = titan
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 5 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = juggernaut
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 6 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = colossus
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 7 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = science
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 8 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = constructor
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						event_target:dtp_t = {
+							create_fleet = {
+								name = random
+								effect = {
+									set_owner = event_target:dtp_t
+									while = {
+										limit = {
+											event_target:dtp_t = {
+												check_variable = { which = dtp_shc value > 0 }
+											}
+										}
+										if = {
+											limit = {
+												exists = event_target:dtp_sh_proto
+											}
+											create_ship = {
+												name = random
+												design = event_target:dtp_sh_proto
+											}
+										}
+										else = {
+											if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 0 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = corvette
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 1 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = destroyer
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 2 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = cruiser
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 3 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = battleship
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 4 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = titan
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 5 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = juggernaut
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 6 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = colossus
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 7 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = science
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 8 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = constructor
+												}
+											}
+										}
+										event_target:dtp_t = {
+											change_variable = { which = dtp_shc value = -1 }
+										}
+									}
+									set_location = { target = event_target:dtp_sh_loc distance = 15 angle = random }
+								}
+							}
+						}
+						log = "DTP FLEET: constructor"
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_sh_go_constructor = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			check_variable = { which = dtp_shz value = 8 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		if = {
+			limit = {
+				from = {
+					has_country_flag = dtp_sh_atp
+				}
+			}
+			custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		}
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_shc value = from.dtp_shn }
+							set_variable = { which = dtp_shk value = from.dtp_shz }
+							capital_scope = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_sh_atp
+								}
+								exists = event_target:dtp_p
+							}
+							event_target:dtp_p = {
+								save_event_target_as = dtp_sh_loc
+							}
+						}
+						if = {
+							limit = {
+								exists = event_target:dtp_sh_proto
+							}
+							clear_global_event_target = dtp_sh_proto
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 0 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = corvette
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 1 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = destroyer
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 2 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = cruiser
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 3 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = battleship
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 4 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = titan
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 5 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = juggernaut
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 6 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = colossus
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 7 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = science
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						if = {
+							limit = {
+								event_target:dtp_t = {
+									check_variable = { which = dtp_shk value = 8 }
+								}
+							}
+							event_target:dtp_t = {
+								random_controlled_ship = {
+									limit = {
+										is_ship_size = constructor
+									}
+									save_global_event_target_as = dtp_sh_proto
+								}
+							}
+						}
+						event_target:dtp_t = {
+							create_fleet = {
+								name = random
+								effect = {
+									set_owner = event_target:dtp_t
+									while = {
+										limit = {
+											event_target:dtp_t = {
+												check_variable = { which = dtp_shc value > 0 }
+											}
+										}
+										if = {
+											limit = {
+												exists = event_target:dtp_sh_proto
+											}
+											create_ship = {
+												name = random
+												design = event_target:dtp_sh_proto
+											}
+										}
+										else = {
+											if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 0 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = corvette
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 1 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = destroyer
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 2 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = cruiser
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 3 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = battleship
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 4 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = titan
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 5 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = juggernaut
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 6 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = colossus
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 7 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = science
+												}
+											}
+											else_if = {
+												limit = {
+													event_target:dtp_t = {
+														check_variable = { which = dtp_shk value = 8 }
+													}
+												}
+												create_ship = {
+													name = random
+													random_existing_design = constructor
+												}
+											}
+										}
+										event_target:dtp_t = {
+											change_variable = { which = dtp_shc value = -1 }
+										}
+									}
+									set_location = { target = event_target:dtp_sh_loc distance = 15 angle = random }
+								}
+							}
+						}
+						log = "DTP FLEET: constructor"
+					}
+					dtp_result = { CODE = 17 }
+				}
+				else = {
+					dtp_fail = { CODE = 17 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_fl_tr_ok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			has_country_flag = dtp_arm_fl_tr
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+						exists = event_target:dtp_r
+					}
+					event_target:dtp_f = {
+						set_owner = event_target:dtp_r
+					}
+					dtp_result = { CODE = 14 }
+				}
+				else = {
+					dtp_fail = { CODE = 14 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 14 }
+			}
+		}
+	}
+}
+
+dtp_b_fl_tr_ok_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			has_country_flag = dtp_arm_fl_tr
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+		}
+	}
+}
+
+dtp_b_fl_del_ok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			has_country_flag = dtp_arm_fl_del
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					event_target:dtp_f = {
+						delete_fleet = this
+					}
+					dtp_result = { CODE = 15 }
+				}
+				else = {
+					dtp_fail = { CODE = 15 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 15 }
+			}
+		}
+	}
+}
+
+dtp_b_fl_del_ok_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			has_country_flag = dtp_arm_fl_del
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+		}
+	}
+}
+
+dtp_b_mass_fl_ok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			has_country_flag = dtp_arm_mass_fl
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						every_owned_fleet = {
+							limit = {
+								dtp_military_fleet = yes
+							}
+							set_owner = event_target:dtp_r
+						}
+					}
+					dtp_result = { CODE = 14 }
+				}
+				else = {
+					dtp_fail = { CODE = 14 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 14 }
+			}
+		}
+	}
+}
+
+dtp_b_mass_fl_ok_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 6 }
+		}
+		from = {
+			has_country_flag = dtp_arm_mass_fl
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+		}
+	}
+}
+
+dtp_b_dp_contact = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						establish_communications = event_target:dtp_r
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_dp_op_p = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						add_opinion_modifier = { modifier = dtp_opinion_good who = event_target:dtp_r }
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_dp_op_m = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						add_opinion_modifier = { modifier = dtp_opinion_bad who = event_target:dtp_r }
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_dp_op_0 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_opinion_modifier = { modifier = dtp_opinion_good who = event_target:dtp_r }
+						remove_opinion_modifier = { modifier = dtp_opinion_bad who = event_target:dtp_r }
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_dp_trust = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						add_trust = { amount = 25 who = event_target:dtp_r }
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_dp_truce = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						set_truce = { target = event_target:dtp_r type = war }
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_dp_untruce = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						end_truce = event_target:dtp_r
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_dp_close = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						set_closed_borders = { who = event_target:dtp_r status = yes }
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_dp_open = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						set_closed_borders = { who = event_target:dtp_r status = no }
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_dp_guar = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						guarantee_country = event_target:dtp_r
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_subj = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_arm_subj
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+			from = {
+				set_country_flag = dtp_arm_subj
+			}
+		}
+	}
+}
+
+dtp_b_fed = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_arm_fed
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+			from = {
+				set_country_flag = dtp_arm_fed
+			}
+		}
+	}
+}
+
+dtp_b_war = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_arm_war
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+		custom_tooltip = { fail_text = dtp_need_force from = {
+				dtp_force_active = yes
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+			from = {
+				set_country_flag = dtp_arm_war
+			}
+		}
+	}
+}
+
+dtp_b_dp_wpeace = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+		custom_tooltip = { fail_text = dtp_need_diff dtp_tr_differs = yes }
+		custom_tooltip = { fail_text = dtp_need_atwar event_target:dtp_t = { is_at_war_with = event_target:dtp_r } }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						save_global_event_target_as = dtp_wp_a
+					}
+					event_target:dtp_r = {
+						save_global_event_target_as = dtp_wp_b
+					}
+					event_target:dtp_t = {
+						every_war = {
+							limit = {
+								OR = { AND = { is_war_participant = { who = event_target:dtp_t side = attackers } is_war_participant = { who = event_target:dtp_r side = defenders } } AND = { is_war_participant = { who = event_target:dtp_t side = defenders } is_war_participant = { who = event_target:dtp_r side = attackers } } }
+							}
+							every_war_participant = {
+								prev = {
+									remove_war_participant = prev
+								}
+							}
+						}
+						set_truce = { target = event_target:dtp_r type = war }
+					}
+					log = "DTP DIPLO: white peace"
+					every_country = {
+						limit = {
+							is_ai = no
+							dtp_listed_country = yes
+						}
+						country_event = { id = dtp.1009 }
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_dp_lim = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_subj_ok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+		from = {
+			has_country_flag = dtp_arm_subj
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						set_subject_of = { who = event_target:dtp_r }
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_subj_ok_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+		from = {
+			has_country_flag = dtp_arm_subj
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+		}
+	}
+}
+
+dtp_b_fed_ok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+		from = {
+			has_country_flag = dtp_arm_fed
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_from_federation = yes
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_fed_ok_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+		from = {
+			has_country_flag = dtp_arm_fed
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+		}
+	}
+}
+
+dtp_b_war_ok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+		from = {
+			has_country_flag = dtp_arm_war
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_diplo from = {
+				dtp_has_perm = { P = diplo }
+			} }
+		custom_tooltip = { fail_text = dtp_need_force from = {
+				dtp_force_active = yes
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = diplo }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						declare_war = { target = event_target:dtp_r attacker_war_goal = wg_humiliation }
+					}
+					dtp_result = { CODE = 19 }
+				}
+				else = {
+					dtp_fail = { CODE = 19 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_war_ok_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 7 }
+		}
+		from = {
+			has_country_flag = dtp_arm_war
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+		}
+	}
+}
+
+dtp_b_st_tech = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 8 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						copy_techs_from = { target = event_target:dtp_r }
+					}
+					dtp_result = { CODE = 21 }
+				}
+				else = {
+					dtp_fail = { CODE = 21 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 21 }
+			}
+		}
+	}
+}
+

@@ -1,0 +1,6746 @@
+# Debug Toolpack 10.9.9 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dtp_b_nav_nb11 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			check_variable = { which = dtp_spage value = 1 }
+		}
+		exists = event_target:dtp_nb_11
+		event_target:dtp_nb_11 = { NOT = { has_star_flag = dtp_marked } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_nb_11 = {
+				dtp_nav_set = yes
+			}
+		}
+	}
+}
+
+dtp_b_nav_nm11 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			check_variable = { which = dtp_spage value = 1 }
+		}
+		exists = event_target:dtp_nb_11
+		event_target:dtp_nb_11 = { has_star_flag = dtp_marked }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_nb_11 = {
+				dtp_nav_set = yes
+			}
+		}
+	}
+}
+
+dtp_b_nav_nb12 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			check_variable = { which = dtp_spage value = 1 }
+		}
+		exists = event_target:dtp_nb_12
+		event_target:dtp_nb_12 = { NOT = { has_star_flag = dtp_marked } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_nb_12 = {
+				dtp_nav_set = yes
+			}
+		}
+	}
+}
+
+dtp_b_nav_nm12 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			check_variable = { which = dtp_spage value = 1 }
+		}
+		exists = event_target:dtp_nb_12
+		event_target:dtp_nb_12 = { has_star_flag = dtp_marked }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_nb_12 = {
+				dtp_nav_set = yes
+			}
+		}
+	}
+}
+
+dtp_b_nav_home = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			check_variable = { which = dtp_spage value = 1 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				capital_star = {
+					solar_system = {
+						dtp_nav_set = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+dtp_b_nav_tc = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			check_variable = { which = dtp_spage value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_load = yes
+			if = {
+				limit = {
+					exists = event_target:dtp_t
+				}
+				event_target:dtp_t = {
+					capital_star = {
+						solar_system = {
+							dtp_nav_set = yes
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+dtp_b_nav_p = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			check_variable = { which = dtp_spage value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_load = yes
+			if = {
+				limit = {
+					exists = event_target:dtp_p
+				}
+				event_target:dtp_p = {
+					solar_system = {
+						dtp_nav_set = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+dtp_b_mb_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_mb_mrefresh = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_mlist = yes
+			from = {
+				log = "DTP MLIST count=[This.dtp_mcount]"
+			}
+		}
+	}
+}
+
+dtp_b_mb_mall_t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						every_system_within_border = {
+							dtp_mark_sys = yes
+						}
+					}
+					dtp_result = { CODE = 36 }
+				}
+				else = {
+					dtp_fail = { CODE = 36 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+			dtp_mlist = yes
+			from = {
+				log = "DTP MLIST count=[This.dtp_mcount]"
+			}
+		}
+	}
+}
+
+dtp_b_mb_mgrow = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				every_system = { limit = { has_star_flag = dtp_marked } set_star_flag = dtp_grow }
+				every_system = { limit = { has_star_flag = dtp_grow } every_neighbor_system = { dtp_mark_sys = yes } remove_star_flag = dtp_grow }
+				dtp_result = { CODE = 36 }
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+			dtp_mlist = yes
+			from = {
+				log = "DTP MLIST count=[This.dtp_mcount]"
+			}
+		}
+	}
+}
+
+dtp_b_mb_mclaim = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+					}
+					every_system = { limit = { has_star_flag = dtp_marked } add_claims = { who = event_target:dtp_r num_of_claims = 1 show_notification = no } }
+					dtp_result = { CODE = 38 }
+				}
+				else = {
+					dtp_fail = { CODE = 38 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 38 }
+			}
+			dtp_mlist = yes
+			from = {
+				log = "DTP MLIST count=[This.dtp_mcount]"
+			}
+		}
+	}
+}
+
+dtp_b_mb_mop = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+					}
+					every_system = { limit = { has_star_flag = dtp_marked } if = { limit = { NOT = { exists = starbase } } create_starbase = { owner = event_target:dtp_r size = starbase_outpost } } }
+					dtp_result = { CODE = 34 }
+				}
+				else = {
+					dtp_fail = { CODE = 34 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 34 }
+			}
+			dtp_mlist = yes
+			from = {
+				log = "DTP MLIST count=[This.dtp_mcount]"
+			}
+		}
+	}
+}
+
+dtp_b_mb_mclear = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				every_system = { limit = { has_star_flag = dtp_marked } dtp_unmark_sys = yes }
+				dtp_gray_off = yes
+				every_system = {
+					dtp_star_fix = yes
+				}
+				dtp_result = { CODE = 36 }
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+			dtp_mlist = yes
+			from = {
+				log = "DTP MLIST count=[This.dtp_mcount]"
+			}
+		}
+	}
+}
+
+dtp_b_m_tr = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_arm_m_tr
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+			from = {
+				set_country_flag = dtp_arm_m_tr
+			}
+		}
+	}
+}
+
+dtp_b_m_free = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_arm_m_free
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+			from = {
+				set_country_flag = dtp_arm_m_free
+			}
+		}
+	}
+}
+
+dtp_b_m_tr_ok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			has_country_flag = dtp_arm_m_tr
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_r
+					}
+					every_system = { limit = { has_star_flag = dtp_marked } if = {
+							limit = {
+								exists = starbase
+							}
+							starbase = {
+								set_owner = event_target:dtp_r
+							}
+						}
+						else = {
+							create_starbase = { owner = event_target:dtp_r size = starbase_outpost }
+						}
+						every_system_planet = {
+							limit = {
+								exists = owner
+							}
+							set_owner = event_target:dtp_r
+							if = {
+								limit = {
+									is_colony = yes
+								}
+								set_controller = event_target:dtp_r
+							}
+						} }
+					dtp_result = { CODE = 7 }
+				}
+				else = {
+					dtp_fail = { CODE = 7 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 7 }
+			}
+		}
+	}
+}
+
+dtp_b_m_tr_ok_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			has_country_flag = dtp_arm_m_tr
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+		}
+	}
+}
+
+dtp_b_m_free_ok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			has_country_flag = dtp_arm_m_free
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				every_system = { limit = { has_star_flag = dtp_marked } log = "DTP FREE system"
+					every_system_planet = { limit = { exists = orbital_station } orbital_station = { dismantle = yes } }
+					every_starbase_in_system = { ship = { destroy_fleet = this } } }
+				dtp_result = { CODE = 32 }
+			}
+			else = {
+				dtp_deny = { CODE = 32 }
+			}
+		}
+	}
+}
+
+dtp_b_m_free_ok_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			has_country_flag = dtp_arm_m_free
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+		}
+	}
+}
+
+dtp_b_m_star_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		NOT = { has_global_flag = dtp_starhide }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				set_global_flag = dtp_starhide
+				every_system = { limit = { has_star_flag = dtp_marked } dtp_flag_del = yes }
+				every_system = {
+					dtp_star_fix = yes
+				}
+				dtp_result = { CODE = 36 }
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+			dtp_mlist = yes
+		}
+	}
+}
+
+dtp_b_m_star_off = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		has_global_flag = dtp_starhide
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				remove_global_flag = dtp_starhide
+				every_system = { limit = { has_star_flag = dtp_marked } dtp_flag_add = yes }
+				dtp_result = { CODE = 36 }
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+			dtp_mlist = yes
+		}
+	}
+}
+
+dtp_b_m_reveal = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				every_system = {
+					from = {
+						set_visited = prev
+					}
+				}
+				dtp_result = { CODE = 36 }
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+		}
+	}
+}
+
+dtp_b_m_survey = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				from = {
+					every_system = {
+						every_system_planet = {
+							set_surveyed = { surveyed = yes surveyor = prevprev }
+						}
+					}
+				}
+				dtp_result = { CODE = 36 }
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+		}
+	}
+}
+
+dtp_b_mk_mode_m = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			any_owned_fleet = { has_fleet_flag = dtp_marker }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_mk_unmode
+			} }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_country_flag = dtp_mk_unmode
+			}
+		}
+	}
+}
+
+dtp_b_mk_mode_u = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			any_owned_fleet = { has_fleet_flag = dtp_marker }
+		}
+		from = {
+			has_country_flag = dtp_mk_unmode
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				remove_country_flag = dtp_mk_unmode
+			}
+		}
+	}
+}
+
+dtp_b_mk_how0 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		NOT = { from = {
+				any_owned_fleet = { has_fleet_flag = dtp_marker }
+			} }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_mk_new = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		NOT = { from = {
+				any_owned_fleet = { has_fleet_flag = dtp_marker }
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				from = {
+					save_event_target_as = dtp_mk_own
+					capital_scope = {
+						save_event_target_as = dtp_mk_cap
+					}
+					create_fleet = {
+						name = "dtp_marker_fleet"
+						effect = {
+							set_owner = event_target:dtp_mk_own
+							create_ship = {
+								name = "dtp_marker_ship"
+								design = "DTP_Marker"
+								graphical_culture = owner
+							}
+							set_location = { target = event_target:dtp_mk_cap distance = 20 angle = random }
+							set_fleet_flag = dtp_marker
+							set_fleet_stance = passive
+							set_cloaking_active = yes
+							every_owned_ship = {
+								add_modifier = { modifier = dtp_marker_ship days = -1 }
+							}
+							fleet_event = { id = dtp.1281 days = 1 }
+						}
+					}
+					log = "DTP MARKER: ship created"
+				}
+				dtp_result = { CODE = 36 }
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+		}
+	}
+}
+
+dtp_b_mk_del = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			any_owned_fleet = { has_fleet_flag = dtp_marker }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				from = {
+					every_owned_fleet = {
+						limit = {
+							has_fleet_flag = dtp_marker
+						}
+						destroy_fleet = this
+					}
+					log = "DTP MARKER: ship removed"
+				}
+				dtp_result = { CODE = 36 }
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+		}
+	}
+}
+
+dtp_b_mk_cur = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			any_owned_fleet = { has_fleet_flag = dtp_marker }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_cur exists = event_target:dtp_cur }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				from = {
+					every_owned_fleet = {
+						limit = {
+							has_fleet_flag = dtp_marker
+						}
+						set_timed_fleet_flag = { flag = dtp_mk_tp days = 1 }
+						set_location = { target = event_target:dtp_cur distance = 25 angle = random }
+					}
+				}
+				dtp_result = { CODE = 36 }
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+		}
+	}
+}
+
+dtp_b_mk_home = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			any_owned_fleet = { has_fleet_flag = dtp_marker }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				from = {
+					capital_scope = {
+						save_event_target_as = dtp_mk_cap
+					}
+					every_owned_fleet = {
+						limit = {
+							has_fleet_flag = dtp_marker
+						}
+						set_timed_fleet_flag = { flag = dtp_mk_tp days = 1 }
+						set_location = { target = event_target:dtp_mk_cap distance = 20 angle = random }
+					}
+				}
+				dtp_result = { CODE = 36 }
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+		}
+	}
+}
+
+dtp_b_m_free2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_arm_m_free2
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_force from = {
+				dtp_force_active = yes
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+			from = {
+				set_country_flag = dtp_arm_m_free2
+			}
+		}
+	}
+}
+
+dtp_b_m_free2_ok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			has_country_flag = dtp_arm_m_free2
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_force from = {
+				dtp_force_active = yes
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				every_system = { limit = { has_star_flag = dtp_marked } every_system_planet = { limit = { is_colony = yes } destroy_colony = yes }
+					log = "DTP FREE system"
+					every_system_planet = { limit = { exists = orbital_station } orbital_station = { dismantle = yes } }
+					every_starbase_in_system = { ship = { destroy_fleet = this } } }
+				dtp_result = { CODE = 32 }
+			}
+			else = {
+				dtp_deny = { CODE = 32 }
+			}
+		}
+	}
+}
+
+dtp_b_m_free2_ok_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 1 }
+		}
+		from = {
+			has_country_flag = dtp_arm_m_free2
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+		}
+	}
+}
+
+dtp_b_cl1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_1
+		event_target:dtp_cl_1 = { is_ai = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl1_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_1
+		event_target:dtp_cl_1 = { is_ai = no NOT = { has_country_flag = dtp_host } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl1_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_1
+		event_target:dtp_cl_1 = { has_country_flag = dtp_host }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl1_t_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_1
+		dtp_cl_is = { J = 1 T = tc }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl1_r_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_1
+		dtp_cl_is = { J = 1 T = rcp }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl1_t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_1
+		NOT = { dtp_cl_is = { J = 1 T = tc } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_1 = {
+				dtp_set_tc = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl1_r = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_1
+		NOT = { dtp_cl_is = { J = 1 T = rcp } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_1 = {
+				dtp_set_rcp = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_2
+		event_target:dtp_cl_2 = { is_ai = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl2_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_2
+		event_target:dtp_cl_2 = { is_ai = no NOT = { has_country_flag = dtp_host } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl2_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_2
+		event_target:dtp_cl_2 = { has_country_flag = dtp_host }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl2_t_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_2
+		dtp_cl_is = { J = 2 T = tc }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl2_r_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_2
+		dtp_cl_is = { J = 2 T = rcp }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl2_t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_2
+		NOT = { dtp_cl_is = { J = 2 T = tc } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_2 = {
+				dtp_set_tc = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl2_r = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_2
+		NOT = { dtp_cl_is = { J = 2 T = rcp } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_2 = {
+				dtp_set_rcp = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_3
+		event_target:dtp_cl_3 = { is_ai = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl3_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_3
+		event_target:dtp_cl_3 = { is_ai = no NOT = { has_country_flag = dtp_host } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl3_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_3
+		event_target:dtp_cl_3 = { has_country_flag = dtp_host }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl3_t_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_3
+		dtp_cl_is = { J = 3 T = tc }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl3_r_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_3
+		dtp_cl_is = { J = 3 T = rcp }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl3_t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_3
+		NOT = { dtp_cl_is = { J = 3 T = tc } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_3 = {
+				dtp_set_tc = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl3_r = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_3
+		NOT = { dtp_cl_is = { J = 3 T = rcp } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_3 = {
+				dtp_set_rcp = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl4 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_4
+		event_target:dtp_cl_4 = { is_ai = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl4_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_4
+		event_target:dtp_cl_4 = { is_ai = no NOT = { has_country_flag = dtp_host } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl4_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_4
+		event_target:dtp_cl_4 = { has_country_flag = dtp_host }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl4_t_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_4
+		dtp_cl_is = { J = 4 T = tc }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl4_r_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_4
+		dtp_cl_is = { J = 4 T = rcp }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl4_t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_4
+		NOT = { dtp_cl_is = { J = 4 T = tc } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_4 = {
+				dtp_set_tc = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl4_r = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_4
+		NOT = { dtp_cl_is = { J = 4 T = rcp } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_4 = {
+				dtp_set_rcp = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl5 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_5
+		event_target:dtp_cl_5 = { is_ai = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl5_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_5
+		event_target:dtp_cl_5 = { is_ai = no NOT = { has_country_flag = dtp_host } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl5_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_5
+		event_target:dtp_cl_5 = { has_country_flag = dtp_host }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl5_t_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_5
+		dtp_cl_is = { J = 5 T = tc }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl5_r_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_5
+		dtp_cl_is = { J = 5 T = rcp }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl5_t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_5
+		NOT = { dtp_cl_is = { J = 5 T = tc } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_5 = {
+				dtp_set_tc = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl5_r = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_5
+		NOT = { dtp_cl_is = { J = 5 T = rcp } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_5 = {
+				dtp_set_rcp = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl6 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_6
+		event_target:dtp_cl_6 = { is_ai = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl6_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_6
+		event_target:dtp_cl_6 = { is_ai = no NOT = { has_country_flag = dtp_host } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl6_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_6
+		event_target:dtp_cl_6 = { has_country_flag = dtp_host }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl6_t_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_6
+		dtp_cl_is = { J = 6 T = tc }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl6_r_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_6
+		dtp_cl_is = { J = 6 T = rcp }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl6_t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_6
+		NOT = { dtp_cl_is = { J = 6 T = tc } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_6 = {
+				dtp_set_tc = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl6_r = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_6
+		NOT = { dtp_cl_is = { J = 6 T = rcp } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_6 = {
+				dtp_set_rcp = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_7
+		event_target:dtp_cl_7 = { is_ai = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl7_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_7
+		event_target:dtp_cl_7 = { is_ai = no NOT = { has_country_flag = dtp_host } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl7_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_7
+		event_target:dtp_cl_7 = { has_country_flag = dtp_host }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl7_t_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_7
+		dtp_cl_is = { J = 7 T = tc }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl7_r_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_7
+		dtp_cl_is = { J = 7 T = rcp }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl7_t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_7
+		NOT = { dtp_cl_is = { J = 7 T = tc } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_7 = {
+				dtp_set_tc = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl7_r = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_7
+		NOT = { dtp_cl_is = { J = 7 T = rcp } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_7 = {
+				dtp_set_rcp = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_8
+		event_target:dtp_cl_8 = { is_ai = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl8_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_8
+		event_target:dtp_cl_8 = { is_ai = no NOT = { has_country_flag = dtp_host } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl8_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_8
+		event_target:dtp_cl_8 = { has_country_flag = dtp_host }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl8_t_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_8
+		dtp_cl_is = { J = 8 T = tc }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl8_r_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_8
+		dtp_cl_is = { J = 8 T = rcp }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl8_t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_8
+		NOT = { dtp_cl_is = { J = 8 T = tc } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_8 = {
+				dtp_set_tc = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl8_r = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_8
+		NOT = { dtp_cl_is = { J = 8 T = rcp } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_8 = {
+				dtp_set_rcp = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl9 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_9
+		event_target:dtp_cl_9 = { is_ai = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl9_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_9
+		event_target:dtp_cl_9 = { is_ai = no NOT = { has_country_flag = dtp_host } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl9_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_9
+		event_target:dtp_cl_9 = { has_country_flag = dtp_host }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl9_t_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_9
+		dtp_cl_is = { J = 9 T = tc }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl9_r_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_9
+		dtp_cl_is = { J = 9 T = rcp }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl9_t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_9
+		NOT = { dtp_cl_is = { J = 9 T = tc } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_9 = {
+				dtp_set_tc = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl9_r = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_9
+		NOT = { dtp_cl_is = { J = 9 T = rcp } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_9 = {
+				dtp_set_rcp = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl10 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_10
+		event_target:dtp_cl_10 = { is_ai = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl10_h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_10
+		event_target:dtp_cl_10 = { is_ai = no NOT = { has_country_flag = dtp_host } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl10_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_10
+		event_target:dtp_cl_10 = { has_country_flag = dtp_host }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl10_t_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_10
+		dtp_cl_is = { J = 10 T = tc }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl10_r_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_10
+		dtp_cl_is = { J = 10 T = rcp }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_cl10_t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_10
+		NOT = { dtp_cl_is = { J = 10 T = tc } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_10 = {
+				dtp_set_tc = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl10_r = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		exists = event_target:dtp_cl_10
+		NOT = { dtp_cl_is = { J = 10 T = rcp } }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			event_target:dtp_cl_10 = {
+				dtp_set_rcp = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl_prev = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		from = {
+			check_variable = { which = dtp_cpage value > 0 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				change_variable = { which = dtp_cpage value = -1 }
+			}
+			dtp_clist = yes
+		}
+	}
+}
+
+dtp_b_cl_me = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				dtp_set_tc = yes
+				dtp_set_rcp = yes
+			}
+			dtp_result = { CODE = 29 }
+		}
+	}
+}
+
+dtp_b_cl_next = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 2 }
+		}
+		from = {
+			check_variable = { which = dtp_cmore value > 0 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				change_variable = { which = dtp_cpage value = 1 }
+			}
+			dtp_clist = yes
+		}
+	}
+}
+
+dtp_b_r_h0 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r1_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 1 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 1 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_r2_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 2 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 2 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_r3_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 3 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 3 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_r4_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 4 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r4 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 4 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 4 }
+			}
+		}
+	}
+}
+
+dtp_b_r5_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 5 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r5 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 5 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_r6_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r6 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 6 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_r7_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 7 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 7 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 7 }
+			}
+		}
+	}
+}
+
+dtp_b_r8_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 8 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 8 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 8 }
+			}
+		}
+	}
+}
+
+dtp_b_r9_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 9 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r9 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 9 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 9 }
+			}
+		}
+	}
+}
+
+dtp_b_r10_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 10 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r10 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 10 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 10 }
+			}
+		}
+	}
+}
+
+dtp_b_r11_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 11 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r11 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 11 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 11 }
+			}
+		}
+	}
+}
+
+dtp_b_r12_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 12 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r12 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 12 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 12 }
+			}
+		}
+	}
+}
+
+dtp_b_r13_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 13 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r13 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 13 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 13 }
+			}
+		}
+	}
+}
+
+dtp_b_r14_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 14 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r14 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 14 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 14 }
+			}
+		}
+	}
+}
+
+dtp_b_r15_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 15 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r15 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 15 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 15 }
+			}
+		}
+	}
+}
+
+dtp_b_r16_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 16 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r16 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 16 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 16 }
+			}
+		}
+	}
+}
+
+dtp_b_r17_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 17 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r17 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 17 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 17 }
+			}
+		}
+	}
+}
+
+dtp_b_r18_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 18 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r18 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 18 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 18 }
+			}
+		}
+	}
+}
+
+dtp_b_r19_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_res value = 19 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_r19 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_res value = 19 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 19 }
+			}
+		}
+	}
+}
+
+dtp_b_r_hint = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_res_add = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_lastop value = 1 }
+				set_variable = { which = dtp_lastres value = dtp_res }
+				set_variable = { which = dtp_lastamt value = dtp_amount }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_res_sub = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_stock from = {
+				OR = { check_variable = { which = dtp_res value = 1 } check_variable = { which = dtp_res value = 2 } check_variable = { which = dtp_res value = 3 } check_variable = { which = dtp_res value = 4 } check_variable = { which = dtp_res value = 5 } check_variable = { which = dtp_res value = 6 } check_variable = { which = dtp_res value = 7 } check_variable = { which = dtp_res value = 11 } check_variable = { which = dtp_res value = 12 } check_variable = { which = dtp_res value = 13 } check_variable = { which = dtp_res value = 14 } check_variable = { which = dtp_res value = 15 } check_variable = { which = dtp_res value = 16 } check_variable = { which = dtp_res value = 17 } check_variable = { which = dtp_res value = 18 } check_variable = { which = dtp_res value = 19 } }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_lastop value = 2 }
+				set_variable = { which = dtp_lastres value = dtp_res }
+				set_variable = { which = dtp_lastamt value = dtp_amount }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_res_set = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_need_stock from = {
+				OR = { check_variable = { which = dtp_res value = 1 } check_variable = { which = dtp_res value = 2 } check_variable = { which = dtp_res value = 3 } check_variable = { which = dtp_res value = 4 } check_variable = { which = dtp_res value = 5 } check_variable = { which = dtp_res value = 6 } check_variable = { which = dtp_res value = 7 } check_variable = { which = dtp_res value = 11 } check_variable = { which = dtp_res value = 12 } check_variable = { which = dtp_res value = 13 } check_variable = { which = dtp_res value = 14 } check_variable = { which = dtp_res value = 15 } check_variable = { which = dtp_res value = 16 } check_variable = { which = dtp_res value = 17 } check_variable = { which = dtp_res value = 18 } check_variable = { which = dtp_res value = 19 } }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_lastop value = 3 }
+				set_variable = { which = dtp_lastres value = dtp_res }
+				set_variable = { which = dtp_lastamt value = dtp_amount }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 1 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 2 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 3 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_4 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 4 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 4 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_5 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 5 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 5 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_6 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 6 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 6 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 7 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 8 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 8 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_9 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 9 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 9 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_10 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 10 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 10 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_11 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 11 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 11 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_12 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 12 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 12 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_13 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 13 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 13 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_14 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 14 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 14 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_15 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 15 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 15 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_16 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 16 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 16 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_17 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 17 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 17 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_18 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 18 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 18 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_add_19 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 19 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 19 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = add }
+				}
+				dtp_result = { CODE = 1 }
+			}
+			else = {
+				dtp_deny = { CODE = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 1 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 2 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 3 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_4 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 4 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 4 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_5 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 5 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 5 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_6 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 6 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 6 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 7 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 8 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 8 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_9 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 9 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 9 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_10 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 10 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 10 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_11 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 11 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 11 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_12 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 12 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 12 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_13 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 13 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 13 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_14 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 14 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 14 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_15 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 15 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 15 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_16 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 16 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 16 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_17 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 17 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 17 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_18 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 18 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 18 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_sub_19 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 2 }
+			check_variable = { which = dtp_lastres value = 19 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 19 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 1 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 2 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 3 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_4 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 4 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 4 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_5 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 5 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 5 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_6 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 6 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 6 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 7 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 7 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 8 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 8 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_9 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 9 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 9 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_10 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 10 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 10 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_11 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 11 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 11 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_12 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 12 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 12 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_13 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 13 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 13 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_14 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 14 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 14 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_15 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 15 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 15 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_16 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 16 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 16 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_17 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 17 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 17 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_18 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 18 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 18 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_rr_set_19 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 3 }
+			check_variable = { which = dtp_lastres value = 19 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 19 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = set }
+				}
+				dtp_result = { CODE = 3 }
+			}
+			else = {
+				dtp_deny = { CODE = 3 }
+			}
+		}
+	}
+}
+
+dtp_b_ru_add_1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 1 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+				set_variable = { which = dtp_lastop value = 9 }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_ru_add_2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 3 }
+		}
+		from = {
+			check_variable = { which = dtp_lastop value = 1 }
+			check_variable = { which = dtp_lastres value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_res value = 2 }
+				set_variable = { which = dtp_amount value = dtp_lastamt }
+				set_variable = { which = dtp_lastop value = 9 }
+			}
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				hidden_effect = {
+					dtp_res_do = { OP = sub }
+				}
+				dtp_result = { CODE = 2 }
+			}
+			else = {
+				dtp_deny = { CODE = 2 }
+			}
+		}
+	}
+}
+

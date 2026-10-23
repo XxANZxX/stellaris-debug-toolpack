@@ -1,0 +1,5848 @@
+# Debug Toolpack 10.9.9 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dtp_b_um_c_storage = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = dtp_uc_storage } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_uc_storage
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = dtp_uc_storage days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = dtp_uc_storage days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_h_p = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_um_p_stab_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = dtp_up_stab }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = dtp_up_stab
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_stab = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = dtp_up_stab } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_up_stab
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_stab days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_stab days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_habit_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = dtp_up_habit }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = dtp_up_habit
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_habit = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = dtp_up_habit } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_up_habit
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_habit days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_habit days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_output_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = dtp_up_output }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = dtp_up_output
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_output = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = dtp_up_output } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_up_output
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_output days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_output days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_amen_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = dtp_up_amen }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = dtp_up_amen
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_amen = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = dtp_up_amen } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_up_amen
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_amen days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_amen days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_crime_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = dtp_up_crime }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = dtp_up_crime
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_crime = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = dtp_up_crime } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_up_crime
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_crime days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_crime days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_growth_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = dtp_up_growth }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = dtp_up_growth
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_growth = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = dtp_up_growth } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_up_growth
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_growth days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_growth days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_build_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = dtp_up_build }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = dtp_up_build
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_p_build = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = dtp_up_build } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_up_build
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_build days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = dtp_up_build days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_h_f = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_um_f_fire_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_f_hasmod = { M = dtp_uf_fire }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					event_target:dtp_f = {
+						remove_modifier = dtp_uf_fire
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_fire = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_f_hasmod = { M = dtp_uf_fire } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					hidden_effect = {
+						event_target:dtp_f = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_uf_fire
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_fire days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_fire days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_hull_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_f_hasmod = { M = dtp_uf_hull }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					event_target:dtp_f = {
+						remove_modifier = dtp_uf_hull
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_hull = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_f_hasmod = { M = dtp_uf_hull } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					hidden_effect = {
+						event_target:dtp_f = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_uf_hull
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_hull days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_hull days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_shield_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_f_hasmod = { M = dtp_uf_shield }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					event_target:dtp_f = {
+						remove_modifier = dtp_uf_shield
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_shield = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_f_hasmod = { M = dtp_uf_shield } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					hidden_effect = {
+						event_target:dtp_f = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_uf_shield
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_shield days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_shield days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_armor_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_f_hasmod = { M = dtp_uf_armor }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					event_target:dtp_f = {
+						remove_modifier = dtp_uf_armor
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_armor = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_f_hasmod = { M = dtp_uf_armor } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					hidden_effect = {
+						event_target:dtp_f = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_uf_armor
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_armor days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_armor days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_speed_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_f_hasmod = { M = dtp_uf_speed }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					event_target:dtp_f = {
+						remove_modifier = dtp_uf_speed
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_speed = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_f_hasmod = { M = dtp_uf_speed } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					hidden_effect = {
+						event_target:dtp_f = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_uf_speed
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_speed days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_speed days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_evasion_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_f_hasmod = { M = dtp_uf_evasion }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					event_target:dtp_f = {
+						remove_modifier = dtp_uf_evasion
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_evasion = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_f_hasmod = { M = dtp_uf_evasion } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					hidden_effect = {
+						event_target:dtp_f = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_uf_evasion
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_evasion days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_evasion days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_range_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_f_hasmod = { M = dtp_uf_range }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					event_target:dtp_f = {
+						remove_modifier = dtp_uf_range
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_um_f_range = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_f_hasmod = { M = dtp_uf_range } }
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_fleet from = {
+				dtp_has_perm = { P = fleet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tf dtp_has_tf = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = fleet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_f
+					}
+					hidden_effect = {
+						event_target:dtp_f = {
+							set_variable = { which = dtp_tv value = from.dtp_val }
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = dtp_uf_range
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_range days = -1 multiplier = dtp_tv }
+							}
+						}
+						else = {
+							event_target:dtp_f = {
+								add_modifier = { modifier = dtp_uf_range days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_um_pg1_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_modpage value = 2 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_um_pg1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { from = {
+				NOT = { check_variable = { which = dtp_modpage value = 2 } }
+			} }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_modpage value = 1 }
+			}
+		}
+	}
+}
+
+dtp_b_um_pg2_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_um_pg2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { from = {
+				check_variable = { which = dtp_modpage value = 2 }
+			} }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_modpage value = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_h0 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_vm_fleet_maneuvers_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = fleet_maneuvers }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = fleet_maneuvers
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_fleet_maneuvers = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = fleet_maneuvers } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = fleet_maneuvers
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = fleet_maneuvers days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = fleet_maneuvers days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_new_resonance_music_art_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = new_resonance_music_art }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = new_resonance_music_art
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_new_resonance_music_art = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = new_resonance_music_art } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = new_resonance_music_art
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = new_resonance_music_art days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = new_resonance_music_art days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_luminous_blades_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = luminous_blades }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = luminous_blades
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_luminous_blades = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = luminous_blades } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = luminous_blades
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = luminous_blades days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = luminous_blades days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_gal_custodian_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = gal_custodian }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = gal_custodian
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_gal_custodian = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = gal_custodian } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = gal_custodian
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = gal_custodian days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = gal_custodian days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_manifesti_reflections_mod_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = manifesti_reflections_mod }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = manifesti_reflections_mod
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_manifesti_reflections_mod = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = manifesti_reflections_mod } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = manifesti_reflections_mod
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = manifesti_reflections_mod days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = manifesti_reflections_mod days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_hero_redivivus_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = hero_redivivus }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = hero_redivivus
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_hero_redivivus = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = hero_redivivus } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = hero_redivivus
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = hero_redivivus days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = hero_redivivus days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_h1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_vm_humiliated_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = humiliated }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = humiliated
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_humiliated = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = humiliated } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = humiliated
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = humiliated days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = humiliated days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_maneuvers_no_protest_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = maneuvers_no_protest }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = maneuvers_no_protest
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_maneuvers_no_protest = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = maneuvers_no_protest } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = maneuvers_no_protest
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = maneuvers_no_protest days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = maneuvers_no_protest days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_shroud_neg_influence_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = shroud_neg_influence }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = shroud_neg_influence
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_shroud_neg_influence = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = shroud_neg_influence } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = shroud_neg_influence
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = shroud_neg_influence days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = shroud_neg_influence days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_shroud_neg_unity_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = shroud_neg_unity }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = shroud_neg_unity
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_shroud_neg_unity = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = shroud_neg_unity } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = shroud_neg_unity
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = shroud_neg_unity days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = shroud_neg_unity days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_whisperers_psychosis_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = whisperers_psychosis }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = whisperers_psychosis
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_whisperers_psychosis = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = whisperers_psychosis } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = whisperers_psychosis
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = whisperers_psychosis days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = whisperers_psychosis days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_left_galactic_community_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_c_hasmod = { M = left_galactic_community }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						remove_modifier = left_galactic_community
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_left_galactic_community = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = left_galactic_community } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = left_galactic_community
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = left_galactic_community days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = left_galactic_community days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_h2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_vm_friendly_trees_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = friendly_trees }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = friendly_trees
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_friendly_trees = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = friendly_trees } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = friendly_trees
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = friendly_trees days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = friendly_trees days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_shooting_stars_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = shooting_stars }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = shooting_stars
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_shooting_stars = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = shooting_stars } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = shooting_stars
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = shooting_stars days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = shooting_stars days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_food_rich_planet_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = food_rich_planet }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = food_rich_planet
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_food_rich_planet = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = food_rich_planet } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = food_rich_planet
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = food_rich_planet days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = food_rich_planet days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_natural_beauty_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = natural_beauty }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = natural_beauty
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_natural_beauty = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = natural_beauty } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = natural_beauty
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = natural_beauty days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = natural_beauty days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_free_at_last_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = free_at_last }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = free_at_last
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_free_at_last = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = free_at_last } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = free_at_last
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = free_at_last days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = free_at_last days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_great_schism_01_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = great_schism_01 }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = great_schism_01
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_great_schism_01 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = great_schism_01 } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = great_schism_01
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = great_schism_01 days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = great_schism_01 days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_h3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_vm_damaged_ecology_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = damaged_ecology }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = damaged_ecology
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_damaged_ecology = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = damaged_ecology } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = damaged_ecology
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = damaged_ecology days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = damaged_ecology days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_hostile_environment_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = hostile_environment }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = hostile_environment
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_hostile_environment = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = hostile_environment } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = hostile_environment
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = hostile_environment days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = hostile_environment days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_pyramid_wars_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = pyramid_wars }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = pyramid_wars
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_pyramid_wars = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = pyramid_wars } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = pyramid_wars
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = pyramid_wars days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = pyramid_wars days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_pop_disappearances_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = pop_disappearances }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = pop_disappearances
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_pop_disappearances = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = pop_disappearances } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = pop_disappearances
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = pop_disappearances days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = pop_disappearances days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_corrupt_administration_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = corrupt_administration }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = corrupt_administration
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_corrupt_administration = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = corrupt_administration } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = corrupt_administration
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = corrupt_administration days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = corrupt_administration days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_planet_culture_shock_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = planet_culture_shock }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = planet_culture_shock
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dtp_b_vm_planet_culture_shock = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = planet_culture_shock } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = planet_culture_shock
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = planet_culture_shock days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = planet_culture_shock days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dtp_b_pl_h0 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_pl_empty = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		NOT = { dtp_has_tp = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_pl_empty2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		NOT = { dtp_has_tp = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_pl_mods = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				dtp_pidx_ensure = yes
+				dtp_init_targets = yes
+			}
+			from = {
+				set_variable = { which = dtp_tab value = 4 }
+			}
+			dtp_disarm = yes
+			from = {
+				set_variable = { which = dtp_modpage value = 2 }
+			}
+		}
+	}
+}
+
+dtp_b_pl_tr = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		dtp_tp_colony = yes
+		NOT = { from = {
+				has_country_flag = dtp_arm_pl_tr
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_rcp dtp_has_rcp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+			from = {
+				set_country_flag = dtp_arm_pl_tr
+			}
+		}
+	}
+}
+
+dtp_b_pl_sys = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		dtp_has_tp = yes
+		NOT = { dtp_tp_marked = yes }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_s
+					}
+					event_target:dtp_s = {
+						dtp_mark_sys = yes
+					}
+					dtp_result = { CODE = 36 }
+				}
+				else = {
+					dtp_fail = { CODE = 36 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+			dtp_mlist = yes
+		}
+	}
+}
+
+dtp_b_pl_sys_x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		dtp_tp_marked = yes
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_s
+					}
+					event_target:dtp_s = {
+						dtp_unmark_sys = yes
+					}
+					dtp_result = { CODE = 36 }
+				}
+				else = {
+					dtp_fail = { CODE = 36 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 36 }
+			}
+			dtp_mlist = yes
+		}
+	}
+}
+
+dtp_b_colony_rm = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		dtp_tp_colony = yes
+		NOT = { from = {
+				has_country_flag = dtp_arm_colony_rm
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_force from = {
+				dtp_force_active = yes
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			dtp_disarm = yes
+			from = {
+				set_country_flag = dtp_arm_colony_rm
+			}
+		}
+	}
+}
+
+dtp_b_pl_h2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		dtp_has_tp = yes
+		NOT = { dtp_tp_star = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_pl_h5 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		dtp_has_tp = yes
+		NOT = { dtp_tp_star = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_pl_h9 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		dtp_has_tp = yes
+		NOT = { dtp_tp_star = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_pl_hs = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		dtp_tp_star = yes
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_pc_pc_desert = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		dtp_has_tp = yes
+		NOT = { dtp_tp_star = yes }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_pc OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				NOT = { dtp_tp_colony = yes }
+				OR = {
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 1 }
+						}
+						exists = event_target:dtp_tp_1
+						event_target:dtp_tp_1 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 2 }
+						}
+						exists = event_target:dtp_tp_2
+						event_target:dtp_tp_2 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 3 }
+						}
+						exists = event_target:dtp_tp_3
+						event_target:dtp_tp_3 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 4 }
+						}
+						exists = event_target:dtp_tp_4
+						event_target:dtp_tp_4 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 5 }
+						}
+						exists = event_target:dtp_tp_5
+						event_target:dtp_tp_5 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 6 }
+						}
+						exists = event_target:dtp_tp_6
+						event_target:dtp_tp_6 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 7 }
+						}
+						exists = event_target:dtp_tp_7
+						event_target:dtp_tp_7 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 8 }
+						}
+						exists = event_target:dtp_tp_8
+						event_target:dtp_tp_8 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 9 }
+						}
+						exists = event_target:dtp_tp_9
+						event_target:dtp_tp_9 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 10 }
+						}
+						exists = event_target:dtp_tp_10
+						event_target:dtp_tp_10 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 11 }
+						}
+						exists = event_target:dtp_tp_11
+						event_target:dtp_tp_11 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 12 }
+						}
+						exists = event_target:dtp_tp_12
+						event_target:dtp_tp_12 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 13 }
+						}
+						exists = event_target:dtp_tp_13
+						event_target:dtp_tp_13 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 14 }
+						}
+						exists = event_target:dtp_tp_14
+						event_target:dtp_tp_14 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 15 }
+						}
+						exists = event_target:dtp_tp_15
+						event_target:dtp_tp_15 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+					AND = {
+						from = {
+							check_variable = { which = dtp_pidx value = 16 }
+						}
+						exists = event_target:dtp_tp_16
+						event_target:dtp_tp_16 = {
+							OR = {
+								is_planet_class = pc_desert
+								is_planet_class = pc_arid
+								is_planet_class = pc_savannah
+								is_planet_class = pc_tropical
+								is_planet_class = pc_continental
+								is_planet_class = pc_ocean
+								is_planet_class = pc_tundra
+								is_planet_class = pc_arctic
+								is_planet_class = pc_alpine
+								is_planet_class = pc_gaia
+							}
+						}
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						change_pc = pc_desert
+					}
+					dtp_result = { CODE = 9 }
+				}
+				else = {
+					dtp_fail = { CODE = 9 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 9 }
+			}
+		}
+	}
+}
+

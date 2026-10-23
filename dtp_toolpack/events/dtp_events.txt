@@ -1,0 +1,118 @@
+# Debug Toolpack 10.9.9 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+namespace = dtp
+
+country_event = {
+	id = dtp.13
+	title = dtp.13.name
+	desc = dtp.13.desc
+	picture = GFX_evt_dtp_access
+	is_triggered_only = yes
+	option = {
+		name = dtp.13.o0
+		if = {
+			limit = {
+				has_global_flag = dtp_vote_open
+				has_country_flag = dtp_vote_pending
+			}
+			dtp_close_vote = yes
+			every_country = {
+				limit = {
+					is_ai = no
+				}
+				country_event = { id = dtp.17 }
+			}
+		}
+	}
+	option = {
+		name = dtp.13.o1
+		if = {
+			limit = {
+				has_global_flag = dtp_vote_open
+				has_country_flag = dtp_vote_pending
+			}
+			remove_country_flag = dtp_vote_pending
+			event_target:dtp_claimant = {
+				change_variable = { which = dtp_votes_yes value = 1 }
+				if = {
+					limit = {
+						check_variable = { which = dtp_votes_yes value >= dtp_votes_need }
+					}
+					dtp_make_host = yes
+					dtp_close_vote = yes
+					every_country = {
+						limit = {
+							is_ai = no
+						}
+						country_event = { id = dtp.18 }
+					}
+				}
+			}
+		}
+	}
+}
+country_event = {
+	id = dtp.14
+	title = dtp.14.name
+	desc = dtp.14.desc
+	picture = GFX_evt_dtp_access
+	is_triggered_only = yes
+	trigger = { has_global_flag = dtp_vote_open }
+	immediate = {
+		if = {
+			limit = {
+				has_global_flag = dtp_vote_open
+				NOT = { has_global_flag = dtp_host_set }
+			}
+			dtp_close_vote = yes
+		}
+	}
+	option = {
+		name = dtp.14.o0
+	}
+}
+country_event = {
+	id = dtp.15
+	title = dtp.15.name
+	desc = dtp.15.desc
+	picture = GFX_evt_dtp_access
+	is_triggered_only = yes
+	option = {
+		name = dtp.15.o0
+	}
+	option = {
+		name = dtp.15.o1
+		if = {
+			limit = {
+				event_target:dtp_offer_from = { dtp_is_host = yes }
+				is_ai = no
+			}
+			dtp_make_host = yes
+			every_country = {
+				limit = {
+					is_ai = no
+				}
+				country_event = { id = dtp.18 }
+			}
+		}
+	}
+}
+country_event = {
+	id = dtp.17
+	title = dtp.17.name
+	desc = dtp.17.desc
+	picture = GFX_evt_dtp_access
+	is_triggered_only = yes
+	option = {
+		name = dtp.17.o0
+	}
+}
+country_event = {
+	id = dtp.18
+	title = dtp.18.name
+	desc = dtp.18.desc
+	picture = GFX_evt_dtp_access
+	is_triggered_only = yes
+	option = {
+		name = dtp.18.o0
+	}
+}
