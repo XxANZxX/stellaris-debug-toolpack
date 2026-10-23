@@ -17,6 +17,8 @@ DTP was built to make life easier for **game masters** running multiplayer Stell
 
 When updating, delete the old `dtp_toolpack` folder first, so no stale files remain.
 
+**UI Overhaul Dynamic users:** also copy `dtp_toolpack_uiod` and `dtp_toolpack_uiod.mod`, and enable the patch *together with* the base mod, loaded after UIOD and DTP.
+
 ## Getting HOST status
 
 - **New game:** the first player empire (the host, player 0) automatically becomes the HOST.
@@ -67,6 +69,10 @@ English texts come from `tools/i18n/en_map.json`.
 ## Reporting bugs
 
 Please attach `game.log` and `error.log` from `Documents/Paradox Interactive/Stellaris/logs`.
+
+## License
+
+[MIT](LICENSE) — you are free to use, change and redistribute this mod. Pull requests and forks are welcome.
 
 ---
 
