@@ -7,7 +7,7 @@ ROOT, DOCS = sys.argv[1], sys.argv[2]
 errors, warns = [], []
 def strip(t): return re.sub(r'#.*', '', re.sub(r'"[^"]*"', '""', t))
 txt = {f: open(f, encoding="utf-8-sig").read() for f in glob.glob(os.path.join(ROOT, "**/*.txt"), recursive=True)
-       if not f.replace("\\", "/").endswith(("diplomatic_actions/zz_dtp_declare_war.txt", "game_rules/00_rules.txt"))}   # копия игрового файла — проверяется отдельно ниже
+       if not f.replace("\\", "/").endswith(("diplomatic_actions/zz_dtp_declare_war.txt", "game_rules/00_rules.txt", "scripted_triggers/00_scripted_triggers.txt", "country_types/dtp_country_types.txt", "ethics/dtp_ethics.txt"))}   # копия игрового файла — проверяется отдельно ниже
 gui = {f: open(f, encoding="utf-8-sig").read() for f in glob.glob(os.path.join(ROOT, "interface/*.gui"))}
 gfx = {f: open(f, encoding="utf-8-sig").read() for f in glob.glob(os.path.join(ROOT, "interface/*.gfx"))}
 for f, t in {**txt, **gui, **gfx}.items():
@@ -31,7 +31,7 @@ if _vc and os.path.isdir(_vc):
     for _sub in ("scripted_triggers", "scripted_effects"):
         for _f in os.listdir(os.path.join(_vc, _sub)):
             trg |= set(re.findall(r"(?m)^(\w+)\s*=\s*\{", open(os.path.join(_vc, _sub, _f), encoding="utf-8-sig", errors="ignore").read()))
-opn |= starcls | defs("system_tooltips") | defs("megastructures")
+opn |= starcls | defs("system_tooltips") | defs("megastructures") | {"dtp_gamemaster", "ethic_dtp_gamemaster"}
 STRUCT = set("""id title desc option name trigger limit immediate text picture is_triggered_only hide_window which value namespace else else_if if
 modifier days multiplier time_multiplier who target type status amount num_of_claims show_notification resource variable species owner size fraction
 country cooldown authority civics class radius scaled_size skill design min max localization_key defined_text count weight ai_weight potential allow effect attacker_war_goal opinion decay base mult add_trait remove_trait flag side on_war_beginning events event on_monthly_pulse on_game_start parameters rounded setting color condition display_claims enable_terra_incognita icon can_change_point_of_view custom_tooltip dtp_rules_map_mode spawn_random_storm_weighted has_machine_age_dlc relations event_chain location poi situation_log_category surveyed surveyor dtp_marks_chain on_entering_system_fleet random_existing_design on_claim_system num_of_claims who target count Target Count
@@ -105,6 +105,7 @@ for k in set(re.findall(r'(?:title|desc|name|localization_key|fail_text)\s*=\s*(
 for sub in ("scripted_effects", "scripted_triggers"):
     d = os.path.join(ROOT, "common", sub)
     for f in os.listdir(d) if os.path.isdir(d) else []:
+        if f == "00_scripted_triggers.txt": continue        # 11.0: копия файла игры (её [ ] игра читает как есть)
         if "[" in re.sub(r"#.*", "", open(os.path.join(d, f), encoding="utf-8-sig").read()):
             errors.append("[ в %s/%s: игра читает его как макрос (Invalid macro entry)" % (sub, f))
 # двуязычность: одинаковые ключи в RU и EN, в EN нет кириллицы, ключи только ASCII, теги §/[ ] совпадают

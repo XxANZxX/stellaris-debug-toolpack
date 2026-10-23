@@ -1,4 +1,4 @@
-# Debug Toolpack 10.9.9: action_declare_war from the game (4.5) + game master war rules in possible.
+# Debug Toolpack 11.0.10: action_declare_war from the game (4.5) + game master war rules in possible.
 # diplomatic_actions are LIOS: this later-loaded file replaces only this one action, the rest of the game file stays untouched.
 action_declare_war = {
 	icon = "GFX_diplomacy_status_war"
@@ -15,6 +15,7 @@ action_declare_war = {
 
 	possible = {
 		# --- Debug Toolpack: game master war rules (dtp_rule_nopvp / dtp_rule_np / dtp_rule_prot) ---
+		custom_tooltip = { fail_text = dtp_gm_nowar NOT = { from = { has_country_flag = dtp_gm_role } } }
 		custom_tooltip = { fail_text = dtp_war_banned NOT = { AND = { OR = { is_ai = no has_global_flag = dtp_war_ai } has_global_flag = dtp_rule_nopvp NOT = { has_global_flag = dtp_war_soft } } } }
 		custom_tooltip = { fail_text = dtp_war_np NOT = { AND = { has_country_flag = dtp_rule_np NOT = { has_global_flag = dtp_war_soft } } } }
 		custom_tooltip = { fail_text = dtp_war_prot NOT = { AND = { OR = { is_ai = no has_global_flag = dtp_war_ai } from = { has_country_flag = dtp_rule_prot } NOT = { has_global_flag = dtp_war_soft } } } }
@@ -48,4 +49,88 @@ action_declare_war = {
 			}
 		}
 	}
+}
+
+action_close_borders = {
+	icon = "GFX_diplomacy_status_closed_borders"
+	auto_accepted = yes
+	requires_actor_independence = no
+	requires_recipient_independence = no
+	should_show_auto_accept_message_recipient = yes
+	#should_notify_all_communications = yes
+	action_type = negative
+
+	potential = {
+		custom_tooltip_fail = {
+			text = requires_actor_not_nomadic
+			has_borders_trigger = yes
+		}
+	}
+
+	possible = {
+		custom_tooltip = { fail_text = dtp_gm_noclose NOT = { from = { has_country_flag = dtp_gm_role } } }
+		hidden_trigger = {
+			can_control_access_for = from
+		}
+		if = {
+			limit = {
+				from = { has_valid_civic = civic_pompous_purists }
+				NOT = { root = { is_overlord_to = from } }
+			}
+			if = {
+				limit = {
+					has_intel = {
+						who = from
+						intel = civics
+					}
+				}
+				custom_tooltip = {
+					fail_text = requires_recipient_not_pompous_borders
+					always = no
+				}
+			}
+			else = {
+				custom_tooltip = {
+					fail_text = diplo_action_no_low_intel
+					always = no
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				from = {
+					has_menace_perk = menp_behemoth_mind_meld
+				}
+			}
+			custom_tooltip = {
+				fail_text = behemoth_no_borders
+				always = no
+			}
+		}
+	}
+	on_accept = {
+        hidden_effect = {
+            from = {
+				if = {
+					limit = {
+						any_owned_fleet = {
+							is_inside_border = ROOT
+							is_mobile = yes
+						}
+					}
+					random_owned_fleet = {
+						limit = {
+							is_inside_border = ROOT
+							is_mobile = yes
+						}
+						fleet_event = {
+							id = arkship.860
+							scopes = { from = solar_system }
+						}
+					}
+				}
+            }
+        }
+    }
 }

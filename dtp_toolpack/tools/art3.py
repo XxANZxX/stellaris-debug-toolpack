@@ -551,6 +551,12 @@ for _t, _k in NAV_ICONS.items():
     SPR["GFX_dtp_tile%d" % _t] = ("dtp_tile%d" % _t, stile(_k), "corner", (40, 8), 3, "buttonstate")
     SPR["GFX_dtp_nav%d" % _t] = ("dtp_nav%d" % _t, snav(_k, False), "corner", (40, 8), 3, "buttonstate")
     SPR["GFX_dtp_nav%d_on" % _t] = ("dtp_nav%d_on" % _t, snav(_k, True), "corner", (40, 8), 3, "buttonstate")
+# 11.0: значок закрытой этики «Гейм-мастер» (игра ищет спрайт GFX_<ключ этики>)
+SPR["GFX_ethic_dtp_gamemaster"] = ("ethic_dtp_gamemaster", (lambda b: (b.alpha_composite(icon("gm", 18, (255, 215, 120)), (7, 7)), b)[1])(shex_badge("", (240, 150, 50), 32)), "sprite", 0, 1, "buttonstate_onlydisable")
+SPR["GFX_ethics_dtp_gamemaster"] = ("ethic_dtp_gamemaster_b",) + SPR["GFX_ethic_dtp_gamemaster"][1:]
+# 11.0.9: игра ищет значок этики по пути gfx/interface/icons/ethics/<ключ>.dds
+os.makedirs(os.path.join(OUT, "gfx/interface/icons/ethics"), exist_ok=True)
+SPR["GFX_ethic_dtp_gamemaster"][1].save(os.path.join(OUT, "gfx/interface/icons/ethics/ethic_dtp_gamemaster.dds"))
 os.makedirs(os.path.join(OUT, "gfx/interface/dtp"), exist_ok=True)
 gfx = ["spriteTypes = {"]
 for name, (fn, img, kind, border, frames, shader) in SPR.items():

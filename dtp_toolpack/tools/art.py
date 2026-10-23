@@ -149,18 +149,26 @@ def picture(key, label, color, kind, seed):
     fm = ImageFont.truetype(FONT_M, 12)
     d.text((24, 22), "DEBUG TOOLPACK", font=fm, fill=tuple(int(v * 0.9) for v in color))
     d.line([(24, 40), (150, 40)], fill=color, width=2)
+    # 11.0.8: картинки одни на оба языка — крупно английская подпись, мельче русская (раньше крупно было только по-русски)
+    ru_label, label = label, EN_LABEL.get(key, label)
+    # одна строка: длинную подпись уменьшаем, а не переносим (иначе налезает на нижнюю строку)
+    _sz = 26
+    while _sz > 16 and d.textlength(label, font=ImageFont.truetype(FONT_B, _sz)) > 225: _sz -= 1
+    fb = ImageFont.truetype(FONT_B, _sz)
     # подпись раздела с переносом при необходимости
     words, lines, cur = label.split(), [], ""
     for w_ in words:
         t = (cur + " " + w_).strip()
-        if d.textlength(t, font=fb) > 215 and cur:
+        if d.textlength(t, font=fb) > 230 and cur:
             lines.append(cur); cur = w_
         else:
             cur = t
     lines.append(cur)
     for i, ln in enumerate(lines):
         d.text((24, 50 + i * 30), ln, font=fb, fill=(235, 240, 250))
-    d.text((24, H - 28), "%s // DTP // STELLARIS 4.5" % EN_LABEL.get(key, ""), font=fm, fill=(150, 170, 200))
+    fr = ImageFont.truetype(FONT_M, 15)
+    d.text((24, 52 + len(lines) * 30), ru_label, font=fr, fill=tuple(int(v * 0.85) for v in color))
+    d.text((24, H - 28), "DTP // STELLARIS 4.5", font=fm, fill=(150, 170, 200))
     return pil
 
 def button_icon(size=48):

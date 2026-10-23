@@ -1,4 +1,4 @@
-# Debug Toolpack 10.9.9 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+# Debug Toolpack 11.0.10 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
 namespace = dtp
 
 country_event = {
@@ -838,6 +838,17 @@ event = {
 	is_triggered_only = yes
 	immediate = {
 		dtp_war_sync = yes
+		every_country = {
+			limit = {
+				has_country_flag = dtp_gm_role
+			}
+			every_country = {
+				limit = {
+					has_closed_borders = prev
+				}
+				set_closed_borders = { who = prev status = no }
+			}
+		}
 		every_country = {
 			limit = {
 				has_country_flag = dtp_claimmark

@@ -10,7 +10,7 @@ is_valid_rival = {
 		fail_text = INVALID_RIVAL_DESC
 		root = {
 			OR = {
-				prev = { NOT = { is_country_type = default } }
+				prev = { NOT = { OR = { is_country_type = default is_country_type = dtp_gamemaster } } }
 				AND = {
 					relative_power = { who = prev value >= inferior }
 					OR = {
@@ -30,7 +30,7 @@ can_add_claim = {
 	hidden_trigger = {
 		if = {
 			limit = {
-				root = { NOT = { is_country_type = default } }
+				root = { NOT = { OR = { is_country_type = default is_country_type = dtp_gamemaster } } }
 			}
 			always = yes
 		}
@@ -60,7 +60,7 @@ can_add_claim = {
 			exists = owner
 			owner = {
 				NOR = {
-					is_country_type = default
+					OR = { is_country_type = default is_country_type = dtp_gamemaster }
 					is_country_type = fallen_empire
 					is_country_type = awakened_fallen_empire
 				}
@@ -148,13 +148,13 @@ can_get_claim_from_lost_system = {
 	custom_tooltip = {
 		fail_text = CANNOT_ADD_CLAIM_NOT_VALID_EMPIRE
 		OR = {
-			is_country_type = default
+			OR = { is_country_type = default is_country_type = dtp_gamemaster }
 			is_country_type = fallen_empire
 			is_country_type = awakened_fallen_empire
 		}
 		root = {
 			OR = {
-				is_country_type = default
+				OR = { is_country_type = default is_country_type = dtp_gamemaster }
 				is_country_type = fallen_empire
 				is_country_type = awakened_fallen_empire
 			}
@@ -191,7 +191,7 @@ can_get_claim_from_lost_system = {
 # Root = Bombarding country
 # This = Receiving country
 should_surrender_planets_to = {
-	is_country_type = default
+	OR = { is_country_type = default is_country_type = dtp_gamemaster }
 	is_gestalt = no
 	is_homicidal = no
 	is_crisis_faction = no
@@ -200,7 +200,7 @@ should_surrender_planets_to = {
 		is_homicidal = no
 		is_crisis_faction = no
 		is_primitive = no
-		is_country_type = default
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
 		NOT = {
 			is_nomadic = yes
 			has_contract = contract_raid_planet_small
@@ -778,7 +778,7 @@ can_take_hostile_actions = {
 		#attacking primitives with non-interference
 		limit = {
 			ROOT = {
-				is_country_type = default
+				OR = { is_country_type = default is_country_type = dtp_gamemaster }
 				NOT = {
 					has_policy_flag = interference_aggressive
 				}
@@ -841,6 +841,7 @@ can_declare_war = {
 	# --- Debug Toolpack: game master war ban, hard mode ---
 	if = {
 		limit = { exists = root }
+		custom_tooltip = { fail_text = dtp_gm_nowar NOT = { has_country_flag = dtp_gm_role } }
 		custom_tooltip = { fail_text = dtp_war_banned NOT = { AND = { root = { OR = { is_ai = no has_global_flag = dtp_war_ai } } has_global_flag = dtp_rule_nopvp NOT = { has_global_flag = dtp_war_soft } } } }
 		custom_tooltip = { fail_text = dtp_war_np NOT = { AND = { root = { has_country_flag = dtp_rule_np } NOT = { has_global_flag = dtp_war_soft } } } }
 		custom_tooltip = { fail_text = dtp_war_prot NOT = { AND = { OR = { root = { is_ai = no } has_global_flag = dtp_war_ai } has_country_flag = dtp_rule_prot NOT = { has_global_flag = dtp_war_soft } } } }
@@ -1380,6 +1381,7 @@ can_planet_support_orbital_station = {
 # root: country
 has_full_sensor_range = {
 	OR = {
+		has_country_flag = dtp_gm_role	# Debug Toolpack: Game Master sees everything
 		has_megastructure = spy_orb_4
 		has_megastructure = spy_orb_restored
 	}
@@ -1560,7 +1562,7 @@ can_orbitable_repair_ships = {
 # root = country that kills ship
 can_spawn_debris = {
 	root = {
-		is_country_type = default
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
 		NOT = { has_policy_flag = debris_destruction }
 	}
 	exists = owner
@@ -1698,7 +1700,7 @@ can_jump_drive = {
 # this = country
 can_spawn_occupation_armies = {
 	OR = {
-		is_country_type = default
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
 		is_country_type = fallen_empire
 		is_country_type = awakened_fallen_empire
 	}
@@ -2027,6 +2029,7 @@ can_build_branch_offices = {
 
 # This = country
 can_support_branch_offices = {
+	custom_tooltip = { fail_text = dtp_gm_nobranch NOT = { has_country_flag = dtp_gm_role } }	# Debug Toolpack
 	custom_tooltip = {
 		fail_text = BRANCH_OFFICE_NOT_FALLEN_EMPIRES
 		NOR = {
@@ -2045,7 +2048,7 @@ can_support_branch_offices = {
 		fail_text = BRANCH_OFFICE_NOT_REGULAR_EMPIRE
 		is_gestalt = no
 		OR = {
-			is_country_type = default
+			OR = { is_country_type = default is_country_type = dtp_gamemaster }
 			is_country_type = primitive
 		}
 	}
@@ -2280,7 +2283,7 @@ can_win_timed_victory = {
 
 # This = country
 can_use_galactic_market = {
-	is_country_type = default
+	OR = { is_country_type = default is_country_type = dtp_gamemaster }
 	NOR = {
 		has_civic = civic_fanatic_purifiers
 		has_civic = civic_hive_devouring_swarm
@@ -2412,6 +2415,7 @@ can_be_part_of_galactic_empire = {
 # This = country
 can_see_galactic_community = {
 	OR = {
+		has_country_flag = dtp_gm_role	# Debug Toolpack: the Game Master sees the Community
 		has_country_flag = galcom_form_aye
 		has_country_flag = galcom_form_nay
 		is_galactic_community_member = yes
@@ -2552,7 +2556,7 @@ can_colony_auto_migrate = {
 		exists = owner
 		owner = {
 			OR = {
-				is_country_type = default
+				OR = { is_country_type = default is_country_type = dtp_gamemaster }
 				is_country_type = awakened_fallen_empire
 			}
 		}
@@ -3106,7 +3110,7 @@ can_country_connect_to_relay_network = {
 	is_primitive = no
 	is_nomadic = no
 	OR = {
-		is_country_type = default
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
 		is_subject = yes
 		is_overlord = yes
 	}
@@ -3114,7 +3118,7 @@ can_country_connect_to_relay_network = {
 		is_primitive = no
 		is_nomadic = no
 		OR = {
-			is_country_type = default
+			OR = { is_country_type = default is_country_type = dtp_gamemaster }
 			is_subject = yes
 			is_overlord = yes
 		}
@@ -4257,7 +4261,7 @@ can_voidworms_bombard_country = {
 		exists = this
 	}
 	OR = {
-		is_country_type = default
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
 		is_country_type = primitive
 	}
 	# During crisis, they should bombard no matter what, otherwise check tech and max voidworms
@@ -4361,7 +4365,7 @@ can_capture_ship = {
 	exists = from
 	exists = controller
 	controller = {
-		is_country_type = default
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
 	}
 	OR = {
 		# Civilian Ships

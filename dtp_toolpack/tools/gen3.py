@@ -17,7 +17,7 @@ python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/model
 import os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "10.9.9"
+VERSION = "11.0.10"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []
@@ -315,7 +315,7 @@ for nm, par, tr in [("dtp_tc_has_auth", "A", "has_authority"), ("dtp_tc_has_civi
 TRG.append(B("dtp_cl_is", orchain(lambda k: "exists = event_target:dtp_$T$_%d\n" % k + B("event_target:dtp_cl_$J$", "is_same_value = event_target:dtp_$T$_%d" % k))))
 TRG.append(B("dtp_tc_ai", orchain(lambda k: B("event_target:dtp_tc_%d" % k, "is_ai = yes"))))
 TRG.append(B("dtp_target_country", B("OR", "dtp_listed_country = yes", "is_primitive = yes")))
-TRG.append(B("dtp_listed_country", B("OR", "is_country_type = default", "is_country_type = fallen_empire", "is_country_type = awakened_fallen_empire")))
+TRG.append(B("dtp_listed_country", B("OR", "is_country_type = default", "is_country_type = fallen_empire", "is_country_type = awakened_fallen_empire", "is_country_type = dtp_gamemaster")))
 for t in ("tc", "rcp", "tp", "tf"):
     TRG.append(B("dtp_has_%s" % t, orchain(lambda k, t=t: "exists = event_target:dtp_%s_%d" % (t, k))))
 TRG.append(B("dtp_tr_differs", orchain(lambda k: B("event_target:dtp_tc_%d" % k, "NOT = { is_same_value = event_target:dtp_rcp_%d }" % k))))
@@ -398,8 +398,30 @@ EFF.append(B("dtp_clist", *["clear_global_event_target = dtp_cl_%d" % j for j in
       *[B("if", B("limit", B("from", chk("dtp_crel", j))), "save_global_event_target_as = dtp_cl_%d" % j) for j in range(1, 11)]),
     B("from", setv("dtp_cmore", "dtp_cn"), "subtract_variable = { which = dtp_cmore value = dtp_coff }", "subtract_variable = { which = dtp_cmore value = 10 }")))
 # ХОСТ
-EFF.append(B("dtp_make_host", B("every_country", B("limit", "has_country_flag = dtp_host"), "remove_country_flag = dtp_host"),
-    "set_country_flag = dtp_host", "set_global_flag = dtp_host_set", "save_global_event_target_as = dtp_host"))
+# 11.0: РОЛЬ ГЕЙМ-МАСТЕРА. Держава ведущего получает свой тип dtp_gamemaster (копия обычного, но «неигровой», как у угасших империй):
+# Галактическое сообщество её не учитывает (не запускает голосование о создании, не принимает в члены), рост населения выключен.
+# Плюс закрытая этика «Гейм-мастер» (её нельзя выбрать при создании державы), огромные бонусы, разведка/шифровка 1000,
+# полный обзор сенсорами (правило игры has_full_sensor_range), вся карта и контакт со всеми; войну, гарантии и закрытие границ — нельзя.
+EFF.append(B("dtp_gm_on", B("if", B("limit", "NOT = { has_country_flag = dtp_gm_role }"),
+    "set_country_flag = dtp_gm_role", "set_country_type = dtp_gamemaster",
+    B("if", B("limit", "NOT = { has_ethic = ethic_gestalt_consciousness }"), "country_add_ethic = ethic_dtp_gamemaster"),
+    "add_modifier = { modifier = dtp_gm_role days = -1 }",
+    B("if", B("limit", "is_galactic_community_member = yes"), "remove_from_galactic_community = yes"),
+    B("every_owned_planet", B("limit", "has_branch_office = yes"), "close_branch_office = yes"),
+    B("every_system", B("prev", "set_visited = prev")),
+    B("every_country", B("limit", "dtp_listed_country = yes", "NOT = { is_same_value = prev }"), "establish_communications_no_message = prev",
+      "set_closed_borders = { who = prev status = no }", B("prev", "set_closed_borders = { who = prev status = no }")),
+    'log = "DTP GM ROLE: on"')))
+EFF.append(B("dtp_gm_off", B("if", B("limit", "has_country_flag = dtp_gm_role"),
+    "remove_country_flag = dtp_gm_role", "set_country_type = default",
+    B("if", B("limit", "has_ethic = ethic_dtp_gamemaster"), "country_remove_ethic = ethic_dtp_gamemaster"),
+    "remove_modifier = dtp_gm_role", 'log = "DTP GM ROLE: off"')))
+EFF.append(B("dtp_make_host", B("every_country", B("limit", "has_country_flag = dtp_host"), "remove_country_flag = dtp_host", "dtp_gm_off = yes"),
+    "set_country_flag = dtp_host", "set_global_flag = dtp_host_set", "save_global_event_target_as = dtp_host",
+    B("if", B("limit", "is_ai = no", "NOT = { has_country_flag = dtp_gm_role }"), "country_event = { id = dtp.19 }")))
+# 11.0.7: окно «Роль Гейм-мастера» — только после ЯВНОГО действия игрока (кнопка «Стать ХОСТом», «Назначить», победа в голосовании,
+# принятие передачи статуса), а не при автоматическом назначении на старте партии.
+GM_OFFER = ""  # 11.0.10: предложение снова шлёт сам dtp_make_host
 EFF.append(B("dtp_close_vote", "remove_global_flag = dtp_vote_open",
     B("every_country", B("limit", "has_country_flag = dtp_vote_pending"), "remove_country_flag = dtp_vote_pending")))
 # пользовательский каталог событий
@@ -2049,7 +2071,7 @@ lab("ac_0", "§RХОСТ не назначен§! — инструменты з�
 x, y, w = grid(0, row0=1)
 button("ac_solo", "Стать ХОСТом", x, y, w, potential=T(11, "NOT = { has_global_flag = dtp_host_set }"),
        allow=need("dtp_need_solo", "Только если вы единственный живой игрок", humans % "= 1"),
-       effect=B("if", B("limit", "NOT = { has_global_flag = dtp_host_set }", humans % "= 1"), B("from", "dtp_make_host = yes"), "dtp_result = { CODE = 25 }"))
+       effect=B("if", B("limit", "NOT = { has_global_flag = dtp_host_set }", humans % "= 1"), B("from", "dtp_make_host = yes"), GM_OFFER, "dtp_result = { CODE = 25 }"))
 x, y, w = grid(1, cols=3, row0=1)
 button("ac_claim", "Запросить статус (голосование)", x, y, 2 * w + 6, potential=T(11, "NOT = { has_global_flag = dtp_host_set }"),
        allow=need("dtp_need_multi", "В партии один игрок — используйте «Стать ХОСТом»", humans % "> 1") + "\n" + need("dtp_need_novote", "Голосование уже идёт", "NOT = { has_global_flag = dtp_vote_open }"),
@@ -2062,10 +2084,11 @@ button("ac_claim", "Запросить статус (голосование)", x
        tt="Статус подтверждают все игроки: каждому придёт окно «За/Против».")
 x, y, w = grid(0, row0=1)
 button("ac_resign", "Сложить полномочия", x, y, w, potential=T(11, B("from", "dtp_is_host = yes")),
-       effect=B("from", "remove_country_flag = dtp_host") + "\nremove_global_flag = dtp_host_set\ndtp_result = { CODE = 25 }", sprite="GFX_dtp_btn_danger")
+       effect=B("from", "remove_country_flag = dtp_host", "dtp_gm_off = yes") + "\nremove_global_flag = dtp_host_set\ndtp_result = { CODE = 25 }", sprite="GFX_dtp_btn_danger",
+       tt="Сложить статус ХОСТа. Если у вас роль Гейм-мастера — она тоже снимается, держава становится обычной.")
 x, y, w = grid(0, cols=1, row0=2)
 button("ac_auto", "Назначить ХОСТом первую державу игроков (держава хоста)", x, y, w, potential=T(11, "NOT = { has_global_flag = dtp_host_set }"),
-       effect="dtp_auto_host = yes\ndtp_result = { CODE = 25 }", sprite="GFX_dtp_btn_go",
+       effect="dtp_auto_host = yes\n" + GM_OFFER + "\ndtp_result = { CODE = 25 }", sprite="GFX_dtp_btn_go",
        tt="ХОСТом станет держава игрока с самым маленьким номером. В новой сетевой партии это держава хоста (номер 0) — даже если нажал другой игрок, статус получит хост, а не он. В загруженном сохранении проверьте имя в окне «Назначен ХОСТ»: если это не хост, он может передать статус.")
 per_k_label("ac_who", "Права державы-цели: §Y[dtp_tc_#.GetName]§!", CX, CY + 2 * ROW, CW, pot_extra=T(11, B("from", "dtp_is_host = yes")), tgt="dtp_tc")
 HOST = need("dtp_need_host", "Права выдаёт только ХОСТ", B("from", "dtp_is_host = yes")) + "\n" + need("dtp_need_human", "Выбранная держава — не живой игрок", "dtp_tc_human = yes")
@@ -2082,6 +2105,18 @@ x, y, w = grid(0, cols=1, row0=6)
 button("ac_transfer", "Передать статус ХОСТа державе-цели", x, y, w, potential=T(11, B("from", "dtp_is_host = yes")), allow=HOST,
        effect="dtp_load = yes\n" + B("from", "save_global_event_target_as = dtp_offer_from") + "\n" + B("event_target:dtp_t", "country_event = { id = dtp.15 }"),
        tt="Игроку придёт запрос; статус перейдёт после его согласия.")
+x, y, w = grid(0, cols=2, row0=7)
+GMR = B("from", "has_country_flag = dtp_gm_role")
+button("ac_gm_on", "Принять роль Гейм-мастера", x, y, w, potential=T(11, B("from", "dtp_is_host = yes") + "\nNOT = { %s }" % GMR), sprite="GFX_dtp_btn_go",
+       allow=need("dtp_need_host2", "Роль Гейм-мастера может взять только ХОСТ", B("from", "dtp_is_host = yes")),
+       effect=B("from", "dtp_gm_on = yes") + "\ndtp_result = { CODE = 25 }",
+       tt="Ваша держава становится державой Гейм-мастера: видит всю галактику и все державы, разведка и шифровка 1000, огромные бонусы к науке и ресурсам, население не растёт. Галактическое сообщество вас не учитывает (как угасшую империю) и не принимает. Вам нельзя объявить войну и закрыть для вас границы (все открывают их вам и вы — им); филиалы мегакорпораций и синдикатов на ваших планетах запрещены (имеющиеся закрываются). Сами вы можете всё. Снимается кнопкой «Сложить роль».")
+button("ac_gm_off", "Сложить роль Гейм-мастера", x, y, w, potential=T(11, GMR), sprite="GFX_dtp_btn_danger",
+       effect=B("from", "dtp_gm_off = yes") + "\ndtp_result = { CODE = 25 }",
+       tt="Держава снова становится обычной: этика, бонусы и особые правила Гейм-мастера снимаются.")
+x, y, w = grid(1, cols=2, row0=7)
+lab("ac_gm_st1", "§YРоль Гейм-мастера: ВЗЯТА§!", x + 4, y + 4, w, potential=T(11, GMR))
+lab("ac_gm_st0", "§gРоль Гейм-мастера: не взята§!", x + 4, y + 4, w, potential=T(11, "NOT = { %s }" % GMR))
 x, y, w = grid(0, cols=1, row0=8)
 lab("ac_note", "Проверка прав настоящая: игра сообщает кнопке, кто её нажал, права проверяются при выполнении.", x, y, w, potential=T(11))
 for i, t in enumerate(["§YКАК НАЗНАЧАЕТСЯ ХОСТ§!  §gтолько хост партии, без голосования§!",
@@ -2209,6 +2244,8 @@ event(14, "Голосование истекло", "Не все игроки о�
 event(15, "Передача статуса ХОСТа", "ХОСТ §Y[dtp_offer_from.GetName]§! предлагает передать вам статус §YХОСТа§! Debug Toolpack.", [
     ("Отказаться", ""), ("Принять", B("if", B("limit", "event_target:dtp_offer_from = { dtp_is_host = yes }", "is_ai = no"), "dtp_make_host = yes",
         B("every_country", B("limit", "is_ai = no"), "country_event = { id = dtp.18 }")))])
+event(19, "Роль Гейм-мастера", "Вы стали §YХОСТОМ§! партии. Debug Toolpack предлагает взять §YРОЛЬ ГЕЙМ-МАСТЕРА§! — ведущего, который управляет партией, а не соревнуется с игроками.\\n\\n§YЧТО ДАЁТ РОЛЬ§!\\n§G+§! вы видите всю галактику: все системы, флоты и державы (полный обзор, вся карта, контакт со всеми)\\n§G+§! разведка, шифровка и дешифровка 1000 — от вас ничего не скрыто, вас не разведать\\n§G+§! наука и все ресурсы ×1000, склады +1 000 000, стабильность +50\\n§G+§! закрытая этика «Гейм-мастер» — её нельзя выбрать при создании державы\\n§G+§! вам нельзя объявить войну и закрыть для вас границы; филиалы мегакорпораций и синдикатов на ваших планетах запрещены\\n§G+§! сами вы можете всё: войны, договоры, границы\\n\\n§RВАЖНО: ИГРАТЬ КАК ОБЫЧНАЯ ДЕРЖАВА ВЫ НЕ СМОЖЕТЕ§!\\n§R−§! ваша держава становится особым типом «Гейм-мастер», как угасшая империя: население не растёт\\n§R−§! в Галактическое сообщество вас не примут, и вы не участвуете в его создании\\n§R−§! часть обычных механик (политики, дипломатические позиции, специализации планет) может быть недоступна\\n§R−§! это роль ведущего: соревноваться с игроками за победу вы не будете\\n\\nРоль можно сложить в любой момент: Debug Toolpack → «Доступ» → «Сложить роль Гейм-мастера» — держава снова станет обычной.", [
+    ("Принять роль Гейм-мастера", B("if", B("limit", "has_country_flag = dtp_host"), "dtp_gm_on = yes")), ("Не сейчас", "")])
 event(17, "Статус ХОСТа не подтверждён", "Запрос отклонён одним из игроков.", [("Понятно", "")])
 event(18, "Назначен ХОСТ", "Новый §YХОСТ§! Debug Toolpack: §Y[dtp_host.GetName]§!.", [("Понятно", "")])
 CAT = list(_CR_EV)
@@ -2348,16 +2385,39 @@ CLAIM_RULE = "can_add_claim = {\n\tOR = {\n\t\troot = { has_country_flag = dtp_c
 # 10.7.5: у правил игры при совпадении имени файл zz_ НЕ побеждает (в error.log нет «already exists», а претензии не заработали) —
 # поэтому мод заменяет весь файл правил игры 00_rules.txt: копия игры, где изменено только правило can_add_claim.
 RULES_FILE = _rules      # 10.8.5: отметка претензией убрана — can_add_claim как в игре
+# 11.0: тип Гейм-мастера в правилах игры считается обычной державой — кроме сообщества/совета/империи (там он не участвует)
+def _gm_regular(text, skip):
+    out, pos = [], 0
+    for _m in re.finditer(r"(?m)^(\w+) = \{", text):
+        if _m.start() < pos: continue
+        _i, _d = _m.end(), 1
+        while _d: _d += {"{": 1, "}": -1}.get(text[_i], 0); _i += 1
+        blk = text[_m.start():_i]
+        if _m.group(1) not in skip:
+            blk = blk.replace("is_country_type = default", "OR = { is_country_type = default is_country_type = dtp_gamemaster }")
+        out.append(text[pos:_m.start()] + blk); pos = _i
+    return "".join(out) + text[pos:]
+RULES_FILE = _gm_regular(RULES_FILE, {"can_be_part_of_galactic_community", "can_be_part_of_galactic_council", "can_be_part_of_galactic_empire"})
+assert RULES_FILE.count("can_see_galactic_community = {\n\tOR = {\n") == 1   # 11.0.6: Гейм-мастер видит окно сообщества (не член — голосовать не может)
+RULES_FILE = RULES_FILE.replace("can_see_galactic_community = {\n\tOR = {\n", "can_see_galactic_community = {\n\tOR = {\n\t\thas_country_flag = dtp_gm_role\t# Debug Toolpack: the Game Master sees the Community\n", 1)
+assert RULES_FILE.count("can_support_branch_offices = {\n") == 1
+RULES_FILE = RULES_FILE.replace("can_support_branch_offices = {\n", "can_support_branch_offices = {\n\tcustom_tooltip = { fail_text = dtp_gm_nobranch NOT = { has_country_flag = dtp_gm_role } }\t# Debug Toolpack\n", 1)
+assert RULES_FILE.count("has_full_sensor_range = {\n\tOR = {\n") == 1
+RULES_FILE = RULES_FILE.replace("has_full_sensor_range = {\n\tOR = {\n", "has_full_sensor_range = {\n\tOR = {\n\t\thas_country_flag = dtp_gm_role\t# Debug Toolpack: Game Master sees everything\n", 1)
 # 10.8.2: жёсткий запрет войн — и в правиле игры can_declare_war (root = нападающий, this = цель): кнопка серая везде, ИИ тоже не обходит
 _RH = "OR = { AND = { root = { is_ai = no } is_ai = no } AND = { has_global_flag = dtp_war_ai OR = { root = { is_ai = no } is_ai = no } } }"
 _SOFT = "NOT = { has_global_flag = dtp_war_soft }"
 assert RULES_FILE.count("can_declare_war = {\n") == 1
 RULES_FILE = RULES_FILE.replace("can_declare_war = {\n", "can_declare_war = {\n\t# --- Debug Toolpack: game master war ban, hard mode ---\n\tif = {\n\t\tlimit = { exists = root }\n" + "\n".join([
+    # 11.0.3: Гейм-мастеру войну объявлять НЕЛЬЗЯ (this = цель); сам Гейм-мастер может всё
+    "\t\tcustom_tooltip = { fail_text = dtp_gm_nowar NOT = { has_country_flag = dtp_gm_role } }",
     "\t\tcustom_tooltip = { fail_text = dtp_war_banned NOT = { AND = { root = { OR = { is_ai = no has_global_flag = dtp_war_ai } } has_global_flag = dtp_rule_nopvp %s } } }" % _SOFT,
     "\t\tcustom_tooltip = { fail_text = dtp_war_np NOT = { AND = { root = { has_country_flag = dtp_rule_np } %s } } }" % _SOFT,
     "\t\tcustom_tooltip = { fail_text = dtp_war_prot NOT = { AND = { OR = { root = { is_ai = no } has_global_flag = dtp_war_ai } has_country_flag = dtp_rule_prot %s } } }" % _SOFT]) + "\n\t}\n", 1)
 CAT.append(B("event", "id = dtp.1207", "hide_window = yes", "is_triggered_only = yes",
     B("immediate", "dtp_war_sync = yes",
+      B("every_country", B("limit", "has_country_flag = dtp_gm_role"),
+        B("every_country", B("limit", "has_closed_borders = prev"), "set_closed_borders = { who = prev status = no }")),
       B("every_country", B("limit", "has_country_flag = dtp_claimmark"), "remove_country_flag = dtp_claimmark", "remove_modifier = dtp_claimfree"),
       B("every_country", B("limit", "is_ai = no"), B("every_owned_fleet", B("limit", "has_fleet_flag = dtp_beacon"), "delete_fleet = this")),
       B("every_country", B("limit", "is_ai = no"), B("every_owned_fleet", B("limit", "has_fleet_flag = dtp_marker", "NOT = { has_fleet_flag = dtp_mk_alive }"),
@@ -2524,11 +2584,34 @@ for _i, _c in enumerate(_parts, 1):
 w("common/scripted_effects/dtp_scripted_effects.txt", HDR + pretty("\n".join(EFF)))
 w("common/scripted_triggers/dtp_scripted_triggers.txt", HDR + pretty("\n".join(TRG)))
 w("common/game_rules/00_rules.txt", RULES_FILE)
+_st = open(os.path.join(VC, "scripted_triggers", "00_scripted_triggers.txt"), encoding="utf-8-sig").read()
+assert "is_regular_empire = {" in _st
+w("common/scripted_triggers/00_scripted_triggers.txt", "# Debug Toolpack " + VERSION + ": copy of the game file; the Game Master country type (dtp_gamemaster) counts as a regular empire.\n" +
+  _st.replace("is_country_type = default", "OR = { is_country_type = default is_country_type = dtp_gamemaster }"))
+# тип державы Гейм-мастера: копия обычного (default), «неигровой» как у угасших, без роста населения и без дипломатических войн
+_ct = open(os.path.join(VC, "country_types", "00_country_types.txt"), encoding="utf-8-sig").read()
+_m = re.search(r"(?m)^default = \{", _ct); _i, _d = _m.end(), 1
+while _d: _d += {"{": 1, "}": -1}.get(_ct[_i], 0); _i += 1
+_gm = "dtp_gamemaster" + _ct[_m.start() + len("default"):_i]
+for _a, _b in (("playable = yes", "playable = no"), ("pop_growth = yes", "pop_growth = no"), ("counts_for_victory = yes", "counts_for_victory = no"), ("needs_survey = yes", "needs_survey = yes")):
+    assert _gm.count("\t" + _a) == 1, _a; _gm = _gm.replace("\t" + _a, "\t" + _b, 1)
+_ctv = "\n".join(sorted(set(v for v in re.findall(r"^@\w+ = .*$", _ct, re.M) if v.split()[0] in _gm)))
+w("common/country_types/dtp_country_types.txt", "# Debug Toolpack " + VERSION + ": Game Master country type (copy of 'default', not playable like Fallen Empires)\n" + (_ctv + "\n\n" if _ctv else "") + _gm + "\n")
+# закрытая этика: выбрать при создании нельзя, выдаётся только ролью Гейм-мастера
+w("common/ethics/dtp_ethics.txt", "# Debug Toolpack " + VERSION + ": closed Game Master ethic (only via the Game Master role)\n" + pretty(B("ethic_dtp_gamemaster",
+    "cost = 1", 'category = "hive"', "category_value = 1", "use_for_pops = no", B("playable", "always = no"),
+    B("country_modifier", "intel_encryption_add = 5"), B("random_weight", "base = 0"))))
 w("common/event_chains/dtp_event_chains.txt", HDR + pretty(B("dtp_marks_chain", 'icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"',
     "picture = GFX_evt_dtp_events", "situation_log_category = developments")))
 w("common/star_classes/dtp_marked_star_classes.txt", HDR + "# Копии классов звёзд игры 4.5.2 со значком «отмечено» (красное кольцо) для галактической карты.\n"
   "# spawn_odds = 0: при генерации галактики не выпадают. Свет, звезда, модификаторы — как у исходного класса.\n" + pretty("\n".join(MARKED_SC)))
-MARKER_STATIC = ["dtp_marker_ship = {\n\tship_speed_mult = 5000\n\tship_interstellar_speed_mult = 5000\n\tship_base_speed_mult = 50\n\tship_windup_mult = -0.999\n\tship_cloaking_strength_add = 1000\n\tship_ftl_jumpdrive_range_mult = 1000\n\tship_jumpdrive_cooldown_mult = -0.999\n\tship_emergency_ftl_min_days_mult = -0.999\n\tship_evasion_add = 90\n}",
+MARKER_STATIC = ["dtp_gm_role = {\n" + "\n".join("\t%s = %s" % kv for kv in [
+        ("country_physics_research_produces_mult", 999), ("country_society_research_produces_mult", 999), ("country_engineering_research_produces_mult", 999),
+        ("country_energy_produces_mult", 999), ("country_minerals_produces_mult", 999), ("country_food_produces_mult", 999), ("country_alloys_produces_mult", 999),
+        ("country_consumer_goods_produces_mult", 999), ("country_unity_produces_mult", 999), ("country_influence_produces_mult", 999),
+        ("add_base_country_intel", 1000), ("intel_encryption_add", 1000), ("intel_decryption_add", 1000),
+        ("planet_stability_add", 50), ("country_resource_max_add", 10000000), ("logistic_growth_mult", -1), ("planet_pop_assembly_mult", -1), ("bonus_pop_growth_mult", -1)]) + "\n}",
+                 "dtp_marker_ship = {\n\tship_speed_mult = 5000\n\tship_interstellar_speed_mult = 5000\n\tship_base_speed_mult = 50\n\tship_windup_mult = -0.999\n\tship_cloaking_strength_add = 1000\n\tship_ftl_jumpdrive_range_mult = 1000\n\tship_jumpdrive_cooldown_mult = -0.999\n\tship_emergency_ftl_min_days_mult = -0.999\n\tship_evasion_add = 90\n}",
                  "dtp_beacon_ship = {\n\tship_cloaking_strength_add = 1000\n\tship_evasion_add = 90\n}",
                  "dtp_war_lock = {\n\ticon = \"gfx/interface/icons/modifiers/mod_war_economy_offensive.dds\"\n}",
                  "dtp_war_shield = {\n\ticon = \"gfx/interface/icons/modifiers/mod_war_economy_defensive.dds\"\n}",
@@ -2542,6 +2625,7 @@ loc("dtp_marker_ship_name", "Метка DTP")
 loc("dtp_beacon_fleet", "● Отмечено")
 loc("dtp_mark_mega", "§R●  ОТМЕЧЕНО§!")
 loc("dtp_mark_mega_name", "§R●  ОТМЕЧЕНО§!")
+loc("dtp_mark_mega_MEGASTRUCTURE_DETAILS", "Метка ведущего партии (Debug Toolpack). Ничего не делает.")
 loc("dtp_mark_mega_DESC", "Метка ведущего партии (Debug Toolpack): система отмечена. Ничего не делает, снимается кнопкой мода.")
 w("common/megastructures/dtp_mark_megastructure.txt", "# Debug Toolpack " + VERSION + ": red map marker over a marked system (invisible model, only the galaxy map label)\n" + pretty(B("dtp_mark_mega",
     'entity = "invisible_turret_entity"', 'portrait = "GFX_megastructure_construction_background"', "show_in_outliner = no",
@@ -2567,10 +2651,25 @@ w("common/on_actions/dtp_on_actions.txt", HDR + "on_game_start = {\n\tevents = {
 # (тот же путь — заменяет оригинал) и в action_declare_war → possible дописываются проверки правил партии.
 loc("dtp_note_humans", "§Y● Только живые игроки§! §g— державы ИИ не затрагиваются.§!")
 loc("dtp_note_pvp", "§Y● Только между живыми игроками§! §g— войны с ИИ и между ИИ идут как обычно.§!")
+loc("dtp_gm_nowar", "§RЭто держава Гейм-мастера:§! ей нельзя объявить войну (Debug Toolpack).")
+loc("dtp_gm_noclose", "§RЭто держава Гейм-мастера:§! закрывать для неё границы нельзя (Debug Toolpack).")
+loc("dtp_gm_nobranch", "§RЭто держава Гейм-мастера:§! филиалы мегакорпораций и синдикатов на её планетах запрещены (Debug Toolpack).")
+loc("ethic_dtp_gamemaster", "Гейм-мастер")
+loc("ethic_dtp_gamemaster_desc", "Закрытая этика ведущего партии (Debug Toolpack). Её нельзя выбрать при создании державы — только взять роль Гейм-мастера.")
+loc("dtp_gm_role", "Роль Гейм-мастера")
+loc("dtp_gm_role_desc", "Держава ведущего партии (Debug Toolpack): видит всю галактику, огромные бонусы к науке и ресурсам, население не растёт, в Галактическом сообществе не участвует.")
+loc("dtp_gamemaster", "Гейм-мастер")
 loc("dtp_war_banned", "§RЗапрещено ведущим партии:§! сейчас объявлять войну нельзя никому — как при политике «Оборонительные войны» (Debug Toolpack → «Правила партии»).")
 loc("dtp_war_np", "§RЗапрещено ведущим партии:§! вашей державе лично запрещено объявлять войну (Debug Toolpack).")
 loc("dtp_war_prot", "§RЗапрещено ведущим партии:§! эта держава под защитой ведущего — на неё нельзя нападать (Debug Toolpack).")
 DA = os.path.join(VC, "diplomatic_actions", "00_actions.txt")
+def _gm_action(key, tip, cond="NOT = { has_country_flag = dtp_gm_role }"):
+    """11.0: копия действия игры + запрет для Гейм-мастера (root = тот, кто действует)."""
+    _t = open(DA, encoding="utf-8-sig").read()
+    _a = _t.index("%s = {" % key); _b, _d = _t.index("{", _a) + 1, 1
+    while _d: _d += {"{": 1, "}": -1}.get(_t[_b], 0); _b += 1
+    blk = _t[_a:_b]; _p = blk.index("possible = {") + len("possible = {")
+    return "\n" + blk[:_p] + "\n\t\tcustom_tooltip = { fail_text = %s %s }" % (tip, cond) + blk[_p:] + "\n"
 _da = open(DA, encoding="utf-8-sig").read()
 _i = _da.index("action_declare_war = {")
 _k, _depth = _da.index("{", _i), 0                       # конец блока по балансу скобок
@@ -2580,6 +2679,7 @@ for _e in range(_k, len(_da)):
 _blk = _da[_i:_e + 1]
 _j = _blk.index("possible = {") + len("possible = {")
 _ins = "\n".join(["", "\t\t# --- Debug Toolpack: game master war rules (dtp_rule_nopvp / dtp_rule_np / dtp_rule_prot) ---",
+    "\t\tcustom_tooltip = { fail_text = dtp_gm_nowar NOT = { from = { has_country_flag = dtp_gm_role } } }",
     # 10.7.9: «мягкий» режим (dtp_war_soft) — кнопка доступна, нарушение фиксируется и решает ведущий; dtp_war_ai — правило и для войн с ИИ
     # 10.8.3: жёсткий запрет — как политика «Оборонительные войны»: держава под запретом не объявляет войну НИКОМУ (root = actor, from = recipient)
     "\t\tcustom_tooltip = { fail_text = dtp_war_banned NOT = { AND = { OR = { is_ai = no has_global_flag = dtp_war_ai } has_global_flag = dtp_rule_nopvp NOT = { has_global_flag = dtp_war_soft } } } }",
@@ -2589,7 +2689,8 @@ _vars = "\n".join(sorted(set(re.findall(r"^@\w+ = .*$", _da, re.M))))   # пер
 w("common/diplomatic_actions/zz_dtp_declare_war.txt",
   "# Debug Toolpack %s: action_declare_war from the game (4.5) + game master war rules in possible.\n"
   "# diplomatic_actions are LIOS: this later-loaded file replaces only this one action, the rest of the game file stays untouched.\n" % VERSION +
-  (_vars + "\n\n" if "@" in _blk else "") + _blk[:_j] + _ins + _blk[_j:] + "\n")
+  (_vars + "\n\n" if "@" in _blk else "") + _blk[:_j] + _ins + _blk[_j:] + "\n" +
+  _gm_action("action_close_borders", "dtp_gm_noclose", "NOT = { from = { has_country_flag = dtp_gm_role } }"))   # 11.0.4: закрыть границы ДЛЯ Гейм-мастера нельзя
 # 10.0: режим карты «Правила партии» — раскраска держав по правилам ведущего (this = держава, from = смотрящий игрок)
 MMC = [("dtp_mm_viol", "rgb { 255 140 30 255 }", "has_global_flag = dtp_viol_open\nexists = event_target:dtp_violator\nis_same_value = event_target:dtp_violator",
         "§O[This.GetName]§! — нарушил запрет войн, ведущий решает о санкциях"),

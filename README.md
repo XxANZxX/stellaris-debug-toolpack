@@ -27,6 +27,17 @@ When updating, delete the old `dtp_toolpack` folder first, so no stale files rem
 - The HOST can transfer the status (the other player must accept), resign, and grant other players individual rights.
 - Players without any rights do not see the DTP icon or panels.
 
+## Game Master role
+
+When an empire becomes HOST, it is offered the **Game Master role** (a window explains it; you can decline).
+
+- The empire becomes a special "Game Master" country type (like a Fallen Empire) with a closed "Game Master" ethic.
+- Sees the whole galaxy, every fleet and empire; contact with everyone. Intel, encryption and decryption 1000.
+- Research and resources ×1000, storage +1,000,000, stability +50, no pop growth.
+- Not accepted into the Galactic Community and does not trigger its formation, but can see its window.
+- Nobody can declare war on the GM or close borders to it; the GM itself can do anything. No megacorp/syndicate branch offices on GM planets.
+- You cannot play as a normal empire with this role. Drop it any time: *Access* → *Resign Game Master role*.
+
 ## Sections
 
 | Section | What it does |
@@ -40,7 +51,7 @@ When updating, delete the old `dtp_toolpack` folder first, so no stale files rem
 | Fleet | repair, teleport, transfer, delete, **Fleet Builder** (type, count 1–100, spawn point); "+ N ships" button in the game's fleet window |
 | State / Government / Species | ethics, technologies, traditions, government, civics, edicts, traits, rights |
 | Diplomacy | relations, trust, borders, truces, vassals, war, **White Peace A ↔ B** |
-| Access | HOST status and player rights |
+| Access | HOST status, player rights, Game Master role |
 | Log | every action by every player, built-in self-tests |
 
 ## Systems: marks

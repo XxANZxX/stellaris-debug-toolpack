@@ -1,4 +1,27 @@
-# Debug Toolpack 10.9.9 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+# Debug Toolpack 11.0.10 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dtp_b_ac_who_8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_pidx value = 8 }
+		}
+		exists = event_target:dtp_tc_8
+		from = {
+			check_variable = { which = dtp_tab value = 11 }
+		}
+		from = {
+			dtp_is_host = yes
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
 dtp_b_ac_who_9 = {
 	potential = {
 		from = {
@@ -1201,6 +1224,99 @@ dtp_b_ac_transfer = {
 				country_event = { id = dtp.15 }
 			}
 		}
+	}
+}
+
+dtp_b_ac_gm_on = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 11 }
+		}
+		from = {
+			dtp_is_host = yes
+		}
+		NOT = { from = {
+				has_country_flag = dtp_gm_role
+			} }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_host2 from = {
+				dtp_is_host = yes
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				dtp_gm_on = yes
+			}
+			dtp_result = { CODE = 25 }
+		}
+	}
+}
+
+dtp_b_ac_gm_off = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 11 }
+		}
+		from = {
+			has_country_flag = dtp_gm_role
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				dtp_gm_off = yes
+			}
+			dtp_result = { CODE = 25 }
+		}
+	}
+}
+
+dtp_b_ac_gm_st1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 11 }
+		}
+		from = {
+			has_country_flag = dtp_gm_role
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dtp_b_ac_gm_st0 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 11 }
+		}
+		NOT = { from = {
+				has_country_flag = dtp_gm_role
+			} }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
 	}
 }
 
@@ -7195,106 +7311,6 @@ dtp_b_log5_c49 = {
 		exists = event_target:dtp_log5_actor
 		event_target:dtp_log5_actor = {
 			check_variable = { which = dtp_logcode_5 value = 49 }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-	}
-}
-
-dtp_b_log5_c50 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_open
-		}
-		from = {
-			check_variable = { which = dtp_tab value = 12 }
-		}
-		exists = event_target:dtp_log5_actor
-		event_target:dtp_log5_actor = {
-			check_variable = { which = dtp_logcode_5 value = 50 }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-	}
-}
-
-dtp_b_log5_c51 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_open
-		}
-		from = {
-			check_variable = { which = dtp_tab value = 12 }
-		}
-		exists = event_target:dtp_log5_actor
-		event_target:dtp_log5_actor = {
-			check_variable = { which = dtp_logcode_5 value = 51 }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-	}
-}
-
-dtp_b_log5_c52 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_open
-		}
-		from = {
-			check_variable = { which = dtp_tab value = 12 }
-		}
-		exists = event_target:dtp_log5_actor
-		event_target:dtp_log5_actor = {
-			check_variable = { which = dtp_logcode_5 value = 52 }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-	}
-}
-
-dtp_b_log5_c53 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_open
-		}
-		from = {
-			check_variable = { which = dtp_tab value = 12 }
-		}
-		exists = event_target:dtp_log5_actor
-		event_target:dtp_log5_actor = {
-			check_variable = { which = dtp_logcode_5 value = 53 }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-	}
-}
-
-dtp_b_log5_c54 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_open
-		}
-		from = {
-			check_variable = { which = dtp_tab value = 12 }
-		}
-		exists = event_target:dtp_log5_actor
-		event_target:dtp_log5_actor = {
-			check_variable = { which = dtp_logcode_5 value = 54 }
 		}
 	}
 	allow = {
