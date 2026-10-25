@@ -1,15 +1,6 @@
-# Debug Toolpack 11.0.10 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+# Debug Toolpack 11.1.9 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
 dtp_remember_class = {
-	if = {
-		limit = {
-			NOT = { has_star_flag = dtp_oc_known }
-		}
-	}
-	if = {
-		limit = {
-			NOT = { has_star_flag = dtp_oc_known }
-		}
-	}
+	set_star_flag = dtp_oc_known
 }
 dtp_star_fix = {
 	if = {
@@ -5637,6 +5628,12 @@ dtp_pidx_ensure = {
 		set_variable = { which = dtp_logres_7 value = 0 }
 		set_variable = { which = dtp_logres_8 value = 0 }
 	}
+	if = {
+		limit = {
+			NOT = { is_variable_set = dtp_mcount }
+		}
+		set_variable = { which = dtp_mcount value = 0 }
+	}
 }
 dtp_set_tc = {
 	if = {
@@ -7479,16 +7476,66 @@ dtp_res_op_set = {
 	}
 }
 dtp_clist = {
-	clear_global_event_target = dtp_cl_1
-	clear_global_event_target = dtp_cl_2
-	clear_global_event_target = dtp_cl_3
-	clear_global_event_target = dtp_cl_4
-	clear_global_event_target = dtp_cl_5
-	clear_global_event_target = dtp_cl_6
-	clear_global_event_target = dtp_cl_7
-	clear_global_event_target = dtp_cl_8
-	clear_global_event_target = dtp_cl_9
-	clear_global_event_target = dtp_cl_10
+	if = {
+		limit = {
+			exists = event_target:dtp_cl_1
+		}
+		clear_global_event_target = dtp_cl_1
+	}
+	if = {
+		limit = {
+			exists = event_target:dtp_cl_2
+		}
+		clear_global_event_target = dtp_cl_2
+	}
+	if = {
+		limit = {
+			exists = event_target:dtp_cl_3
+		}
+		clear_global_event_target = dtp_cl_3
+	}
+	if = {
+		limit = {
+			exists = event_target:dtp_cl_4
+		}
+		clear_global_event_target = dtp_cl_4
+	}
+	if = {
+		limit = {
+			exists = event_target:dtp_cl_5
+		}
+		clear_global_event_target = dtp_cl_5
+	}
+	if = {
+		limit = {
+			exists = event_target:dtp_cl_6
+		}
+		clear_global_event_target = dtp_cl_6
+	}
+	if = {
+		limit = {
+			exists = event_target:dtp_cl_7
+		}
+		clear_global_event_target = dtp_cl_7
+	}
+	if = {
+		limit = {
+			exists = event_target:dtp_cl_8
+		}
+		clear_global_event_target = dtp_cl_8
+	}
+	if = {
+		limit = {
+			exists = event_target:dtp_cl_9
+		}
+		clear_global_event_target = dtp_cl_9
+	}
+	if = {
+		limit = {
+			exists = event_target:dtp_cl_10
+		}
+		clear_global_event_target = dtp_cl_10
+	}
 	from = {
 		set_variable = { which = dtp_cn value = 0 }
 		set_variable = { which = dtp_coff value = dtp_cpage }
@@ -7660,6 +7707,13 @@ dtp_make_host = {
 		remove_country_flag = dtp_host
 		dtp_gm_off = yes
 	}
+	every_country = {
+		limit = {
+			has_country_flag = dtp_host_seat
+		}
+		remove_country_flag = dtp_host_seat
+	}
+	set_country_flag = dtp_host_seat
 	set_country_flag = dtp_host
 	set_global_flag = dtp_host_set
 	save_global_event_target_as = dtp_host

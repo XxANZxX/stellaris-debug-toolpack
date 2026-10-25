@@ -1,4 +1,4 @@
-# Debug Toolpack 11.0.10 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+# Debug Toolpack 11.1.9 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
 namespace = dtp
 
 country_event = {
@@ -886,9 +886,17 @@ event = {
 			limit = {
 				has_country_flag = dtp_open
 				NOT = { dtp_has_any_perm = yes }
-				any_country = { has_country_flag = dtp_host is_ai = no }
+				NOT = { has_country_flag = dtp_host_seat }
+				NOT = { count_country = { limit = { is_ai = no } count = 1 } }
 			}
 			remove_country_flag = dtp_open
+		}
+		if = {
+			limit = {
+				NOT = { has_global_flag = dtp_host_set }
+				NOT = { any_country = { has_country_flag = dtp_host_seat } }
+			}
+			dtp_auto_host = yes
 		}
 		if = {
 			limit = {

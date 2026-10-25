@@ -17,10 +17,11 @@ python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/model
 import os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "11.0.10"
+VERSION = "11.1.9"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []
+DEFTXT = []   # 11.1: common/scripted_loc
 
 def loc(k, v): L[k] = v; return k
 def B(head, *body): return head + " = {\n" + "\n".join(b for b in body if b) + "\n}"
@@ -60,6 +61,9 @@ RES = [("energy", "Энергия", 1), ("minerals", "Минералы", 1), ("f
        ("exotic_gases", "Экзот. газы", 1), ("rare_crystals", "Кристаллы", 1), ("volatile_motes", "Летучая пыль", 1),
        ("sr_dark_matter", "Тёмная материя", 1), ("sr_living_metal", "Живой металл", 1), ("sr_zro", "Зро", 1),
        ("nanites", "Наниты", 1), ("minor_artifacts", "Артефакты", 1), ("astral_threads", "Астр. нити", 1)]
+UMSHORT = {"Скорость исследований": "Исследования", "Выработка работ": "Выработка", "Флотский лимит": "Лимит флота",
+           "Скорострельность флота": "Скорострельн.", "Скорострельность": "Скорострельн.", "Корпус кораблей": "Корпус",
+           "Рост населения": "Рост насел.", "Скорость стройки": "Стройка", "Лимит складов": "Склады", "Дальность оружия": "Дальность"}
 # Модификаторы «на единицу»: итог = значение × введённое число (поддерживаются отрицательные)
 UMODS = {
     "c": [("research", "Скорость исследований", "all_technology_research_speed", 0.01, "%"),
@@ -194,8 +198,10 @@ def GUESS(fmt):
         out.append(B("if" if j == 0 else "else_if", B("limit", *conds), fmt % k))
     return out
 ORIG_ANY = "OR = { %s }" % " ".join("is_star_class = %s" % k for k, ic in STARCLS)
-EFF.append(B("dtp_remember_class", REMEMBER,
-    B("if", B("limit", "NOT = { has_star_flag = dtp_oc_known }"), *GUESS("set_star_flag = dtp_oc_known set_star_flag = dtp_oc_%s"))))
+_RG = GUESS("set_star_flag = dtp_oc_known set_star_flag = dtp_oc_%s")
+# 11.0.12: без перекраски звёзд (STARCLS пуст) — пустые if давали сотни предупреждений в error.log
+EFF.append(B("dtp_remember_class", *([REMEMBER] if STARCLS else []),
+    *([B("if", B("limit", "NOT = { has_star_flag = dtp_oc_known }"), *_RG)] if _RG else []), "set_star_flag = dtp_oc_known"))
 # починка: звезда-копия мода (красная/серая), а система не отмечена — вернуть исходный класс
 EFF.append(B("dtp_star_fix", B("if", B("limit", "NOT = { has_star_flag = dtp_marked }", "NOT = { %s }" % ORIG_ANY),
     "dtp_remember_class = yes", *RESTORE(), "remove_star_flag = dtp_gray", 'log = "DTP STARFIX restored"')))
@@ -338,7 +344,9 @@ EFF.append(B("dtp_pidx_ensure", B("if", B("limit", "NOT = { is_variable_set = dt
     "remove_country_flag = dtp_pidx_self",
     B("if", B("limit", chk("dtp_pidx", MAXP, ">")), setv("dtp_pidx", MAXP)),
     setv("dtp_amount", 1000), setv("dtp_val", 10), setv("dtp_years", 0), setv("dtp_res", 1), setv("dtp_tab", 15), setv("dtp_in", 0), setv("dtp_cpage", 0),
-    setv("dtp_cn", 0), setv("dtp_coff", 0), setv("dtp_shn", 1), setv("dtp_shz", 0), setv("dtp_amt", 0), setv("dtp_stock", 0), *[setv("dtp_log%s_%d" % (n, k), 0) for n in ("code", "res") for k in range(1, 9)])))  # без пустых переменных — чище error.log
+    setv("dtp_cn", 0), setv("dtp_coff", 0), setv("dtp_shn", 1), setv("dtp_shz", 0), setv("dtp_amt", 0), setv("dtp_stock", 0), *[setv("dtp_log%s_%d" % (n, k), 0) for n in ("code", "res") for k in range(1, 9)]),
+    # 11.1: счётчик отмеченных систем показывается на «Главной» сразу — без него error.log: «Unknown property dtp_mcount»
+    B("if", B("limit", "NOT = { is_variable_set = dtp_mcount }"), setv("dtp_mcount", 0))))  # без пустых переменных — чище error.log
 # назначение целей (вызывается в области объекта; номер игрока — из from)
 for t in ("tc", "rcp", "tp", "tf"):
     EFF.append(B("dtp_set_%s" % t, chain(None, None) if False else "\n".join(
@@ -391,7 +399,7 @@ EFF.append(B("dtp_res_op_sub", B("event_target:dtp_t", cp, "export_resource_stoc
 EFF.append(B("dtp_res_op_set", B("event_target:dtp_t", cp, "export_resource_stockpile_to_variable = { resource = $RES$ variable = dtp_stock }",
     "subtract_variable = { which = dtp_amt value = dtp_stock }", "add_resource = { $RES$ = 1 mult = dtp_amt }")))
 # списки держав (страница по 10) — глобальные строки dtp_cl_1..10
-EFF.append(B("dtp_clist", *["clear_global_event_target = dtp_cl_%d" % j for j in range(1, 11)],
+EFF.append(B("dtp_clist", *[B("if", B("limit", "exists = event_target:dtp_cl_%d" % j), "clear_global_event_target = dtp_cl_%d" % j) for j in range(1, 11)],
     B("from", setv("dtp_cn", 0), setv("dtp_coff", "dtp_cpage"), "multiply_variable = { which = dtp_coff value = 10 }"),
     B("every_country", B("limit", "dtp_listed_country = yes"),
       B("from", "change_variable = { which = dtp_cn value = 1 }", setv("dtp_crel", "dtp_cn"), "subtract_variable = { which = dtp_crel value = dtp_coff }"),
@@ -417,7 +425,8 @@ EFF.append(B("dtp_gm_off", B("if", B("limit", "has_country_flag = dtp_gm_role"),
     B("if", B("limit", "has_ethic = ethic_dtp_gamemaster"), "country_remove_ethic = ethic_dtp_gamemaster"),
     "remove_modifier = dtp_gm_role", 'log = "DTP GM ROLE: off"')))
 EFF.append(B("dtp_make_host", B("every_country", B("limit", "has_country_flag = dtp_host"), "remove_country_flag = dtp_host", "dtp_gm_off = yes"),
-    "set_country_flag = dtp_host", "set_global_flag = dtp_host_set", "save_global_event_target_as = dtp_host",
+    B("every_country", B("limit", "has_country_flag = dtp_host_seat"), "remove_country_flag = dtp_host_seat"),
+    "set_country_flag = dtp_host_seat", "set_country_flag = dtp_host", "set_global_flag = dtp_host_set", "save_global_event_target_as = dtp_host",
     B("if", B("limit", "is_ai = no", "NOT = { has_country_flag = dtp_gm_role }"), "country_event = { id = dtp.19 }")))
 # 11.0.7: окно «Роль Гейм-мастера» — только после ЯВНОГО действия игрока (кнопка «Стать ХОСТом», «Назначить», победа в голосовании,
 # принятие передачи статуса), а не при автоматическом назначении на старте партии.
@@ -578,7 +587,7 @@ HW, HH = 210, 52                            # ручка перетаскива�
 # 10.8.2: значок и ручка Debug Toolpack видны только тем, у кого есть доступ (ХОСТ или права от ХОСТа),
 # а пока живого ХОСТа нет — всем живым игрокам (чтобы кто-то мог им стать). Фон окна-ручки прозрачный,
 # сама картинка ручки — кнопка-надпись с условием; под ней 10 px прозрачной полосы — за неё окно тоже тянется.
-ACC = B("from", B("OR", "dtp_has_any_perm = yes", B("AND", "is_ai = no", "NOT = { any_country = { has_country_flag = dtp_host is_ai = no } }")))
+ACC = B("from", B("OR", "dtp_has_any_perm = yes", B("AND", "is_ai = no", "has_country_flag = dtp_host_seat", "NOT = { any_country = { has_country_flag = dtp_host is_ai = no } }"), B("AND", "is_ai = no", "count_country = { limit = { is_ai = no } count = 1 }")))
 HDRAG = 0
 button("handle_img", "", 0, 0, HW, HH, where="handle", sprite="GFX_dtp_handle", label=True, potential=ACC)
 button("toggle", "", HW - 50, 2, 48, 48, where="handle", sprite="GFX_dtp_toggle", potential=ACC,
@@ -668,10 +677,11 @@ for _gi, (grp, ids) in enumerate(NAV):
 # ---------------- заголовок раздела
 for t, d in TABD.items():
     cw = CWN if t in NUMTABS else CWF
-    button("tta%d" % t, "", CX0, 58, 4, 30, sprite="GFX_dtp_accent", label=True, potential=T(t))
-    lab("tt%d" % t, TN[t].upper(), CX0 + 14, 54, 240, potential=T(t), h=30, font="large_title_font")
+    # 11.1: шапка раздела — картинка-баннер со значком раздела (art3.py: GFX_dtp_banner_<раздел>)
+    button("tta%d" % t, "", CX0, 50, cw, 40, sprite="GFX_dtp_banner_%d" % t, label=True, potential=T(t))
+    lab("tt%d" % t, TN[t].upper(), CX0 + 50, 54, 240, potential=T(t), h=30, font="large_title_font")
     if t != 4:
-        lab("ts%d" % t, "§g%s§!" % d, CX0 + 260, 60, cw - 260 - (506 if t == 16 else 0), potential=T(t), h=22)
+        lab("ts%d" % t, "§g%s§!" % d, CX0 + 290, 60, cw - 290 - (506 if t == 16 else 0), potential=T(t), h=22)
 
 # ---------------- карточка цели: кого изменят инструменты раздела
 GOTO = lambda t: INIT + "\n" + B("from", setv("dtp_tab", t)) + "\ndtp_disarm = yes" + ("\ndtp_clist = yes" if t == 2 else "")
@@ -687,7 +697,13 @@ for cw in (CWF, CWN):
 def a_block(tabs, x, w, suffix):
     button("ca_badge" + suffix, "", x + 12, CARD_Y + 22, 28, 28, sprite="GFX_dtp_badge_a", label=True, potential=TS(tabs))
     per_k_label("ca_name" + suffix, "§Y[dtp_tc_#.GetName]§!", x + 48, CARD_Y + 8, w - 220, pot_extra=TS(tabs), none_text="§gДержава не выбрана§!", tgt="dtp_tc", font="malgun_goth_24", h=32)
-    lab("ca_role" + suffix, "§gдержава A — на неё подействуют инструменты§!", x + 48, CARD_Y + 42, w - 220, potential=TS(tabs), h=20)
+    # 11.1: под именем — вид и форма правления (флаг державы игра в текст подставлять не умеет)
+    if w > 600:
+        per_k_label("ca_role" + suffix, "§gдержава A ·§! [dtp_tc_#.GetSpeciesName] §g·§! [dtp_tc_#.GetGovernmentName]", x + 48, CARD_Y + 42, w - 220,
+                    pot_extra=TS(tabs), none_text="§gдержава A — на неё подействуют инструменты§!", tgt="dtp_tc", h=20)
+    else:
+        per_k_label("ca_role" + suffix, "§gдержава A ·§! [dtp_tc_#.GetSpeciesName]", x + 48, CARD_Y + 42, w - 220,
+                    pot_extra=TS(tabs), none_text="§gдержава A — на неё подействуют инструменты§!", tgt="dtp_tc", h=20)
     button("ca_me" + suffix, "Я", x + w - 166, CARD_Y + 20, 50, 32, potential=TS(tabs), sprite="GFX_dtp_btn_key",
            effect=INIT + "\n" + B("from", "dtp_set_tc = yes") + "\ndtp_result = { CODE = 29 }", tt="A = ваша империя")
     button("ca_chg" + suffix, "Сменить →", x + w - 110, CARD_Y + 20, 100, 32, potential=TS(tabs), sprite="GFX_dtp_btn_go",
@@ -711,9 +727,10 @@ button("cp_badge", "", CX0 + 12, CARD_Y + 21, 30, 30, sprite="GFX_dtp_ico5", lab
 per_k_label("cp_name", "§Y[dtp_tp_#.GetName]§!", CX0 + 50, CARD_Y + 8, 360, pot_extra=TS(pt), none_text="§gПланета не выбрана§!", tgt="dtp_tp", font="malgun_goth_24", h=32)
 for k in range(1, MAXP + 1):                       # владелец есть не у каждой планеты — два варианта надписи
     base = B("from", chk("dtp_pidx", k)) + "\nexists = event_target:dtp_tp_%d\n" % k + TS(pt)
-    lab("cp_sub_%d" % k, "§gсистема§! [dtp_tp_%d.System.GetName] §g· владелец§! [dtp_tp_%d.Owner.GetName]" % (k, k), CX0 + 50, CARD_Y + 42, 380,
+    # 11.1.4: тип объекта (например «Токсичный мир», «Звезда класса K») — видно, что именно выбрано
+    lab("cp_sub_%d" % k, "§Y[dtp_tp_%d.GetClassName]§! §g· [dtp_tp_%d.System.GetName] ·§! [dtp_tp_%d.Owner.GetName]" % (k, k, k), CX0 + 50, CARD_Y + 42, 380,
         potential=base + "\n" + B("event_target:dtp_tp_%d" % k, "exists = owner"))
-    lab("cp_sub_%d_n" % k, "§gсистема§! [dtp_tp_%d.System.GetName] §g· без владельца§!" % k, CX0 + 50, CARD_Y + 42, 380,
+    lab("cp_sub_%d_n" % k, "§Y[dtp_tp_%d.GetClassName]§! §g· [dtp_tp_%d.System.GetName] · без владельца§!" % (k, k), CX0 + 50, CARD_Y + 42, 380,
         potential=base + "\n" + B("event_target:dtp_tp_%d" % k, "NOT = { exists = owner }"))
     lab("cp_sub_%d_x" % k, "§gоткройте окно планеты или звезды → «Выбрать»§!", CX0 + 50, CARD_Y + 42, 380,
         potential=B("from", chk("dtp_pidx", k)) + "\nNOT = { exists = event_target:dtp_tp_%d }\n" % k + TS(pt))
@@ -972,6 +989,7 @@ x, y, w = grid(0, cols=1)
 lab("r_h0", "§YРЕСУРС§!  §gвыбранный подсвечен§!", x, y, w, potential=T(3))
 for i, (k, n, s) in enumerate(RES):
     x, y, w = grid(i, cols=4, row0=1)
+    n = {"Тёмная материя": "Тёмн. материя", "Живой металл": "Жив. металл"}.get(n, n)   # 11.1: короче — помещается рядом со значком
     button("r%d_on" % (i + 1), n, x, y, w, potential=T(3, B("from", chk("dtp_res", i + 1))), sprite="GFX_dtp_btn_on")
     button("r%d" % (i + 1), n, x, y, w, potential=T(3, B("from", "NOT = { %s }" % chk("dtp_res", i + 1))), effect=B("from", setv("dtp_res", i + 1)))
 x, y, w = grid(0, cols=1, row0=6)
@@ -1046,13 +1064,14 @@ for c, lst in UMODS.items():
         loc(key, "Toolpack: " + n); loc(key + "_desc", "Модификатор выдан через Debug Toolpack.")
         x, y, w = grid(i, cols=4, row0=row)
         hasT = "dtp_%s_hasmod = { M = %s }" % (c, key)
+        nb = UMSHORT.get(n, n)                          # 11.1.2: короткая подпись — рядом помещается значок
         add = "\n".join([B("event_target:%s" % obj, setv("dtp_tv", "from.dtp_val"), setv("dtp_ty", "from.dtp_years"), "remove_modifier = %s" % key),
                          B("if", B("limit", B("from", chk("dtp_years", 0, "<="))), B("event_target:%s" % obj, "add_modifier = { modifier = %s days = -1 multiplier = dtp_tv }" % key)),
                          B("else", B("event_target:%s" % obj, "add_modifier = { modifier = %s days = 360 time_multiplier = dtp_ty multiplier = dtp_tv }" % key))])
-        button("um_%s_%s_on" % (c, k), "✔ " + n, x, y, w, potential=T(4, hasT + "\n" + B("from", "NOT = { check_variable = { which = dtp_modpage value = 2 } }")), allow=need_perm(p) + "\n" + need_obj,
+        button("um_%s_%s_on" % (c, k), "✔ " + nb, x, y, w, potential=T(4, hasT + "\n" + B("from", "NOT = { check_variable = { which = dtp_modpage value = 2 } }")), allow=need_perm(p) + "\n" + need_obj,
                effect=act(p, B("event_target:%s" % obj, "remove_modifier = %s" % key), 6), sprite="GFX_dtp_btn_on",
                tt="Действует. Нажмите, чтобы СНЯТЬ «%s»." % n)
-        button("um_%s_%s" % (c, k), n, x, y, w, potential=T(4, "NOT = { %s }" % hasT + "\n" + B("from", "NOT = { check_variable = { which = dtp_modpage value = 2 } }")), allow=need_perm(p) + "\n" + need_obj,
+        button("um_%s_%s" % (c, k), nb, x, y, w, potential=T(4, "NOT = { %s }" % hasT + "\n" + B("from", "NOT = { check_variable = { which = dtp_modpage value = 2 } }")), allow=need_perm(p) + "\n" + need_obj,
                effect=act(p, add, 5), tt="Добавить «%s»: значение × %s %s (%s за единицу)." % (n, unit, u, mk))
     row += (len(lst) + 3) // 4
 
@@ -1160,6 +1179,8 @@ for i, (k, n, e, code) in enumerate([("dep", "Новая залежь", "add_ran
         ("terra", "Завершить терраформирование", "finish_terraformation = yes", 9)]):
     x, y, w = grid(i, cols=4, row0=10)
     al = need_perm("planet") + ("\n" + need("dtp_need_colony", "Это не колония", "dtp_tp_colony = yes") if k == "pop" else "")
+    if k == "terra":                               # 11.1.5: без идущего терраформирования игра пишет ошибку в error.log
+        al += "\n" + need("dtp_need_terra", "На выбранной планете сейчас не идёт терраформирование", orchain(lambda q: B("event_target:dtp_tp_%d" % q, "is_terraforming = yes")))
     button("pf_" + k, n, x, y, w, potential=PLP, allow=al, effect=act("planet", B("event_target:dtp_p", e), code))
 for i, (k, n) in enumerate(STARS):
     x, y, w = grid(i, cols=4, row0=3)
@@ -1277,7 +1298,7 @@ for i, (a, n, al, tt) in enumerate([("subj", "A → субъект B", N_DIFF(),
 WARSIDE = "OR = { AND = { is_war_participant = { who = event_target:dtp_t side = attackers } is_war_participant = { who = event_target:dtp_r side = defenders } } AND = { is_war_participant = { who = event_target:dtp_t side = defenders } is_war_participant = { who = event_target:dtp_r side = attackers } } }"
 x, y, w = grid(0, row0=6)
 button("dp_wpeace", "Белый мир A ↔ B", x, y, w, potential=T(7), sprite="GFX_dtp_btn_go",
-       allow=need_perm("diplo") + "\n" + N_TC() + "\n" + N_RCP() + "\n" + N_DIFF() + "\n" + need("dtp_need_atwar", "A и B сейчас не воюют друг с другом", "event_target:dtp_t = { is_at_war_with = event_target:dtp_r }"),
+       allow=need_perm("diplo") + "\n" + N_TC() + "\n" + N_RCP() + "\n" + N_DIFF() + "\n" + need("dtp_need_atwar", "A и B сейчас не воюют друг с другом", orchain(lambda k: B("event_target:dtp_tc_%d" % k, "is_at_war_with = event_target:dtp_rcp_%d" % k))),
        effect=act("diplo", "\n".join([
            B("event_target:dtp_t", "save_global_event_target_as = dtp_wp_a"), B("event_target:dtp_r", "save_global_event_target_as = dtp_wp_b"),
            B("event_target:dtp_t", B("every_war", B("limit", WARSIDE), B("every_war_participant", B("prev", "remove_war_participant = prev"))),
@@ -2012,7 +2033,7 @@ GCM = lambda: need("dtp_need_gc", "Галактическое сообществ
 GCV = lambda: need("dtp_need_gcvote", "Сейчас в Галактическом сообществе нет голосования", "is_voting_on_resolution = any")
 SESS_ON = "has_global_flag = dtp_gc_session"
 x, y, w = grid(0, cols=1)
-lab("se_h", "§YСЕНАТ — ГАЛАКТИЧЕСКОЕ СООБЩЕСТВО§!  §gрабочие кнопки; голосования по расписанию ведёт игра§!", x, y, w, potential=G5)
+lab("se_h", "§YСЕНАТ — ГАЛАКТИЧЕСКОЕ СООБЩЕСТВО§!  §gсообщество, голосования, Совет§!", x, y, w, potential=G5)
 for i, (k, on, off, cond) in enumerate([("gc", "§gСообщество:§! §Gсоздано§!", "§gСообщество:§! §Oнет§!", "is_galactic_community_formed = yes"),
                                         ("v", "§gГолосование:§! §Yидёт§!", "§gГолосование:§! §gнет§!", "is_voting_on_resolution = any"),
                                         ("c", "§gСовет:§! §Gсоздан§!", "§gСовет:§! §gнет§!", "is_galactic_council_established = yes")]):
@@ -2020,7 +2041,7 @@ for i, (k, on, off, cond) in enumerate([("gc", "§gСообщество:§! §G�
     lab("se_s_%s1" % k, on, x, y + 2, w, potential=G5 + "\n" + cond)
     lab("se_s_%s0" % k, off, x, y + 2, w, potential=G5 + "\nNOT = { %s }" % cond)
 x, y, w = grid(0, cols=1, row0=2)
-lab("se_h2", "§YГОЛОСОВАНИЕ§!  §gначать сейчас — консоль (~): §Yforce_senate_vote§!§g · завершить — §Yend_senate_session§!§g или кнопки ниже§!", x, y, w, potential=G5)
+lab("se_h2", "§YГОЛОСОВАНИЕ§!  §gдосрочно завершить текущее голосование§!", x, y, w, potential=G5)
 SE = []   # (ключ, подпись, тело, условие, код, подсказка, нужна ли цель A)
 SE += [
        ("pass", "Досрочно: принять", B("from", "dtp_gc_pass_current = yes") + "\n" + PLAYERS("country_event = { id = dtp.1261 }"), GCM() + "\n" + GCV(), 62,
@@ -2173,10 +2194,14 @@ for i, (k, n, p, need_obj, setup, check, undo, tt) in enumerate(TESTS):
 ANY = B("from", "dtp_has_any_perm = yes")
 SPL = "is_scope_type = planet\n" + ANY
 lab("ps_title", "§YDEBUG TOOLPACK§! · [This.GetName] §g— полосу можно тянуть§!", 0, 0, 510 if UIOD else 600, potential=SPL, where="planet")
-button("ps_pick", "Выбрать", 0, 26, 130, potential=SPL, effect="dtp_set_tp = yes\ndtp_result = { CODE = 29 }", where="planet", sprite="GFX_dtp_btn_go",
+# 11.1.3: видно, что объект уже выбран — «✔ Выбрана» (нажатие выбирает снова)
+IS_TP = orchain(lambda k: "is_same_value = event_target:dtp_tp_%d" % k)
+button("ps_pick", "Выбрать", 0, 26, 130, potential=SPL + "\nNOT = { %s }" % IS_TP, effect="dtp_set_tp = yes\ndtp_result = { CODE = 29 }", where="planet", sprite="GFX_dtp_btn_go",
        tt="Сделать эту планету (или звезду) выбранной в Toolpack — вкладка «Планета».")
-button("ps_tc", "Держава ← владелец", 136, 26, 170, potential=SPL + "\nexists = owner\n" + B("owner", "dtp_target_country = yes"), effect=B("owner", "dtp_set_tc = yes") + "\ndtp_result = { CODE = 29 }", where="planet")
-button("ps_rcp", "Получатель ← владелец", 312, 26, 190, potential=SPL + "\nexists = owner\n" + B("owner", "dtp_target_country = yes"), effect=B("owner", "dtp_set_rcp = yes") + "\ndtp_result = { CODE = 29 }", where="planet")
+button("ps_picked", "✔ Выбрана", 0, 26, 130, potential=SPL + "\n" + IS_TP, effect="dtp_set_tp = yes\ndtp_result = { CODE = 29 }", where="planet", sprite="GFX_dtp_btn_on",
+       tt="Эта планета (или звезда) уже выбрана в Toolpack — с ней работает вкладка «Планета».")
+button("ps_tc", "Изменять эту державу", 136, 26, 170, potential=SPL + "\nexists = owner\n" + B("owner", "dtp_target_country = yes"), effect=B("owner", "dtp_set_tc = yes") + "\ndtp_result = { CODE = 29 }", where="planet")
+button("ps_rcp", "Передавать этой державе", 312, 26, 190, potential=SPL + "\nexists = owner\n" + B("owner", "dtp_target_country = yes"), effect=B("owner", "dtp_set_rcp = yes") + "\ndtp_result = { CODE = 29 }", where="planet")
 DIAG = "\n".join(['log = "DTP STRIP click | this=[This.GetName]"', B("solar_system", 'log = "DTP STRIP system=[This.GetName]"',
     B("if", B("limit", "has_star_flag = dtp_marked"), 'log = "DTP STRIP system now MARKED"'), B("else", 'log = "DTP STRIP system NOT marked"'))])
 MKTOG = B("solar_system", B("if", B("limit", "has_star_flag = dtp_marked"), "dtp_unmark_sys = yes"), B("else", "dtp_mark_sys = yes"))
@@ -2191,15 +2216,19 @@ lab("ps_st_off", "§gсистема не отмечена§!", 256 if UIOD else 
 SFL = "OR = { is_scope_type = fleet is_scope_type = ship }\n" + ANY
 lab("fs_title", "§YDEBUG TOOLPACK§! · флот", 0, 0, 260, potential=SFL, where="fleet")
 FLSAVE = B("if", B("limit", "is_scope_type = ship"), B("fleet", "dtp_set_tf = yes")) + "\n" + B("else", "dtp_set_tf = yes")
-button("fs_pick", "Выбрать флот", 0, 26, 140, potential=SFL, effect=FLSAVE + "\ndtp_result = { CODE = 29 }", where="fleet", sprite="GFX_dtp_btn_go")
-button("fs_tc", "Держава ← владелец", 146, 26, 170, potential=SFL + "\nexists = owner\n" + B("owner", "dtp_target_country = yes"), effect=B("owner", "dtp_set_tc = yes") + "\ndtp_result = { CODE = 29 }", where="fleet")
+IS_TF = orchain(lambda k: "OR = { is_same_value = event_target:dtp_tf_%d AND = { is_scope_type = ship fleet = { is_same_value = event_target:dtp_tf_%d } } }" % (k, k))
+button("fs_pick", "Выбрать флот", 0, 26, 140, potential=SFL + "\nNOT = { %s }" % IS_TF, effect=FLSAVE + "\ndtp_result = { CODE = 29 }", where="fleet", sprite="GFX_dtp_btn_go",
+       tt="Сделать этот флот выбранным в Toolpack — вкладка «Флот».")
+button("fs_picked", "✔ Выбран", 0, 26, 140, potential=SFL + "\n" + IS_TF, effect=FLSAVE + "\ndtp_result = { CODE = 29 }", where="fleet", sprite="GFX_dtp_btn_on",
+       tt="Этот флот уже выбран в Toolpack — с ним работает вкладка «Флот».")
+button("fs_tc", "Изменять эту державу", 146, 26, 170, potential=SFL + "\nexists = owner\n" + B("owner", "dtp_target_country = yes"), effect=B("owner", "dtp_set_tc = yes") + "\ndtp_result = { CODE = 29 }", where="fleet")
 button("fs_rep", "Ремонт", 322, 26, 100, potential=SFL, allow=need_perm("fleet"), effect=act("fleet", "repair_percentage = 1", 16, False), where="fleet")
 button("fs_mark", "§R●§! Отметить систему флота", 0, 60, 260, potential=SFL + "\nexists = solar_system\n" + B("solar_system", "NOT = { has_star_flag = dtp_marked }"), allow=need_perm("planet"),
        effect=act("planet", B("solar_system", "dtp_mark_sys = yes"), 36, False) + "\ndtp_mlist = yes", where="fleet", sprite="GFX_dtp_btn_warn")
 SH_ADD = "\n".join([B("owner", setv("dtp_shc", "from.dtp_shn"), setv("dtp_shk", "from.dtp_shz")), SH_PROTO("owner"),
     B("while", B("limit", B("owner", chk("dtp_shc", 0, ">"))), SH_ONE("owner"), B("owner", "change_variable = { which = dtp_shc value = -1 }")),
     'log = "DTP FLEET: ships added to fleet"'])
-button("fs_add", "+ §Y[From.dtp_shn]§! кораблей", 266, 60, 166, potential="is_scope_type = fleet\n" + ANY, allow=need_perm("fleet"), sprite="GFX_dtp_btn_go",
+button("fs_add", "+ §Y[From.dtp_shn]§! кораблей", 266, 60, 166, potential="is_scope_type = fleet\n" + ANY + "\n" + B("from", "is_variable_set = dtp_shn"), allow=need_perm("fleet"), sprite="GFX_dtp_btn_go",
        effect=act("fleet", SH_ADD, 17, False), where="fleet",
        tt="Добавить в ЭТОТ флот корабли из конструктора (Debug Toolpack → «Флот»): тип и количество — как выбрано там. Строятся по кораблю/проекту владельца флота этого типа. §HЕсли у владельца этот тип корабля не изучен — кораблей не будет.§!")
 button("fs_unmark", "✕ Снять отметку системы", 0, 60, 260, potential=SFL + "\nexists = solar_system\n" + B("solar_system", "has_star_flag = dtp_marked"), allow=need_perm("planet"),
@@ -2207,7 +2236,8 @@ button("fs_unmark", "✕ Снять отметку системы", 0, 60, 260, 
 
 
 # ---------- полоса в окне станции (открывается кликом по значку станции прямо на галактической карте)
-SSB = "OR = { is_scope_type = starbase is_scope_type = ship }\nexists = solar_system\n" + ANY
+# 11.1.5: game.log 25.10 (DTP STARBASE PROBE): окну станции игра даёт ФЛОТ станции — его тоже принимаем
+SSB = "OR = { is_scope_type = starbase is_scope_type = ship is_scope_type = fleet }\nexists = solar_system\n" + ANY
 SBOWN = "\nexists = owner\n" + B("owner", "dtp_target_country = yes")
 lab("sb_title", "§YDEBUG TOOLPACK§! · [This.GetName] §g— полосу можно тянуть§!", 0, 0, 520, potential=SSB, where="starbase")
 SBTOG = B("solar_system", B("if", B("limit", "has_star_flag = dtp_marked"), "dtp_unmark_sys = yes"), B("else", "dtp_mark_sys = yes"))
@@ -2218,10 +2248,14 @@ button("sb_unmark", "✕ Снять отметку   Alt+M", 0, 26, 260, shortcu
        effect=act("planet", SBTOG, 36, False) + "\ndtp_mlist = yes", where="starbase", sprite="GFX_dtp_btn_on")
 lab("sb_st_on", "§R● СИСТЕМА ОТМЕЧЕНА§!", 268, 28, 250, potential=SSB + "\n" + B("solar_system", "has_star_flag = dtp_marked"), where="starbase")
 lab("sb_st_off", "§gсистема не отмечена§!", 268, 28, 250, potential=SSB + "\n" + B("solar_system", "NOT = { has_star_flag = dtp_marked }"), where="starbase")
-button("sb_pick", "Выбрать звезду", 0, 60, 150, potential=SSB, effect=B("star", "dtp_set_tp = yes") + "\ndtp_result = { CODE = 29 }", where="starbase", sprite="GFX_dtp_btn_go",
+# 11.1.6: звезда системы — через поиск планеты-звезды (без exists = star и вложенного from — в окне станции кнопка пропадала)
+IS_TS = orchain(lambda k: B("event_target:dtp_tp_%d" % k, "is_star = yes", B("solar_system", "is_same_value = root.solar_system")))
+STAR_X = B("solar_system", "any_system_planet = { is_star = yes }")
+STAR_DO = lambda body: B("solar_system", B("random_system_planet", B("limit", "is_star = yes"), body))
+button("sb_pick", "Выбрать звезду", 0, 60, 150, potential=SSB + "\n" + STAR_X, effect=STAR_DO("dtp_set_tp = yes") + "\ndtp_result = { CODE = 29 }", where="starbase", sprite="GFX_dtp_btn_go",
        tt="Звезда этой системы станет выбранной планетой Toolpack (вкладка «Планета»: класс звезды и т. п.).")
-button("sb_tc", "Держава ← владелец", 156, 60, 170, potential=SSB + SBOWN, effect=B("owner", "dtp_set_tc = yes") + "\ndtp_result = { CODE = 29 }", where="starbase")
-button("sb_rcp", "Получатель ← владелец", 332, 60, 188, potential=SSB + SBOWN, effect=B("owner", "dtp_set_rcp = yes") + "\ndtp_result = { CODE = 29 }", where="starbase")
+button("sb_tc", "Изменять эту державу", 156, 60, 170, potential=SSB + SBOWN, effect=B("owner", "dtp_set_tc = yes") + "\ndtp_result = { CODE = 29 }", where="starbase")
+button("sb_rcp", "Передавать этой державе", 332, 60, 188, potential=SSB + SBOWN, effect=B("owner", "dtp_set_rcp = yes") + "\ndtp_result = { CODE = 29 }", where="starbase")
 
 # ================================================================ СОБЫТИЯ (голосование + каталог)
 def event(eid, title, desc, opts, immediate="", extra="", kind="country_event", pic="access"):
@@ -2422,8 +2456,9 @@ CAT.append(B("event", "id = dtp.1207", "hide_window = yes", "is_triggered_only =
       B("every_country", B("limit", "is_ai = no"), B("every_owned_fleet", B("limit", "has_fleet_flag = dtp_beacon"), "delete_fleet = this")),
       B("every_country", B("limit", "is_ai = no"), B("every_owned_fleet", B("limit", "has_fleet_flag = dtp_marker", "NOT = { has_fleet_flag = dtp_mk_alive }"),
         "fleet_event = { id = dtp.1281 }", B("every_owned_ship", "add_modifier = { modifier = dtp_marker_ship days = -1 }"))),
-      B("every_country", B("limit", "has_country_flag = dtp_open", "NOT = { dtp_has_any_perm = yes }", "any_country = { has_country_flag = dtp_host is_ai = no }"),
+      B("every_country", B("limit", "has_country_flag = dtp_open", "NOT = { dtp_has_any_perm = yes }", "NOT = { has_country_flag = dtp_host_seat }", "NOT = { count_country = { limit = { is_ai = no } count = 1 } }"),
         "remove_country_flag = dtp_open"),
+      B("if", B("limit", "NOT = { has_global_flag = dtp_host_set }", "NOT = { any_country = { has_country_flag = dtp_host_seat } }"), "dtp_auto_host = yes"),
       B("if", B("limit", "has_global_flag = dtp_rule_was", "NOT = { has_global_flag = dtp_rule_nopvp }"),
         "remove_global_flag = dtp_rule_was", 'log = "DTP RULES: war ban expired"', B("every_country", B("limit", "is_ai = no"), "country_event = { id = dtp.1206 }")),
       B("if", B("limit", "has_global_flag = dtp_sess_warn_was", "NOT = { has_global_flag = dtp_sess_warn }"), "remove_global_flag = dtp_sess_warn_was",
@@ -2460,6 +2495,9 @@ cev(1009, "country_event", "§Y«ВЕДУЩИЙ»§! Белый мир",
 cev(1008, "country_event", "Объявление администратора", "Администратор §Y[dtp_last_actor.GetName]§! вносит изменения через Debug Toolpack.", [("Понятно", "")])
 
 
+# 11.1: заголовки верхних групп там, где их не было (для рамок групп)
+lab("fl_h0", "§YВЫБРАННЫЙ ФЛОТ§!  §gремонт, перенос, передача, удаление§!", CX0, CY, CWF, potential=T(6))
+lab("dp_h0", "§YДИПЛОМАТИЯ A ↔ B§!  §gдержава A и получатель B — в карточке сверху§!", CX0, CY, CWF, potential=T(7))
 # ======================================================================= КАРТОЧКИ (автоматически по рядам каждого раздела)
 def build_cards():
     """8.0: без рамок вокруг групп — только оранжевая метка и тонкая линия под заголовком группы.
@@ -2475,9 +2513,26 @@ def build_cards():
             if g_["where"] == "main" and g_["label"] and g_["w"] >= cw - 4 and CY <= g_["y"] < BAR_Y - 40 and "noperm" not in g_["key"] \
                     and m_["pot"].find(tag) >= 0 and m_["text"].startswith("§Y"):
                 pm = PG.search(m_["pot"]); heads[((g_["y"] - CY) // ROW, pm.group(0) if pm else "")] = 1
-        for hr, cond in sorted(heads):
+        hs = sorted(heads)
+        for hr, cond in hs:
             suf = "" if not cond else "_p" + re.sub(r"\D", "", cond.split("value")[1]) + ("n" if cond.startswith("NOT") else "")
             pot = OPEN + "\n" + T(t) + ("\n" + B("from", cond) if cond else "")
+            # 11.1: рамка группы — от заголовка до последней кнопки перед следующим заголовком той же страницы
+            nxt = [h for h, c in hs if c == cond and h > hr]
+            y0 = CY + hr * ROW; y1 = CY + nxt[0] * ROW if nxt else BAR_Y - 6
+            bot = 0
+            for g_, m_ in zip(GUI, META):
+                if g_["where"] != "main" or g_["key"].startswith("dtp_b_tt") or m_["pot"].find(tag) < 0: continue
+                if "noperm" in g_["key"] or re.search(r"_ok(_x)?$", g_["key"]) or g_["y"] >= BAR_Y - 40: continue
+                if not (CX0 - 2 <= g_["x"] < CX0 + cw) or not (y0 + 20 <= g_["y"] < y1): continue
+                pm_ = PG.search(m_["pot"]); gc = pm_.group(0) if pm_ else ""
+                if gc != cond: continue
+                bot = max(bot, g_["y"] + g_["h"])
+            if bot:
+                out.append(dict(key="dtp_b_hfr_%d_%d%s" % (t, hr, suf), x=CX0 - 6, y=y0 - 2, w=cw + 12, h=bot - y0 + 6, sprite="GFX_dtp_group", tt=None,
+                                label=True, font="cg_16b", where="main", shortcut=None, text="", pot=pot))
+                BTN.append(B(out[-1]["key"], B("potential", pot), B("allow", "always = yes"), B("effect", "")))
+                L[out[-1]["key"]] = ""
             for kind, x, y, w, h, spr in [("acc", CX0, CY + hr * ROW + 6, 3, 18, "GFX_dtp_accent"), ("line", CX0, CY + hr * ROW + 28, cw, 2, "GFX_dtp_divider")]:
                 out.append(dict(key="dtp_b_h%s_%d_%d%s" % (kind, t, hr, suf), x=x, y=y, w=w, h=h, sprite=spr, tt=None, label=True, font="cg_16b", where="main", shortcut=None, text="", pot=pot))
                 BTN.append(B(out[-1]["key"], B("potential", pot), B("allow", "always = yes"), B("effect", "")))
@@ -2488,11 +2543,237 @@ GUI[CARD_SLOT:CARD_SLOT] = _cards
 META[CARD_SLOT:CARD_SLOT] = [dict(c, text="") for c in _cards]
 for _c in _cards: _c.pop("pot", None); _c.pop("text", None)
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from i18n_extract import norm as _nrm0
+_ENM0 = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "i18n", "en_map.json"), encoding="utf-8"))
+# ======================================================================= 11.1.3: ПОНЯТНЫЕ ПОДСКАЗКИ
+# Подсказки, по которым было неясно, что именно даёт кнопка. (ключ кнопки без dtp_b_) → (русский, английский)
+_UNIT_N = {"c": ("державе A", "empire A"), "p": ("выбранной планете", "the selected planet"), "f": ("выбранному флоту", "the selected fleet")}
+TT_FIX = {
+    "res_add": ("Добавить державе A выбранный ресурс — столько, сколько в панели «Число».", "Give empire A the selected resource — as much as the «Number» panel shows."),
+    "res_sub": ("Забрать у державы A выбранный ресурс — столько, сколько в панели «Число» (не больше, чем есть на складе).", "Take the selected resource from empire A — as much as the «Number» panel shows (not more than it has)."),
+    "res_set": ("Сделать запас выбранного ресурса у державы A ровно равным «Числу» (в пределах лимита склада).", "Set empire A's stock of the selected resource to exactly the «Number» (within the storage limit)."),
+    "ri_m": ("Штраф: держава A каждый месяц теряет выбранный ресурс в количестве «Числа», пока не кончится срок.", "Penalty: empire A loses the selected resource every month, as much as the «Number», until the term ends."),
+    "res_all": ("Каждый живой игрок получает выбранный ресурс — столько, сколько в панели «Число».", "Every human player gets the selected resource — as much as the «Number» panel shows."),
+    "pf_pop": ("Добавить на выбранную колонию 100 жителей основного вида её владельца (одна «пачка» населения, как в игре).", "Add 100 pops of the owner's main species to the selected colony (one pop batch, as in the game)."),
+    "sh_m10": ("Количество кораблей −10.", "Ship count −10."), "sh_m1": ("Количество кораблей −1.", "Ship count −1."),
+    "sh_p1": ("Количество кораблей +1.", "Ship count +1."), "sh_p10": ("Количество кораблей +10.", "Ship count +10."),
+    "gm_m_afleet": ("Создать у выбранной планеты военный флот державы A из её проектов кораблей (половина обычного размера).", "Create a military fleet of empire A at the selected planet from its ship designs (half the usual size)."),
+    "go_pack_all": ("Каждый живой игрок получает: 5000 энергии, 5000 минералов, 2000 сплавов, 300 влияния, 1000 единства.", "Every human player gets: 5000 energy, 5000 minerals, 2000 alloys, 300 influence, 1000 unity."),
+    "go_fix_marks": ("Снять отметки со всех систем — красные метки над ними на карте тоже пропадут.", "Unmark all systems — their red map labels disappear too."),
+    "mb_mclear": ("Снять отметки со всех систем — красные метки над ними на карте тоже пропадут.", "Unmark all systems — their red map labels disappear too."),
+    "ps_mark": ("Отметить эту систему (Alt+M, пока открыто окно планеты или звезды). Над системой на галактической карте появится красная метка «● ОТМЕЧЕНО» (если метки включены). Все отметки — во вкладке «Системы».",
+                "Mark this system (Alt+M while the planet or star window is open). A red «* MARKED» label appears over the system on the galaxy map (if labels are on). All marks — in the «Systems» tab."),
+    "ps_unmark": ("Снять отметку с этой системы (Alt+M) — красная метка над ней пропадёт.", "Unmark this system (Alt+M) — its red label disappears."),
+    "sb_unmark": ("Снять отметку с этой системы (Alt+M) — красная метка над ней пропадёт.", "Unmark this system (Alt+M) — its red label disappears."),
+    "fs_unmark": ("Снять отметку с системы, где стоит этот флот, — красная метка над ней пропадёт.", "Unmark the system this fleet is in — its red label disappears."),
+    "fs_mark": ("Отметить систему, в которой стоит этот флот.", "Mark the system this fleet is in."),
+    "fs_rep": ("Полностью отремонтировать этот флот.", "Fully repair this fleet."),
+    "ps_tc": ("Сделать владельца этой планеты державой A (над ней работают инструменты).", "Make this planet's owner empire A (the tools act on it)."),
+    "ps_rcp": ("Сделать владельца этой планеты получателем B (ему передаются планеты, флоты, системы).", "Make this planet's owner recipient B (planets, fleets, systems go to it)."),
+    "fs_tc": ("Сделать владельца этого флота державой A (над ней работают инструменты).", "Make this fleet's owner empire A (the tools act on it)."),
+    "sb_tc": ("Сделать владельца этой станции державой A (над ней работают инструменты).", "Make this starbase's owner empire A (the tools act on it)."),
+    "sb_rcp": ("Сделать владельца этой станции получателем B (ему передаются планеты, флоты, системы).", "Make this starbase's owner recipient B (planets, fleets, systems go to it)."),
+    "st2_inc_e": ("Держава A сразу получает энергию, равную её доходу энергии за 12 месяцев.", "Empire A instantly gets energy equal to 12 months of its energy income."),
+    "st2_inc_a": ("Держава A сразу получает сплавы, равные её доходу сплавов за 12 месяцев.", "Empire A instantly gets alloys equal to 12 months of its alloy income."),
+    "gm_pg5": ("Страница «Сенат»: Галактическое сообщество — досрочное решение резолюций, члены сообщества, Совет, Хранитель, Император.", "«Senate» page: Galactic Community — early resolution decisions, members, Council, Custodian, Emperor."),
+}
+TT_FIX.update({
+    'ps_tc': ('Все кнопки панели DTP (ресурсы, этики, технологии, флот…) будут действовать на владельца этой планеты. Он станет «державой A» в карточке сверху.', "All DTP panel buttons (resources, ethics, tech, fleet…) will act on this planet's owner. It becomes «empire A» in the card at the top."),
+    'fs_tc': ('Все кнопки панели DTP (ресурсы, этики, технологии, флот…) будут действовать на владельца этого флота. Он станет «державой A» в карточке сверху.', "All DTP panel buttons (resources, ethics, tech, fleet…) will act on this fleet's owner. It becomes «empire A» in the card at the top."),
+    'sb_tc': ('Все кнопки панели DTP (ресурсы, этики, технологии, флот…) будут действовать на владельца этой станции. Он станет «державой A» в карточке сверху.', "All DTP panel buttons (resources, ethics, tech, fleet…) will act on this starbase's owner. It becomes «empire A» in the card at the top."),
+    'ps_rcp': ('Кнопки «Передать → B» (планету, флот, системы) будут отдавать всё владельцу этой планеты. Он станет «получателем B». Сама кнопка ничего не передаёт.', "«Transfer → B» buttons (planet, fleet, systems) will give everything to this planet's owner. It becomes «recipient B». This button transfers nothing by itself."),
+    'sb_rcp': ('Кнопки «Передать → B» (планету, флот, системы) будут отдавать всё владельцу этой станции. Он станет «получателем B». Сама кнопка ничего не передаёт.', "«Transfer → B» buttons (planet, fleet, systems) will give everything to this starbase's owner. It becomes «recipient B». This button transfers nothing by itself."),
+})
+for _i, (_fr, _n) in enumerate([("0.1", "10%"), ("0.25", "25%"), ("0.5", "50%")]):
+    TT_FIX["fl_new%d" % _i] = ("Создать державе A новый военный флот из её текущих проектов кораблей — размером %s её флотского лимита." % _n,
+                               "Create a new military fleet for empire A from its current ship designs — %s of its naval capacity." % _n)
+for _k, (_y, _ru, _enx) in {"uy_y0": (0, "навсегда", "forever"), "uy_y1": (1, "1 год", "1 year"), "uy_y5": (5, "5 лет", "5 years"), "uy_y10": (10, "10 лет", "10 years")}.items():
+    TT_FIX[_k] = ("Срок: %s — для своих модификаторов (вкладка «Модификаторы») и дохода в месяц (вкладка «Ресурсы»)." % _ru,
+                  "Term: %s — for own modifiers («Modifiers» tab) and monthly income («Resources» tab)." % _enx)
+for _c, _lst in UMODS.items():
+    for _k, _n, _mk, _unit, _u in _lst:
+        _ne = _ENM0.get(_nrm0(_n), _n)
+        if _u == "%":
+            TT_FIX["um_%s_%s" % (_c, _k)] = ("Свой бонус %s: «%s» +%g%% за каждую единицу «Числа» (число 20 → +%g%%, отрицательное — штраф). Срок — «Срок» в панели справа." % (_UNIT_N[_c][0], _n, _unit * 100, 20 * _unit * 100),
+                                             "Own bonus for %s: «%s» +%g%% per unit of the «Number» (20 → +%g%%, negative = penalty). Duration — the «Term» panel." % (_UNIT_N[_c][1], _ne, _unit * 100, 20 * _unit * 100))
+        else:
+            TT_FIX["um_%s_%s" % (_c, _k)] = ("Свой бонус %s: «%s» +%g за каждую единицу «Числа» (число 5 → +%g, отрицательное — штраф). Срок — «Срок» в панели справа." % (_UNIT_N[_c][0], _n, _unit, 5 * _unit),
+                                             "Own bonus for %s: «%s» +%g per unit of the «Number» (5 → +%g, negative = penalty). Duration — the «Term» panel." % (_UNIT_N[_c][1], _ne, _unit, 5 * _unit))
+for _k, _n in PC_NORMAL + PC_SPECIAL:
+    _ne = _ENM0.get(_nrm0(_n), _n); _sp = (_k, _n) in PC_SPECIAL
+    TT_FIX["pc_" + _k] = ("Сменить тип выбранной планеты на «%s»%s." % (_n, " (особый тип — нужен принудительный режим)" if _sp else ""),
+                          "Change the selected planet's type to «%s»%s." % (_ne, " (special type — needs force mode)" if _sp else ""))
+for _k, _n in ETHICS:
+    _ne = re.sub(r"^(→|->) ", "", _ENM0.get(_nrm0("→ " + _n), _ENM0.get(_nrm0("+ " + _n), "+ " + _n)).lstrip("+ "))
+    TT_FIX["eth_s_" + _k] = ("Сдвинуть этику державы A на один шаг к «%s» — обычным способом игры, без принудительного режима." % _n,
+                             "Shift empire A's ethics one step towards «%s» — the normal game way, without force mode." % _ne)
+for _g in GUI:
+    _nm = _g["key"][6:]
+    if _nm in TT_FIX:
+        _ru, _enx = TT_FIX[_nm]
+        _note = "\\n\\n$%s$" % HUMANS_NOTE[_nm] if _nm in HUMANS_NOTE else ""
+        _g["tt"] = loc(_g["key"] + "_tt", _ru + _note)
+        _ENM0[_nrm0(_ru)] = _enx
+TT_EN_EXTRA = {_nrm0(r): e for r, e in TT_FIX.values()}
+
+# ======================================================================= 11.1: ЗНАЧКИ НА КНОПКАХ
+# Значок рисуется в текстуре кнопки слева (art3.py: GFX_dtp_ib_<стиль>_<значок>), лишних элементов окна нет.
+# Значок ставится, только если текст кнопки не наезжает на него (оценка ширины текста).
+RESK = ["energy", "minerals", "food", "alloys", "goods", "influence", "unity", "physics", "society", "engineering",
+        "gases", "crystals", "motes", "dark_matter", "living_metal", "zro", "nanites", "artifacts", "threads"]
+SHK = {"corvette": "ship1", "destroyer": "ship2", "cruiser": "ship3", "battleship": "ship4", "titan": "ship5", "juggernaut": "ship6",
+       "colossus": "ship7", "science": "ship8", "constructor": "ship9"}
+ETHK = {"militarist": "swords", "pacifist": "dove", "xenophobe": "shield", "xenophile": "heart", "authoritarian": "crown",
+        "egalitarian": "people", "spiritualist": "star", "materialist": "chip"}
+ICON_RULES = [
+    (r"r(\d+)(_on)?$", lambda m: RESK[int(m.group(1)) - 1]),
+    (r"(hm_)?rr_(add|sub|set)_\d+$", "repeat"), (r"ru_(add|sub)_\d+$", "undo"),
+    (r"hm_r_(\w+)$", lambda m: {"consumer_goods": "goods"}.get(m.group(1), m.group(1))),
+    (r"res_add$", "plus"), (r"res_sub$", "minus"), (r"res_set$", "equal"), (r"res_all$", "people"),
+    (r"ri_p$", "plus"), (r"ri_m$", "minus"), (r"ri_x$", "trash"), (r"ri_all$", "people"),
+    (r"kp_yr$", "clock"), (r"kbd_(on|off)$", "keyboard"),
+    (r"um_\w_research", "physics"), (r"um_\w_output", "gear"), (r"um_\w_stab", "stab"), (r"um_\w_naval", "anchor"),
+    (r"um_\w_fire", "swords"), (r"um_\w_hull", "wrench"), (r"um_\w_growth", "growth"), (r"um_\w_build", "build"),
+    (r"um_\w_happy", "happy"), (r"um_\w_amen", "heart"), (r"um_\w_habit", "planet"), (r"um_\w_storage", "goods"),
+    (r"um_\w_crime", "crime"), (r"um_\w_shield", "shield"), (r"um_\w_armor", "armor"), (r"um_\w_speed", "speed"),
+    (r"um_\w_evasion", "jump"), (r"um_\w_range", "range"),
+    (r"nav_open$", "map"), (r"nav_close$", "arrow_l"), (r"nav_tog$", "mark"), (r"nav_home$", "home"), (r"nav_tc$", "target"), (r"nav_p$", "planet"),
+    (r"mb_mrefresh$", "refresh"), (r"mb_mall_t$", "hex"), (r"mb_mgrow$", "growth"), (r"mb_mclaim$", "flag"), (r"mb_mop$", "station"),
+    (r"mb_mclear$", "trash"), (r"m_tr$", "give"), (r"m_free2?$", "unmark"), (r"m_star_(on|off)$", "mark"), (r"m_reveal$", "map"),
+    (r"m_survey$", "eye"), (r"mk_mode_m$", "mark"), (r"mk_mode_u$", "unmark"), (r"mk_new$", "ship1"), (r"mk_del$", "trash"),
+    (r"mk_cur$", "jump"), (r"mk_home$", "home"),
+    (r"cl_me$", "target"), (r"cl_prev$", "arrow_l"), (r"cl_next$", "arrow_r"),
+    (r"pl_mods$", "growth"), (r"pl_tr$", "give"), (r"pl_sys$", "mark"), (r"pl_sys_x$", "unmark"), (r"colony_rm$", "skull"),
+    (r"pc_pc_\w+$", "planet"), (r"pf_dep$", "minerals"), (r"pf_reroll$", "refresh"), (r"pf_clear$", "build"), (r"pf_pmods$", "refresh"),
+    (r"pf_size_p$", "plus"), (r"pf_size_m$", "minus"), (r"pf_pop$", "people"), (r"pf_terra$", "planet"), (r"sc_sc_\w+$", "sun"),
+    (r"fl_rep$", "wrench"), (r"fl_move$", "jump"), (r"fl_tr$", "give"), (r"fl_del$", "trash"), (r"fl_new\d$", "fleet"),
+    (r"fl_mrep$", "wrench"), (r"mass_fl$", "give"),
+    (r"sh_(\w+?)(_on)?$", lambda m: SHK.get(m.group(1))), (r"sh_go_(\w+)$", lambda m: SHK.get(m.group(1))),
+    (r"sh_loc_c$", "home"), (r"sh_loc_p$", "planet"),
+    (r"dp_contact$", "eye"), (r"dp_op_p$", "heart"), (r"dp_op_m$", "heart_broken"), (r"dp_op_0$", "refresh"), (r"dp_trust$", "handshake"),
+    (r"dp_truce$", "dove"), (r"dp_untruce$", "unmark"), (r"dp_close$", "gate_closed"), (r"dp_open$", "gate"), (r"dp_guar$", "shield"),
+    (r"subj$", "chain"), (r"fed$", "unmark"), (r"war$", "swords"), (r"dp_wpeace$", "dove"),
+    (r"st_tech$", "chip"), (r"st_trad$", "book"), (r"st_perk$", "star"), (r"st_pol$", "clock"), (r"st_gov$", "unlock"), (r"st_force_(on|off)$", "warn"),
+    (r"eth_\w_(\w+)$", lambda m: ETHK.get(m.group(1))),
+    (r"st2_fin$", "flask"), (r"st2_half$", "flask"), (r"st2_inc_e$", "energy"), (r"st2_inc_a$", "alloys"),
+    (r"tr_trait_\w+$", "dna"), (r"cit_citizenship_full$", "people"), (r"cit_citizenship_slavery$", "chain"), (r"cit_citizenship_purge$", "skull"),
+    (r"sr_living_\w+$", "happy"), (r"sr_military_\w+$", "swords"), (r"sr_slavery_\w+$", "chain"), (r"sr_purge_\w+$", "skull"),
+    (r"au_auth_\w+$", "crown"), (r"cv_civic_\w+$", "book"), (r"ed_\w+$", "gavel"),
+    (r"di_a_\w+$", "district"), (r"di_r_\w+$", "district"), (r"bu_a_\w+$", "build"), (r"bd_rep$", "wrench"), (r"bd_clr[bd]$", "trash"),
+    (r"hm_log$", "log"), (r"hm_sys$", "mark"), (r"hm_rules$", "gavel"), (r"hm_f_(on|off)$", "warn"),
+    (r"gm_m_(amoeba|crystal|tiyanki)$", "tentacle"), (r"gm_m_afleet$", "fleet"), (r"gm_c_map$", "map"), (r"gm_c_intel$", "eye"),
+    (r"gm_c_comm$", "people"), (r"gm_c_nebula$", "cloud"), (r"gm_l_\w+$", "leader"), (r"gm_p_col$", "colony"), (r"gm_p_cap$", "crown"),
+    (r"gm_p_sb_\w+$", "station"), (r"gm_storm$", "storm"), (r"gm_peace$", "dove"), (r"gm_kill$", "skull"),
+    (r"gm_s_energy$", "energy"), (r"gm_s_food$", "food"), (r"gm_s_minerals$", "minerals"), (r"gm_s_revolt$", "warn"),
+    (r"go_pack_\w+$", "goods"), (r"go_rep_all$", "wrench"), (r"go_tech\w*$", "chip"), (r"go_truce$", "dove"), (r"go_contact$", "eye"),
+    (r"go_open$", "gate"), (r"go_relmax$", "heart"), (r"go_fix_rep$", "wrench"), (r"go_fix_cd$", "clock"), (r"go_fix_mods$", "refresh"),
+    (r"go_fix_marks$", "unmark"), (r"go_r_go$", "gavel"), (r"go_r_punish$", "warn"), (r"go_r_forgive$", "dove"),
+    (r"gr_soft[01]$", "gavel"), (r"gr_ai[01]$", "chip"), (r"gr_on[v0]$", "dove"), (r"gr_off$", "unmark"), (r"gr_p_np$", "dove"),
+    (r"gr_p_prot$", "shield"), (r"gr_p_clr$", "unmark"), (r"sb_refresh$", "refresh"), (r"sb_ai_(on|off)$", "chip"), (r"sb_meet$", "eye"),
+    (r"cr_(pre|unb|con|cet|khan)$", "skull"), (r"cr_set$", "power"), (r"cr_reset$", "refresh"), (r"ss_off$", "unmark"),
+    (r"ac_solo$", "crown"), (r"ac_claim$", "ballot"), (r"ac_resign$", "unmark"), (r"ac_auto$", "crown"), (r"ac_transfer$", "give"),
+    (r"ac_gm_on$", "gm"), (r"ac_gm_off$", "unmark"), (r"pm_(\w+?)(_on)?$", lambda m: {"res": "energy", "planet": "planet", "state": "crown",
+        "species": "dna", "diplo": "handshake", "fleet": "fleet", "event": "star", "force": "warn", "gm": "gm"}.get(m.group(1))),
+    (r"st_(pmod|cmod|mark|res)$", "test"),
+    (r"ps_pick$", "target"), (r"fs_pick$", "target"), (r"sb_pick$", "target"), (r"(ps|fs|sb)_tc$", "crown"), (r"(ps|sb)_rcp$", "give"),
+    (r"(ps|sb)_mark$", "mark"), (r"(ps|sb)_unmark$", "unmark"), (r"fs_mark$", "mark"), (r"fs_unmark$", "unmark"), (r"fs_rep$", "wrench"),
+    (r"fs_add$", "plus"), (r"ca_chg\w*$", "arrow_r"), (r"cb_chg\w*$", "arrow_r"),
+]
+_ICON_RE = [(re.compile(r"^" + p), k) for p, k in ICON_RULES]
+_STYLES = {"GFX_dtp_btn": "n", "GFX_dtp_btn_on": "on", "GFX_dtp_btn_go": "go", "GFX_dtp_btn_warn": "warn", "GFX_dtp_btn_danger": "dng"}
+try:
+    from PIL import ImageFont as _IF
+    _FNT = _IF.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf", 14)
+    _tw = lambda t: _FNT.getlength(t)
+except Exception:
+    _tw = lambda t: len(t) * 8.5
+def _plain(t):
+    t = re.sub(r"§.", "", t); t = re.sub(r"\[[^\]]*\]", "1 000 000", t); return t.strip()
+# 11.1.1: текст не сдвигается — значок помещается за счёт пробелов в начале текста (центр текста уходит вправо).
+# Ширина текста оценивается по DejaVu Condensed Bold 14 × 0.9 (шрифт игры ~0.87 — по снимку из игры).
+_SPW = _tw(" ") * 0.9
+ICON_PAD = {}                                   # ключ → ширина кнопки: в yml() перед текстом ставятся пробелы
+def _pad_n(w, text):
+    tw = _tw(_plain(text)) * 0.9
+    if tw > w - 34: return None                  # не помещается даже со сдвигом
+    need = 56 - w + tw                           # (w - tw + p)/2 >= 28: текст начинается правее значка (значок 7..25 px)
+    return max(0, int(-(-need // _SPW)))
+# 11.1.2: короткие подписи там, где значок иначе не помещается (подсказки кнопок — прежние, полные)
+LBL_SHORT = {"st2_fin": ("Завершить науку A", "Finish A's research"), "st2_inc_e": ("A: +год энергии", "A: +1 yr energy"),
+             "st2_inc_a": ("A: +год сплавов", "A: +1 yr alloys"), "cv_civic_police_state": ("+ Полиц. государство", "+ Police State"),
+             "gm_m_crystal": ("Кристаллоиды", "Crystal entities"), "gm_p_sb_up": ("Станция → цитадель", "Starbase → citadel"),
+             "gm_peace": ("Разорвать пакты A", "Break A's pacts"), "go_pack_all": ("Пакет всем игрокам", "Aid to all players"),
+             "go_rep_all": ("Ремонт игрокам", "Repair players"), "go_tech_a": ("A: технологии B", "A: B's technologies"),
+             "go_fix_mods": ("A: снять бонусы DTP", "A: remove DTP bonuses"), "go_r_punish": ("Унизить (5 лет)", "Humiliate (5 yrs)"),
+             "vm_manifesti_reflections_mod": ("Манифест", "Manifesti"), "vm_maneuvers_no_protest": ("Протесты учений", "Maneuver protests"),
+             "vm_friendly_trees": ("Друж. деревья", "Friendly Trees"), "vm_damaged_ecology": ("Разруш. экология", "Damaged Ecology"),
+             "pf_terra": ("Терраформировать", "Terraform"), "ri_all": ("+ в месяц всем", "+ monthly to all")}
+LBL_EN = {}
+for _g, _m in zip(GUI, META):
+    _nm = _g["key"][6:]; _on = _nm.endswith("_on") and _nm[:-3] in LBL_SHORT
+    _base = _nm[:-3] if _on else _nm
+    if _base in LBL_SHORT:
+        _ru, _enx = LBL_SHORT[_base]
+        _t = ("✔ " if _on else "") + _ru
+        _m["text"] = _t; L[_g["key"]] = _t
+        _ENM0[_nrm0(_t)] = LBL_EN[_nrm0(_t)] = ("✔ " if _on else "") + _enx
+VMK = {k: ("growth" if spr == "GFX_dtp_btn_go" else "warn") for _o, _h, spr, _ks in VMODS for k, _n in _ks}
+ICON_RULES += [(r"vm_(\w+?)(_on)?$", lambda m: VMK.get(m.group(1)))]
+_ICON_RE = [(re.compile(r"^" + p), k) for p, k in ICON_RULES]
+ICONS_USED = set(); _skipped = []; _todo = []; _skip_rows = set()
+ETH_GAME = {}                                   # ключ кнопки → текстура значка из файлов игры
+def _game_tex(nm):
+    m = re.match(r"eth_(\w)_(\w+)$", nm)
+    if m: return "gfx/interface/icons/ethics/ethic_%s%s.dds" % ("fanatic_" if m.group(1) == "7" else "", m.group(2))
+    m = re.match(r"cv_(civic_\w+?)(_on)?$", nm)
+    if m: return "gfx/interface/icons/governments/civics/%s.dds" % m.group(1)
+    m = re.match(r"au_(auth_\w+?)(_on)?$", nm)
+    if m: return "gfx/interface/icons/governments/authorities/%s.dds" % m.group(1)
+    m = re.match(r"tr_(trait_\w+?)(_on)?$", nm)
+    if m: return "gfx/interface/icons/traits/%s.dds" % m.group(1)
+    return None
+GAME_SPR = {}                                   # текстура игры → наш спрайт (растягивается до размера кнопки-значка)
+for _g, _m in zip(GUI, META):
+    if _g["label"] or _g["sprite"] not in _STYLES or _g["h"] != 30 or _g["where"] != "main": continue     # текстура значка — ровно 30 px; полосы в окнах игры — без значков (у UIOD другая ширина)
+    _nm = _g["key"][6:]; _kind = None; _fam = None
+    for _fi, (_rx, _k) in enumerate(_ICON_RE):
+        _mm = _rx.match(_nm)
+        if _mm:
+            _kind = _k(_mm) if callable(_k) else _k; _fam = _fi
+            break
+    if not _kind: continue
+    _clean = re.sub(r"^(↻ |↶ |⌂ )", "", _m["text"])     # значок уже показывает смысл — убираем дублирующие знаки
+    _en_t = _ENM0.get(_nrm0(_m["text"])) or _ENM0.get(_nrm0(_clean)) or _clean
+    _en_t = re.sub(r"^(↻ |↶ |⌂ )", "", _en_t)
+    if _pad_n(_g["w"], _clean) is None or _pad_n(_g["w"], _en_t) is None:
+        _skipped.append(_nm); _skip_rows.add((_g["y"], _fam)); continue
+    _todo.append((_g, _m, _kind, _fam, _clean, _nm))
+for _g, _m, _kind, _fam, _clean, _nm in _todo:
+    if (_g["y"], _fam) in _skip_rows: continue          # в одном ряду одинаковых кнопок — значки у всех или ни у кого
+    _gt = _game_tex(_nm)
+    if _gt:                                      # этики, цивики, правление, черты — значок самой игры поверх кнопки
+        ETH_GAME[_g["key"]] = _gt
+    else:
+        _spr = "GFX_dtp_ib_%s_%s" % (_STYLES[_g["sprite"]], _kind)
+        _g["sprite"] = _m["sprite"] = _spr; ICONS_USED.add(_spr)
+    if _clean != _m["text"]:
+        _m["text"] = _clean; L[_g["key"]] = _clean
+    ICON_PAD[_g["key"]] = _g["w"]; _m["pad"] = _pad_n(_g["w"], _m["text"]) or 0
+for _k, _tex in ETH_GAME.items():
+    _spr = GAME_SPR.setdefault(_tex, "GFX_dtp_gi_" + re.sub(r"\W", "_", _tex.split("/")[-1][:-4]))
+    _p = next(g for g in GUI if g["key"] == _k); _pm = META[GUI.index(_p)]
+    GUI.append(dict(_p, key=_k + "_ic", x=_p["x"] + 5, y=_p["y"] + 4, w=22, h=22, sprite=_spr, label=True, eff=_k, tt=_p["tt"], font="cg_16b"))
+    META.append(dict(_pm, key=_k + "_ic", x=_p["x"] + 5, y=_p["y"] + 4, w=22, h=22, sprite=_spr, label=True, text=""))
+    L[_k + "_ic"] = ""
+print("кнопки без значка (текст не помещается даже со сдвигом): %s" % ", ".join(_skipped))
+print("значков на кнопках: %d (спрайтов %d)" % (sum(1 for g in GUI if g["sprite"].startswith("GFX_dtp_ib_")), len(ICONS_USED)))
+
 # ================================================================ ФАЙЛЫ
 SKIN = {}   # 7.1: все текстуры окна рисует сам мод (art3.py) в стиле интерфейса Stellaris
 def gui_el(g, extra=()):
     parts = ['name = "%s"' % g["key"], "position = { x = %d y = %d }" % (g["x"], g["y"]), "size = { x = %d y = %d }" % (g["w"], g["h"]),
-             'quadTextureSprite = "%s"' % SKIN.get(g["sprite"], g["sprite"]), 'font = "%s"' % g["font"], 'buttonText = "%s"' % g["key"], 'effect = "%s"' % g["key"]]
+             'quadTextureSprite = "%s"' % SKIN.get(g["sprite"], g["sprite"]), 'font = "%s"' % g["font"], 'buttonText = "%s"' % g["key"], 'effect = "%s"' % g.get("eff", g["key"])]
     if g["tt"]: parts.append('tooltipText = "%s"' % g["tt"])
     if g.get("shortcut"): parts.append('shortcut = "%s"' % g["shortcut"])
     parts += ["format = left"] if g["label"] else ["clicksound = interface", "oversound = mouse_over"]
@@ -2519,7 +2800,7 @@ planet_strip = B("containerWindowType", 'name = "dtp_planet_strip"', ("position 
 fleet_strip = B("containerWindowType", 'name = "dtp_fleet_strip"', ("position = { x = 606 y = -60 }" if UIOD else "position = { x = 516 y = -60 }"), "size = { width = 440 height = 96 }", "moveable = yes",
     B("background", 'name = "bg"', 'quadTextureSprite = "GFX_dtp_label"'), *[gui_el(dict(g, x=g["x"] + 8, y=g["y"] + 2)) for g in GUI if g["where"] == "fleet"])
 
-starbase_strip = B("containerWindowType", 'name = "dtp_starbase_strip"', *(["position = { x = 62 y = 134 }"] if UIOD else ["position = { x = 14 y = -330 }", "orientation = lower_left"]), "size = { width = 536 height = 96 }", "moveable = yes",
+starbase_strip = B("containerWindowType", 'name = "dtp_starbase_strip"', *(["position = { x = 62 y = 134 }"] if UIOD else ["position = { x = 14 y = 124 }"]), "size = { width = 536 height = 96 }", "moveable = yes",
     B("background", 'name = "bg"', 'quadTextureSprite = "GFX_dtp_label"'), *[gui_el(dict(g, x=g["x"] + 8, y=g["y"] + 2)) for g in GUI if g["where"] == "starbase"])
 def w(path, text, bom=False):
     p = os.path.join(OUT, path); os.makedirs(os.path.dirname(p), exist_ok=True)
@@ -2545,7 +2826,7 @@ def inject(fname, rx, block, indent, window):
     """Вставка окна мода в игровой файл интерфейса. Сначала — в привычное место (rx); если файл другой
     (например, UI Overhaul Dynamic) и места нет — в конец окна `window` верхнего уровня. Если нет и его — сборка останавливается."""
     src = open(os.path.join(VI, fname), encoding="utf-8-sig").read()
-    ins = "\n".join(indent + l for l in pretty(block).splitlines()) + "\n"
+    ins = "\n".join(l.lstrip("\t") for l in pretty(block).splitlines()) + "\n"     # 11.1.3: без отступов — файл меньше (игра читает до ~1 МБ)
     m = re.search(rx, src, re.S) if rx else None
     if m:
         pos, how = m.end(), "обычное место"
@@ -2557,7 +2838,8 @@ def inject(fname, rx, block, indent, window):
     GUI_REPORT.append("%s → %s" % (fname, how))
     w("interface/" + fname, src[:pos] + ins + src[pos:])
 inject("main.gui", r'name = "maingui_flag".*?button_topbar_government.*?\n\t\t\}\n', dtp_root, "\t\t", "maingui_flag")
-inject("planet_view.gui", r'name = "planet_view_bg".*?\n\t\t\}\n', planet_strip, "\t\t", "planet_view")
+# 11.1.1: в UIOD картинка планеты рисуется поверх полосы, вставленной сразу после фона, — полосу кладём в конец окна (поверх всего)
+inject("planet_view.gui", None if UIOD else r'name = "planet_view_bg".*?\n\t\t\}\n', planet_strip, "\t\t", "planet_view")
 _mi = open(os.path.join(VI, "mapicons.gui"), encoding="utf-8-sig").read()
 for ic in MAP_ICONS:
     els = [gui_el(g) for g in GUI if g["where"] == "map:" + ic]
@@ -2583,6 +2865,10 @@ for _i, _c in enumerate(_parts, 1):
     w("common/button_effects/dtp_buttons_%02d.txt" % _i, HDR + "".join(_c))
 w("common/scripted_effects/dtp_scripted_effects.txt", HDR + pretty("\n".join(EFF)))
 w("common/scripted_triggers/dtp_scripted_triggers.txt", HDR + pretty("\n".join(TRG)))
+if DEFTXT: w("common/scripted_loc/dtp_scripted_loc.txt", HDR + pretty("\n".join(DEFTXT)))
+# 11.1.3: значки из файлов самой игры (этики, цивики, правление, черты) — растягиваются до размера элемента
+w("interface/dtp_gameicons.gfx", HDR + "spriteTypes = {\n" + "\n".join(
+    '\tcorneredTileSpriteType = {\n\t\tname = "%s"\n\t\ttextureFile = "%s"\n\t\tborderSize = { x = 0 y = 0 }\n\t}' % (spr, tex) for tex, spr in sorted(GAME_SPR.items())) + "\n}\n")
 w("common/game_rules/00_rules.txt", RULES_FILE)
 _st = open(os.path.join(VC, "scripted_triggers", "00_scripted_triggers.txt"), encoding="utf-8-sig").read()
 assert "is_regular_empire = {" in _st
@@ -2727,8 +3013,11 @@ def _en(v):
     if m_note: return _en(m_note.group(1)) + m_note.group(2)      # пометка «только игроки» — отдельный ключ перевода
     if not _re.search(r"[А-Яа-яЁё]", v): return v
     n = _norm(v)
-    t = _ENMAP.get(n)
+    t = _ENMAP.get(n) or TT_EN_EXTRA.get(n) or LBL_EN.get(n)
     if t is None:
+        for _pf in ("↻ ", "↶ ", "⌂ "):                       # 11.1: знак заменён значком кнопки — перевод ищем со знаком
+            if _ENMAP.get(_norm(_pf + v)) is not None:
+                return _en(_pf + v)[len(_pf):] if _en(_pf + v).startswith(_pf) else _re.sub(r"^\S+ ", "", _en(_pf + v), 1)
         m = _re.match(r"^Слот (\d+)$", v)
         if m: return "Slot %s" % m.group(1)
         if v == "Пустой пользовательский слот.": return "Empty custom slot."
@@ -2743,6 +3032,8 @@ def yml(lang, d):
             v = _en(v)
             for _a, _b in (("—", "-"), ("–", "-"), ("→", "->"), ("←", "<-"), ("−", "-"), ("…", "..."), ("●", "*")):
                 v = v.replace(_a, _b)
+        if k in ICON_PAD:                                  # 11.1.1: сдвиг текста вправо от значка
+            v = " " * (_pad_n(ICON_PAD[k], v) or 0) + v
         rows.append(' %s:0 "%s"' % (k, v))
     return "l_%s:\n" % lang + "\n".join(rows) + "\n"
 for lang in ("russian", "english"):

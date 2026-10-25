@@ -25,7 +25,7 @@ When updating, delete the old `dtp_toolpack` folder first, so no stale files rem
 - **Single player:** *Access* section → *Become HOST*.
 - **Multiplayer:** *Request status (vote)* — every player gets a For/Against window.
 - The HOST can transfer the status (the other player must accept), resign, and grant other players individual rights.
-- Players without any rights do not see the DTP icon or panels.
+- Players without any rights do not see the DTP icon or panels — even before a HOST exists. In single player the panel is always visible.
 
 ## Game Master role
 
@@ -59,12 +59,18 @@ When an empire becomes HOST, it is offered the **Game Master role** (a window ex
 - **Red markers** — every marked system gets a red "● MARKED" label on the galaxy map (visible to all players; can be switched off). Removing the mark removes the label.
 - **Marker Ship** — a cloaked HOST ship (cloaking 1000) with extreme speed and an instant jump drive. Right-click any system on the galaxy map: every system it enters is marked. *REMOVES* mode clears marks the same way.
 - **Navigator**, the DTP strips in planet / star / starbase / fleet windows (Alt+M), and bulk actions on all marked systems (claims, outposts, transfer, make ownerless, expand, clear).
+- The strips also have **Select** (shows "✔ Selected" once chosen), **Edit this empire** (makes the owner empire A) and **Give to this empire** (makes the owner recipient B).
 
 ## Game Rules (war ban)
 
 - **Hard mode** — like the "Defensive Wars" policy: a banned empire cannot declare war at all (button greyed out, "GM War Ban" modifier).
 - **Soft mode** — war is allowed but is a violation; the GM punishes or forgives.
 - Galaxy-wide, personal or protective bans, with a term in years or indefinite, optionally covering AI empires.
+
+## Interface
+
+- Every section has a banner, button groups are framed, and most buttons have icons. Ethics, civics, authorities and species traits use the game's own icons (`interface/dtp_gameicons.gfx`); the rest are drawn by `tools/icons_dtp.py`.
+- Text on icon buttons is shifted right with leading spaces so it never covers the icon (checked for both Russian and English).
 
 ## Building from source
 

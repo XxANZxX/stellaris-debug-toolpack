@@ -90,7 +90,7 @@ for g in gui.values():
         if spr not in sprites and spr not in VANILLA_SPR: errors.append("спрайт не объявлен (ни в моде, ни в игре): " + spr)
         if bt not in loc: errors.append("нет текста кнопки: " + bt)
 for n, f in sprites.items():
-    if not os.path.exists(os.path.join(ROOT, f)): errors.append("нет текстуры " + f)
+    if not os.path.exists(os.path.join(ROOT, f)) and not (f.startswith(('gfx/interface/icons/ethics/ethic_', 'gfx/interface/icons/governments/', 'gfx/interface/icons/traits/')) and "dtp" not in f): errors.append("нет текстуры " + f)   # 11.1.3: значки из файлов игры
 for p in set(re.findall(r'picture = (GFX_\w+)', code)):
     if p not in sprites: errors.append("картинка события не объявлена: " + p)
 # локализация: ссылки и недопустимая одиночная [ (в 4.5 начинает команду)

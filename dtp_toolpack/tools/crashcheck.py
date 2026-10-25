@@ -43,7 +43,7 @@ for s in set(re.findall(r'(?:picture|spriteType|quadTextureSprite|icon) = "?(GFX
     if s not in sprites and s not in van: P.append("нет картинки/спрайта: " + s)
 for f, t in files.items():                                    # текстуры существуют
     for tf in re.findall(r'texture[fF]ile = "([^"]+)"', t):
-        if not os.path.exists(os.path.join(R, tf)): P.append("нет файла текстуры: " + tf)
+        if not os.path.exists(os.path.join(R, tf)) and not (tf.startswith(('gfx/interface/icons/ethics/ethic_', 'gfx/interface/icons/governments/', 'gfx/interface/icons/traits/')) and "dtp" not in tf): P.append("нет файла текстуры: " + tf)   # значки игры
 gui = "\n".join(t for f, t in files.items() if f.endswith(".gui"))
 names = collections.Counter(re.findall(r'name = "(dtp_[^"]+)"', gui))
 for n, c in names.items():

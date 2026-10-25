@@ -161,7 +161,7 @@ def picture(kind, col, seed):
     return im
 
 # значки кнопок «Сената» (GFX_dtp_si_<ключ>) — тот же стиль, что у объявлений
-SI = {"open": ("gavel", GRN), "close": ("gavel", (170, 180, 200)), "pass": ("check", GRN), "reject": ("cross", RED),
+SI = {"vote": ("ballot", GRN), "vend": ("gavel", OR2), "open": ("gavel", GRN), "close": ("gavel", (170, 180, 200)), "pass": ("check", GRN), "reject": ("cross", RED),
       "join": ("plus", TEAL), "a_in": ("plus", BLU), "a_out": ("minus", RED), "c_in": ("seats", VIO), "c_out": ("seats", RED),
       "c_perm": ("seats", OR2), "c_unperm": ("seats", (170, 180, 200)), "sz_p": ("plus", VIO), "sz_m": ("minus", VIO),
       "veto1": ("ballot", OR2), "veto0": ("ballot", (170, 180, 200)), "em1": ("warn", OR), "em0": ("warn", (170, 180, 200)),

@@ -553,6 +553,63 @@ for _t, _k in NAV_ICONS.items():
     SPR["GFX_dtp_nav%d_on" % _t] = ("dtp_nav%d_on" % _t, snav(_k, True), "corner", (40, 8), 3, "buttonstate")
 # 11.0: значок закрытой этики «Гейм-мастер» (игра ищет спрайт GFX_<ключ этики>)
 SPR["GFX_ethic_dtp_gamemaster"] = ("ethic_dtp_gamemaster", (lambda b: (b.alpha_composite(icon("gm", 18, (255, 215, 120)), (7, 7)), b)[1])(shex_badge("", (240, 150, 50), 32)), "sprite", 0, 1, "buttonstate_onlydisable")
+# 11.1: кнопки со значком слева: GFX_dtp_ib_<стиль>_<значок> = обычная кнопка этого стиля + значок (левые 36 px не растягиваются)
+import icons_dtp
+_IBBASE = {"n": "GFX_dtp_btn", "on": "GFX_dtp_btn_on", "go": "GFX_dtp_btn_go", "warn": "GFX_dtp_btn_warn", "dng": "GFX_dtp_btn_danger"}
+_IB30 = {"n": sbtn((30, 56, 64), (16, 32, 40), (70, 150, 140), S_HI, size=(96, 30)),
+         "go": sbtn((32, 120, 100), (16, 70, 62), (110, 230, 190), (200, 255, 235), size=(96, 30)),
+         "on": sbtn((120, 82, 22), (70, 46, 12), S_OR, S_OR2, size=(96, 30)),
+         "warn": sbtn((110, 70, 20), (64, 40, 10), (230, 150, 60), S_OR2, size=(96, 30)),
+         "dng": sbtn((124, 32, 36), (70, 16, 20), (230, 96, 96), (255, 170, 160), size=(96, 30))}
+_ib_used = sorted({it["sprite"] for it in json.load(open(META, encoding="utf-8"))["items"] if it["sprite"].startswith("GFX_dtp_ib_")})
+for _nm in _ib_used:
+    _st, _kd = _nm[len("GFX_dtp_ib_"):].split("_", 1)
+    # 11.1.1: текстура ровно 30 px в высоту, как сами кнопки, — иначе игра сжимает середину по вертикали и значок сплющивается
+    _base = _IB30[_st]; _fw = _base.width // 3; _out = _base.copy()
+    for _i in range(3):
+        _ic = icons_dtp.draw(_kd, 18)
+        if _i == 2: _ic = Image.eval(_ic, lambda v: int(v * 0.85))
+        _out.alpha_composite(_ic, (_i * _fw + 7, 6))
+    SPR[_nm] = ("dtp_ib_%s_%s" % (_st, _kd), _out, "corner", (30, 10), 3, "buttonstate")
+print("кнопок-значков:", len(_ib_used))
+# 11.1: баннеры-шапки разделов и рамки групп
+_BCOL = {15: S_OR2, 16: S_OR2, 2: S_HI, 1: S_HI, 3: (255, 214, 90), 4: (255, 214, 90), 5: (130, 225, 140), 14: (130, 225, 140), 6: (130, 200, 255),
+         8: (190, 160, 255), 13: (190, 160, 255), 9: (190, 160, 255), 7: (190, 160, 255), 10: S_OR2, 11: (175, 195, 200), 12: (175, 195, 200)}
+def banner(w, h, col, kind, seed):
+    k = 2; W2, H2 = w * k, h * k
+    im = _vgrad(W2, H2, (30, 52, 60), (12, 22, 28), 236, 236); d = ImageDraw.Draw(im)
+    rng = np.random.default_rng(seed)
+    gl = Image.new("RGBA", (W2, H2), (0, 0, 0, 0)); ImageDraw.Draw(gl).ellipse((-60 * k, -40 * k, 150 * k, H2 + 40 * k), fill=col + (60,))
+    im.alpha_composite(gl.filter(ImageFilter.GaussianBlur(18 * k)))
+    for _ in range(int(w * 0.12)):
+        x = rng.uniform(W2 * 0.3, W2); y = rng.uniform(2, H2 - 2); a = int(rng.uniform(40, 170))
+        d.point((x, y), fill=(210, 235, 255, a))
+    R = 11 * k
+    for row in range(-1, 5):
+        for c in range(40):
+            cx = W2 - 8 * k - c * R * 1.75 - (row % 2) * R * 0.875; cy = row * R * 1.5
+            if cx < W2 * 0.45: break
+            a = int(70 * (cx - W2 * 0.45) / (W2 * 0.55))
+            P = [(cx + R * math.cos(math.radians(60 * j + 30)), cy + R * math.sin(math.radians(60 * j + 30))) for j in range(6)]
+            d.line(P + [P[0]], fill=col + (a,), width=k)
+    mask = Image.new("L", (W2, H2), 0); ImageDraw.Draw(mask).polygon(_cham(W2, H2, 8 * k, True, False, True, False), fill=255)
+    im.putalpha(Image.fromarray(np.minimum(np.array(im.split()[3]), np.array(mask))))
+    d.polygon(_cham(W2, H2, 8 * k, True, False, True, False), outline=S_LINE + (200,))
+    d.rectangle((8 * k, H2 - 3 * k, W2 * 0.7, H2 - 1 * k), fill=col + (230,))
+    out = _down(im, w, h)
+    # гекс-значок раздела
+    hb = shex_badge("", col, 32); hb.alpha_composite(icon(kind, 16, col), (8, 8)); out.alpha_composite(hb, (8, (h - 32) // 2))
+    return out
+_ban = {}
+for it in json.load(open(META, encoding="utf-8"))["items"]:
+    _m = re.match(r"GFX_dtp_banner_(\d+)$", it["sprite"])
+    if _m: _ban[int(_m.group(1))] = it["w"]
+for _t, _w in _ban.items():
+    SPR["GFX_dtp_banner_%d" % _t] = ("dtp_banner_%d" % _t, banner(_w, 40, _BCOL.get(_t, S_OR2), NAV_ICONS.get(_t, "home"), _t), "sprite", 0, 1, "buttonstate_onlydisable")
+def group_frame(w=64, h=64):
+    im = sci_panel(w, h, 8, (20, 40, 48), (12, 24, 30), (46, 98, 96), a=120, glow_top=False, corners=(True, False, True, False))
+    return im
+SPR["GFX_dtp_group"] = ("dtp_group", group_frame(), "corner", 12, 1, "buttonstate_onlydisable")
 SPR["GFX_ethics_dtp_gamemaster"] = ("ethic_dtp_gamemaster_b",) + SPR["GFX_ethic_dtp_gamemaster"][1:]
 # 11.0.9: игра ищет значок этики по пути gfx/interface/icons/ethics/<ключ>.dds
 os.makedirs(os.path.join(OUT, "gfx/interface/icons/ethics"), exist_ok=True)
@@ -640,6 +697,8 @@ def render(fname, tab, sel_lines):
         if name not in tex and (name.startswith("GFX_dtp_ann_") or name.startswith("GFX_dtp_si_")):          # значки объявлений рисует art_ann.py
             SPR[name] = (name[4:].lower(), None, "corner", (36, 8), 3, "buttonstate")
             tex[name] = Image.open(os.path.join(OUT, "gfx/interface/dtp/%s.dds" % SPR[name][0])).convert("RGBA")
+        if name not in tex:                              # спрайт самой игры (значки этик) — в превью рисуем кружок
+            ImageDraw.Draw(img).ellipse((x + 4, y + 4, x + w - 4, y + h - 4), fill=(190, 150, 255, 255)); return
         spr = tex[name]; fr_n = SPR[name][4]
         fw = spr.width // fr_n; frame = spr.crop((0, 0, fw, spr.height)); fh = frame.height
         if SPR[name][2] != "corner":
@@ -688,8 +747,8 @@ def render(fname, tab, sel_lines):
         if key.startswith("dtp_b_r1") and key != "dtp_b_r1_on": return False
         if re.match(r"dtp_b_res_ok_\d+", key) and key != "dtp_b_res_ok_36": return False
         if re.match(r"dtp_b_hd_\w+_\d+_x", key): return False
-        if re.search(r"_(name|sub)\w*_\d+_x$", key): return False
-        mm = re.search(r"_(name|sub)\w*_(\d+)$", key)
+        if re.search(r"_(name|sub|role)\w*_\d+_x$", key): return False
+        mm = re.search(r"_(name|sub|role)\w*_(\d+)$", key)
         if mm and mm.group(2) != "1": return False
         if re.match(r"dtp_b_hd_\w+_(\d+)$", key) and not key.endswith("_1"): return False
         if re.match(r"dtp_b_ml(\d+)_n", key) and key not in ("dtp_b_ml3_n",): return False
@@ -700,14 +759,14 @@ def render(fname, tab, sel_lines):
         if key == "dtp_b_ml_more" or key.startswith("dtp_b_cl_prev") or "_h\"" in key: return False
         return True
     subs = {"[dtp_tp_1.Owner.GetName]": "Республика Кзинти", "[dtp_tf_1.Owner.GetName]": "Создатели галактики", "[From.dtp_lastamt]": "25 000", "[From.dtp_in]": "250", "[From.dtp_amount]": "25 000", "[From.dtp_val]": "15", "[From.dtp_years]": "0", "[From.dtp_mcount]": "4",
-            "[dtp_tc_1.GetName]": "Республика Кзинти", "[dtp_rcp_1.GetName]": "Создатели галактики", "[dtp_tp_1.GetName]": "Цитадель Бонта",
+            "[dtp_tc_1.GetName]": "Республика Кзинти", "[dtp_tc_1.GetSpeciesName]": "Кзинти", "[dtp_tc_1.GetGovernmentName]": "Олигархическая республика", "[dtp_rcp_1.GetName]": "Создатели галактики", "[dtp_tp_1.GetName]": "Цитадель Бонта",
             "[dtp_tp_1.System.GetName]": "Элион", "[dtp_tf_1.GetName]": "Перекова армада", "[dtp_host.GetName]": "Создатели галактики", "[From.dtp_cpage]": "0", "[dtp_violator.GetName]": "Республика Кзинти", "[dtp_victim.GetName]": "Создатели галактики", "[dtp_violator.dtp_viol]": "1", "[dtp_rule_owner.dtp_rule_endy]": "2245", "[dtp_rule_owner.dtp_rule_len]": "5", "[From.dtp_ry]": "15", "[dtp_sb_owner.dtp_sb_y]": "2231", "[dtp_sess_owner.dtp_sess_y]": "2234", "[dtp_sb_1.dtp_sb_dw]": "451", "[dtp_sb_1.dtp_sb_nav]": "117", "[dtp_sb_1.dtp_sb_size]": "262", "[dtp_sb_1.dtp_sb_comm]": "13", "[dtp_sb_1.dtp_sb_sc]": "497", "[dtp_sb_1.dtp_sb_inf]": "3", "[dtp_sb_1.dtp_sb_un]": "314", "[dtp_sb_1.dtp_sb_i_zr]": "0", "[dtp_sb_1.dtp_sb_i_lm]": "2", "[dtp_sb_2.dtp_sb_dw]": "716", "[dtp_sb_2.dtp_sb_nav]": "69", "[dtp_sb_2.dtp_sb_size]": "319", "[dtp_sb_2.dtp_sb_comm]": "6", "[dtp_sb_2.dtp_sb_sc]": "453", "[dtp_sb_2.dtp_sb_inf]": "3", "[dtp_sb_2.dtp_sb_un]": "262", "[dtp_sb_2.dtp_sb_i_zr]": "3", "[dtp_sb_2.dtp_sb_i_lm]": "0", "[dtp_sb_3.dtp_sb_dw]": "366", "[dtp_sb_3.dtp_sb_nav]": "86", "[dtp_sb_3.dtp_sb_size]": "342", "[dtp_sb_3.dtp_sb_comm]": "9", "[dtp_sb_3.dtp_sb_sc]": "542", "[dtp_sb_3.dtp_sb_inf]": "3", "[dtp_sb_3.dtp_sb_un]": "154", "[dtp_sb_3.dtp_sb_i_zr]": "5", "[dtp_sb_3.dtp_sb_i_lm]": "5", "[dtp_sb_4.dtp_sb_dw]": "716", "[dtp_sb_4.dtp_sb_nav]": "71", "[dtp_sb_4.dtp_sb_size]": "355", "[dtp_sb_4.dtp_sb_comm]": "12", "[dtp_sb_4.dtp_sb_sc]": "1924", "[dtp_sb_4.dtp_sb_inf]": "2", "[dtp_sb_4.dtp_sb_un]": "153", "[dtp_sb_4.dtp_sb_i_zr]": "0", "[dtp_sb_4.dtp_sb_i_lm]": "4", "[dtp_sb_5.dtp_sb_dw]": "256", "[dtp_sb_5.dtp_sb_nav]": "188", "[dtp_sb_5.dtp_sb_size]": "274", "[dtp_sb_5.dtp_sb_comm]": "5", "[dtp_sb_5.dtp_sb_sc]": "782", "[dtp_sb_5.dtp_sb_inf]": "6", "[dtp_sb_5.dtp_sb_un]": "326", "[dtp_sb_5.dtp_sb_i_zr]": "6", "[dtp_sb_5.dtp_sb_i_lm]": "5", "[dtp_sb_1.dtp_sb_s_en]": "8534", "[dtp_sb_1.dtp_sb_s_mi]": "4180", "[dtp_sb_1.dtp_sb_s_fo]": "16491", "[dtp_sb_1.dtp_sb_s_al]": "3752", "[dtp_sb_1.dtp_sb_s_cg]": "1449", "[dtp_sb_1.dtp_sb_s_in]": "642", "[dtp_sb_1.dtp_sb_s_un]": "10282", "[dtp_sb_1.dtp_sb_i_mi]": "76", "[dtp_sb_1.dtp_sb_i_fo]": "153", "[dtp_sb_1.dtp_sb_i_cg]": "157", "[dtp_sb_1.dtp_sb_i_vm]": "5", "[dtp_sb_1.dtp_sb_i_eg]": "4", "[dtp_sb_1.dtp_sb_i_rc]": "12", "[dtp_sb_1.dtp_sb_i_dm]": "2", "[dtp_sb_2.dtp_sb_s_en]": "4279", "[dtp_sb_2.dtp_sb_s_mi]": "7825", "[dtp_sb_2.dtp_sb_s_fo]": "21794", "[dtp_sb_2.dtp_sb_s_al]": "9704", "[dtp_sb_2.dtp_sb_s_cg]": "6200", "[dtp_sb_2.dtp_sb_s_in]": "376", "[dtp_sb_2.dtp_sb_s_un]": "21344", "[dtp_sb_2.dtp_sb_i_mi]": "42", "[dtp_sb_2.dtp_sb_i_fo]": "236", "[dtp_sb_2.dtp_sb_i_cg]": "175", "[dtp_sb_2.dtp_sb_i_vm]": "5", "[dtp_sb_2.dtp_sb_i_eg]": "10", "[dtp_sb_2.dtp_sb_i_rc]": "6", "[dtp_sb_2.dtp_sb_i_dm]": "8", "[dtp_sb_3.dtp_sb_s_en]": "8955", "[dtp_sb_3.dtp_sb_s_mi]": "8904", "[dtp_sb_3.dtp_sb_s_fo]": "9974", "[dtp_sb_3.dtp_sb_s_al]": "18745", "[dtp_sb_3.dtp_sb_s_cg]": "1036", "[dtp_sb_3.dtp_sb_s_in]": "666", "[dtp_sb_3.dtp_sb_s_un]": "23898", "[dtp_sb_3.dtp_sb_i_mi]": "237", "[dtp_sb_3.dtp_sb_i_fo]": "215", "[dtp_sb_3.dtp_sb_i_cg]": "150", "[dtp_sb_3.dtp_sb_i_vm]": "3", "[dtp_sb_3.dtp_sb_i_eg]": "6", "[dtp_sb_3.dtp_sb_i_rc]": "6", "[dtp_sb_3.dtp_sb_i_dm]": "9", "[dtp_sb_4.dtp_sb_s_en]": "10243", "[dtp_sb_4.dtp_sb_s_mi]": "15590", "[dtp_sb_4.dtp_sb_s_fo]": "8442", "[dtp_sb_4.dtp_sb_s_al]": "9308", "[dtp_sb_4.dtp_sb_s_cg]": "3456", "[dtp_sb_4.dtp_sb_s_in]": "553", "[dtp_sb_4.dtp_sb_s_un]": "21324", "[dtp_sb_4.dtp_sb_i_mi]": "152", "[dtp_sb_4.dtp_sb_i_fo]": "156", "[dtp_sb_4.dtp_sb_i_cg]": "185", "[dtp_sb_4.dtp_sb_i_vm]": "7", "[dtp_sb_4.dtp_sb_i_eg]": "11", "[dtp_sb_4.dtp_sb_i_rc]": "5", "[dtp_sb_4.dtp_sb_i_dm]": "2", "[dtp_sb_5.dtp_sb_s_en]": "22878", "[dtp_sb_5.dtp_sb_s_mi]": "2977", "[dtp_sb_5.dtp_sb_s_fo]": "7441", "[dtp_sb_5.dtp_sb_s_al]": "9853", "[dtp_sb_5.dtp_sb_s_cg]": "12459", "[dtp_sb_5.dtp_sb_s_in]": "844", "[dtp_sb_5.dtp_sb_s_un]": "20092", "[dtp_sb_5.dtp_sb_i_mi]": "182", "[dtp_sb_5.dtp_sb_i_fo]": "162", "[dtp_sb_5.dtp_sb_i_cg]": "70", "[dtp_sb_5.dtp_sb_i_vm]": "5", "[dtp_sb_5.dtp_sb_i_eg]": "1", "[dtp_sb_5.dtp_sb_i_rc]": "0", "[dtp_sb_5.dtp_sb_i_dm]": "11", "[dtp_sb_owner.dtp_g_end]": "2400", "[dtp_sb_owner.dtp_g_vic]": "2500", "[dtp_sb_owner.dtp_g_cs]": "1", "[dtp_cs_owner.dtp_cs_base]": "1", "[dtp_cs_owner.dtp_cs_mult]": "2", "[dtp_cs_owner.dtp_cs_eff]": "2", "[From.dtp_cst]": "2", "[dtp_sess_owner.dtp_sess_y]": "2234", "[dtp_sb_1.GetName]": "Республика Кзинти", "[dtp_sb_1.dtp_sb_fp]": "18450", "[dtp_sb_1.dtp_sb_al]": "62", "[dtp_sb_1.dtp_sb_en]": "140", "[dtp_sb_1.dtp_sb_col]": "9", "[dtp_sb_1.dtp_sb_sys]": "24", "[dtp_sb_1.dtp_sb_tech]": "71", "[dtp_sb_1.dtp_sb_ap]": "2", "[dtp_sb_2.GetName]": "Создатели галактики", "[dtp_sb_2.dtp_sb_fp]": "26210", "[dtp_sb_2.dtp_sb_al]": "88", "[dtp_sb_2.dtp_sb_en]": "212", "[dtp_sb_2.dtp_sb_col]": "12", "[dtp_sb_2.dtp_sb_sys]": "31", "[dtp_sb_2.dtp_sb_tech]": "84", "[dtp_sb_2.dtp_sb_ap]": "3", "[dtp_sb_3.GetName]": "Орден Вейла", "[dtp_sb_3.dtp_sb_fp]": "9800", "[dtp_sb_3.dtp_sb_al]": "35", "[dtp_sb_3.dtp_sb_en]": "96", "[dtp_sb_3.dtp_sb_col]": "6", "[dtp_sb_3.dtp_sb_sys]": "17", "[dtp_sb_3.dtp_sb_tech]": "58", "[dtp_sb_3.dtp_sb_ap]": "1", "[dtp_sb_4.GetName]": "Улей Тракс", "[dtp_sb_4.dtp_sb_fp]": "31200", "[dtp_sb_4.dtp_sb_al]": "104", "[dtp_sb_4.dtp_sb_en]": "180", "[dtp_sb_4.dtp_sb_col]": "15", "[dtp_sb_4.dtp_sb_sys]": "38", "[dtp_sb_4.dtp_sb_tech]": "90", "[dtp_sb_4.dtp_sb_ap]": "3", "[dtp_sb_5.GetName]": "Корпорация Нова", "[dtp_sb_5.dtp_sb_fp]": "14070", "[dtp_sb_5.dtp_sb_al]": "51", "[dtp_sb_5.dtp_sb_en]": "175", "[dtp_sb_5.dtp_sb_col]": "8", "[dtp_sb_5.dtp_sb_sys]": "22", "[dtp_sb_5.dtp_sb_tech]": "66", "[dtp_sb_5.dtp_sb_ap]": "2",  "[dtp_tc_1.dtp_np_endy]": "2240", "[dtp_tc_1.dtp_prot_endy]": "2240"}
     names = ["Элион", "Тиуз", "Эбих", "Кирдата"]; owners = ["Создатели галактики", "Республика Кзинти", "", "Республика Кзинти"]
     for it in meta["items"]:
         if not vis(it): continue
         x, y, w, h = it["x"] + 20, it["y"] + 20, it["w"], it["h"]
         if it["sprite"] != "GFX_dtp_label": nine(it["sprite"], x, y, w, h, 8)
-        t = it["text"]
+        t = " " * it.get("pad", 0) + it["text"]
         for k, v in subs.items(): t = t.replace(k, v)
         m = re.match(r"dtp_b_ml(\d+)", it["key"])
         if m:
