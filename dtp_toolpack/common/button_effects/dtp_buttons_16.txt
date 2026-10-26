@@ -1,99 +1,4 @@
-# Debug Toolpack 11.2.5 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
-dqivqbca = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 1 }
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_au_corporate }
-					dtp_tcx = { T = dtp_ok_auth_corporate }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								NOT = { has_authority = auth_corporate }
-							}
-							if = {
-								limit = {
-									has_ethic = ethic_gestalt_consciousness
-								}
-								country_remove_ethic = ethic_gestalt_consciousness
-								country_add_ethic = ethic_fanatic_pacifist
-								country_add_ethic = ethic_materialist
-							}
-							if = {
-								limit = {
-									has_ethic = ethic_fanatic_egalitarian
-								}
-								country_remove_ethic = ethic_fanatic_egalitarian
-								country_add_ethic = ethic_egalitarian
-							}
-							if = {
-								limit = {
-									has_ethic = ethic_fanatic_authoritarian
-								}
-								country_remove_ethic = ethic_fanatic_authoritarian
-								country_add_ethic = ethic_authoritarian
-							}
-							owner_species = {
-								if = {
-									limit = {
-										has_trait = trait_hive_mind
-										NOT = { is_archetype = MACHINE }
-									}
-									change_species_characteristics = { remove_trait = trait_hive_mind }
-								}
-							}
-							dtp_ed_civfix_corporate = yes
-							change_government = { authority = auth_corporate cooldown = no remove_invalid_civics = yes }
-						}
-					}
-					dtp_result = { CODE = 39 }
-				}
-				else = {
-					dtp_fail = { CODE = 39 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 39 }
-			}
-		}
-	}
-}
-
+# Debug Toolpack 11.2.10 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
 dqu5du60 = {
 	potential = {
 		from = {
@@ -123,6 +28,7 @@ dqu5du60 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -220,6 +126,7 @@ dqvnz1r0 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -507,6 +414,7 @@ dq5r339z = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -576,6 +484,7 @@ dqwajx13 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -646,6 +555,7 @@ dqtd5tw3 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -714,6 +624,7 @@ dqhr934n = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -783,6 +694,7 @@ dqsv3kyl = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -853,6 +765,7 @@ dqvtnt15 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -921,6 +834,7 @@ dqvnwoe7 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -990,6 +904,7 @@ dqar57w7 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1060,6 +975,7 @@ dqea2ogj = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1128,6 +1044,7 @@ dqwotdql = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1197,6 +1114,7 @@ dqqknobu = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1267,6 +1185,7 @@ dqifnyq6 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1335,6 +1254,7 @@ dqttxfyf = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1404,6 +1324,7 @@ dqa2bgyq = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1474,6 +1395,7 @@ dqg2wukm = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1542,6 +1464,7 @@ dqrsdg34 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1611,6 +1534,7 @@ dqnfwu3x = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1681,6 +1605,7 @@ dqkh6znt = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1749,6 +1674,7 @@ dqm28dr8 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1818,6 +1744,7 @@ dqst6l1e = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1888,6 +1815,7 @@ dqvqnhba = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1956,6 +1884,7 @@ dqbq7ycc = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2025,6 +1954,7 @@ dqvv5ioc = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2095,6 +2025,7 @@ dqux3c14 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2163,6 +2094,7 @@ dqfiswop = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2232,6 +2164,7 @@ dqi29l58 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2302,6 +2235,7 @@ dqpzueqw = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2370,6 +2304,7 @@ dq9e18w4 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2439,6 +2374,7 @@ dqf2pbg6 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2509,6 +2445,7 @@ dqc6eqmq = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2577,6 +2514,7 @@ dqv0jzqe = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2646,6 +2584,7 @@ dqiwdje6 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2716,6 +2655,7 @@ dqovn5l6 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2784,6 +2724,7 @@ dqmx065p = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2853,6 +2794,7 @@ dq4tnsec = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2923,6 +2865,7 @@ dq3k79pc = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2991,6 +2934,7 @@ dq8mo31z = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3060,6 +3004,7 @@ dqvif6hy = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3130,6 +3075,7 @@ dquaaldu = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3198,6 +3144,7 @@ dq8gs1jd = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3267,6 +3214,7 @@ dqsy247m = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3337,6 +3285,7 @@ dqwpq7xy = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3405,6 +3354,7 @@ dqkw7gkv = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3474,6 +3424,7 @@ dqupn8dg = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3544,6 +3495,7 @@ dqtzs11c = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3612,6 +3564,7 @@ dqxwzkhp = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3681,6 +3634,7 @@ dq6xevmb = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3751,6 +3705,7 @@ dq1ghmnr = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3819,6 +3774,7 @@ dq40kota = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3888,6 +3844,7 @@ dqjio7sd = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3958,6 +3915,7 @@ dqpibpc9 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4026,6 +3984,7 @@ dq04cthh = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4095,6 +4054,7 @@ dqridqs0 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4165,6 +4125,7 @@ dqz4960k = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4233,6 +4194,7 @@ dq8u9y5n = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4302,6 +4264,7 @@ dqkzbjac = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4372,6 +4335,7 @@ dqlysa9s = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4440,6 +4404,7 @@ dqt5p0bb = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4509,6 +4474,7 @@ dqw169jp = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4579,6 +4545,7 @@ dqsin0z5 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4647,6 +4614,7 @@ dqx5zn8j = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4716,6 +4684,7 @@ dqidq805 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4786,6 +4755,7 @@ dqpocxgh = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4854,6 +4824,7 @@ dq4c6zln = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4923,6 +4894,7 @@ dqnq0379 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4993,6 +4965,7 @@ dqk6zzv5 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -5061,6 +5034,7 @@ dqulde7o = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -5130,6 +5104,7 @@ dquha47i = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -5200,6 +5175,7 @@ dqv6zp9m = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -5268,6 +5244,7 @@ dqqrdnc5 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -5337,6 +5314,7 @@ dqbwm4qc = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -5407,6 +5385,7 @@ dqd4nwnk = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -5475,6 +5454,7 @@ dqr4gb84 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -5544,6 +5524,7 @@ dq81v3xj = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -5614,6 +5595,7 @@ dq0h30lf = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -5682,6 +5664,7 @@ dqmqb4ev = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -5751,6 +5734,7 @@ dq2ioct2 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes

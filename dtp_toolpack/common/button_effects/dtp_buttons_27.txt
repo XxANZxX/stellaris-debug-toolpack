@@ -1,4 +1,1202 @@
-# Debug Toolpack 11.2.5 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+# Debug Toolpack 11.2.10 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dqwbrf1w = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_domination }
+					dtp_tcx = { T = dtp_ok_tradition_domination }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_domination_adopt
+							}
+							remove_tradition_tree = tradition_domination
+						}
+						else = {
+							add_tradition = tr_domination_adopt
+							add_tradition = tr_domination_colonial_viceroys
+							add_tradition = tr_domination_imperious_architecture
+							add_tradition = tr_domination_judgment_corps
+							add_tradition = tr_domination_grand_council
+							add_tradition = tr_domination_workplace_motivators
+							add_tradition = tr_domination_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqr9g96i = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_tcx = { T = dtp_has_tt_tradition_domination }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_domination }
+					dtp_tcx = { T = dtp_ok_tradition_domination }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_domination_adopt
+							}
+							remove_tradition_tree = tradition_domination
+						}
+						else = {
+							add_tradition = tr_domination_adopt
+							add_tradition = tr_domination_colonial_viceroys
+							add_tradition = tr_domination_imperious_architecture
+							add_tradition = tr_domination_judgment_corps
+							add_tradition = tr_domination_grand_council
+							add_tradition = tr_domination_workplace_motivators
+							add_tradition = tr_domination_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqo6vpji = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_enmity }
+					dtp_tcx = { T = dtp_ok_tradition_enmity }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_enmity_adopt
+							}
+							remove_tradition_tree = tradition_enmity
+						}
+						else = {
+							add_tradition = tr_enmity_adopt
+							add_tradition = tr_enmity_rise_to_the_occasion
+							add_tradition = tr_enmity_consumate_contrarian
+							add_tradition = tr_enmity_match
+							add_tradition = tr_enmity_outpace
+							add_tradition = tr_enmity_eclipse
+							add_tradition = tr_enmity_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqirt2m2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_tcx = { T = dtp_has_tt_tradition_enmity }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_enmity }
+					dtp_tcx = { T = dtp_ok_tradition_enmity }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_enmity_adopt
+							}
+							remove_tradition_tree = tradition_enmity
+						}
+						else = {
+							add_tradition = tr_enmity_adopt
+							add_tradition = tr_enmity_rise_to_the_occasion
+							add_tradition = tr_enmity_consumate_contrarian
+							add_tradition = tr_enmity_match
+							add_tradition = tr_enmity_outpace
+							add_tradition = tr_enmity_eclipse
+							add_tradition = tr_enmity_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqq45kwu = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_tcx = { T = dtp_ok_tradition_enmity } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_enmity }
+					dtp_tcx = { T = dtp_ok_tradition_enmity }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_enmity_adopt
+							}
+							remove_tradition_tree = tradition_enmity
+						}
+						else = {
+							add_tradition = tr_enmity_adopt
+							add_tradition = tr_enmity_rise_to_the_occasion
+							add_tradition = tr_enmity_consumate_contrarian
+							add_tradition = tr_enmity_match
+							add_tradition = tr_enmity_outpace
+							add_tradition = tr_enmity_eclipse
+							add_tradition = tr_enmity_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqdhq5rc = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_expansion }
+					dtp_tcx = { T = dtp_ok_tradition_expansion }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_expansion_adopt
+							}
+							remove_tradition_tree = tradition_expansion
+						}
+						else = {
+							add_tradition = tr_expansion_adopt
+							add_tradition = tr_expansion_reach_for_the_stars
+							add_tradition = tr_expansion_colonization_fever
+							add_tradition = tr_expansion_courier_network
+							add_tradition = tr_expansion_galactic_ambition
+							add_tradition = tr_expansion_a_new_life
+							add_tradition = tr_expansion_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dq5ev7dx = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_tcx = { T = dtp_has_tt_tradition_expansion }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_expansion }
+					dtp_tcx = { T = dtp_ok_tradition_expansion }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_expansion_adopt
+							}
+							remove_tradition_tree = tradition_expansion
+						}
+						else = {
+							add_tradition = tr_expansion_adopt
+							add_tradition = tr_expansion_reach_for_the_stars
+							add_tradition = tr_expansion_colonization_fever
+							add_tradition = tr_expansion_courier_network
+							add_tradition = tr_expansion_galactic_ambition
+							add_tradition = tr_expansion_a_new_life
+							add_tradition = tr_expansion_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dq9vubsh = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_genetics }
+					dtp_tcx = { T = dtp_ok_tradition_genetics }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_genetics_adopt
+							}
+							remove_tradition_tree = tradition_genetics
+						}
+						else = {
+							add_tradition = tr_genetics_adopt
+							add_tradition = tr_genetics_resequencing
+							add_tradition = tr_genetics_creation
+							add_tradition = tr_genetics_enhanced_expression
+							add_tradition = tr_genetics_retrovirus
+							add_tradition = tr_genetics_efficient_cloning
+							add_tradition = tr_genetics_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqfckvb8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_tcx = { T = dtp_has_tt_tradition_genetics }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_genetics }
+					dtp_tcx = { T = dtp_ok_tradition_genetics }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_genetics_adopt
+							}
+							remove_tradition_tree = tradition_genetics
+						}
+						else = {
+							add_tradition = tr_genetics_adopt
+							add_tradition = tr_genetics_resequencing
+							add_tradition = tr_genetics_creation
+							add_tradition = tr_genetics_enhanced_expression
+							add_tradition = tr_genetics_retrovirus
+							add_tradition = tr_genetics_efficient_cloning
+							add_tradition = tr_genetics_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dq9omlsw = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_tcx = { T = dtp_ok_tradition_genetics } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_genetics }
+					dtp_tcx = { T = dtp_ok_tradition_genetics }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_genetics_adopt
+							}
+							remove_tradition_tree = tradition_genetics
+						}
+						else = {
+							add_tradition = tr_genetics_adopt
+							add_tradition = tr_genetics_resequencing
+							add_tradition = tr_genetics_creation
+							add_tradition = tr_genetics_enhanced_expression
+							add_tradition = tr_genetics_retrovirus
+							add_tradition = tr_genetics_efficient_cloning
+							add_tradition = tr_genetics_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqvq77wt = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_harmony }
+					dtp_tcx = { T = dtp_ok_tradition_harmony }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_harmony_adopt
+							}
+							remove_tradition_tree = tradition_harmony
+						}
+						else = {
+							add_tradition = tr_harmony_adopt
+							add_tradition = tr_harmony_mind_and_body
+							add_tradition = tr_harmony_kinship
+							add_tradition = tr_harmony_the_greater_good
+							add_tradition = tr_harmony_harmonious_directives
+							add_tradition = tr_harmony_utopian_dream
+							add_tradition = tr_harmony_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqwna86h = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_tcx = { T = dtp_has_tt_tradition_harmony }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_harmony }
+					dtp_tcx = { T = dtp_ok_tradition_harmony }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_harmony_adopt
+							}
+							remove_tradition_tree = tradition_harmony
+						}
+						else = {
+							add_tradition = tr_harmony_adopt
+							add_tradition = tr_harmony_mind_and_body
+							add_tradition = tr_harmony_kinship
+							add_tradition = tr_harmony_the_greater_good
+							add_tradition = tr_harmony_harmonious_directives
+							add_tradition = tr_harmony_utopian_dream
+							add_tradition = tr_harmony_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqsw0619 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_tcx = { T = dtp_ok_tradition_harmony } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_harmony }
+					dtp_tcx = { T = dtp_ok_tradition_harmony }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_harmony_adopt
+							}
+							remove_tradition_tree = tradition_harmony
+						}
+						else = {
+							add_tradition = tr_harmony_adopt
+							add_tradition = tr_harmony_mind_and_body
+							add_tradition = tr_harmony_kinship
+							add_tradition = tr_harmony_the_greater_good
+							add_tradition = tr_harmony_harmonious_directives
+							add_tradition = tr_harmony_utopian_dream
+							add_tradition = tr_harmony_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqtoopf7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_logistics }
+					dtp_tcx = { T = dtp_ok_tradition_logistics }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_logistics_adopt
+							}
+							remove_tradition_tree = tradition_logistics
+						}
+						else = {
+							add_tradition = tr_logistics_adopt
+							add_tradition = tr_logistics_1
+							add_tradition = tr_logistics_2
+							add_tradition = tr_logistics_3
+							add_tradition = tr_logistics_4
+							add_tradition = tr_logistics_5
+							add_tradition = tr_logistics_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqwhvhg1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_tcx = { T = dtp_has_tt_tradition_logistics }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_logistics }
+					dtp_tcx = { T = dtp_ok_tradition_logistics }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_logistics_adopt
+							}
+							remove_tradition_tree = tradition_logistics
+						}
+						else = {
+							add_tradition = tr_logistics_adopt
+							add_tradition = tr_logistics_1
+							add_tradition = tr_logistics_2
+							add_tradition = tr_logistics_3
+							add_tradition = tr_logistics_4
+							add_tradition = tr_logistics_5
+							add_tradition = tr_logistics_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
+dqt1fxbp = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_tcx = { T = dtp_ok_tradition_logistics } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_tt_tradition_logistics }
+					dtp_tcx = { T = dtp_ok_tradition_logistics }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_tradition = tr_logistics_adopt
+							}
+							remove_tradition_tree = tradition_logistics
+						}
+						else = {
+							add_tradition = tr_logistics_adopt
+							add_tradition = tr_logistics_1
+							add_tradition = tr_logistics_2
+							add_tradition = tr_logistics_3
+							add_tradition = tr_logistics_4
+							add_tradition = tr_logistics_5
+							add_tradition = tr_logistics_finish
+						}
+					}
+					dtp_result = { CODE = 63 }
+				}
+				else = {
+					dtp_fail = { CODE = 63 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 63 }
+			}
+		}
+	}
+}
+
 dqml7die = {
 	potential = {
 		from = {
@@ -28,6 +1226,7 @@ dqml7die = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -102,6 +1301,7 @@ dquvfa3i = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -177,6 +1377,7 @@ dqvw7sfu = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -250,6 +1451,7 @@ dqwkk7xh = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -324,6 +1526,7 @@ dqilfbrj = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -399,6 +1602,7 @@ dqq9y9m3 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -472,6 +1676,7 @@ dqke5srj = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -546,6 +1751,7 @@ dqjek387 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -621,6 +1827,7 @@ dqoigcvn = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -694,6 +1901,7 @@ dq1m690g = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -768,6 +1976,7 @@ dqt5w4gs = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -843,6 +2052,7 @@ dqwdf8xk = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -916,6 +2126,7 @@ dqyv7ltz = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -990,6 +2201,7 @@ dqu6loqq = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1065,6 +2277,7 @@ dqvhp7fq = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1138,6 +2351,7 @@ dqjg0653 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1212,6 +2426,7 @@ dqq9uqaj = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1285,6 +2500,7 @@ dqh2c6xh = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1359,6 +2575,7 @@ dqcmlbus = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1434,6 +2651,7 @@ dqdnmfxc = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1507,6 +2725,7 @@ dqb8edzx = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1581,6 +2800,7 @@ dqegu2sz = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1656,6 +2876,7 @@ dqapekt3 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1729,6 +2950,7 @@ dq59t858 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1803,6 +3025,7 @@ dqqc4gun = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1878,6 +3101,7 @@ dqy8ajor = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -1951,6 +3175,7 @@ dqphnxj0 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2025,6 +3250,7 @@ dq45vmox = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2100,6 +3326,7 @@ dq392e9x = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2173,6 +3400,7 @@ dqb6w9bt = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2247,6 +3475,7 @@ dqmqgp9x = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2322,6 +3551,7 @@ dql6mpox = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2395,6 +3625,7 @@ dq5im6ih = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2469,6 +3700,7 @@ dq330y88 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2542,6 +3774,7 @@ dqc6zfhm = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2616,6 +3849,7 @@ dq33dk0a = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2691,6 +3925,7 @@ dq69fawe = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2764,6 +3999,7 @@ dq1qngqj = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2838,6 +4074,7 @@ dq18g3hn = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2913,6 +4150,7 @@ dq75g2j3 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -2986,6 +4224,7 @@ dqvykhq0 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3060,6 +4299,7 @@ dq4kaxcs = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3135,6 +4375,7 @@ dq3tngag = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3208,6 +4449,7 @@ dqzjlr5y = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3282,6 +4524,7 @@ dqdpxwu8 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3357,6 +4600,7 @@ dqcf8mas = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3430,6 +4674,7 @@ dqmrj6fr = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3504,6 +4749,7 @@ dqdcgant = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3579,6 +4825,7 @@ dqbuex7h = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3666,6 +4913,7 @@ dqtljimd = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3734,6 +4982,7 @@ dqw242yw = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3803,6 +5052,7 @@ dqul61kc = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3870,6 +5120,7 @@ dq6qr6ko = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -3938,6 +5189,7 @@ dq5ch2kg = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4007,6 +5259,7 @@ dq45d06c = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4074,6 +5327,7 @@ dqn96ng3 = {
 				from = {
 					dtp_pidx_ensure = yes
 					dtp_init_targets = yes
+					dtp_host_check = yes
 				}
 				dtp_load = yes
 				dtp_disarm = yes
@@ -4097,1367 +5351,6 @@ dqn96ng3 = {
 						}
 						else = {
 							add_ascension_perk = ap_become_the_crisis
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dq1m5pyo = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_tcx = { T = dtp_has_ap_ap_become_the_crisis }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_become_the_crisis }
-					dtp_tcx = { T = dtp_ok_ap_become_the_crisis }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_become_the_crisis
-							}
-							remove_ascension_perk = ap_become_the_crisis
-						}
-						else = {
-							add_ascension_perk = ap_become_the_crisis
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dq6rrmc4 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_ap_become_the_crisis } }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_become_the_crisis }
-					dtp_tcx = { T = dtp_ok_ap_become_the_crisis }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_become_the_crisis
-							}
-							remove_ascension_perk = ap_become_the_crisis
-						}
-						else = {
-							add_ascension_perk = ap_become_the_crisis
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqfod5b0 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_behemoths }
-					dtp_tcx = { T = dtp_ok_ap_behemoths }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_behemoths
-							}
-							remove_ascension_perk = ap_behemoths
-						}
-						else = {
-							add_ascension_perk = ap_behemoths
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqquurok = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_tcx = { T = dtp_has_ap_ap_behemoths }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_behemoths }
-					dtp_tcx = { T = dtp_ok_ap_behemoths }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_behemoths
-							}
-							remove_ascension_perk = ap_behemoths
-						}
-						else = {
-							add_ascension_perk = ap_behemoths
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqytiqww = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_ap_behemoths } }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_behemoths }
-					dtp_tcx = { T = dtp_ok_ap_behemoths }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_behemoths
-							}
-							remove_ascension_perk = ap_behemoths
-						}
-						else = {
-							add_ascension_perk = ap_behemoths
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dquswgcz = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_colossus }
-					dtp_tcx = { T = dtp_ok_ap_colossus }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_colossus
-							}
-							remove_ascension_perk = ap_colossus
-						}
-						else = {
-							add_ascension_perk = ap_colossus
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqmbojou = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_tcx = { T = dtp_has_ap_ap_colossus }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_colossus }
-					dtp_tcx = { T = dtp_ok_ap_colossus }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_colossus
-							}
-							remove_ascension_perk = ap_colossus
-						}
-						else = {
-							add_ascension_perk = ap_colossus
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqlkstl6 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_ap_colossus } }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_colossus }
-					dtp_tcx = { T = dtp_ok_ap_colossus }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_colossus
-							}
-							remove_ascension_perk = ap_colossus
-						}
-						else = {
-							add_ascension_perk = ap_colossus
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqnme8gy = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_consecrated_worlds }
-					dtp_tcx = { T = dtp_ok_ap_consecrated_worlds }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_consecrated_worlds
-							}
-							remove_ascension_perk = ap_consecrated_worlds
-						}
-						else = {
-							add_ascension_perk = ap_consecrated_worlds
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dq9lg78c = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_tcx = { T = dtp_has_ap_ap_consecrated_worlds }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_consecrated_worlds }
-					dtp_tcx = { T = dtp_ok_ap_consecrated_worlds }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_consecrated_worlds
-							}
-							remove_ascension_perk = ap_consecrated_worlds
-						}
-						else = {
-							add_ascension_perk = ap_consecrated_worlds
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqfksge0 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_ap_consecrated_worlds } }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_consecrated_worlds }
-					dtp_tcx = { T = dtp_ok_ap_consecrated_worlds }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_consecrated_worlds
-							}
-							remove_ascension_perk = ap_consecrated_worlds
-						}
-						else = {
-							add_ascension_perk = ap_consecrated_worlds
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqgffu5l = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_cosmogenesis }
-					dtp_tcx = { T = dtp_ok_ap_cosmogenesis }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_cosmogenesis
-							}
-							remove_ascension_perk = ap_cosmogenesis
-						}
-						else = {
-							add_ascension_perk = ap_cosmogenesis
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqxuweca = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_tcx = { T = dtp_has_ap_ap_cosmogenesis }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_cosmogenesis }
-					dtp_tcx = { T = dtp_ok_ap_cosmogenesis }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_cosmogenesis
-							}
-							remove_ascension_perk = ap_cosmogenesis
-						}
-						else = {
-							add_ascension_perk = ap_cosmogenesis
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqrxtm9q = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_ap_cosmogenesis } }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_cosmogenesis }
-					dtp_tcx = { T = dtp_ok_ap_cosmogenesis }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_cosmogenesis
-							}
-							remove_ascension_perk = ap_cosmogenesis
-						}
-						else = {
-							add_ascension_perk = ap_cosmogenesis
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqe197ae = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_defender_of_the_galaxy }
-					dtp_tcx = { T = dtp_ok_ap_defender_of_the_galaxy }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_defender_of_the_galaxy
-							}
-							remove_ascension_perk = ap_defender_of_the_galaxy
-						}
-						else = {
-							add_ascension_perk = ap_defender_of_the_galaxy
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqef2dpj = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_tcx = { T = dtp_has_ap_ap_defender_of_the_galaxy }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_defender_of_the_galaxy }
-					dtp_tcx = { T = dtp_ok_ap_defender_of_the_galaxy }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_defender_of_the_galaxy
-							}
-							remove_ascension_perk = ap_defender_of_the_galaxy
-						}
-						else = {
-							add_ascension_perk = ap_defender_of_the_galaxy
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dqctz9mr = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_ap_defender_of_the_galaxy } }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_defender_of_the_galaxy }
-					dtp_tcx = { T = dtp_ok_ap_defender_of_the_galaxy }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_defender_of_the_galaxy
-							}
-							remove_ascension_perk = ap_defender_of_the_galaxy
-						}
-						else = {
-							add_ascension_perk = ap_defender_of_the_galaxy
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dq2bu0fe = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_defender_of_the_galaxy_nomads }
-					dtp_tcx = { T = dtp_ok_ap_defender_of_the_galaxy_nomads }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_defender_of_the_galaxy_nomads
-							}
-							remove_ascension_perk = ap_defender_of_the_galaxy_nomads
-						}
-						else = {
-							add_ascension_perk = ap_defender_of_the_galaxy_nomads
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dq74snd9 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_tcx = { T = dtp_has_ap_ap_defender_of_the_galaxy_nomads }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_defender_of_the_galaxy_nomads }
-					dtp_tcx = { T = dtp_ok_ap_defender_of_the_galaxy_nomads }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_defender_of_the_galaxy_nomads
-							}
-							remove_ascension_perk = ap_defender_of_the_galaxy_nomads
-						}
-						else = {
-							add_ascension_perk = ap_defender_of_the_galaxy_nomads
-						}
-					}
-					dtp_result = { CODE = 64 }
-				}
-				else = {
-					dtp_fail = { CODE = 64 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 64 }
-			}
-		}
-	}
-}
-
-dq1e4209 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 4 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_ap_defender_of_the_galaxy_nomads } }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_ap_ap_defender_of_the_galaxy_nomads }
-					dtp_tcx = { T = dtp_ok_ap_defender_of_the_galaxy_nomads }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_ascension_perk = ap_defender_of_the_galaxy_nomads
-							}
-							remove_ascension_perk = ap_defender_of_the_galaxy_nomads
-						}
-						else = {
-							add_ascension_perk = ap_defender_of_the_galaxy_nomads
 						}
 					}
 					dtp_result = { CODE = 64 }

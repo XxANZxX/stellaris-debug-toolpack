@@ -871,7 +871,7 @@ GMPAGE = 5
 render("dtp105_gm_senate.png", 16, None)
 render("dtp84_mods_game.png", 4, None)
 GMPAGE = 1
-for _f, _t in [("dtp85_log.png", 12), ("dtp8_gm.png", 16), ("dtp5_home.png", 15), ("dtp5_resources.png", 3), ("dtp5_systems.png", 1), ("dtp5_planet.png", 5), ("dtp5_country.png", 2), ("dtp5_govern.png", 13), ("dtp5_species.png", 9), ("dtp5_access.png", 11), ("dtp109_fleet.png", 6), ("dtp109_diplo.png", 7)]:
+for _f, _t in [("dtp85_log.png", 12), ("dtp8_gm.png", 16), ("dtp5_home.png", 15), ("dtp5_resources.png", 3), ("dtp5_systems.png", 1), ("dtp5_planet.png", 5), ("dtp5_country.png", 2), ("dtp5_state.png", 8), ("dtp5_mods.png", 4), ("dtp5_access.png", 11), ("dtp109_fleet.png", 6), ("dtp109_diplo.png", 7)]:
     render(_f, _t, None)
 
 # ---------------- 11.2: превью «Редактора держав и вида» (значки самой игры здесь — заглушки)
@@ -914,6 +914,8 @@ def edrender(fname, tab, cat=1, pg=1, has_rate=0.12, bad_rate=0.2):
         mm = re.search(r"which = dtp_pidx value = (\d+)", p)
         if mm and mm.group(1) != "1": return False
         if "NOT = { exists = event_target:dtp_tc_1 }" in p: return False
+        me = re.findall(r"which = dtp_espg value (=|>) (\d+)", p)
+        if me and not any(op == "=" and v == "1" for op, v in me): return False
         mj = re.search(r"exists = event_target:dtp_esl_(\d+)", p)
         if mj and int(mj.group(1)) > 3: return False
         if "NOT = { exists = event_target:dtp_tsp_1 }" in p or "dtp_tsp_none = yes" in p and "NOT = { dtp_tsp_none" not in p: return False
@@ -964,6 +966,6 @@ def edrender(fname, tab, cat=1, pg=1, has_rate=0.12, bad_rate=0.2):
             if "●" in sx: c = (255, 110, 95)
             d.text((tx, ty), sx, font=f, fill=c); tx += d.textlength(sx, font=f)
     img.convert("RGB").save(os.path.join(PREV, fname))
-for _f, _a in [("ed1_ethics.png", (1,)), ("ed2_civics.png", (2, 1, 1)), ("ed6_traits.png", (6, 1, 1)), ("ed5_policies.png", (5,)), ("ed7_rights.png", (7,)), ("ed8_look.png", (8,)), ("ed9_mods.png", (9, 1)), ("ed10_portrait.png", (10, 15)), ("ed9_mods_game.png", (9, 2))]:
+for _f, _a in [("ed1_ethics.png", (1,)), ("ed2_civics.png", (2, 1, 1)), ("ed6_traits.png", (6, 1, 1)), ("ed10_portrait.png", (10, 1)), ("ed5_policies.png", (5,)), ("ed7_rights.png", (7,)), ("ed8_look.png", (8,)), ("ed9_mods.png", (9, 1)), ("ed10_portrait.png", (10, 15)), ("ed9_mods_game.png", (9, 2))]:
     edrender(_f, *_a)
 print("превью редактора: 7")

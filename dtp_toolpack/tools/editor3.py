@@ -31,7 +31,9 @@ def elab(name, ru, en, x, y, w, pot="", h=24, font="cg_16b", sprite="GFX_dtp_lab
 
 # ---- условия на державу A (у каждого игрока своя A) и на её основной вид
 TRG.append(B("dtp_tcx", orchain(lambda k: B("event_target:dtp_tc_%d" % k, "$T$ = yes"))))
-TRG.append(B("dtp_spx", orchain(lambda k: B("event_target:dtp_tc_%d" % k, B("owner_species", "$T$ = yes")))))
+# 11.2.10: условие на вид — выбранный вид игрока (если выбран), иначе основной вид державы A
+TRG.append(B("dtp_spx", orchain(lambda k: B("OR", B("AND", "exists = event_target:dtp_tsp_%d" % k, B("event_target:dtp_tsp_%d" % k, "$T$ = yes")),
+                                                  B("AND", "NOT = { exists = event_target:dtp_tsp_%d }" % k, B("event_target:dtp_tc_%d" % k, B("owner_species", "$T$ = yes")))))))
 _OKN = {}
 def okx(name, body, sp=False):
     """Именованное условие «игра это разрешает» (в области державы или её вида)."""
@@ -49,10 +51,11 @@ GSPR = {}
 def gspr(tex):
     if not tex: return None
     return GAME_SPR.setdefault(tex, "GFX_dtp_gi_" + re.sub(r"\W", "_", tex.split("/")[-1][:-4]))
-def card(name, ru, en, x, y, w, pot, tex, has, ok, effect, p, tt_ru, tt_en, sp=False, need=None):
+def card(name, ru, en, x, y, w, pot, tex, has, ok, effect, p, tt_ru, tt_en, sp=False, need=None, soft=None):
     """Карточка как в редакторе игры: значок игры + название; зелёная рамка — есть у A; красный знак — игра запрещает."""
     allow = need_perm(p) + "\n" + (need or N_TC())
-    if ok is not None: allow += "\n" + LOCKED(B("OR", has, ok) if has else ok)
+    okall = B("AND", ok, soft) if soft else ok      # soft — правило только для обычного режима (очки этик): в принудительном не считается
+    if ok is not None: allow += "\n" + LOCKED(B("OR", has, okall) if has else okall)
     pad = "              " if tex else "  "        # 11.2.5: в русском шрифте пробел уже — отступ больше (текст наезжал на значок)
     k = eb(name, pad + ru, pad + en, x, y, w, ECH, pot=pot, allow=allow, effect=effect, tt=(tt_ru, tt_en), left=True, sprite="GFX_dtp_ec" if tex else "GFX_dtp_btn")
     GUI[-1]["quiet"] = True              # карточек сотни — без звука щелчка файл окна меньше
@@ -64,8 +67,9 @@ def card(name, ru, en, x, y, w, pot, tex, has, ok, effect, p, tt_ru, tt_en, sp=F
     # рамка и метка лежат поверх карточки: если игра не пропустит щелчок сквозь них (alwaysTransparent), они делают то же, что карточка
     if has:
         eb(name + "_h", "", "", x, y, w, ECH, pot=pot + "\n" + has, allow=allow, effect=effect, tt=(tt_ru, tt_en), sprite="GFX_dtp_sg", transp=True)
-    if ok is not None and _OKN.get(re.search(r"T = (\w+)", ok).group(1)) != "trivial":
-        eb(name + "_x", "", "", x + w - 20, y + 3, 17, 17, pot=pot + "\ndtp_has_tc = yes\nNOT = { %s }" % ok, allow=allow, effect=effect, sprite="GFX_dtp_sr", transp=True)
+    if ok is not None and (soft or _OKN.get(re.search(r"T = (\w+)", ok).group(1)) != "trivial"):
+        bad = ("NOT = { %s }" % ok) if not soft else B("OR", "NOT = { %s }" % ok, B("AND", "NOT = { %s }" % FORCE_FROM, "NOT = { %s }" % soft))
+        eb(name + "_x", "", "", x + w - 20, y + 3, 17, 17, pot=pot + "\ndtp_has_tc = yes\n" + bad, allow=allow, effect=effect, sprite="GFX_dtp_sr", transp=True)
     return k
 def slot(i, cols=ECOLS, w=None, row0=0, x0=EX0, cw=None):
     w = w or ECW
@@ -81,20 +85,20 @@ def pages(name, tab, cat, n):
            tt=("Открыта страница %d." % p, "Page %d is open." % p))
         eb("%s_p%d" % (name, p), str(p), str(p), x, y, 42, 30, pot=EDP(tab, cat, extra=B("from", "NOT = { %s }" % chk("dtp_edpg", p))),
            effect=B("from", setv("dtp_edpg", p)), tt=("Открыть страницу %d." % p, "Open page %d." % p))
-def subtabs(tab, items):
+def subtabs(tab, items, dy=0):
     """Подразделы (как вкладки «Обычные / Корпорации / …» в редакторе игры)."""
     w = (EXW - 6 * (len(items) - 1)) // len(items)
     for i, (c, ru, en) in enumerate(items):
         x = EX0 + i * (w + 6)
-        eb("t%d_c%d_on" % (tab, c), ru, en, x, EY0 - 42, w, 34, pot=EDP(tab, c), sprite="GFX_dtp_tab_on", tt=("Открыт подраздел «%s»." % ru, "Sub-section '%s' is open." % en))
-        eb("t%d_c%d" % (tab, c), ru, en, x, EY0 - 42, w, 34, pot=EDP(tab, extra=B("from", "NOT = { %s }" % chk("dtp_edcat", c))),
+        eb("t%d_c%d_on" % (tab, c), ru, en, x, EY0 - 42 + dy, w, 34, pot=EDP(tab, c), sprite="GFX_dtp_tab_on", tt=("Открыт подраздел «%s»." % ru, "Sub-section '%s' is open." % en))
+        eb("t%d_c%d" % (tab, c), ru, en, x, EY0 - 42 + dy, w, 34, pot=EDP(tab, extra=B("from", "NOT = { %s }" % chk("dtp_edcat", c))),
            effect=B("from", setv("dtp_edcat", c), setv("dtp_edpg", 1)), sprite="GFX_dtp_tab", tt=("Открыть подраздел «%s»." % ru, "Open the '%s' sub-section." % en))
-def grid_items(tab, cat, items, mk, cols=ECOLS, w=None):
+def grid_items(tab, cat, items, mk, cols=ECOLS, w=None, dy=0):
     """Раскладка карточек по страницам: mk(i, item, x, y, w, pot)."""
-    per = EROWS * cols
+    per = (EROWS - (dy + ECH + EGAP - 1) // (ECH + EGAP)) * cols
     for i, it in enumerate(items):
         pg, j = i // per + 1, i % per
-        x, y, ww = slot(j, cols=cols, w=w)
+        x, y, ww = slot(j, cols=cols, w=w); y += dy
         mk(i, it, x, y, ww, EDP(tab, cat, pg))
     pages("g%d_%s" % (tab, cat or 0), tab, cat, (len(items) + per - 1) // per)
 
@@ -140,7 +144,7 @@ ETT = {1: ("Этики державы (обычные и фанатичные), 
        9: ("Бонусы и штрафы державы A: свои модификаторы Toolpack и модификаторы самой игры.", "Bonuses and penalties for empire A: Toolpack modifiers and the game's own modifiers.")}
 ESUB = {1: ("этики · коллективное сознание · правление", "ethics · gestalt · authority"), 2: ("как при создании державы", "as in empire creation"),
         3: ("деревья целиком", "whole trees"), 4: ("добавить или убрать", "add or remove"), 5: ("вариант каждой политики", "an option for each policy"),
-        6: ("черты основного вида A", "traits of A's main species"), 7: ("гражданство · жизнь · служба · рабство · чистка", "citizenship · living · service · slavery · purge"), 10: ("класс · все портреты класса", "class · all portraits of the class"),
+        6: ("черты выбранного вида державы A", "traits of the selected species of A"), 7: ("права выбранного вида державы A", "rights of the selected species of A"), 10: ("класс · все портреты класса", "class · all portraits of the class"),
         8: ("корабли · города · флаг · название", "ships · cities · flag · name"), 9: ("бонусы и штрафы державы A", "bonuses and penalties of empire A")}
 lab("ed_navbg", "", 8, 64, 206, h=EH - 72, potential=B("from", EDOPEN), where="editor"); GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_frame"
 elab("navh", "§gРАЗДЕЛЫ§!", "§gSECTIONS§!", 22, 70, 180, pot=EDP(), h=22)
@@ -148,7 +152,7 @@ for i, (t, ru, en) in enumerate(ETABS):
     y = 96 + i * 42
     eb("tab%d_on" % t, ru, en, 14, y, 194, 38, pot=EDP(t), sprite="GFX_dtp_ednav_on", tt=ETT[t])
     eb("tab%d" % t, ru, en, 14, y, 194, 38, pot=EDP(extra=B("from", "NOT = { %s }" % chk("dtp_edtab", t))),
-       effect=B("from", setv("dtp_edtab", t), setv("dtp_edcat", 1), setv("dtp_edpg", 1)) + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes" if t == 7 else ""), sprite="GFX_dtp_ednav", tt=ETT[t])
+       effect=B("from", setv("dtp_edtab", t), setv("dtp_edcat", 1), setv("dtp_edpg", 1)) + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes" if t in (6, 7, 10) else ""), sprite="GFX_dtp_ednav", tt=ETT[t])
     # шапка раздела — баннер, как в главной панели (значок раздела — значок самой игры)
     lab("ed_ban%d" % t, "", EX0, 62, EXW, h=40, potential=B("from", EDOPEN, chk("dtp_edtab", t)), where="editor"); GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_ebanner_%d" % t
     elab("bt%d" % t, ru.upper(), en.upper(), EX0 + 50, 66, 500, pot=EDP(t), h=30, font="large_title_font")
@@ -201,22 +205,22 @@ for i, (a, o) in enumerate(AXES):
     y = EY0 + i * (ECH + EGAP) + (i // 2) * 10          # противоположные этики — парой, между парами промежуток
     ex = "has_ethic = ethic_%s" % a; fx = "has_ethic = ethic_fanatic_%s" % a
     base = ["NOT = { has_ethic = ethic_gestalt_consciousness }", "NOR = { has_ethic = ethic_%s has_ethic = ethic_fanatic_%s }" % (o, o)]
-    ok_n = okx("eth_" + a, "\n".join(base + ["NOT = { %s }" % _pts((a, o), 3)]))
-    ok_f = okx("eth_f_" + a, "\n".join(base + ["NOT = { %s }" % _pts((a, o), 2)]))
+    ok_n = okx("eth_" + a, "\n".join(base)); pt_n = okx("ethp_" + a, "NOT = { %s }" % _pts((a, o), 3))     # 11.2.7: очки — только в обычном режиме
+    ok_f = okx("eth_f_" + a, "\n".join(base)); pt_f = okx("ethp_f_" + a, "NOT = { %s }" % _pts((a, o), 2))
     tx = "gfx/interface/icons/ethics/ethic_%s.dds" % a; tf = "gfx/interface/icons/ethics/ethic_fanatic_%s.dds" % a
     card("eth_" + a, ETH_RU[a], ETH_EN[a], EX0, y, 280, EDP(1), tx, "dtp_tcx = { T = dtp_has_e_%s }" % a, ok_n,
          act("state", B("event_target:dtp_t", B("if", B("limit", ex), "country_remove_ethic = ethic_%s" % a),
                          B("else_if", B("limit", fx), "country_remove_ethic = ethic_fanatic_%s" % a, "country_add_ethic = ethic_%s" % a),
                          B("else", "country_add_ethic = ethic_%s" % a)), 20), "state",
          "§Y$ethic_%s$§!\n$ethic_%s_desc$\n\n§gНажмите: добавить этику (у фанатичной — сделать обычной); если уже есть — убрать.§!" % (a, a),
-         "§Y$ethic_%s$§!\n$ethic_%s_desc$\n\n§gClick: add the ethic (a fanatic one becomes regular); if already present — remove it.§!" % (a, a))
+         "§Y$ethic_%s$§!\n$ethic_%s_desc$\n\n§gClick: add the ethic (a fanatic one becomes regular); if already present — remove it.§!" % (a, a), soft=pt_n)
     TRG.append(B("dtp_has_e_%s" % a, ex))
     TRG.append(B("dtp_has_ef_%s" % a, fx))
     card("ethf_" + a, "Фанат. " + ETH_RU[a].lower(), "Fanatic " + ETH_EN[a].lower(), EX0 + 280 + EGAP, y, 280, EDP(1), tf, "dtp_tcx = { T = dtp_has_ef_%s }" % a, ok_f,
          act("state", B("event_target:dtp_t", B("if", B("limit", fx), "country_remove_ethic = ethic_fanatic_%s" % a),
                          B("else", B("if", B("limit", ex), "country_remove_ethic = ethic_%s" % a), "country_add_ethic = ethic_fanatic_%s" % a)), 20), "state",
          "§Y$ethic_fanatic_%s$§!\n$ethic_fanatic_%s_desc$\n\n§gНажмите: сделать этику фанатичной (2 очка); если уже есть — убрать.§!" % (a, a),
-         "§Y$ethic_fanatic_%s$§!\n$ethic_fanatic_%s_desc$\n\n§gClick: make the ethic fanatic (2 points); if already present — remove it.§!" % (a, a))
+         "§Y$ethic_fanatic_%s$§!\n$ethic_fanatic_%s_desc$\n\n§gClick: make the ethic fanatic (2 points); if already present — remove it.§!" % (a, a), soft=pt_f)
 TRG.append(B("dtp_has_e_gestalt", "has_ethic = ethic_gestalt_consciousness"))
 _REGULAR_ETH = ["ethic_%s" % a for a, _o in AXES] + ["ethic_fanatic_%s" % a for a, _o in AXES]
 ok_g = okx("eth_gestalt", "OR = { has_authority = auth_hive_mind has_authority = auth_machine_intelligence }")
@@ -247,10 +251,13 @@ def _civ_bad(c, k):
 for _au in _ed.authorities(VC):
     _k = _au["key"]
     EFF.append(B("dtp_ed_civfix_%s" % _k[5:], *[B("if", B("limit", "has_civic = %s" % c["key"]), "force_remove_civic = %s" % c["key"]) for c in _CIV0 if _civ_bad(c, _k)] or ['log = "DTP civfix: nothing"']))
-for i, au in enumerate(_ed.authorities(VC)):
+# 11.2.7: «Древний машинный разум» игра даёт только особому типу державы (ai_empire) — даже принудительно не ставится (error.log)
+for i, au in enumerate([x for x in _ed.authorities(VC) if x["key"] != "auth_ancient_machine_intelligence"]):
     k = au["key"]
     y = EY0 + i * (ECH + EGAP)
     _req = [r.replace("owner_species = { is_archetype = MACHINE }", "owner_species = { dtp_sp_robotlook = yes }") for r in au["req"]]
+    if k == "auth_hive_mind":      # вид-машину редактор сам переделает в органический — но это «обычно нельзя»: метка, если портрет машинный
+        _req = ["NOT = { owner_species = { dtp_sp_robotlook = yes } }"]
     ok = okx(k, "\n".join(_req))
     hive = k == "auth_hive_mind"
     fx = [*gov_prep(k)]
@@ -261,11 +268,46 @@ for i, au in enumerate(_ed.authorities(VC)):
     if k in ("auth_hive_mind", "auth_machine_intelligence"):     # разумы: все этики → коллективное сознание
         fx = [*[B("if", B("limit", "has_ethic = %s" % e), "country_remove_ethic = %s" % e) for e in _REGULAR_ETH],
               B("if", B("limit", "NOT = { has_ethic = ethic_gestalt_consciousness }"), "country_add_ethic = ethic_gestalt_consciousness")] + fx[1:]
+    if k == "auth_hive_mind":
+        # 11.2.8: коллективный разум у вида-машины игра не даёт — делаем органический вид с тем же названием.
+        # Класс и портрет — по текущему портрету (если его уже вернули на органический), иначе млекопитающие.
+        _PRo = _ed.portraits(VC)
+        _org = [c_ for c_ in ("MAM", "REP", "AVI", "ART", "MOL", "FUN", "PLANT", "LITHOID", "NECROID", "AQUATIC", "TOX", "HUM", "INF") if _PRo.get(c_)]
+        def _mk(cls, portrait):
+            return B("create_species", "name = this", "plural = this", "class = %s" % cls, "portrait = %s" % portrait, "homeworld = event_target:dtp_cap",
+                     B("traits", "trait = trait_hive_mind"), B("effect", "save_event_target_as = dtp_newsp"))
+        _chain = [B("if" if i_ == 0 else "else_if", B("limit", "OR = { %s }" % " ".join("species_portrait = %s" % p_ for p_ in _PRo[c_])), _mk(c_, "this"))
+                  for i_, c_ in enumerate(_org)]
+        _chain.append(B("else", _mk("MAM", '"%s"' % _PRo["MAM"][0])))
+        fx = [B("if", B("limit", "owner_species = { OR = { is_archetype = MACHINE is_archetype = ROBOT } }"),
+                B("capital_scope", "save_event_target_as = dtp_cap"),
+                B("owner_species", B("if", B("limit", "exists = home_planet"), B("home_planet", "save_event_target_as = dtp_cap"))),
+                B("owner_species", "save_event_target_as = dtp_oldsp", *_chain),
+                B("if", B("limit", "exists = event_target:dtp_newsp"), B("event_target:dtp_newsp", "set_species_homeworld = event_target:dtp_cap"),
+                  "change_dominant_species = { species = event_target:dtp_newsp change_all = yes }"))] + fx
+    if k == "auth_machine_intelligence":
+        # 11.2.7: игра даёт машинный разум только виду-МАШИНЕ (тип вида не меняется от портрета) — создаём машинный вид
+        # с тем же названием и делаем его основным для всего населения; если портрет уже машинный — он сохраняется
+        _mp = _ed.portraits(VC).get("MACHINE", ["default_robot"])[0]
+        fx = [B("if", B("limit", "NOT = { owner_species = { is_archetype = MACHINE } }"),
+                B("capital_scope", "save_event_target_as = dtp_cap"),
+                B("owner_species", B("if", B("limit", "exists = home_planet"), B("home_planet", "save_event_target_as = dtp_cap"))),
+                B("owner_species", "save_event_target_as = dtp_oldsp",
+                  B("create_species", "name = this", "plural = this", "class = MACHINE", 'portrait = "%s"' % _mp, "homeworld = event_target:dtp_cap", B("traits", "trait = trait_machine_unit"),
+                    B("effect", "save_event_target_as = dtp_newsp"))),
+                B("if", B("limit", "exists = event_target:dtp_newsp"),
+                  B("if", B("limit", B("event_target:dtp_oldsp", "dtp_pin_MACHINE = yes")), B("event_target:dtp_newsp", "change_species_portrait = event_target:dtp_oldsp")),
+                  *[B("else_if", B("limit", B("event_target:dtp_oldsp", "dtp_pcls_%s = yes" % _c)), B("event_target:dtp_newsp", 'change_species_portrait = "%s"' % _p))
+                    for _c, _p in [("MAM", "sd_mam_robot"), ("REP", "sd_rep_robot"), ("AVI", "sd_avi_robot"), ("ART", "sd_art_robot"), ("MOL", "sd_mol_robot"),
+                                   ("FUN", "sd_fun_robot"), ("PLANT", "sd_pla_robot"), ("LITHOID", "lith_machine"), ("NECROID", "nec_machine"),
+                                   ("AQUATIC", "aqu_machine"), ("TOX", "tox_machine"), ("HUM", "sd_hum_robot")] if _p in _ed.portraits(VC).get("MACHINE", [])],
+                  B("event_target:dtp_newsp", "set_species_homeworld = event_target:dtp_cap"),
+                  "change_dominant_species = { species = event_target:dtp_newsp change_all = yes }"))] + fx
     card(k, _AUTH_RU.get(k, k), _AUTH_EN.get(k, k), AUX, y, AUW, EDP(1), au["icon"], "dtp_tcx = { T = dtp_has_au_%s }" % k[5:], ok,
          act("state", B("event_target:dtp_t", B("if", B("limit", "NOT = { has_authority = %s }" % k), *fx,
                                                  "dtp_ed_civfix_%s = yes" % k[5:], "change_government = { authority = %s cooldown = no remove_invalid_civics = yes }" % k)), 39), "state",
-         "§Y$%s$§!\n$%s_desc$\n\n§gНажмите: сменить форму правления. Этики подстраиваются сами (разумы получают коллективное сознание, вид — черту коллективного разума), несовместимые гражданские модели снимаются.§!" % (k, k),
-         "§Y$%s$§!\n$%s_desc$\n\n§gClick: change the authority. Ethics adjust automatically (hive and machine minds get gestalt consciousness, the species gets the hive-mind trait), incompatible civics are removed.§!" % (k, k))
+         ("§Y$%s$§!\n$%s_desc$\n\n§gНажмите: сменить форму правления. Этики подстраиваются сами (разумы получают коллективное сознание, вид — черту коллективного разума), несовместимые гражданские модели снимаются.§!" % (k, k)) + ("\n§gМашинный разум: если вид не машина, держава получает машинный вид с тем же названием и машинным портретом — всё население становится им.§!" if k == "auth_machine_intelligence" else "") + ("\n§gКоллективный разум: если вид — машины или роботы, держава получает органический вид с тем же названием (класс и портрет — по текущему портрету; сначала верните органический портрет в «Портрете вида»).§!" if k == "auth_hive_mind" else ""),
+         ("§Y$%s$§!\n$%s_desc$\n\n§gClick: change the authority. Ethics adjust automatically (hive and machine minds get gestalt consciousness, the species gets the hive-mind trait), incompatible civics are removed.§!" % (k, k)) + ("\n§gMachine intelligence: if the species is not a machine, the empire gets a machine species with the same name and a machine portrait — all pops become it.§!" if k == "auth_machine_intelligence" else "") + ("\n§gHive mind: if the species is machines or robots, the empire gets an organic species with the same name (class and portrait follow the current portrait — set an organic one in Species portrait first).§!" if k == "auth_hive_mind" else ""))
     TRG.append(B("dtp_has_au_%s" % k[5:], "has_authority = %s" % k))
 
 # ================================================================ 2. ГРАЖДАНСКИЕ МОДЕЛИ
@@ -330,10 +372,61 @@ for po, pg, r in rows:
              "§Y$%s$§!\n\n§gНажмите: выбрать этот вариант политики.§!" % n, "§Y$%s$§!\n\n§gClick: choose this policy option.§!" % n)
 pages("g5", 5, None, pg)
 
+# ================================================================ ВЫБОР ВИДА (общий для «Черт», «Прав» и «Портрета»)
+# 11.2.10: список видов державы A — до 40, по 4 на странице со стрелками; выбранный вид у каждого игрока свой (dtp_tsp_<номер>)
+ESL_N, ESL_PG = 40, 4
+SPTABS = (6, 7, 10)
+def EDPS(extra=""):
+    return B("from", EDOPEN, B("OR", *[chk("dtp_edtab", t) for t in SPTABS])) + ("\n" + extra if extra else "")
+_fill = [B("if", B("limit", "exists = event_target:dtp_esl_%d" % j), "clear_global_event_target = dtp_esl_%d" % j) for j in range(1, ESL_N + 1)]
+_inner = [B("owner_species", "save_global_event_target_as = dtp_esl_1")]
+for j in range(2, ESL_N + 1):
+    _inner.append(B("if", B("limit", "exists = event_target:dtp_esl_%d" % (j - 1)),
+                    B("random_owned_species", B("limit", *["NOT = { is_same_species = event_target:dtp_esl_%d }" % i for i in range(1, j)]), "save_global_event_target_as = dtp_esl_%d" % j)))
+EFF.append(B("dtp_esl_fill", *_fill, B("if", B("limit", "exists = event_target:dtp_t"), B("event_target:dtp_t", *_inner)),
+             # выбранный вид не из этой державы (сменили A) — сбросить на основной; список — на первую страницу
+             chain(lambda k: B("if", B("limit", "exists = event_target:dtp_tsp_%d" % k,
+                                       B("event_target:dtp_tsp_%d" % k, B("NOR", *["AND = { exists = event_target:dtp_esl_%d is_same_species = event_target:dtp_esl_%d }" % (j, j) for j in range(1, ESL_N + 1)]))),
+                               "clear_global_event_target = dtp_tsp_%d" % k), None),
+             B("from", setv("dtp_espg", 1))))
+EFF.append(B("dtp_sp_load", chain(lambda k: B("if", B("limit", "exists = event_target:dtp_tsp_%d" % k), B("event_target:dtp_tsp_%d" % k, "save_event_target_as = dtp_sp")) + "\n" +
+                                            B("else", B("event_target:dtp_t", B("owner_species", "save_event_target_as = dtp_sp"))), None)))
+TRG.append(B("dtp_esl_sel", orchain(lambda k: "exists = event_target:dtp_esl_$J$\n" + B("event_target:dtp_tsp_%d" % k, "is_same_species = event_target:dtp_esl_$J$"))))
+TRG.append(B("dtp_tsp_none", orchain(lambda k: "NOT = { exists = event_target:dtp_tsp_%d }" % k)))
+ESL_FILL = INIT + "\ndtp_load = yes\ndtp_esl_fill = yes"
+_PY = EY0 - 42                                 # строка выбора вида
+_pw = (EXW - 52 - 2 * 40 - 120 - 124 - 6 * (ESL_PG + 3)) // ESL_PG
+elab("spk_l", "§YВИД:§!", "§YSPECIES:§!", EX0, _PY + 8, 50, pot=EDPS(), h=22)
+_px = EX0 + 52
+eb("spk_prev", "‹", "‹", _px, _PY, 40, 34, pot=EDPS(B("from", chk("dtp_espg", 1, ">"))), effect=B("from", "change_variable = { which = dtp_espg value = -1 }"),
+   tt=("Предыдущие виды державы A.", "Previous species of empire A."))
+eb("spk_main_on", "Основной", "Main", _px + 46, _PY, 120, 34, pot=EDPS("dtp_tsp_none = yes"), sprite="GFX_dtp_btn_on",
+   tt=("Выбран основной вид державы A.", "Empire A's main species is selected."))
+eb("spk_main", "Основной", "Main", _px + 46, _PY, 120, 34, pot=EDPS("NOT = { dtp_tsp_none = yes }"),
+   effect=chain(lambda k: B("if", B("limit", "exists = event_target:dtp_tsp_%d" % k), "clear_global_event_target = dtp_tsp_%d" % k), None),
+   tt=("Менять основной вид державы A.", "Change empire A's main species."))
+for j in range(1, ESL_N + 1):
+    pgj = (j - 1) // ESL_PG + 1
+    x = _px + 46 + 126 + ((j - 1) % ESL_PG) * (_pw + 6)
+    pe = "exists = event_target:dtp_esl_%d" % j
+    pot_pg = B("from", chk("dtp_espg", pgj)) if pgj > 1 else B("from", B("OR", chk("dtp_espg", 1), "NOT = { is_variable_set = dtp_espg }"))
+    eb("spk%d_on" % j, "[dtp_esl_%d.GetName]" % j, "[dtp_esl_%d.GetName]" % j, x, _PY, _pw, 34, pot=EDPS(pot_pg + "\n" + pe + "\ndtp_esl_sel = { J = %d }" % j), sprite="GFX_dtp_btn_on",
+       tt=("Выбран этот вид: черты, права и портрет меняются для него.", "This species is selected: traits, rights and portrait change for it."))
+    eb("spk%d" % j, "[dtp_esl_%d.GetName]" % j, "[dtp_esl_%d.GetName]" % j, x, _PY, _pw, 34, pot=EDPS(pot_pg + "\n" + pe + "\nNOT = { dtp_esl_sel = { J = %d } }" % j),
+       effect=B("if", B("limit", pe), chain(lambda k, j=j: B("event_target:dtp_esl_%d" % j, "save_global_event_target_as = dtp_tsp_%d" % k), None)),
+       tt=("Выбрать этот вид державы A: черты, права и портрет будут меняться для него.", "Pick this species of empire A: traits, rights and portrait will change for it."))
+_nx = _px + 46 + 126 + ESL_PG * (_pw + 6)
+eb("spk_next", "›", "›", _nx, _PY, 40, 34, pot=EDPS(B("OR", *[B("AND", B("from", chk("dtp_espg", p_) if p_ > 1 else B("OR", chk("dtp_espg", 1), "NOT = { is_variable_set = dtp_espg }")),
+                                                                 "exists = event_target:dtp_esl_%d" % (p_ * ESL_PG + 1)) for p_ in range(1, ESL_N // ESL_PG)])),
+   effect=B("from", B("if", B("limit", "NOT = { is_variable_set = dtp_espg }"), setv("dtp_espg", 1)), "change_variable = { which = dtp_espg value = 1 }"),
+   tt=("Следующие виды державы A.", "Next species of empire A."))
+eb("spk_refresh", "Обновить", "Refresh", _nx + 46, _PY, EX0 + EXW - _nx - 46, 34, pot=EDPS(), effect=ESL_FILL, sprite="GFX_dtp_btn_go",
+   tt=("Перечитать виды державы A (список заполняется сам при входе в раздел).", "Re-read empire A's species (the list fills itself when you open the section)."))
+
 # ================================================================ 6. ЧЕРТЫ ВИДА
 TR_CATS = [(1, "bio", "Органические и литоиды", "Organic & lithoid"), (2, "robot", "Роботы и машины", "Robots & machines"),
            (3, "ascend", "Возвышение и особые", "Ascension & special"), (4, "hab", "Пригодность", "Habitability")]
-subtabs(6, [(c, ru, en) for c, _k, ru, en in TR_CATS])
+subtabs(6, [(c, ru, en) for c, _k, ru, en in TR_CATS], dy=40)
 _TRS = _ed.traits(VC)
 _PR0 = _ed.portraits(VC)
 # 11.2: «облик робота» — портрет класса ROBOT/MACHINE (после смены портрета в редакторе вид считается роботом для черт)
@@ -351,11 +444,11 @@ for c, ck, ru, en in TR_CATS:
         elif it["arch"]: cond.append(B("OR", *["is_archetype = %s" % a for a in it["arch"]]))
         if it["opp"]: cond.append(B("NOR", *["has_trait = %s" % o for o in it["opp"]]))
         card(k, "$%s$" % k, "$%s$" % k, x, y, w, pot, it["icon"], "dtp_spx = { T = dtp_has_tr_%s }" % k[6:], okx("t_" + k, "\n".join(cond), sp=True),
-             act("species", SPX + "\n" + B("event_target:dtp_sp", B("if", B("limit", "has_trait = %s" % k), "change_species_characteristics = { remove_trait = %s }" % k),
+             act("species", "dtp_sp_load = yes\n" + B("event_target:dtp_sp", B("if", B("limit", "has_trait = %s" % k), "change_species_characteristics = { remove_trait = %s }" % k),
                                               B("else", "change_species_characteristics = { add_trait = %s }" % k)), 22), "species",
              "§Y$%s$§!\n$%s_desc$\n\n§gНажмите: добавить черту всему виду; если уже есть — убрать. Игра разрешает черту только своему типу вида (органики, литоиды, роботы, машины) и без противоположных черт.§!" % (k, k),
              "§Y$%s$§!\n$%s_desc$\n\n§gClick: add the trait to the whole species; if present — remove it. The game allows a trait only for its species type (organic, lithoid, robot, machine) and without opposite traits.§!" % (k, k), sp=True)
-    grid_items(6, c, items, mk)
+    grid_items(6, c, items, mk, dy=40)
 
 # ================================================================ 7. ПРАВА И ПОРТРЕТ
 _RIGHTS_EN = {"citizenship_full": "Full citizenship", "citizenship_slavery": "Slavery", "citizenship_purge": "Purge",
@@ -365,43 +458,14 @@ _RIGHTS_EN = {"citizenship_full": "Full citizenship", "citizenship_slavery": "Sl
               "military_service_limited": "Service: limited", "military_service_none": "Service: none", "slavery_normal": "Chattel slavery", "slavery_domestic": "Domestic servitude",
               "slavery_military": "Battle thralls", "slavery_indentured": "Indentured servitude", "slavery_livestock": "Livestock", "purge_normal": "Extermination",
               "purge_displacement": "Displacement", "purge_labor_camps": "Forced labor", "purge_neutering": "Neutering", "purge_processing": "Processing"}
-head(7, "§YВИД§!  §gвыберите вид державы A — права ниже меняются для него; без отката; несовместимое с этиками игра может отменить§!",
-     "§YSPECIES§!  §gpick a species of empire A — the rights below change for it; no cooldown; the game may revert what conflicts with ethics§!")
-# 11.2.5: список видов державы A (общий для всех: заполняется при входе в раздел) и выбранный вид — у каждого игрока свой (dtp_tsp_<номер>)
-ESL_N = 9
-_fill = [B("if", B("limit", "exists = event_target:dtp_esl_%d" % j), "clear_global_event_target = dtp_esl_%d" % j) for j in range(1, ESL_N + 1)]
-_inner = [B("owner_species", "save_global_event_target_as = dtp_esl_1")]
-for j in range(2, ESL_N + 1):
-    _inner.append(B("if", B("limit", "exists = event_target:dtp_esl_%d" % (j - 1)),
-                    B("random_owned_species", B("limit", *["NOT = { is_same_species = event_target:dtp_esl_%d }" % i for i in range(1, j)]), "save_global_event_target_as = dtp_esl_%d" % j)))
-EFF.append(B("dtp_esl_fill", *_fill, B("if", B("limit", "exists = event_target:dtp_t"), B("event_target:dtp_t", *_inner))))
-EFF.append(B("dtp_sp_load", chain(lambda k: B("if", B("limit", "exists = event_target:dtp_tsp_%d" % k), B("event_target:dtp_tsp_%d" % k, "save_event_target_as = dtp_sp")) + "\n" +
-                                            B("else", B("event_target:dtp_t", B("owner_species", "save_event_target_as = dtp_sp"))), None)))
-TRG.append(B("dtp_esl_sel", orchain(lambda k: "exists = event_target:dtp_esl_$J$\n" + B("event_target:dtp_tsp_%d" % k, "is_same_species = event_target:dtp_esl_$J$"))))
-TRG.append(B("dtp_tsp_none", orchain(lambda k: "NOT = { exists = event_target:dtp_tsp_%d }" % k)))
-ESL_FILL = INIT + "\ndtp_load = yes\ndtp_esl_fill = yes"
 for k in range(1, MAXP + 1):
     pk = EDP(7, extra=B("from", chk("dtp_pidx", k)))
-    elab("sp_sel_%d" % k, "Права меняются для вида: §Y[dtp_tsp_%d.GetName]§!" % k, "Rights change for species: §Y[dtp_tsp_%d.GetName]§!" % k, EX0, EY0 - 4, EXW, pot=pk + "\nexists = event_target:dtp_tsp_%d" % k, h=24)
-    elab("sp_sel_%d_x" % k, "Права меняются для §Yосновного вида§! державы A", "Rights change for empire A's §Ymain species§!", EX0, EY0 - 4, EXW,
+    elab("sp_sel_%d" % k, "§YПРАВА ВИДА§!  §g[dtp_tsp_%d.GetName] · без отката; несовместимое с этиками игра может отменить§!" % k,
+         "§YSPECIES RIGHTS§!  §g[dtp_tsp_%d.GetName] · no cooldown; the game may revert what conflicts with ethics§!" % k, EX0, EY0 - 2, EXW, pot=pk + "\nexists = event_target:dtp_tsp_%d" % k, h=24)
+    elab("sp_sel_%d_x" % k, "§YПРАВА ВИДА§!  §gосновной вид державы A · без отката; несовместимое с этиками игра может отменить§!",
+         "§YSPECIES RIGHTS§!  §gempire A's main species · no cooldown; the game may revert what conflicts with ethics§!", EX0, EY0 - 2, EXW,
          pot=pk + "\nNOT = { exists = event_target:dtp_tsp_%d }" % k, h=24)
-_sw = (EXW - 24) // 5
-eb("sp_main_on", "Основной вид", "Main species", EX0, EY0 + 24, _sw, 32, pot=EDP(7, extra="dtp_tsp_none = yes"), sprite="GFX_dtp_btn_on",
-   tt=("Выбран основной вид державы A.", "Empire A's main species is selected."))
-eb("sp_main", "Основной вид", "Main species", EX0, EY0 + 24, _sw, 32, pot=EDP(7, extra="NOT = { dtp_tsp_none = yes }"),
-   effect=chain(lambda k: B("if", B("limit", "exists = event_target:dtp_tsp_%d" % k), "clear_global_event_target = dtp_tsp_%d" % k), None),
-   tt=("Менять права основного вида державы A.", "Change the rights of empire A's main species."))
-for j in range(1, ESL_N + 1):
-    x = EX0 + (j % 5) * (_sw + EGAP); y = EY0 + 24 + (j // 5) * 36
-    pe = "exists = event_target:dtp_esl_%d" % j
-    eb("sp_l%d_on" % j, "[dtp_esl_%d.GetName]" % j, "[dtp_esl_%d.GetName]" % j, x, y, _sw, 32, pot=EDP(7, extra=pe + "\ndtp_esl_sel = { J = %d }" % j), sprite="GFX_dtp_btn_on",
-       tt=("Выбран этот вид: права ниже меняются для него.", "This species is selected: the rights below change for it."))
-    eb("sp_l%d" % j, "[dtp_esl_%d.GetName]" % j, "[dtp_esl_%d.GetName]" % j, x, y, _sw, 32, pot=EDP(7, extra=pe + "\nNOT = { dtp_esl_sel = { J = %d } }" % j),
-       effect=B("if", B("limit", pe), chain(lambda k, j=j: B("event_target:dtp_esl_%d" % j, "save_global_event_target_as = dtp_tsp_%d" % k), None)),
-       tt=("Выбрать этот вид державы A: права ниже будут меняться для него.", "Pick this species of empire A: the rights below will change for it."))
-eb("sp_refresh", "Обновить список", "Refresh list", EX0 + 4 * (_sw + EGAP), EY0 + 24 + 36, _sw, 32, pot=EDP(7), effect=ESL_FILL, sprite="GFX_dtp_btn_go",
-   tt=("Перечитать виды державы A (список заполняется сам при входе в раздел).", "Re-read empire A's species (the list fills itself when you open this section)."))
-_r = 3
+_r = 1
 for lst, eff, code, nm_ru, nm_en in [(CITIZEN, "set_citizenship_type", 23, "Гражданство", "Citizenship"), (LIVING, "set_living_standard", 44, "Уровень жизни", "Living standard"),
                                      (MILSRV, "set_military_service_type", 45, "Военная служба", "Military service"), (SLAVE, "set_slavery_type", 46, "Рабство", "Slavery"),
                                      (PURGE, "set_purge_type", 47, "Чистка", "Purge")]:
@@ -599,11 +663,18 @@ eb("k_yr", "Срок = число (лет)", "Duration = number (years)", RX9 + 
 
 # ================================================================ 10. ПОРТРЕТ ВИДА: класс → все портреты этого класса
 head(10, "§YКЛАСС ВИДА§!  §gвыберите класс — ниже появятся все его портреты; текущий портрет и его класс — в зелёной рамке§!",
-     "§YSPECIES CLASS§!  §gpick a class — all its portraits appear below; the current portrait and its class have a green frame§!")
+     "§YSPECIES CLASS§!  §gpick a class — all its portraits appear below; the current portrait and its class have a green frame§!", y=EY0 - 6)
 _cw5 = (EXW - 24) // 5
 for j, (c, ru, en) in enumerate(CLS):
-    x = EX0 + (j % 5) * (_cw5 + EGAP); y = EY0 + (j // 5) * 36
-    TRG.append(B("dtp_pcls_%s" % c, B("OR", *["species_portrait = %s" % p_ for p_ in _PR[c]])))
+    x = EX0 + (j % 5) * (_cw5 + EGAP); y = EY0 + 34 + (j // 5) * 36
+    # 11.2.8: у роботов и машин общие портреты — какой класс подсветить, решает тип вида (машина / не машина)
+    _shared = set(_PR.get("ROBOT", [])) & set(_PR.get("MACHINE", []))
+    _own = [p_ for p_ in _PR[c] if p_ not in _shared]; _sh = [p_ for p_ in _PR[c] if p_ in _shared]
+    _cond = ["species_portrait = %s" % p_ for p_ in _own]
+    if _sh and c in ("ROBOT", "MACHINE"):
+        _cond.append(B("AND", B("OR", *["species_portrait = %s" % p_ for p_ in _sh]), "is_archetype = MACHINE" if c == "MACHINE" else "NOT = { is_archetype = MACHINE }"))
+    TRG.append(B("dtp_pcls_%s" % c, B("OR", *_cond)))
+    TRG.append(B("dtp_pin_%s" % c, B("OR", *["species_portrait = %s" % p_ for p_ in _PR[c]])))     # портрет из списка класса (без учёта типа вида)
     eb("cls_%s_on" % c, ru, en, x, y, _cw5, 32, pot=EDP(10, j + 1), sprite="GFX_dtp_btn_on", tt=("Открыты портреты класса «%s»." % ru, "Showing '%s' portraits." % en))
     eb("cls_" + c, ru, en, x, y, _cw5, 32, pot=EDP(10, extra=B("from", "NOT = { %s }" % chk("dtp_edcat", j + 1))),
        effect=B("from", setv("dtp_edcat", j + 1)), tt=("Показать все портреты класса «%s»." % ru, "Show all '%s' portraits." % en))
@@ -612,15 +683,15 @@ for j, (c, ru, en) in enumerate(CLS):
        sprite="GFX_dtp_sg", transp=True, tt=("Текущий портрет вида — из класса «%s». Нажмите, чтобы показать все портреты этого класса." % ru,
                                                "The species' current portrait is from the '%s' class. Click to show all portraits of this class." % en))
 elab("pt_h2", "§YПОРТРЕТЫ КЛАССА§!  §gнажмите — портрет сменится у всего вида; виден в окнах игры (вид, правительство, дипломатия)§!",
-     "§YCLASS PORTRAITS§!  §gclick — the whole species gets this portrait; it shows in the game windows (species, government, diplomacy)§!", EX0, EY0 + 3 * 36 + 6, EXW, pot=EDP(10), h=28)
+     "§YCLASS PORTRAITS§!  §gclick — the whole species gets this portrait; it shows in the game windows (species, government, diplomacy)§!", EX0, EY0 + 34 + 3 * 36 + 4, EXW, pot=EDP(10), h=28)
 _pw6 = (EXW - 5 * EGAP) // 6
 _PTSEEN = set()
 for j, (c, ru, en) in enumerate(CLS):
     for i, p_ in enumerate(_PR[c]):
-        x = EX0 + (i % 6) * (_pw6 + EGAP); y = EY0 + 3 * 36 + 40 + (i // 6) * (ECH + EGAP)
+        x = EX0 + (i % 6) * (_pw6 + EGAP); y = EY0 + 34 + 3 * 36 + 36 + (i // 6) * (ECH + EGAP)
         if p_ not in _PTSEEN: _PTSEEN.add(p_); TRG.append(B("dtp_pt_%s" % p_, "species_portrait = %s" % p_))
         card("pt_%s_%d" % (c, i), "%s %d" % (ru, i + 1), "%s %d" % (en, i + 1), x, y, _pw6, EDP(10, j + 1), None, "dtp_spx = { T = dtp_pt_%s }" % p_, None,
-             act("species", SPX + "\n" + B("event_target:dtp_sp", "change_species_portrait = %s" % p_), 67), "species",
+             act("species", "dtp_sp_load = yes\n" + B("if", B("limit", "exists = event_target:dtp_sp"), B("event_target:dtp_sp", "change_species_portrait = %s" % p_)), 67), "species",
              "Портрет «%s» (%s, №%d). Нажмите, чтобы поставить его основному виду A." % (p_, ru, i + 1), "Portrait '%s' (%s, #%d). Click to give it to A's main species." % (p_, en, i + 1))
 
 # ---- кнопка «Открыть редактор» (главная панель) — эффект общий

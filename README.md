@@ -21,21 +21,23 @@ When updating, delete the old `dtp_toolpack` folder first, so no stale files rem
 
 ## Empire & Species Editor (11.2)
 
-A separate window that works like the game's empire designer, but for a game already in progress. Open it with **Open the empire & species editor** in the State, Government or Species section. It edits empire A.
+A separate window that works like the game's empire designer, but for a game already in progress. Open it with **Open the empire & species editor** in the State section (or from the Modifiers section). It edits empire A.
 
 | Tab | What it does |
 |---|---|
-| Ethics & authority | regular and fanatic ethics, gestalt consciousness, every authority (switching to a hive mind sets the ethic and the hive-mind trait and removes incompatible civics) |
+| Ethics & authority | regular and fanatic ethics, gestalt consciousness, every authority. Switching to a hive mind or machine intelligence sets the ethic and trait and removes incompatible civics; if needed the empire gets a new organic or machine species with the same name and homeworld |
 | Civics | every civic in the game: regular, megacorp, hive mind, machine, special |
 | Traditions / Ascension perks / Policies | whole tradition trees, perks, an option for every policy |
 | Species traits | every species trait: organic, robotic, ascension, habitability |
-| Species rights | citizenship, living standard, military service, slavery, purge — for **any species** of the empire |
+| Species rights | citizenship, living standard, military service, slavery, purge |
 | Species portrait | the species class and every portrait of that class |
+
+Traits, rights and portrait work on **any species of the empire**: a species picker (up to 40 species, 4 per page with arrows) sits at the top of these three tabs.
 | Look & name | ship set, city style, random flag, empire name (32 presets) |
 | Modifiers | 36 Toolpack modifiers and 24 game modifiers, with a strength/duration calculator (strength 1 = 1%, minus = penalty) |
 
 - The game's own rules are checked: ethic points, opposite ethics and the `potential`/`possible` requirements of civics, authorities, traits, perks, traditions and policies are read from the game files (`tools/eddata.py`).
-- Anything the game normally forbids gets a red **!** and can only be set in **force mode**. A green frame means the empire already has it.
+- Anything the game normally forbids gets a red **!** and can only be set in **force mode**. A green frame means the empire already has it. Ethic points (3 total) are only enforced outside force mode.
 - Icons are the game's own textures.
 - The editor lives in the game's bottom bar window (`main_bottom.gui`; with UIOD — `Ω_uiod_main_bottom.gui` in the UIOD patch), so `main.gui` stays under the size the game reads.
 
@@ -66,10 +68,10 @@ When an empire becomes HOST, it is offered the **Game Master role** (a window ex
 | Game Master | monsters, leaders, map tools, situations, crises (incl. Cetana and the Great Khan), announcements, balance packages, all technologies, player summary, session timer, Galactic Senate, Game Rules |
 | Empire | pick empire A (changed) and recipient B (receives) |
 | Systems | marking systems (see below) |
-| Resources / Modifiers | stockpiles, monthly income, bonuses and penalties |
+| Resources / Modifiers | stockpiles, monthly income; planet and fleet modifiers (empire modifiers are in the editor) |
 | Planet / Buildings | class, size, deposits, districts, buildings, transfer |
 | Fleet | repair, teleport, transfer, delete, **Fleet Builder** (type, count 1–100, spawn point); "+ N ships" button in the game's fleet window |
-| State / Government / Species | technologies, edicts, cooldowns, force mode and the **Empire & Species Editor** |
+| State | the **Empire & Species Editor**, technologies, traditions and perks from B, edicts, cooldowns, force mode |
 | Diplomacy | relations, trust, borders, truces, vassals, war, **White Peace A ↔ B** |
 | Access | HOST status, player rights, Game Master role |
 | Log | every action by every player, built-in self-tests |

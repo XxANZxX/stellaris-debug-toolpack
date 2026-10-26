@@ -17,7 +17,7 @@ python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/model
 import zlib, os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "11.2.5"
+VERSION = "11.2.10"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []
@@ -547,7 +547,15 @@ def button(name, text, x, y, w, h=30, potential="", allow="", effect="", tt=None
 def lab(name, text, x, y, w, potential="", h=24, where="main", font="cg_16b"):
     return button(name, text, x, y, w, h, potential=potential, sprite="GFX_dtp_label", label=True, where=where, font=font)
 
-INIT = B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes")
+INIT = B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes")
+# 11.2.6: на старте ХОСТ назначается через день игры (dtp.1251) — пока игра на паузе, первые нажатия давали «ОТКАЗАНО».
+# Теперь любое нажатие в DTP сразу назначает ХОСТа, если его ещё нет (то же правило: первая держава игроков).
+EFF.append(B("dtp_host_check", B("if", B("limit", "NOT = { has_global_flag = dtp_host_set }", "NOT = { any_country = { has_country_flag = dtp_host_seat } }"), "dtp_auto_host = yes")))
+# открыть «Редактор держав и вида» на нужном разделе
+def ED_OPEN_AT(tab=None, cat=1):
+    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open",
+        *([setv("dtp_edtab", tab), setv("dtp_edcat", cat), setv("dtp_edpg", 1)] if tab else
+          [B("if", B("limit", "NOT = { is_variable_set = dtp_edtab }"), setv("dtp_edtab", 1), setv("dtp_edcat", 1), setv("dtp_edpg", 1))]))
 def act(p, body, code, need_load=True):
     """Тело действия: загрузка целей, проверка прав и наличия целей В МОМЕНТ выполнения, журнал.
     Если выбранная цель исчезла (планета уничтожена, флот погиб, держава пала) — «НЕ ВЫПОЛНЕНО», а не ложное «ГОТОВО»."""
@@ -647,7 +655,7 @@ lab("role_n", "§Rнет доступа — раздел «Доступ»§!", 4
 lab("mode_f", "§R!! ПРИНУДИТЕЛЬНЫЙ РЕЖИМ !!§!", 660, 18, 240, potential=B("from", "dtp_force_active = yes"))
 
 # ---------------- навигация
-NAV = [("ГЛАВНОЕ", [15, 16]), ("ЦЕЛИ", [2, 1]), ("ЭКОНОМИКА", [3, 4]), ("МИРЫ", [5, 14, 6]), ("ДЕРЖАВА", [8, 13, 9, 7]), ("СЛУЖЕБНОЕ", [11, 12])]
+NAV = [("ГЛАВНОЕ", [15, 16]), ("ЦЕЛИ", [2, 1]), ("ЭКОНОМИКА", [3, 4]), ("МИРЫ", [5, 14, 6]), ("ДЕРЖАВА", [8, 7]), ("СЛУЖЕБНОЕ", [11, 12])]
 TABD = {16: "для ведущего",
         15: "цель, разделы, быстрые действия",
         1: "отметки и действия над отмеченными",
@@ -657,18 +665,22 @@ TABD = {16: "для ведущего",
         5: "тип, залежи, размер, передача",
         6: "ремонт, перенос, передача, создание",
         7: "отношения и договоры A и B",
-        8: "этики, технологии, откаты",
+        8: "редактор, технологии, указы",
         9: "признаки и права вида A",
         10: "события для цели или всех",
         11: "ХОСТ и права игроков",
         12: "последние действия",
         13: "правление, модели, указы",
         14: "районы и здания планеты"}
+for _t in (9, 13): TABD.pop(_t, None)          # 11.2.6: «Расы» и «Правление» — в «Государстве» и редакторе
+tren("§gредактор, технологии, указы§!", "§geditor, technologies, edicts§!")
+tren("Открыт раздел «Государство». Редактор держав и вида (этики, правление, цивики, традиции, перки, политика, вид, облик, модификаторы), технологии, указы, откаты, принудительный режим.", "The State section is open. The Empire & Species Editor (ethics, authority, civics, traditions, perks, policies, species, look, modifiers), technologies, edicts, cooldowns, force mode.")
+tren("Открыть раздел «Государство». Редактор держав и вида (этики, правление, цивики, традиции, перки, политика, вид, облик, модификаторы), технологии, указы, откаты, принудительный режим.", "Open the State section. The Empire & Species Editor (ethics, authority, civics, traditions, perks, policies, species, look, modifiers), technologies, edicts, cooldowns, force mode.")
 TN = {t: n for t, n, p in TABS}
 TABD_FULL = {1: "Отметки систем на карте, список отмеченных, передача, освобождение и претензии.", 2: "Выбор державы A и получателя B для всех инструментов.",
              3: "Ресурсы державы A: добавить, вычесть, задать запас, доход каждый месяц на срок.", 4: "Бонусы и штрафы: свои модификаторы Toolpack и настоящие модификаторы игры.",
              5: "Выбранная планета: тип, размер, залежи, население, звезда, передача и колонии.", 6: "Выбранный флот: ремонт, перемещение, передача, удаление, новые флоты.",
-             7: "Дипломатия между A и B: отношения, договоры, перемирие, война, вассалитет.", 8: "Этики, технологии, традиции, откаты и принудительный режим.",
+             7: "Дипломатия между A и B: отношения, договоры, перемирие, война, вассалитет.", 8: "Редактор держав и вида (этики, правление, цивики, традиции, перки, политика, вид, облик, модификаторы), технологии, указы, откаты, принудительный режим.",
              9: "Вид державы A: признаки и права.", 10: "Настоящие события игры и свои события для цели или для всех.",
              11: "ХОСТ, голосование за ХОСТа и права игроков.", 12: "Журнал действий всех игроков и самопроверки мода.",
              13: "Правление державы A: форма правления, цивики, политики, уровень жизни, рабство.", 14: "Районы и здания выбранной планеты.",
@@ -698,7 +710,7 @@ GOTO = lambda t: INIT + "\n" + B("from", setv("dtp_tab", t)) + "\ndtp_disarm = y
 CARD_Y, CARD_H = 92, 70
 def tcard(tabs, cw):
     button("tcard_%d" % cw, "", CX0, CARD_Y, cw, CARD_H, sprite="GFX_dtp_card", label=True, potential=TS(tabs))
-A_TABS = [2, 3, 4, 8, 9, 11, 12, 13, 15, 16, 7]   # главная цель — держава A
+A_TABS = [2, 3, 4, 8, 11, 12, 15, 16, 7]          # 11.2.6: разделов 9 и 13 больше нет   # главная цель — держава A
 B_TABS = [2, 7, 1, 5, 6, 16]                          # нужен ещё получатель B
 P_TABS = [5, 14]; F_TABS = [6]; S_TABS = [1]
 for cw in (CWF, CWN):
@@ -1066,9 +1078,22 @@ M2 = T(4, B("from", chk("dtp_modpage", 2)))
 x, y, w = grid(0, cols=1)
 lab("um_hint", "§YСВОИ МОДИФИКАТОРЫ§!  §gзначение §Y[From.dtp_val]§!, срок §Y[From.dtp_years]§! лет — панель справа§!", x, y, w, potential=M1)
 UMOD_STATIC = []
-row = 2
+row = 1
+# 11.2.6: модификаторы державы — в редакторе держав и вида (их там 36); здесь — кнопка туда, планеты и флоты
+ED_MOD_TT = tren("Модификаторы державы A — в «Редакторе держав и вида», раздел «Модификаторы»: 36 своих и 24 модификатора игры, калькулятор силы и срока. Панель DTP закроется.",
+                 "Empire A's modifiers are in the Empire & Species Editor, Modifiers section: 36 Toolpack and 24 game modifiers, with a strength and duration calculator. The DTP panel closes.")
 for c, lst in UMODS.items():
     obj, p, nm = UCAT[c]
+    if c == "c":
+        for k, n, mk, unit, u in lst:          # сами модификаторы нужны редактору
+            key = "dtp_uc_%s" % k
+            UMOD_STATIC.append("%s = {\n\t%s = %s\n}" % (key, mk, unit))
+            loc(key, "Toolpack: " + n); loc(key + "_desc", "Модификатор выдан через Debug Toolpack.")
+        x, y, w = grid(0, cols=1, row0=row)
+        button("um_ed", tren("Модификаторы державы → в редакторе держав и вида", "Empire modifiers → in the empire & species editor"), x, y, w, 34,
+               potential=M1, effect=ED_OPEN_AT(9, 1), sprite="GFX_dtp_btn_go", tt=ED_MOD_TT)
+        row += 1
+        continue
     x, y, w = grid(0, cols=1, row0=row)
     lab("um_h_" + c, {"c": "§HДержава§! (выбранная во вкладке «Держава»):", "p": "§HПланета§! (выбранная в окне планеты):", "f": "§HФлот§! (выбранный в окне флота):"}[c], x, y, w, potential=M1)
     row += 1
@@ -1133,13 +1158,18 @@ VMODS = [("c", "§YДЕРЖАВА A — БОНУСЫ ИГРЫ§!", "GFX_dtp_btn_
 VAPPLY = lambda obj, key: "\n".join([B("event_target:%s" % obj, setv("dtp_ty", "from.dtp_years"), "remove_modifier = %s" % key),
                                      B("if", B("limit", B("from", chk("dtp_years", 0, "<="))), B("event_target:%s" % obj, "add_modifier = { modifier = %s days = -1 }" % key)),
                                      B("else", B("event_target:%s" % obj, "add_modifier = { modifier = %s days = 360 time_multiplier = dtp_ty }" % key))])
+x, y, w = grid(0, cols=1, row0=0)
+button("vm_ed", tren("Бонусы и штрафы державы → в редакторе держав и вида", "Empire bonuses and penalties → in the empire & species editor"), x, y, w, 34,
+       potential=M2, effect=ED_OPEN_AT(9, 2), sprite="GFX_dtp_btn_go", tt=ED_MOD_TT)
+_vrow = 1
 for gi, (c, head, spr, lst) in enumerate(VMODS):
-    x, y, w = grid(0, cols=1, row0=gi * 3)
+    if c == "c": continue                      # 11.2.6: державные — в редакторе
+    x, y, w = grid(0, cols=1, row0=_vrow); _vrow += 3
     lab("vm_h%d" % gi, head + "  §g%s, срок — панель справа§!" % ("держава A" if c == "c" else "выбранная планета"), x, y, w, potential=M2)
     obj, p = ("dtp_t", "res") if c == "c" else ("dtp_p", "planet")
     need_obj = N_TC() if c == "c" else N_TP()
     for i, (key, n) in enumerate(lst):
-        x, y, w = grid(i, cols=3, row0=gi * 3 + 1)
+        x, y, w = grid(i, cols=3, row0=_vrow - 2)
         if key not in VSRC:
             continue                                          # модификатора нет в этой версии игры — кнопку не делаем
         hasT = "dtp_%s_hasmod = { M = %s }" % (c, key)
@@ -1336,40 +1366,43 @@ for i, (k, n, e, code, al) in enumerate([
         ("perk", "Копировать перки у B", "copy_ascension_perks_from = { target = %s }" % R, 21, N_RCP()),
         ("pol", "Сбросить откаты политик", "reset_policy_cooldowns = yes", 28, ""),
         ("gov", "Разблокировать правительство", "set_government_cooldown = no", 28, "")]):
-    x, y, w = grid(i)
+    x, y, w = grid(i, row0=4)
     button("st_" + k, n, x, y, w, potential=T(8), allow=need_perm("state") + "\n" + N_TC() + ("\n" + al if al else ""),
            effect=act("state", B("event_target:dtp_t", e), code))
-x, y, w = grid(5)
+x, y, w = grid(5, row0=4)
 button("st_force_on", "Принуд. режим: ВКЛ", x, y, w, potential=T(8, B("from", "NOT = { has_country_flag = dtp_force_mode }")), allow=need_perm("force"),
        effect=B("from", B("if", B("limit", "dtp_has_perm = { P = force }"), "set_country_flag = dtp_force_mode")) + "\ndtp_result = { CODE = 30 }", sprite="GFX_dtp_btn_warn",
        tt="Действия в обход правил игры: особые типы планет, класс звезды, этики без проверок, война, уничтожение колоний.")
 button("st_force_off", "Принуд. режим: ВЫКЛ", x, y, w, potential=T(8, B("from", "has_country_flag = dtp_force_mode")),
        effect=B("from", "remove_country_flag = dtp_force_mode") + "\ndtp_result = { CODE = 30 }", sprite="GFX_dtp_btn_on")
 # 11.2: этики, форма правления, гражданские модели и всё о виде — в отдельном окне «Редактор держав и вида»
-ED_OPEN = INIT + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open",
-                          B("if", B("limit", "NOT = { is_variable_set = dtp_edtab }"), setv("dtp_edtab", 1), setv("dtp_edcat", 1), setv("dtp_edpg", 1)))
+ED_OPEN = ED_OPEN_AT()
 ED_TT = tren("Открыть «Редактор держав и вида» — окно как в редакторе держав игры: этики, форма правления, гражданские модели, традиции, перки, политика, черты и права вида, портрет, облик кораблей и городов, флаг, название, модификаторы. Редактируется держава A. Панель DTP при этом закроется.", "Open the Empire & Species Editor — a window like the game's empire designer: ethics, authority, civics, traditions, perks, policies, species traits and rights, portrait, ship and city style, flag, name, modifiers. Empire A is edited. The DTP panel closes.")
 def ed_open_btn(tab, name, row0, tabset=None):
     x, y, w = grid(0, cols=1, row0=row0)
     button(name, tren("Открыть редактор держав и вида", "Open the empire & species editor"), x, y, w, 40, potential=T(tab), effect=ED_OPEN, sprite="GFX_dtp_btn_go", tt=ED_TT)
     x, y, w = grid(0, cols=1, row0=row0 + 1)
-    lab(name + "_d", tren("§gэтики · правление · гражданские модели · традиции · перки · политика · черты и права вида · портрет · облик · флаг и название · модификаторы§!",
-                        "§gethics · authority · civics · traditions · perks · policies · species traits and rights · portrait · look · flag and name · modifiers§!"), x, y + 8, w, potential=T(tab))
-ed_open_btn(8, "st_ed", 3)
+    lab(name + "_d", tren("§YВ РЕДАКТОРЕ:§! этики и правление · гражданские модели · традиции · перки возвышения · политика",
+                        "§YIN THE EDITOR:§! ethics & authority · civics · traditions · ascension perks · policies"), x, y + 8, w, potential=T(tab))
+    x, y, w = grid(0, cols=1, row0=row0 + 2)
+    lab(name + "_d2", tren("черты, права и портрет вида (любого вида державы) · облик кораблей и городов · флаг и название · модификаторы державы",
+                         "species traits, rights and portrait (any species of the empire) · ship and city style · flag and name · empire modifiers"), x, y + 2, w, potential=T(tab))
+ed_open_btn(8, "st_ed", 0)
+x, y, w = grid(0, cols=1, row0=3)
+lab("st_hdr", tren("§YДЕРЖАВА A§!  §gтехнологии, традиции, перки, откаты и принудительный режим§!", "§YEMPIRE A§!  §gtechnologies, traditions, perks, cooldowns and force mode§!"), x, y + 6, w, potential=T(8))
 
 x, y, w = grid(0, cols=1, row0=11)
 for i, (k, n, e, tt) in enumerate([("fin", "Завершить исследования A", "finish_all_researches = yes", "Мгновенно завершить все текущие исследования державы A."),
                                    ("half", "Исследования A +50%", "progress_all_researches = 0.5", "Продвинуть текущие исследования A на половину."),
                                    ("inc_e", "A: +год дохода энергии", "add_monthly_resource_mult = { resource = energy value = 12 min = 0 max = 1000000 }", "Единовременно — 12 месячных доходов энергии."),
                                    ("inc_a", "A: +год дохода сплавов", "add_monthly_resource_mult = { resource = alloys value = 12 min = 0 max = 1000000 }", "Единовременно — 12 месячных доходов сплавов.")]):
-    x, y, w = grid(i, cols=4, row0=11)
+    x, y, w = grid(i, cols=4, row0=6)
     button("st2_" + k, n, x, y, w, potential=T(8), allow=need_perm("state") + "\n" + N_TC(), effect=act("state", B("event_target:dtp_t", e), 21 if i < 2 else 1),
            sprite="GFX_dtp_btn_go", tt=tt)
 
 # ---------- 9. Расы
 area(9)
 SP = B("event_target:dtp_t", B("owner_species", "save_event_target_as = dtp_sp"))
-ed_open_btn(9, "sp_ed", 1)
 
 # ---------- 10. Ивенты — 10.9.0: раздел убран. Его кнопки дублировали другие разделы: залежь — «Планета», ремонт — «Флот»,
 # ресурсы/наука — «Ресурсы», стабильность — «Модификаторы», объявления — «Мастер игры»; «Мирное предложение» стало
@@ -1402,17 +1435,16 @@ def gov_prep(k):
     else:   # олигархия, корпорация: нельзя фанатичные эгалитаризм/авторитаризм
         out += swap([("ethic_fanatic_egalitarian", "ethic_egalitarian"), ("ethic_fanatic_authoritarian", "ethic_authoritarian")])
     return out
-ed_open_btn(13, "gv_ed", 1)
-x, y, w = grid(0, cols=1, row0=4)
-lab("gv_h3", "§YУКАЗЫ§!  §gвключить у A бесплатно; выключаются в окне указов игры§!", x, y, w, potential=T(13))
-for i, (k, n) in enumerate(EDICTS):
-    x, y, w = grid(i, cols=4, row0=5)
-    button("ed_%s_on" % k, "✔ " + n, x, y, w, potential=T(13, "dtp_tc_has_edict = { E = %s }" % k), sprite="GFX_dtp_btn_on")
-    button("ed_" + k, "+ " + n, x, y, w, potential=T(13, "NOT = { dtp_tc_has_edict = { E = %s } }" % k), allow=need_perm("state") + "\n" + N_TC(),
-           effect=act("state", B("event_target:dtp_t", "add_edict = %s" % k), 41), tt="Включить указ «%s» державе A." % n)
+# 11.2.6: указы — в разделе «Государство» (разделы «Правление» и «Расы» убраны: всё это теперь в редакторе)
+area(8)
 x, y, w = grid(0, cols=1, row0=7)
-lab("gv_lim", tren("Политика, этики и гражданские модели — в редакторе держав и вида; откаты снимаются во вкладке «Государство».",
-                   "Policies, ethics and civics are in the Empire & Species Editor; cooldowns are reset on the State tab."), x, y, w, potential=T(13))
+lab("gv_h3", "§YУКАЗЫ§!  §gвключить у A бесплатно; выключаются в окне указов игры§!", x, y + 6, w, potential=T(8))
+for i, (k, n) in enumerate(EDICTS):
+    x, y, w = grid(i, cols=4, row0=8)
+    button("ed_%s_on" % k, "✔ " + n, x, y, w, potential=T(8, "dtp_tc_has_edict = { E = %s }" % k), sprite="GFX_dtp_btn_on")
+    button("ed_" + k, "+ " + n, x, y, w, potential=T(8, "NOT = { dtp_tc_has_edict = { E = %s } }" % k), allow=need_perm("state") + "\n" + N_TC(),
+           effect=act("state", B("event_target:dtp_t", "add_edict = %s" % k), 41), tt="Включить указ «%s» державе A." % n)
+
 
 # ---------- 14. Постройки (выбранная планета)
 area(14)
@@ -2883,6 +2915,8 @@ for _b in BTN:
         _parts.append(_cur); _cur, _sz = [], 0
     _cur.append(_t); _sz += len(_t.encode())
 _parts.append(_cur)
+for _old in glob.glob(os.path.join(OUT, "common/button_effects/dtp_buttons_*.txt")):   # 11.2.10: старые части (их могло быть больше) — иначе кнопки дважды
+    os.remove(_old)
 for _i, _c in enumerate(_parts, 1):
     w("common/button_effects/dtp_buttons_%02d.txt" % _i, HDR + "".join(_c))
 w("common/scripted_effects/dtp_scripted_effects.txt", HDR + pretty("\n".join(EFF)))
