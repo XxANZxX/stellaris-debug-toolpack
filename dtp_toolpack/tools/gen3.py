@@ -14,16 +14,19 @@
   * главное окно — dropDownBoxType (открывается значком, перетаскивается).
 
 python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/models/map>"""
-import os, sys, re, json, glob
+import zlib, os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "11.1.9"
+VERSION = "11.2.5"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []
 DEFTXT = []   # 11.1: common/scripted_loc
 
 def loc(k, v): L[k] = v; return k
+ED_EN = {}                               # 11.2: русская строка → английская (новые строки, без i18n/en_map.json)
+def tren(ru, en):
+    ED_EN[ru] = en; return ru
 def B(head, *body): return head + " = {\n" + "\n".join(b for b in body if b) + "\n}"
 def chk(var, val, op="="): return "check_variable = { which = %s value %s %s }" % (var, op, val)
 def setv(var, val): return "set_variable = { which = %s value = %s }" % (var, val)
@@ -110,6 +113,11 @@ TRAITS = [("trait_intelligent", "Интеллектуальные"), ("trait_nat
           ("trait_rapid_breeders", "Быстрорастущие"), ("trait_thrifty", "Бережливые"), ("trait_adaptive", "Адаптивные"),
           ("trait_charismatic", "Харизматичные"), ("trait_talented", "Талантливые"), ("trait_venerable", "Долгоживущие")]
 CITIZEN = [("citizenship_full", "Полное гражданство"), ("citizenship_slavery", "Рабство"), ("citizenship_purge", "Чистка")]
+LIVING = [("living_standard_utopian", "Жизнь: утопия"), ("living_standard_good", "Жизнь: высокий"), ("living_standard_normal", "Жизнь: обычный"), ("living_standard_academic_privilege", "Академ. привил."),
+          ("living_standard_stratified", "Жизнь: стратиф."), ("living_standard_decadent", "Декадентский"), ("living_standard_subsistence", "Жизнь: выживание"), ("living_standard_none", "Жизнь: нет")]
+MILSRV = [("military_service_full", "Служба: полная"), ("military_service_limited", "Служба: ограничена"), ("military_service_none", "Служба: нет")]
+SLAVE = [("slavery_normal", "Рабы: труд"), ("slavery_domestic", "Рабы: домашние"), ("slavery_military", "Рабы: боевые"), ("slavery_indentured", "Рабы: кабала"), ("slavery_livestock", "Рабы: скот")]
+PURGE = [("purge_normal", "Чистка: обычная"), ("purge_displacement", "Выселение"), ("purge_labor_camps", "Трудлагеря"), ("purge_neutering", "Стерилизация"), ("purge_processing", "Переработка")]
 CODES = {1: "ресурсы добавлены", 2: "ресурсы вычтены", 3: "запас установлен", 5: "модификатор добавлен", 6: "модификатор снят",
          7: "системы переданы", 8: "планета передана", 9: "тип планеты изменён", 10: "залежи/препятствия изменены",
          11: "размер планеты изменён", 12: "население добавлено", 13: "событие вызвано", 14: "флот передан", 15: "флот удалён",
@@ -121,7 +129,9 @@ CODES = {1: "ресурсы добавлены", 2: "ресурсы вычтен
          48: "монстры появились у выбранной планеты", 49: "карта и разведка обновлены", 50: "лидер создан", 51: "столица перенесена",
          52: "держава уничтожена", 53: "колония основана", 54: "станция системы изменена", 55: "галактика изменена",
          39: "правление изменено", 40: "гражданская модель изменена", 41: "указ включён", 42: "район изменён", 43: "здание изменено",
-         44: "уровень жизни изменён", 45: "военная служба изменена", 46: "вид рабства изменён", 47: "вид чистки изменён"}
+         44: "уровень жизни изменён", 45: "военная служба изменена", 46: "вид рабства изменён", 47: "вид чистки изменён",
+         63: "традиции изменены", 64: "перк возвышения изменён", 65: "политика изменена", 66: "облик или название изменены", 67: "портрет вида изменён"}
+CODES_EN = {63: "traditions changed", 64: "ascension perk changed", 65: "policy changed", 66: "look or name changed", 67: "species portrait changed"}
 CATALOG = [(1, "Проверка связи", "Тестовое окно, ничего не меняет.", "country"),
            (2, "Дар Хранителей", "Выбор: энергия, сплавы или единство.", "country"),
            (3, "Волнения в столице", "Подавить (−стабильность) или откупиться.", "country"),
@@ -592,7 +602,7 @@ HDRAG = 0
 button("handle_img", "", 0, 0, HW, HH, where="handle", sprite="GFX_dtp_handle", label=True, potential=ACC)
 button("toggle", "", HW - 50, 2, 48, 48, where="handle", sprite="GFX_dtp_toggle", potential=ACC,
        effect=INIT + "\n" + B("from", B("if", B("limit", "has_country_flag = dtp_open"), "remove_country_flag = dtp_open"),
-                               B("else", "set_country_flag = dtp_open")),
+                               B("else", "set_country_flag = dtp_open", "remove_country_flag = dtp_ed_open")),
        tt="Debug Toolpack: открыть или закрыть окно.")
 # ---------- зонд режима наблюдателя: видна, только если кнопку смотрит не держава (обсервер)
 OBS = "NOT = { from = { is_scope_type = country } }"
@@ -753,9 +763,14 @@ SYNC = "\n".join([setv("dtp_val", "dtp_in"), setv("dtp_amount", "dtp_in"),
                   B("if", B("limit", chk("dtp_amount", 0, "<")), "multiply_variable = { which = dtp_amount value = -1 }")])
 CAP = B("if", B("limit", chk("dtp_in", 999999999, ">")), setv("dtp_in", 999999999)) + "\n" + B("if", B("limit", chk("dtp_in", -999999999, "<")), setv("dtp_in", -999999999))
 KW, KH = 74, 32
+# 11.2.4: кнопка «−» (а не «±»): число становится отрицательным; нажатая при нуле — следующие цифры набираются со знаком минус
+KNEG = B("OR", chk("dtp_in", 0, "<"), B("AND", chk("dtp_in", 0), "has_country_flag = dtp_kneg"))
+KMINUS = "\n".join(["set_country_flag = dtp_kneg", B("if", B("limit", chk("dtp_in", 0, ">")), "multiply_variable = { which = dtp_in value = -1 }")])
+KMINUS_TT = tren("Минус: число станет отрицательным (для модификаторов — штраф). Если число ещё 0 — следующие цифры наберутся с минусом. Вернуть плюс — «C» (очистить).",
+                 "Minus: the number becomes negative (for modifiers — a penalty). If the number is still 0, the next digits are typed as negative. Back to plus — 'C' (clear).")
 def kx(c): return PX + 12 + c * (KW + 6)
 for i, d in enumerate([7, 8, 9, 4, 5, 6, 1, 2, 3, 0]):
-    digit = "\n".join([B("if", B("limit", chk("dtp_in", 0, "<")), "multiply_variable = { which = dtp_in value = 10 }", "change_variable = { which = dtp_in value = %d }" % (-d)),
+    digit = "\n".join([B("if", B("limit", KNEG), "multiply_variable = { which = dtp_in value = 10 }", "change_variable = { which = dtp_in value = %d }" % (-d)),
                        B("else", "multiply_variable = { which = dtp_in value = 10 }", "change_variable = { which = dtp_in value = %d }" % d)])
     c, r = (i % 3, i // 3) if d != 0 else (1, 3)
     KON = PP + "\n" + B("from", "NOT = { has_country_flag = dtp_kbd_off }")
@@ -765,13 +780,13 @@ for i, d in enumerate([7, 8, 9, 4, 5, 6, 1, 2, 3, 0]):
     button("kq%d" % i, str(d), kx(c), 136 + r * 38, KW, KH, effect=B("from", digit, CAP, SYNC), sprite="GFX_dtp_btn_key", potential=KOFF)
     # Alt+цифра работает всегда (у игры таких горячих клавиш нет) и пробные имена клавиш NumPad
     button("ka%d" % i, "", kx(c), 136 + r * 38, 1, 1, shortcut="alt+%d" % d, effect=B("from", digit, CAP, SYNC), sprite="GFX_dtp_label", label=True, potential=PP)
-button("kp_neg", "±", kx(0), 136 + 3 * 38, KW, KH, shortcut="KP_MINUS", effect=B("from", "multiply_variable = { which = dtp_in value = -1 }", SYNC), sprite="GFX_dtp_btn_key", potential=PP, tt="Сменить знак")
+button("kp_neg", "−", kx(0), 136 + 3 * 38, KW, KH, shortcut="KP_MINUS", effect=B("from", KMINUS, SYNC), sprite="GFX_dtp_btn_key", potential=PP, tt=KMINUS_TT)
 button("kp_000", "000", kx(2), 136 + 3 * 38, KW, KH, effect=B("from", "multiply_variable = { which = dtp_in value = 1000 }", CAP, SYNC), sprite="GFX_dtp_btn_key", potential=PP, tt="Умножить на 1000")
 button("kp_bs", "← Стереть", kx(0), 288, KW * 2 + 6, KH, shortcut="BACKSPACE", effect=B("from", "divide_variable = { which = dtp_in value = 10 }",
        B("if", B("limit", chk("dtp_in", 0, "<")), "ceiling_variable = dtp_in"), B("else", "floor_variable = dtp_in"), SYNC), sprite="GFX_dtp_btn_key", potential=PP, tt="Backspace")
-button("kp_c", "C", kx(2), 288, KW, KH, shortcut="DEL", effect=B("from", setv("dtp_in", 0), SYNC), sprite="GFX_dtp_btn_danger", potential=PP, tt="Очистить (Delete)")
+button("kp_c", "C", kx(2), 288, KW, KH, shortcut="DEL", effect=B("from", setv("dtp_in", 0), "remove_country_flag = dtp_kneg", SYNC), sprite="GFX_dtp_btn_danger", potential=PP, tt="Очистить (Delete)")
 for i, (k, n, v) in enumerate([("q1k", "1к", 1000), ("q10k", "10к", 10000), ("q100k", "100к", 100000), ("q1m", "1 млн", 1000000)]):
-    button("rq_" + k, n, PX + 12 + i * 58, 334, 54, 32, effect=B("from", setv("dtp_in", v), SYNC), potential=PP, tt="Число = %d" % v)
+    button("rq_" + k, n, PX + 12 + i * 58, 334, 54, 32, effect=B("from", setv("dtp_in", v), "remove_country_flag = dtp_kneg", SYNC), potential=PP, tt="Число = %d" % v)
 PY2 = PP + "\n" + T(4) if False else T(4)
 button("card_yr", "", PX, 390, PW, 112, sprite="GFX_dtp_card", label=True, potential=PP)
 lab("yr_l", "§YСРОК§!  §g[From.dtp_years] лет (0 = вечно)§!", PX + 12, 398, PW - 24, h=22, potential=PP)
@@ -1330,16 +1345,17 @@ button("st_force_on", "Принуд. режим: ВКЛ", x, y, w, potential=T(8
        tt="Действия в обход правил игры: особые типы планет, класс звезды, этики без проверок, война, уничтожение колоний.")
 button("st_force_off", "Принуд. режим: ВЫКЛ", x, y, w, potential=T(8, B("from", "has_country_flag = dtp_force_mode")),
        effect=B("from", "remove_country_flag = dtp_force_mode") + "\ndtp_result = { CODE = 30 }", sprite="GFX_dtp_btn_on")
-for i, (k, n) in enumerate(ETHICS):
-    x, y, w = grid(i, cols=4, row0=3)
-    button("eth_s_" + k, "→ " + n, x, y, w, potential=T(8), allow=need_perm("state") + "\n" + N_TC(),
-           effect=act("state", B("event_target:dtp_t", "shift_ethic = ethic_%s" % k), 20), tt="Штатный сдвиг к «%s»." % n)
-for row0, pre, eff, spr in [(5, "+ ", "country_add_ethic = ethic_%s", "GFX_dtp_btn_warn"), (7, "++ ", "country_add_ethic = ethic_fanatic_%s", "GFX_dtp_btn_warn"),
-                            (9, "− ", "country_remove_ethic = ethic_%s\ncountry_remove_ethic = ethic_fanatic_%s", "GFX_dtp_btn_danger")]:
-    for i, (k, n) in enumerate(ETHICS):
-        x, y, w = grid(i, cols=4, row0=row0)
-        button("eth_%d_%s" % (row0, k), pre + n, x, y, w, potential=T(8), allow=need_perm("state") + "\n" + N_TC() + "\n" + N_FORCE(),
-               effect=act("state", B("event_target:dtp_t", eff % ((k, k) if eff.count("%s") == 2 else k)), 20), sprite=spr)
+# 11.2: этики, форма правления, гражданские модели и всё о виде — в отдельном окне «Редактор держав и вида»
+ED_OPEN = INIT + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open",
+                          B("if", B("limit", "NOT = { is_variable_set = dtp_edtab }"), setv("dtp_edtab", 1), setv("dtp_edcat", 1), setv("dtp_edpg", 1)))
+ED_TT = tren("Открыть «Редактор держав и вида» — окно как в редакторе держав игры: этики, форма правления, гражданские модели, традиции, перки, политика, черты и права вида, портрет, облик кораблей и городов, флаг, название, модификаторы. Редактируется держава A. Панель DTP при этом закроется.", "Open the Empire & Species Editor — a window like the game's empire designer: ethics, authority, civics, traditions, perks, policies, species traits and rights, portrait, ship and city style, flag, name, modifiers. Empire A is edited. The DTP panel closes.")
+def ed_open_btn(tab, name, row0, tabset=None):
+    x, y, w = grid(0, cols=1, row0=row0)
+    button(name, tren("Открыть редактор держав и вида", "Open the empire & species editor"), x, y, w, 40, potential=T(tab), effect=ED_OPEN, sprite="GFX_dtp_btn_go", tt=ED_TT)
+    x, y, w = grid(0, cols=1, row0=row0 + 1)
+    lab(name + "_d", tren("§gэтики · правление · гражданские модели · традиции · перки · политика · черты и права вида · портрет · облик · флаг и название · модификаторы§!",
+                        "§gethics · authority · civics · traditions · perks · policies · species traits and rights · portrait · look · flag and name · modifiers§!"), x, y + 8, w, potential=T(tab))
+ed_open_btn(8, "st_ed", 3)
 
 x, y, w = grid(0, cols=1, row0=11)
 for i, (k, n, e, tt) in enumerate([("fin", "Завершить исследования A", "finish_all_researches = yes", "Мгновенно завершить все текущие исследования державы A."),
@@ -1353,38 +1369,7 @@ for i, (k, n, e, tt) in enumerate([("fin", "Завершить исследов�
 # ---------- 9. Расы
 area(9)
 SP = B("event_target:dtp_t", B("owner_species", "save_event_target_as = dtp_sp"))
-x, y, w = grid(0, cols=1)
-lab("sp_warn", "§YПРИЗНАКИ ВИДА§!  §R— меняются у всего вида, во всех империях§!", x, y, w, potential=T(9))
-for i, (k, n) in enumerate(TRAITS):
-    x, y, w = grid(i, cols=4, row0=1)
-    has = "dtp_sp_hastrait = { T = %s }" % k
-    button("tr_%s_on" % k, "✔ " + n, x, y, w, potential=T(9, has), allow=need_perm("species") + "\n" + N_TC(),
-           effect=act("species", SP + "\n" + B("event_target:dtp_sp", "change_species_characteristics = { remove_trait = %s }" % k), 22), sprite="GFX_dtp_btn_on",
-           tt="Есть у вида. Нажмите, чтобы УБРАТЬ «%s»." % n)
-    button("tr_" + k, "+ " + n, x, y, w, potential=T(9, "NOT = { %s }" % has), allow=need_perm("species") + "\n" + N_TC(),
-           effect=act("species", SP + "\n" + B("event_target:dtp_sp", "change_species_characteristics = { add_trait = %s }" % k), 22))
-x, y, w = grid(0, cols=1, row0=4)
-lab("sp_hc", "§YГРАЖДАНСТВО§!", x, y, w, potential=T(9))
-for i, (k, n) in enumerate(CITIZEN):
-    x, y, w = grid(i, row0=5)
-    button("cit_" + k, n, x, y, w, potential=T(9), allow=need_perm("species") + "\n" + N_TC(),
-           effect=act("species", SP + "\n" + B("event_target:dtp_sp", "set_citizenship_type = { country = event_target:dtp_t type = %s cooldown = no }" % k), 23))
-
-
-LIVING = [("living_standard_utopian", "Жизнь: утопия"), ("living_standard_good", "Жизнь: высокий"), ("living_standard_normal", "Жизнь: обычный"), ("living_standard_academic_privilege", "Академ. привил."),
-          ("living_standard_stratified", "Жизнь: стратиф."), ("living_standard_decadent", "Декадентский"), ("living_standard_subsistence", "Жизнь: выживание"), ("living_standard_none", "Жизнь: нет")]
-MILSRV = [("military_service_full", "Служба: полная"), ("military_service_limited", "Служба: ограничена"), ("military_service_none", "Служба: нет")]
-SLAVE = [("slavery_normal", "Рабы: труд"), ("slavery_domestic", "Рабы: домашние"), ("slavery_military", "Рабы: боевые"), ("slavery_indentured", "Рабы: кабала"), ("slavery_livestock", "Рабы: скот")]
-PURGE = [("purge_normal", "Чистка: обычная"), ("purge_displacement", "Выселение"), ("purge_labor_camps", "Трудлагеря"), ("purge_neutering", "Стерилизация"), ("purge_processing", "Переработка")]
-x, y, w = grid(0, cols=1, row0=6)
-lab("sp_h2", "§YПРАВА ВИДА§!  §gбез отката; несовместимое с этиками игра может отменить§!", x, y, w, potential=T(9))
-for rows, cols, lst, eff, code in [(7, 4, LIVING, "set_living_standard", 44), (9, 3, MILSRV, "set_military_service_type", 45),
-                                   (10, 5, SLAVE, "set_slavery_type", 46), (11, 5, PURGE, "set_purge_type", 47)]:
-    for i, (k, n) in enumerate(lst):
-        x, y, w = grid(i, cols=cols, row0=rows)
-        button("sr_" + k, n, x, y, w, potential=T(9), allow=need_perm("species") + "\n" + N_TC(),
-               effect=act("species", SP + "\n" + B("event_target:dtp_sp", "%s = { country = event_target:dtp_t type = %s cooldown = no }" % (eff, k)), code),
-               sprite="GFX_dtp_btn_danger" if code == 47 else "GFX_dtp_btn")
+ed_open_btn(9, "sp_ed", 1)
 
 # ---------- 10. Ивенты — 10.9.0: раздел убран. Его кнопки дублировали другие разделы: залежь — «Планета», ремонт — «Флот»,
 # ресурсы/наука — «Ресурсы», стабильность — «Модификаторы», объявления — «Мастер игры»; «Мирное предложение» стало
@@ -1417,32 +1402,17 @@ def gov_prep(k):
     else:   # олигархия, корпорация: нельзя фанатичные эгалитаризм/авторитаризм
         out += swap([("ethic_fanatic_egalitarian", "ethic_egalitarian"), ("ethic_fanatic_authoritarian", "ethic_authoritarian")])
     return out
-x, y, w = grid(0, cols=1)
-lab("gv_h1", "§YФОРМА ПРАВЛЕНИЯ§!  §gпринудительно, без отката; действующая подсвечена§!", x, y, w, potential=T(13))
-for i, (k, n) in enumerate(AUTHS):
-    x, y, w = grid(i, cols=4, row0=1)
-    button("au_%s_on" % k, "✔ " + n, x, y, w, potential=T(13, "dtp_tc_has_auth = { A = %s }" % k), sprite="GFX_dtp_btn_on")
-    button("au_" + k, n, x, y, w, potential=T(13, "NOT = { dtp_tc_has_auth = { A = %s } }" % k), allow=need_perm("state") + "\n" + N_TC() + "\n" + N_FORCE(),
-           effect=act("state", B("event_target:dtp_t", *gov_prep(k), "change_government = { authority = %s cooldown = no remove_invalid_civics = yes }" % k), 39), sprite="GFX_dtp_btn_warn",
-           tt="Сменить форму правления на «%s» (принудительный режим). Игра не даёт сменить правление при несовместимых этиках — поэтому мод сначала подправляет этики (например, авторитаризм → эгалитаризм для демократии, коллективное сознание для разумов), а несовместимые гражданские модели снимаются." % n)
-x, y, w = grid(0, cols=1, row0=3)
-lab("gv_h2", "§YГРАЖДАНСКИЕ МОДЕЛИ§!  §gподсвечена — есть (нажать — убрать), «+» — добавить§!", x, y, w, potential=T(13))
-for i, (k, n) in enumerate(CIVICS):
-    x, y, w = grid(i, cols=4, row0=4)
-    has = "dtp_tc_has_civic = { C = %s }" % k
-    button("cv_%s_on" % k, "✔ " + n, x, y, w, potential=T(13, has), allow=need_perm("state") + "\n" + N_TC() + "\n" + N_FORCE(),
-           effect=act("state", B("event_target:dtp_t", "force_remove_civic = %s" % k), 40), sprite="GFX_dtp_btn_on", tt="Есть у A. Нажмите, чтобы УБРАТЬ «%s»." % n)
-    button("cv_" + k, "+ " + n, x, y, w, potential=T(13, "NOT = { %s }" % has), allow=need_perm("state") + "\n" + N_TC() + "\n" + N_FORCE(),
-           effect=act("state", B("event_target:dtp_t", "force_add_civic = %s" % k), 40), tt="Добавить «%s» державе A без проверок (принудительный режим)." % n)
-x, y, w = grid(0, cols=1, row0=9)
+ed_open_btn(13, "gv_ed", 1)
+x, y, w = grid(0, cols=1, row0=4)
 lab("gv_h3", "§YУКАЗЫ§!  §gвключить у A бесплатно; выключаются в окне указов игры§!", x, y, w, potential=T(13))
 for i, (k, n) in enumerate(EDICTS):
-    x, y, w = grid(i, cols=4, row0=10)
+    x, y, w = grid(i, cols=4, row0=5)
     button("ed_%s_on" % k, "✔ " + n, x, y, w, potential=T(13, "dtp_tc_has_edict = { E = %s }" % k), sprite="GFX_dtp_btn_on")
     button("ed_" + k, "+ " + n, x, y, w, potential=T(13, "NOT = { dtp_tc_has_edict = { E = %s } }" % k), allow=need_perm("state") + "\n" + N_TC(),
            effect=act("state", B("event_target:dtp_t", "add_edict = %s" % k), 41), tt="Включить указ «%s» державе A." % n)
-x, y, w = grid(0, cols=1, row0=12)
-lab("gv_lim", "Политики меняются в окне политик игры; откат снимается во вкладке «Государство».", x, y, w, potential=T(13))
+x, y, w = grid(0, cols=1, row0=7)
+lab("gv_lim", tren("Политика, этики и гражданские модели — в редакторе держав и вида; откаты снимаются во вкладке «Государство».",
+                   "Policies, ethics and civics are in the Empire & Species Editor; cooldowns are reset on the State tab."), x, y, w, potential=T(13))
 
 # ---------- 14. Постройки (выбранная планета)
 area(14)
@@ -2458,6 +2428,7 @@ CAT.append(B("event", "id = dtp.1207", "hide_window = yes", "is_triggered_only =
         "fleet_event = { id = dtp.1281 }", B("every_owned_ship", "add_modifier = { modifier = dtp_marker_ship days = -1 }"))),
       B("every_country", B("limit", "has_country_flag = dtp_open", "NOT = { dtp_has_any_perm = yes }", "NOT = { has_country_flag = dtp_host_seat }", "NOT = { count_country = { limit = { is_ai = no } count = 1 } }"),
         "remove_country_flag = dtp_open"),
+      B("every_country", B("limit", "has_country_flag = dtp_ed_open", "NOT = { dtp_has_any_perm = yes }"), "remove_country_flag = dtp_ed_open"),
       B("if", B("limit", "NOT = { has_global_flag = dtp_host_set }", "NOT = { any_country = { has_country_flag = dtp_host_seat } }"), "dtp_auto_host = yes"),
       B("if", B("limit", "has_global_flag = dtp_rule_was", "NOT = { has_global_flag = dtp_rule_nopvp }"),
         "remove_global_flag = dtp_rule_was", 'log = "DTP RULES: war ban expired"', B("every_country", B("limit", "is_ai = no"), "country_event = { id = dtp.1206 }")),
@@ -2732,7 +2703,24 @@ def _game_tex(nm):
     if m: return "gfx/interface/icons/governments/authorities/%s.dds" % m.group(1)
     m = re.match(r"tr_(trait_\w+?)(_on)?$", nm)
     if m: return "gfx/interface/icons/traits/%s.dds" % m.group(1)
+    m = re.match(r"r(\d+)(_on)?$", nm)                       # 11.2: ресурсы — значками самой игры
+    if m and 0 < int(m.group(1)) <= len(RES): return _RES_TEX.get(RES[int(m.group(1)) - 1][0])
+    m = re.match(r"vm_(\w+?)(_on)?$", nm)                     # модификаторы игры — их собственные значки
+    if m: return _SM_ICON.get(m.group(1))
     return None
+_RES_TEX = {k: "gfx/interface/icons/resources/%s.dds" % v for k, v in [("energy", "energy"), ("minerals", "minerals"), ("food", "food"), ("alloys", "alloys"),
+            ("consumer_goods", "consumer_goods"), ("influence", "influence"), ("unity", "unity"), ("physics_research", "physics_research"),
+            ("society_research", "society_research"), ("engineering_research", "engineering_research"), ("exotic_gases", "exotic_gases"),
+            ("rare_crystals", "rare_crystals"), ("volatile_motes", "volatile_motes"), ("sr_dark_matter", "dark_matter_large"), ("sr_living_metal", "sr_living_metal_large"),
+            ("sr_zro", "sr_zro"), ("minor_artifacts", "minor_artifacts"), ("astral_threads", "astral_threads")]}
+_SM_ICON = {}
+for _f in sorted(os.listdir(os.path.join(VC, "static_modifiers"))):
+    _s = re.sub(r"#.*", "", open(os.path.join(VC, "static_modifiers", _f), encoding="utf-8-sig").read())
+    for _mm in re.finditer(r"^(\w+)\s*=\s*\{", _s, re.M):
+        _i, _d = _mm.end(), 1
+        while _d and _i < len(_s): _d += {"{": 1, "}": -1}.get(_s[_i], 0); _i += 1
+        _icm = re.search(r'icon\s*=\s*"([^"]+\.dds)"', _s[_mm.end():_i])
+        if _icm: _SM_ICON[_mm.group(1)] = _icm.group(1)
 GAME_SPR = {}                                   # текстура игры → наш спрайт (растягивается до размера кнопки-значка)
 for _g, _m in zip(GUI, META):
     if _g["label"] or _g["sprite"] not in _STYLES or _g["h"] != 30 or _g["where"] != "main": continue     # текстура значка — ровно 30 px; полосы в окнах игры — без значков (у UIOD другая ширина)
@@ -2769,15 +2757,27 @@ for _k, _tex in ETH_GAME.items():
 print("кнопки без значка (текст не помещается даже со сдвигом): %s" % ", ".join(_skipped))
 print("значков на кнопках: %d (спрайтов %d)" % (sum(1 for g in GUI if g["sprite"].startswith("GFX_dtp_ib_")), len(ICONS_USED)))
 
+# ================================================================ РЕДАКТОР ДЕРЖАВЫ И ВИДА (11.2)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "editor3.py"), encoding="utf-8").read())
+for _c, _t in CODES_EN.items():
+    ED_EN[CODES[_c]] = _t; ED_EN["   §GГОТОВО§!  ·  " + CODES[_c]] = "   §GDONE§!  ·  " + _t
+
 # ================================================================ ФАЙЛЫ
 SKIN = {}   # 7.1: все текстуры окна рисует сам мод (art3.py) в стиле интерфейса Stellaris
 def gui_el(g, extra=()):
-    parts = ['name = "%s"' % g["key"], "position = { x = %d y = %d }" % (g["x"], g["y"]), "size = { x = %d y = %d }" % (g["w"], g["h"]),
-             'quadTextureSprite = "%s"' % SKIN.get(g["sprite"], g["sprite"]), 'font = "%s"' % g["font"], 'buttonText = "%s"' % g["key"], 'effect = "%s"' % g.get("eff", g["key"])]
-    if g["tt"]: parts.append('tooltipText = "%s"' % g["tt"])
-    if g.get("shortcut"): parts.append('shortcut = "%s"' % g["shortcut"])
-    parts += ["format = left"] if g["label"] else ["clicksound = interface", "oversound = mouse_over"]
-    return B("effectbuttonType", *parts, *extra)
+    """11.2: элемент одной строкой в сжатой записи (как местами в файлах игры: name="x" position={ x=1 y=2 }) — main.gui меньше.
+    У элементов без текста (рамки, значки, фон) нет font/buttonText."""
+    txt = L.get(g["key"], "x") != ""
+    parts = ['name="%s"' % g["key"], "position={x=%d y=%d}" % (g["x"], g["y"]), "size={x=%d y=%d}" % (g["w"], g["h"]),
+             'quadTextureSprite="%s"' % SKIN.get(g["sprite"], g["sprite"])]
+    if txt: parts += ['font="%s"' % g["font"], 'buttonText="%s"' % g["key"]]
+    parts.append('effect="%s"' % g.get("eff", g["key"]))
+    if g["tt"]: parts.append('tooltipText="%s"' % g["tt"])
+    if g.get("shortcut"): parts.append('shortcut="%s"' % g["shortcut"])
+    # 11.2.3: alwaysTransparent не пишем — у рамок и значков то же действие, что у карточки (экономия размера файла)
+    parts += (["format=left"] if txt else []) if g["label"] else (["format=left"] if g.get("left") else []) + ([] if g.get("transp") or g.get("quiet") else ["clicksound=interface"])     # 11.2: без oversound — main.gui меньше
+    return "effectbuttonType={" + " ".join(list(parts) + list(extra)) + "}"
 main_children = [gui_el(g) for g in GUI if g["where"] == "main"]
 # Главное окно: dropDownBoxType. Значок = expandButton (открыть/закрыть без скрипта),
 # expandedWindow = перетаскиваемое окно с фоном. Отдельная невидимая кнопка-эффект поверх значка
@@ -2802,8 +2802,26 @@ fleet_strip = B("containerWindowType", 'name = "dtp_fleet_strip"', ("position = 
 
 starbase_strip = B("containerWindowType", 'name = "dtp_starbase_strip"', *(["position = { x = 62 y = 134 }"] if UIOD else ["position = { x = 14 y = 124 }"]), "size = { width = 536 height = 96 }", "moveable = yes",
     B("background", 'name = "bg"', 'quadTextureSprite = "GFX_dtp_label"'), *[gui_el(dict(g, x=g["x"] + 8, y=g["y"] + 2)) for g in GUI if g["where"] == "starbase"])
+# 11.2: короткие ключи кнопок в файлах игры (dtp_b_длинное_имя → dtp_z<хэш>): main.gui с редактором держав
+# должен остаться меньше ~900 КБ. Хэш не зависит от раскладки (ваниль/UIOD), поэтому патч UIOD совпадает с модом.
+_SHORT = {}
+def _short(m):
+    k = m.group(0)
+    if k not in _SHORT:
+        n, s = zlib.crc32(k.encode()) % 36 ** 6, ""
+        for _ in range(6): n, r = divmod(n, 36); s = "0123456789abcdefghijklmnopqrstuvwxyz"[r] + s
+        v = ("GFX_dtp_g" if k.startswith("GFX") else "dq") + s           # 11.2.3: «dq» короче «dtp_z» — файлы окон меньше
+        assert v not in _SHORT.values(), "коллизия коротких ключей: " + k
+        _SHORT[k] = v
+    return _SHORT[k]
+def shorten(text): return re.sub(r"\bdtp_b_\w+|\bGFX_dtp_gi_\w+", _short, text)
+# 11.2: редактор держав — в нижней панели игры (maingui_bottombar всегда на экране; main.gui и так большой).
+# Корневой контейнер крошечный (не перекрывает карту, пока редактор закрыт), элементы — за его границами (clipping = no).
+dtp_editor = B("containerWindowType", 'name = "dtp_editor"', "position = { x = %d y = %d }" % (-EW // 2, -EH // 2 - 20), "size = { width = 2 height = 2 }",
+    "orientation = CENTER", "clipping = no", *[gui_el(g) for g in GUI if g["where"] == "editor"])
 def w(path, text, bom=False):
     p = os.path.join(OUT, path); os.makedirs(os.path.dirname(p), exist_ok=True)
+    text = shorten(text)
     text = text.replace("§O", "§H")                              # §O в игре нет (error.log: «no coloring for 'O'») — оранжевый это §H
     if path.endswith(".yml"):                                    # 10.7.9: этих значков нет в шрифте игры — на экране квадратики (скриншоты 22.10)
         for _a, _b in (("✔ ", "§G●§! "), ("✔", "§G●§!"), ("↻ ", ""), ("↻", ""), ("⇄ ", "→ "), ("⇄", "→"), ("↶", "←"), ("✕", "×"),
@@ -2846,6 +2864,10 @@ for ic in MAP_ICONS:
     end = end_of_window(_mi, ic); assert end, ic
     _mi = _mi[:end] + "\t\t### DEBUG TOOLPACK (DTP)\n" + "\n".join("\t\t" + l for l in pretty("\n".join(els)).splitlines()) + "\n" + _mi[end:]
 if MAP_ICONS: w("interface/mapicons.gui", _mi)
+# UIOD не меняет main_bottom.gui, а переопределяет окно maingui_bottombar своим файлом Ω_uiod_main_bottom.gui (читается позже) —
+# с UIOD редактор встраивается в его файл, иначе окно UIOD перекрыло бы наше
+_MB = "Ω_uiod_main_bottom.gui" if os.path.exists(os.path.join(VI, "Ω_uiod_main_bottom.gui")) else "main_bottom.gui"
+inject(_MB, None, dtp_editor, "\t\t", "maingui_bottombar")
 inject("starbase_view.gui", None, starbase_strip, "\t\t", "starbase_view")     # окно станции: в конец корневого контейнера (поверх содержимого)
 inject("fleet_view.gui", r'\tcontainerWindowType = \{\n\t\tname = "fleet_view".*?name = "header".*?\n\t\t\}\n', fleet_strip, "\t\t", "fleet_view")
 print("встраивание в окна игры: " + "; ".join(GUI_REPORT))
@@ -2868,7 +2890,7 @@ w("common/scripted_triggers/dtp_scripted_triggers.txt", HDR + pretty("\n".join(T
 if DEFTXT: w("common/scripted_loc/dtp_scripted_loc.txt", HDR + pretty("\n".join(DEFTXT)))
 # 11.1.3: значки из файлов самой игры (этики, цивики, правление, черты) — растягиваются до размера элемента
 w("interface/dtp_gameicons.gfx", HDR + "spriteTypes = {\n" + "\n".join(
-    '\tcorneredTileSpriteType = {\n\t\tname = "%s"\n\t\ttextureFile = "%s"\n\t\tborderSize = { x = 0 y = 0 }\n\t}' % (spr, tex) for tex, spr in sorted(GAME_SPR.items())) + "\n}\n")
+    '\tcorneredTileSpriteType = {\n\t\tname = "%s"\n\t\ttextureFile = "%s"\n\t\tborderSize = { x = 0 y = 0 }\n\t\teffectFile = "gfx/FX/buttonstate_onlydisable.shader"\n\t}' % (spr, tex) for tex, spr in sorted(GAME_SPR.items())) + "\n}\n")
 w("common/game_rules/00_rules.txt", RULES_FILE)
 _st = open(os.path.join(VC, "scripted_triggers", "00_scripted_triggers.txt"), encoding="utf-8-sig").read()
 assert "is_regular_empire = {" in _st
@@ -3011,6 +3033,7 @@ def _en(v):
     """Русская строка → английская по словарю i18n/en_map.json (цифры в [...] и отступ сохраняются)."""
     m_note = _re.match(r"^(.*?)(\\n\\n\$dtp_note_\w+\$)$", v, _re.S)
     if m_note: return _en(m_note.group(1)) + m_note.group(2)      # пометка «только игроки» — отдельный ключ перевода
+    if v in ED_EN: return ED_EN[v]
     if not _re.search(r"[А-Яа-яЁё]", v): return v
     n = _norm(v)
     t = _ENMAP.get(n) or TT_EN_EXTRA.get(n) or LBL_EN.get(n)

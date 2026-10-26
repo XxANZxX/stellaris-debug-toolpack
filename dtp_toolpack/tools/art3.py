@@ -598,7 +598,9 @@ def banner(w, h, col, kind, seed):
     d.rectangle((8 * k, H2 - 3 * k, W2 * 0.7, H2 - 1 * k), fill=col + (230,))
     out = _down(im, w, h)
     # гекс-значок раздела
-    hb = shex_badge("", col, 32); hb.alpha_composite(icon(kind, 16, col), (8, 8)); out.alpha_composite(hb, (8, (h - 32) // 2))
+    hb = shex_badge("", col, 32)
+    if kind: hb.alpha_composite(icon(kind, 16, col), (8, 8))
+    out.alpha_composite(hb, (8, (h - 32) // 2))
     return out
 _ban = {}
 for it in json.load(open(META, encoding="utf-8"))["items"]:
@@ -610,6 +612,56 @@ def group_frame(w=64, h=64):
     im = sci_panel(w, h, 8, (20, 40, 48), (12, 24, 30), (46, 98, 96), a=120, glow_top=False, corners=(True, False, True, False))
     return im
 SPR["GFX_dtp_group"] = ("dtp_group", group_frame(), "corner", 12, 1, "buttonstate_onlydisable")
+# 11.2: редактор держав — зелёная рамка «есть у державы» и красная метка «игра обычно запрещает»
+def sel_frame(col, w=48, h=48, t=3):
+    k = 4; im = Image.new("RGBA", (w * k, h * k), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    for i in range(t * k):
+        a = int(255 * (1 - i / (t * k)) ** 0.6)
+        d.rounded_rectangle((i, i, w * k - 1 - i, h * k - 1 - i), radius=6 * k, outline=col + (a,), width=1)
+    g = Image.new("RGBA", im.size, (0, 0, 0, 0)); ImageDraw.Draw(g).rounded_rectangle((0, 0, w * k - 1, h * k - 1), radius=6 * k, outline=col + (90,), width=6 * k)
+    im = Image.alpha_composite(g.filter(ImageFilter.GaussianBlur(3 * k)), im)
+    return im.resize((w, h), Image.LANCZOS)
+def red_badge(sz=17):
+    k = 4; im = Image.new("RGBA", (sz * k, sz * k), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+    d.ellipse((1 * k, 1 * k, sz * k - 1 * k, sz * k - 1 * k), fill=(200, 30, 30, 255), outline=(255, 190, 180, 255), width=k)
+    d.rectangle((sz * k // 2 - k, 4 * k, sz * k // 2 + k, sz * k - 7 * k), fill=(255, 255, 255, 255))
+    d.rectangle((sz * k // 2 - k, sz * k - 5 * k, sz * k // 2 + k, sz * k - 3 * k), fill=(255, 255, 255, 255))
+    return im.resize((sz, sz), Image.LANCZOS)
+# 11.2: редактор держав — навигация (гекс пустой: в нём значок самой игры), карточка с «колодцем» под значок, баннеры разделов
+def snav_e(on, size=(140, 38)):
+    w, h = size; out = Image.new("RGBA", (w * 3, h), (0, 0, 0, 0))
+    for i in range(3):
+        fr = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        if on:
+            fr.alpha_composite(sci_panel(w, h, 6, (54, 42, 20), (26, 22, 14), S_OR, a=235, corners=(True, False, True, False)))
+            fr.alpha_composite(Image.new("RGBA", (3, h - 10), S_OR + (255,)), (0, 5))
+        else:
+            fr.alpha_composite(sci_panel(w, h, 6, (22, 44, 52) if i == 1 else (12, 24, 30), (12, 26, 32) if i == 1 else (7, 14, 18), S_HI if i == 1 else S_LINE, a=225, corners=(True, False, True, False)))
+        k = 4; hx = Image.new("RGBA", (28 * k, 28 * k), (0, 0, 0, 0)); hd = ImageDraw.Draw(hx)
+        P = [(14 * k + 13.5 * k * math.cos(math.radians(60 * j)), 14 * k + 13.5 * k * math.sin(math.radians(60 * j))) for j in range(6)]
+        hd.polygon(P, fill=((70, 52, 20, 255) if on else (14, 30, 38, 255)), outline=((S_OR2 if on else S_LINE) + (255,)))
+        fr.alpha_composite(_down(hx, 28, 28), (5, (h - 28) // 2))
+        out.paste(fr, (i * w, 0))
+    return out
+def edcard(size=(160, 38)):
+    w, h = size; out = Image.new("RGBA", (w * 3, h), (0, 0, 0, 0))
+    for i in range(3):
+        kk = (1.0, 1.3, 0.8)[i]
+        fr = sci_panel(w, h, 7, tuple(int(v * kk) for v in (24, 44, 52)), tuple(int(v * kk) for v in (12, 24, 30)), S_HI if i == 1 else (60, 130, 125), a=236, corners=(True, False, True, False))
+        well = sci_panel(34, h - 6, 4, (4, 10, 14), (8, 16, 22), (50, 100, 100), a=250, glow_top=False, corners=(True, False, True, False))
+        fr.alpha_composite(well, (3, 3))
+        out.paste(fr, (i * w, 0))
+    return out
+SPR["GFX_dtp_ednav"] = ("dtp_ednav", snav_e(False), "corner", (40, 8), 3, "buttonstate")
+SPR["GFX_dtp_ednav_on"] = ("dtp_ednav_on", snav_e(True), "corner", (40, 8), 3, "buttonstate")
+SPR["GFX_dtp_ec"] = ("dtp_edcard", edcard(), "corner", (44, 8), 3, "buttonstate")
+_EBCOL = {1: (190, 160, 255), 2: (190, 160, 255), 3: (255, 214, 90), 4: (255, 214, 90), 5: (130, 200, 255), 6: (130, 225, 140), 7: (130, 225, 140), 8: S_HI, 9: S_OR2}
+for _it in json.load(open(META, encoding="utf-8"))["items"]:
+    _m = re.match(r"GFX_dtp_ebanner_(\d+)$", _it["sprite"])
+    if _m and _it["sprite"] not in SPR:
+        SPR[_it["sprite"]] = ("dtp_ebanner_%s" % _m.group(1), banner(_it["w"], 40, _EBCOL.get(int(_m.group(1)), S_OR2), None, 100 + int(_m.group(1))), "sprite", 0, 1, "buttonstate_onlydisable")
+SPR["GFX_dtp_sg"] = ("dtp_sel_g", sel_frame((90, 235, 120)), "corner", 10, 1, "buttonstate_onlydisable")
+SPR["GFX_dtp_sr"] = ("dtp_sel_r", red_badge(), "corner", 0, 1, "buttonstate_onlydisable")
 SPR["GFX_ethics_dtp_gamemaster"] = ("ethic_dtp_gamemaster_b",) + SPR["GFX_ethic_dtp_gamemaster"][1:]
 # 11.0.9: игра ищет значок этики по пути gfx/interface/icons/ethics/<ключ>.dds
 os.makedirs(os.path.join(OUT, "gfx/interface/icons/ethics"), exist_ok=True)
@@ -821,3 +873,97 @@ render("dtp84_mods_game.png", 4, None)
 GMPAGE = 1
 for _f, _t in [("dtp85_log.png", 12), ("dtp8_gm.png", 16), ("dtp5_home.png", 15), ("dtp5_resources.png", 3), ("dtp5_systems.png", 1), ("dtp5_planet.png", 5), ("dtp5_country.png", 2), ("dtp5_govern.png", 13), ("dtp5_species.png", 9), ("dtp5_access.png", 11), ("dtp109_fleet.png", 6), ("dtp109_diplo.png", 7)]:
     render(_f, _t, None)
+
+# ---------------- 11.2: превью «Редактора держав и вида» (значки самой игры здесь — заглушки)
+def edrender(fname, tab, cat=1, pg=1, has_rate=0.12, bad_rate=0.2):
+    import random
+    rnd = random.Random(tab * 31 + cat)
+    items = [it for it in meta["items"] if it["where"] == "editor"]
+    W = max(i["x"] + i["w"] for i in items); H = max(i["y"] + i["h"] for i in items)
+    img = Image.new("RGBA", (W + 40, H + 40), (12, 16, 26, 255)); d = ImageDraw.Draw(img)
+    tex = {n: Image.open(os.path.join(OUT, "gfx/interface/dtp/%s.dds" % v[0])).convert("RGBA") for n, v in SPR.items() if v[1] is not None}
+    fB, fR, fT, fL = ImageFont.truetype(FB, 12), ImageFont.truetype(FR, 12), ImageFont.truetype(FB, 18), ImageFont.truetype(FB, 16)
+    def nine(name, x, y, w, h):
+        if name not in tex:
+            g = Image.new("RGBA", (w, h), (0, 0, 0, 0)); gd = ImageDraw.Draw(g)
+            hue = (abs(hash(name)) % 360) / 360.0
+            import colorsys
+            r, gg, b = [int(v * 255) for v in colorsys.hsv_to_rgb(hue, 0.45, 0.85)]
+            gd.rounded_rectangle((1, 1, w - 2, h - 2), radius=max(2, w // 6), fill=(r, gg, b, 255), outline=(255, 255, 255, 200))
+            gd.ellipse((w * 0.3, h * 0.3, w * 0.7, h * 0.7), fill=(255, 255, 255, 120))
+            img.alpha_composite(g, (x, y)); return
+        spr = tex[name]; fr_n = SPR[name][4]
+        fw = spr.width // fr_n; frame = spr.crop((0, 0, fw, spr.height)); fh = frame.height
+        if SPR[name][2] != "corner":
+            img.alpha_composite(frame.resize((w, h), Image.LANCZOS), (x, y)); return
+        bb = SPR[name][3]; bx, by = bb if isinstance(bb, tuple) else (bb, bb)
+        bx, by = min(bx, w // 2, fw // 2), min(by, h // 2, fh // 2)
+        t = Image.new("RGBA", (w, h))
+        for sx0, sx1, dx0, dx1 in [(0, bx, 0, bx), (bx, fw - bx, bx, w - bx), (fw - bx, fw, w - bx, w)]:
+            for sy0, sy1, dy0, dy1 in [(0, by, 0, by), (by, fh - by, by, h - by), (fh - by, fh, h - by, h)]:
+                if dx1 > dx0 and dy1 > dy0 and sx1 > sx0 and sy1 > sy0: t.paste(frame.crop((sx0, sy0, sx1, sy1)).resize((dx1 - dx0, dy1 - dy0)), (dx0, dy0))
+        img.alpha_composite(t, (x, y))
+    def vis(it):
+        p = it["pot"]
+        for var, val in (("dtp_edtab", tab), ("dtp_edcat", cat), ("dtp_edpg", pg)):
+            neg = [int(v) for v in re.findall(r"NOT = \{ check_variable = \{ which = %s value = (\d+) \} \}" % var, p)]
+            if val in neg: return False
+            p2 = re.sub(r"NOT = \{ check_variable = \{ which = %s value = \d+ \} \}" % var, "", p)
+            pos = [int(v) for v in re.findall(r"check_variable = \{ which = %s value = (\d+) \}" % var, p2)]
+            if pos and val not in pos: return False
+        mm = re.search(r"which = dtp_pidx value = (\d+)", p)
+        if mm and mm.group(1) != "1": return False
+        if "NOT = { exists = event_target:dtp_tc_1 }" in p: return False
+        mj = re.search(r"exists = event_target:dtp_esl_(\d+)", p)
+        if mj and int(mj.group(1)) > 3: return False
+        if "NOT = { exists = event_target:dtp_tsp_1 }" in p or "dtp_tsp_none = yes" in p and "NOT = { dtp_tsp_none" not in p: return False
+        ms = re.search(r"(NOT = \{ )?dtp_esl_sel = \{ J = (\d+) \}", p)
+        if ms and ((ms.group(2) == "2") == bool(ms.group(1))): return False
+        if "dtp_last_ok" in p and "NOT = { is_variable_set = dtp_last_ok }" not in p: return False
+        if "has_country_flag = dtp_force_mode" in p and "NOT = { has_country_flag = dtp_force_mode }" not in p: return False
+        if re.search(r"which = dtp_(val|years) value", p) and "NOT" not in p: return False
+        k = it["key"]
+        if it["sprite"] == "GFX_dtp_sg": return rnd.random() < has_rate
+        if it["sprite"] == "GFX_dtp_sr": return rnd.random() < bad_rate
+        if re.search(r"_on$", k) and ("dtp_tcx" in p or "hasmod" in p): return False
+        return True
+    subs = {"[dtp_esl_1.GetName]": "Кзинти", "[dtp_esl_2.GetName]": "Люди", "[dtp_esl_3.GetName]": "Блорги", "[dtp_tsp_1.GetName]": "Люди", "[dtp_tc_1.GetName]": "Республика Кзинти", "[dtp_tc_1.GetSpeciesName]": "Кзинти", "[dtp_tc_1.GetGovernmentName]": "Олигархическая республика", "[From.dtp_val]": "25", "[From.dtp_years]": "10"}
+    COL = {"Y": (255, 205, 90), "G": (120, 225, 130), "R": (245, 95, 85), "B": (110, 205, 255), "g": (135, 155, 165), "H": (255, 200, 120)}
+    GAME = {"civic": "Гражданская модель", "trait": "Черта вида", "ap": "Перк возвышения", "tradition": "Традиции", "policy": "Политика"}
+    for it in items:
+        if not vis(it): continue
+        x, y, w, h = it["x"] + 20, it["y"] + 20, it["w"], it["h"]
+        if it["sprite"] != "GFX_dtp_label": nine(it["sprite"], x, y, w, h)
+        t = it["text"]
+        for k, v in subs.items(): t = t.replace(k, v)
+        t = re.sub(r"\$(\w+)\$", lambda mm: (lambda s: s[:1].upper() + s[1:])(re.sub(r"^(civic|trait|ap|tradition|policy|auth|ethic)_", "", mm.group(1)).replace("_", " ")), t)
+        if not t.strip(): continue
+        big = it.get("font") in ("large_title_font", "malgun_goth_24")
+        f = (fT if it.get("font") == "malgun_goth_24" else fL) if big else (fR if it["label"] else fB)
+        segs, cur, col = [], "", (230, 236, 245)
+        i2 = 0
+        while i2 < len(t):
+            if t[i2] == "§" and i2 + 1 < len(t):
+                if cur: segs.append((cur, col)); cur = ""
+                col = (230, 236, 245) if t[i2 + 1] == "!" else COL.get(t[i2 + 1], (230, 236, 245)); i2 += 2; continue
+            cur += t[i2]; i2 += 1
+        if cur: segs.append((cur, col))
+        lead = len(t) - len(t.lstrip(" "))
+        segs = [(sx.lstrip(" ") if j == 0 else sx, c) for j, (sx, c) in enumerate(segs) if not (j == 0 and not sx.strip())] or segs
+        if segs: segs[0] = (segs[0][0].lstrip(" "), segs[0][1])
+        plain = "".join(sx for sx, c in segs).strip()
+        while d.textlength(plain, font=f) > w - 8 - lead * 3.6 and len(plain) > 3: plain = plain[:-2]
+        tw = d.textlength(plain, font=f)
+        left = it["label"] or it.get("left") or lead > 2
+        tx = x + 4 + lead * 3.6 if left else x + (w - tw) / 2      # ширина пробела в игре ≈ 3.6 px
+        ty = y + (h - (22 if big else 14)) / 2
+        n = len(plain)
+        for sx, c in segs:
+            if n <= 0: break
+            sx = sx[:n]; n -= len(sx)
+            if "●" in sx: c = (255, 110, 95)
+            d.text((tx, ty), sx, font=f, fill=c); tx += d.textlength(sx, font=f)
+    img.convert("RGB").save(os.path.join(PREV, fname))
+for _f, _a in [("ed1_ethics.png", (1,)), ("ed2_civics.png", (2, 1, 1)), ("ed6_traits.png", (6, 1, 1)), ("ed5_policies.png", (5,)), ("ed7_rights.png", (7,)), ("ed8_look.png", (8,)), ("ed9_mods.png", (9, 1)), ("ed10_portrait.png", (10, 15)), ("ed9_mods_game.png", (9, 2))]:
+    edrender(_f, *_a)
+print("превью редактора: 7")

@@ -17,7 +17,27 @@ DTP was built to make life easier for **game masters** running multiplayer Stell
 
 When updating, delete the old `dtp_toolpack` folder first, so no stale files remain.
 
-**UI Overhaul Dynamic users:** also copy `dtp_toolpack_uiod` and `dtp_toolpack_uiod.mod`, and enable the patch *together with* the base mod, loaded after UIOD and DTP.
+**UI Overhaul Dynamic users:** also copy `dtp_toolpack_uiod` and `dtp_toolpack_uiod.mod`, and enable the patch *together with* the base mod, loaded after UIOD and DTP. Update the patch together with the base mod — without the current patch the editor does not appear under UIOD.
+
+## Empire & Species Editor (11.2)
+
+A separate window that works like the game's empire designer, but for a game already in progress. Open it with **Open the empire & species editor** in the State, Government or Species section. It edits empire A.
+
+| Tab | What it does |
+|---|---|
+| Ethics & authority | regular and fanatic ethics, gestalt consciousness, every authority (switching to a hive mind sets the ethic and the hive-mind trait and removes incompatible civics) |
+| Civics | every civic in the game: regular, megacorp, hive mind, machine, special |
+| Traditions / Ascension perks / Policies | whole tradition trees, perks, an option for every policy |
+| Species traits | every species trait: organic, robotic, ascension, habitability |
+| Species rights | citizenship, living standard, military service, slavery, purge — for **any species** of the empire |
+| Species portrait | the species class and every portrait of that class |
+| Look & name | ship set, city style, random flag, empire name (32 presets) |
+| Modifiers | 36 Toolpack modifiers and 24 game modifiers, with a strength/duration calculator (strength 1 = 1%, minus = penalty) |
+
+- The game's own rules are checked: ethic points, opposite ethics and the `potential`/`possible` requirements of civics, authorities, traits, perks, traditions and policies are read from the game files (`tools/eddata.py`).
+- Anything the game normally forbids gets a red **!** and can only be set in **force mode**. A green frame means the empire already has it.
+- Icons are the game's own textures.
+- The editor lives in the game's bottom bar window (`main_bottom.gui`; with UIOD — `Ω_uiod_main_bottom.gui` in the UIOD patch), so `main.gui` stays under the size the game reads.
 
 ## Getting HOST status
 
@@ -49,7 +69,7 @@ When an empire becomes HOST, it is offered the **Game Master role** (a window ex
 | Resources / Modifiers | stockpiles, monthly income, bonuses and penalties |
 | Planet / Buildings | class, size, deposits, districts, buildings, transfer |
 | Fleet | repair, teleport, transfer, delete, **Fleet Builder** (type, count 1–100, spawn point); "+ N ships" button in the game's fleet window |
-| State / Government / Species | ethics, technologies, traditions, government, civics, edicts, traits, rights |
+| State / Government / Species | technologies, edicts, cooldowns, force mode and the **Empire & Species Editor** |
 | Diplomacy | relations, trust, borders, truces, vassals, war, **White Peace A ↔ B** |
 | Access | HOST status, player rights, Game Master role |
 | Log | every action by every player, built-in self-tests |
@@ -69,7 +89,7 @@ When an empire becomes HOST, it is offered the **Game Master role** (a window ex
 
 ## Interface
 
-- Every section has a banner, button groups are framed, and most buttons have icons. Ethics, civics, authorities and species traits use the game's own icons (`interface/dtp_gameicons.gfx`); the rest are drawn by `tools/icons_dtp.py`.
+- Every section has a banner, button groups are framed, and most buttons have icons. Wherever the game has an icon (ethics, civics, authorities, traits, resources, game modifiers) its own texture is used (`interface/dtp_gameicons.gfx`); the rest are drawn by `tools/icons_dtp.py`.
 - Text on icon buttons is shifted right with leading spaces so it never covers the icon (checked for both Russian and English).
 
 ## Building from source
@@ -81,7 +101,8 @@ python3 tools/gen3.py <out_dir> <stellaris>/interface <stellaris>/common <stella
 python3 tools/validate2.py <out_dir> <script-docs-dir> <stellaris>/interface
 ```
 
-English texts come from `tools/i18n/en_map.json`.
+English texts come from `tools/i18n/en_map.json` (the editor's texts are written in both languages in `tools/editor3.py`).
+The editor is built by `tools/editor3.py` (run from `gen3.py`) from the game data read by `tools/eddata.py`. Button keys are shortened to hashes when the files are written, so the GUI files stay small.
 
 ## Reporting bugs
 

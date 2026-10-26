@@ -35,7 +35,7 @@ opn |= starcls | defs("system_tooltips") | defs("megastructures") | {"dtp_gamema
 STRUCT = set("""id title desc option name trigger limit immediate text picture is_triggered_only hide_window which value namespace else else_if if
 modifier days multiplier time_multiplier who target type status amount num_of_claims show_notification resource variable species owner size fraction
 country cooldown authority civics class radius scaled_size skill design min max localization_key defined_text count weight ai_weight potential allow effect attacker_war_goal opinion decay base mult add_trait remove_trait flag side on_war_beginning events event on_monthly_pulse on_game_start parameters rounded setting color condition display_claims enable_terra_incognita icon can_change_point_of_view custom_tooltip dtp_rules_map_mode spawn_random_storm_weighted has_machine_age_dlc relations event_chain location poi situation_log_category surveyed surveyor dtp_marks_chain on_entering_system_fleet random_existing_design on_claim_system num_of_claims who target count Target Count
-fail_text root prev from this AND OR NOT NOR NAND K CODE RES OP P ACT R remove_invalid_civics icon icon_frame message tech angle required_component section ship_design ship_size slot template entity portrait show_in_outliner place_entity_on_planet_plane orbit_distance planet possible""".split())
+fail_text root prev from this AND OR NOT NOR NAND K CODE RES OP P ACT R remove_invalid_civics icon icon_frame message tech angle required_component section ship_design ship_size slot template entity portrait show_in_outliner place_entity_on_planet_plane orbit_distance planet possible policy""".split())
 RESKEYS = {"energy", "minerals", "food", "alloys", "consumer_goods", "influence", "unity", "physics_research", "society_research", "engineering_research"}
 for k in sorted(set(re.findall(r'(?<![:\w.$@])([a-z_][a-z0-9_]*)\s*(?:=|>|<)', code))):
     if k in STRUCT or k in RESKEYS or k in eff or k in trg or k in btn or k in smod or k in opn or k.startswith("dtp_"): continue
@@ -84,19 +84,22 @@ for f in glob.glob(os.path.join(ROOT, "localisation/russian/*.yml")):
     for m in re.finditer(r'^\s+([\w.\-]+):0 "(.*)"\s*$', open(f, encoding="utf-8-sig").read(), re.M): loc[m.group(1)] = m.group(2)
 for g in gui.values():
     part = g[g.find("DEBUG TOOLPACK"):]
-    for m in re.finditer(r'name = "(dtp_b_\w+)".*?quadTextureSprite = "(\w+)".*?buttonText = "(\w+)".*?effect = "(\w+)"', part, re.S):
-        n, spr, bt, ef = m.groups()
+    for el in re.findall(r'effectbuttonType\s*=\s*\{(.*?)\}\s*$', part, re.M):
+        f_ = lambda k: (re.search(k + r'\s*=\s*"(\w+)"', el) or [None, None])[1]
+        n, spr, bt, ef = f_("name"), f_("quadTextureSprite"), f_("buttonText"), f_("effect")
+        if not (n and n.startswith(("dtp_", "dq"))): continue
+        if bt is None: bt = next(iter(loc))   # элемент без текста (рамка, значок)
         if ef not in btn: errors.append("кнопка без эффекта: " + ef)
         if spr not in sprites and spr not in VANILLA_SPR: errors.append("спрайт не объявлен (ни в моде, ни в игре): " + spr)
         if bt not in loc: errors.append("нет текста кнопки: " + bt)
 for n, f in sprites.items():
-    if not os.path.exists(os.path.join(ROOT, f)) and not (f.startswith(('gfx/interface/icons/ethics/ethic_', 'gfx/interface/icons/governments/', 'gfx/interface/icons/traits/')) and "dtp" not in f): errors.append("нет текстуры " + f)   # 11.1.3: значки из файлов игры
+    if not os.path.exists(os.path.join(ROOT, f)) and not (f.startswith('gfx/interface/icons/') and "dtp" not in f): errors.append("нет текстуры " + f)   # 11.1.3: значки из файлов игры
 for p in set(re.findall(r'picture = (GFX_\w+)', code)):
     if p not in sprites: errors.append("картинка события не объявлена: " + p)
 # локализация: ссылки и недопустимая одиночная [ (в 4.5 начинает команду)
 for k, v in loc.items():
     for r in re.findall(r'\$(\w+)\$', v):
-        if r not in loc: errors.append("нет $%s$ в %s" % (r, k))
+        if r not in loc and r.startswith("dtp"): errors.append("нет $%s$ в %s" % (r, k))     # 11.2: $ключ$ игры (названия цивик, черт…) — из локализации игры
     for br in re.findall(r'(?<!\[)\[([^\[\]]*)\]', v):
         if not re.match(r'^[\w.]+$', br): errors.append("подозрительные скобки [%s] в %s" % (br, k))
 for k in set(re.findall(r'(?:title|desc|name|localization_key|fail_text)\s*=\s*(dtp[\w.]+)', code)):

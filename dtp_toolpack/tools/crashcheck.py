@@ -39,20 +39,20 @@ sprites = set(re.findall(r'name = "(GFX_[\w]+)"', gfx))
 van = set()
 if len(sys.argv) > 2:
     for g in glob.glob(os.path.join(sys.argv[2], "**/*.gfx"), recursive=True): van |= set(re.findall(r'name\s*=\s*"(GFX_\w+)"', txt(g)))
-for s in set(re.findall(r'(?:picture|spriteType|quadTextureSprite|icon) = "?(GFX_\w+)"?', alltxt)):
+for s in set(re.findall(r'(?:picture|spriteType|quadTextureSprite|icon)\s*=\s*"?(GFX_\w+)"?', alltxt)):
     if s not in sprites and s not in van: P.append("нет картинки/спрайта: " + s)
 for f, t in files.items():                                    # текстуры существуют
     for tf in re.findall(r'texture[fF]ile = "([^"]+)"', t):
-        if not os.path.exists(os.path.join(R, tf)) and not (tf.startswith(('gfx/interface/icons/ethics/ethic_', 'gfx/interface/icons/governments/', 'gfx/interface/icons/traits/')) and "dtp" not in tf): P.append("нет файла текстуры: " + tf)   # значки игры
+        if not os.path.exists(os.path.join(R, tf)) and not (tf.startswith('gfx/interface/icons/') and "dtp" not in tf): P.append("нет файла текстуры: " + tf)   # значки игры
 gui = "\n".join(t for f, t in files.items() if f.endswith(".gui"))
-names = collections.Counter(re.findall(r'name = "(dtp_[^"]+)"', gui))
+names = collections.Counter(re.findall(r'name\s*=\s*"((?:dtp_|dq)[^"]+)"', gui))
 for n, c in names.items():
     if c > 1: P.append("элемент окна дважды: %s (%d)" % (n, c))
 be = "\n".join(t for f, t in files.items() if "button_effects" in f)
-keys = collections.Counter(re.findall(r"^(dtp_\w+) = \{", be, re.M))
+keys = collections.Counter(re.findall(r"^((?:dtp_|dq)\w+) = \{", be, re.M))
 for k, c in keys.items():
     if c > 1: P.append("кнопка дважды: " + k)
-for k in set(re.findall(r'effect = "(dtp_[^"]+)"', gui)):
+for k in set(re.findall(r'effect\s*=\s*"((?:dtp_|dq)[^"]+)"', gui)):
     if k not in keys: P.append("у кнопки окна нет действия: " + k)
 for w in re.findall(r"while = \{(.{0,60})", alltxt, re.S):     # циклы
     if "count" not in w and "limit" not in w: P.append("цикл while без ограничения")

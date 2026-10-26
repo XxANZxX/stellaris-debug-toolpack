@@ -1,5 +1,280 @@
-# Debug Toolpack 11.1.9 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
-dtp_b_vm_shooting_stars = {
+# Debug Toolpack 11.2.5 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dq9szxf5 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_c_hasmod = { M = left_galactic_community } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_res from = {
+				dtp_has_perm = { P = res }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = res }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					hidden_effect = {
+						event_target:dtp_t = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = left_galactic_community
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_t = {
+								add_modifier = { modifier = left_galactic_community days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_t = {
+								add_modifier = { modifier = left_galactic_community days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dqnhz01i = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqjdzc9e = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = friendly_trees }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = friendly_trees
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dqdg6d17 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		NOT = { dtp_p_hasmod = { M = friendly_trees } }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						event_target:dtp_p = {
+							set_variable = { which = dtp_ty value = from.dtp_years }
+							remove_modifier = friendly_trees
+						}
+						if = {
+							limit = {
+								from = {
+									check_variable = { which = dtp_years value <= 0 }
+								}
+							}
+							event_target:dtp_p = {
+								add_modifier = { modifier = friendly_trees days = -1 }
+							}
+						}
+						else = {
+							event_target:dtp_p = {
+								add_modifier = { modifier = friendly_trees days = 360 time_multiplier = dtp_ty }
+							}
+						}
+					}
+					dtp_result = { CODE = 5 }
+				}
+				else = {
+					dtp_fail = { CODE = 5 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 5 }
+			}
+		}
+	}
+}
+
+dq61cp1z = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 4 }
+		}
+		dtp_p_hasmod = { M = shooting_stars }
+		from = {
+			check_variable = { which = dtp_modpage value = 2 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						remove_modifier = shooting_stars
+					}
+					dtp_result = { CODE = 6 }
+				}
+				else = {
+					dtp_fail = { CODE = 6 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 6 }
+			}
+		}
+	}
+}
+
+dqv6wzjw = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -72,7 +347,7 @@ dtp_b_vm_shooting_stars = {
 	}
 }
 
-dtp_b_vm_food_rich_planet_on = {
+dqylvy2q = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -127,7 +402,7 @@ dtp_b_vm_food_rich_planet_on = {
 	}
 }
 
-dtp_b_vm_food_rich_planet = {
+dqxgo042 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -200,7 +475,7 @@ dtp_b_vm_food_rich_planet = {
 	}
 }
 
-dtp_b_vm_natural_beauty_on = {
+dqkove9z = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -255,7 +530,7 @@ dtp_b_vm_natural_beauty_on = {
 	}
 }
 
-dtp_b_vm_natural_beauty = {
+dqsowdhd = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -328,7 +603,7 @@ dtp_b_vm_natural_beauty = {
 	}
 }
 
-dtp_b_vm_free_at_last_on = {
+dqmhby0g = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -383,7 +658,7 @@ dtp_b_vm_free_at_last_on = {
 	}
 }
 
-dtp_b_vm_free_at_last = {
+dqoza41a = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -456,7 +731,7 @@ dtp_b_vm_free_at_last = {
 	}
 }
 
-dtp_b_vm_great_schism_01_on = {
+dqhb4c4l = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -511,7 +786,7 @@ dtp_b_vm_great_schism_01_on = {
 	}
 }
 
-dtp_b_vm_great_schism_01 = {
+dqyjw1ld = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -584,7 +859,7 @@ dtp_b_vm_great_schism_01 = {
 	}
 }
 
-dtp_b_vm_h3 = {
+dq9wq068 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -603,7 +878,7 @@ dtp_b_vm_h3 = {
 	}
 }
 
-dtp_b_vm_damaged_ecology_on = {
+dqpu97nh = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -658,7 +933,7 @@ dtp_b_vm_damaged_ecology_on = {
 	}
 }
 
-dtp_b_vm_damaged_ecology = {
+dq26ileq = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -731,7 +1006,7 @@ dtp_b_vm_damaged_ecology = {
 	}
 }
 
-dtp_b_vm_hostile_environment_on = {
+dqi4xduc = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -786,7 +1061,7 @@ dtp_b_vm_hostile_environment_on = {
 	}
 }
 
-dtp_b_vm_hostile_environment = {
+dqfvgbzr = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -859,7 +1134,7 @@ dtp_b_vm_hostile_environment = {
 	}
 }
 
-dtp_b_vm_pyramid_wars_on = {
+dqghezaw = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -914,7 +1189,7 @@ dtp_b_vm_pyramid_wars_on = {
 	}
 }
 
-dtp_b_vm_pyramid_wars = {
+dqwfupwr = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -987,7 +1262,7 @@ dtp_b_vm_pyramid_wars = {
 	}
 }
 
-dtp_b_vm_pop_disappearances_on = {
+dqcagfhu = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1042,7 +1317,7 @@ dtp_b_vm_pop_disappearances_on = {
 	}
 }
 
-dtp_b_vm_pop_disappearances = {
+dqylmyaz = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1115,7 +1390,7 @@ dtp_b_vm_pop_disappearances = {
 	}
 }
 
-dtp_b_vm_corrupt_administration_on = {
+dqw51blz = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1170,7 +1445,7 @@ dtp_b_vm_corrupt_administration_on = {
 	}
 }
 
-dtp_b_vm_corrupt_administration = {
+dqxjwrc4 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1243,7 +1518,7 @@ dtp_b_vm_corrupt_administration = {
 	}
 }
 
-dtp_b_vm_planet_culture_shock_on = {
+dq0h82oc = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1298,7 +1573,7 @@ dtp_b_vm_planet_culture_shock_on = {
 	}
 }
 
-dtp_b_vm_planet_culture_shock = {
+dq83e8en = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1371,7 +1646,7 @@ dtp_b_vm_planet_culture_shock = {
 	}
 }
 
-dtp_b_pl_h0 = {
+dq371rfj = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1387,24 +1662,7 @@ dtp_b_pl_h0 = {
 	}
 }
 
-dtp_b_pl_empty = {
-	potential = {
-		from = {
-			has_country_flag = dtp_open
-		}
-		from = {
-			check_variable = { which = dtp_tab value = 5 }
-		}
-		NOT = { dtp_has_tp = yes }
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-	}
-}
-
-dtp_b_pl_empty2 = {
+dqg3pl9d = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1421,7 +1679,24 @@ dtp_b_pl_empty2 = {
 	}
 }
 
-dtp_b_pl_mods = {
+dql4irw9 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_open
+		}
+		from = {
+			check_variable = { which = dtp_tab value = 5 }
+		}
+		NOT = { dtp_has_tp = yes }
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqituyx5 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1450,7 +1725,7 @@ dtp_b_pl_mods = {
 	}
 }
 
-dtp_b_pl_tr = {
+dqvo9loe = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1479,7 +1754,7 @@ dtp_b_pl_tr = {
 	}
 }
 
-dtp_b_pl_sys = {
+dqaeqmbr = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1532,7 +1807,7 @@ dtp_b_pl_sys = {
 	}
 }
 
-dtp_b_pl_sys_x = {
+dq2qryy5 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1584,7 +1859,7 @@ dtp_b_pl_sys_x = {
 	}
 }
 
-dtp_b_colony_rm = {
+dqwzgsz6 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1615,7 +1890,7 @@ dtp_b_colony_rm = {
 	}
 }
 
-dtp_b_pl_h2 = {
+dqrjx1kj = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1633,7 +1908,7 @@ dtp_b_pl_h2 = {
 	}
 }
 
-dtp_b_pl_h5 = {
+dqy8rb0w = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1651,7 +1926,7 @@ dtp_b_pl_h5 = {
 	}
 }
 
-dtp_b_pl_h9 = {
+dqvvgfcr = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1669,7 +1944,7 @@ dtp_b_pl_h9 = {
 	}
 }
 
-dtp_b_pl_hs = {
+dqrcrwad = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -1686,7 +1961,7 @@ dtp_b_pl_hs = {
 	}
 }
 
-dtp_b_pc_pc_desert = {
+dqg10har = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -2066,7 +2341,7 @@ dtp_b_pc_pc_desert = {
 	}
 }
 
-dtp_b_pc_pc_arid = {
+dq2rhidr = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -2446,7 +2721,7 @@ dtp_b_pc_pc_arid = {
 	}
 }
 
-dtp_b_pc_pc_savannah = {
+dqv58bx4 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -2826,7 +3101,7 @@ dtp_b_pc_pc_savannah = {
 	}
 }
 
-dtp_b_pc_pc_tropical = {
+dqjhfe68 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -3206,7 +3481,7 @@ dtp_b_pc_pc_tropical = {
 	}
 }
 
-dtp_b_pc_pc_continental = {
+dq8oba1t = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -3586,7 +3861,7 @@ dtp_b_pc_pc_continental = {
 	}
 }
 
-dtp_b_pc_pc_ocean = {
+dqggu2lf = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -3966,7 +4241,7 @@ dtp_b_pc_pc_ocean = {
 	}
 }
 
-dtp_b_pc_pc_tundra = {
+dq6c934k = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open
@@ -4346,7 +4621,7 @@ dtp_b_pc_pc_tundra = {
 	}
 }
 
-dtp_b_pc_pc_arctic = {
+dqq8sw8n = {
 	potential = {
 		from = {
 			has_country_flag = dtp_open

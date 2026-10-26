@@ -1,0 +1,5551 @@
+# Debug Toolpack 11.2.5 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dq5t44c1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_brittle } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_brittle }
+					dtp_spx = { T = dtp_ok_t_trait_brittle }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_brittle
+							}
+							change_species_characteristics = { remove_trait = trait_brittle }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_brittle }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq8pkvnl = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_camouflage }
+					dtp_spx = { T = dtp_ok_t_trait_camouflage }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_camouflage
+							}
+							change_species_characteristics = { remove_trait = trait_camouflage }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_camouflage }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq9rqz1o = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_camouflage }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_camouflage }
+					dtp_spx = { T = dtp_ok_t_trait_camouflage }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_camouflage
+							}
+							change_species_characteristics = { remove_trait = trait_camouflage }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_camouflage }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqfegadk = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_camouflage } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_camouflage }
+					dtp_spx = { T = dtp_ok_t_trait_camouflage }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_camouflage
+							}
+							change_species_characteristics = { remove_trait = trait_camouflage }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_camouflage }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq36hnf3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_cave_dweller }
+					dtp_spx = { T = dtp_ok_t_trait_cave_dweller }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_cave_dweller
+							}
+							change_species_characteristics = { remove_trait = trait_cave_dweller }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_cave_dweller }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqwf14ki = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_cave_dweller }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_cave_dweller }
+					dtp_spx = { T = dtp_ok_t_trait_cave_dweller }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_cave_dweller
+							}
+							change_species_characteristics = { remove_trait = trait_cave_dweller }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_cave_dweller }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqt8qy9y = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_cave_dweller } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_cave_dweller }
+					dtp_spx = { T = dtp_ok_t_trait_cave_dweller }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_cave_dweller
+							}
+							change_species_characteristics = { remove_trait = trait_cave_dweller }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_cave_dweller }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq1byuto = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_charismatic }
+					dtp_spx = { T = dtp_ok_t_trait_charismatic }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_charismatic
+							}
+							change_species_characteristics = { remove_trait = trait_charismatic }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_charismatic }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqwn9b0s = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_charismatic }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_charismatic }
+					dtp_spx = { T = dtp_ok_t_trait_charismatic }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_charismatic
+							}
+							change_species_characteristics = { remove_trait = trait_charismatic }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_charismatic }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqsw225k = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_charismatic } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_charismatic }
+					dtp_spx = { T = dtp_ok_t_trait_charismatic }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_charismatic
+							}
+							change_species_characteristics = { remove_trait = trait_charismatic }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_charismatic }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq3bf3mo = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_chromalogs }
+					dtp_spx = { T = dtp_ok_t_trait_chromalogs }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_chromalogs
+							}
+							change_species_characteristics = { remove_trait = trait_chromalogs }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_chromalogs }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqiinem7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_chromalogs }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_chromalogs }
+					dtp_spx = { T = dtp_ok_t_trait_chromalogs }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_chromalogs
+							}
+							change_species_characteristics = { remove_trait = trait_chromalogs }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_chromalogs }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqofhrdn = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_chromalogs } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_chromalogs }
+					dtp_spx = { T = dtp_ok_t_trait_chromalogs }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_chromalogs
+							}
+							change_species_characteristics = { remove_trait = trait_chromalogs }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_chromalogs }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqm0wvsz = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_clone_soldier_fertile }
+					dtp_spx = { T = dtp_ok_t_trait_clone_soldier_fertile }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_clone_soldier_fertile
+							}
+							change_species_characteristics = { remove_trait = trait_clone_soldier_fertile }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_clone_soldier_fertile }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq3efv2y = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_clone_soldier_fertile }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_clone_soldier_fertile }
+					dtp_spx = { T = dtp_ok_t_trait_clone_soldier_fertile }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_clone_soldier_fertile
+							}
+							change_species_characteristics = { remove_trait = trait_clone_soldier_fertile }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_clone_soldier_fertile }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq4zfzpa = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_clone_soldier_fertile } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_clone_soldier_fertile }
+					dtp_spx = { T = dtp_ok_t_trait_clone_soldier_fertile }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_clone_soldier_fertile
+							}
+							change_species_characteristics = { remove_trait = trait_clone_soldier_fertile }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_clone_soldier_fertile }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqo0tsok = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_clone_soldier_infertile }
+					dtp_spx = { T = dtp_ok_t_trait_clone_soldier_infertile }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_clone_soldier_infertile
+							}
+							change_species_characteristics = { remove_trait = trait_clone_soldier_infertile }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_clone_soldier_infertile }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqufhwk9 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_clone_soldier_infertile }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_clone_soldier_infertile }
+					dtp_spx = { T = dtp_ok_t_trait_clone_soldier_infertile }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_clone_soldier_infertile
+							}
+							change_species_characteristics = { remove_trait = trait_clone_soldier_infertile }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_clone_soldier_infertile }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqv3t3lp = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_clone_soldier_infertile } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_clone_soldier_infertile }
+					dtp_spx = { T = dtp_ok_t_trait_clone_soldier_infertile }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_clone_soldier_infertile
+							}
+							change_species_characteristics = { remove_trait = trait_clone_soldier_infertile }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_clone_soldier_infertile }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqw67d6l = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_clone_soldier_infertile_full_potential }
+					dtp_spx = { T = dtp_ok_t_trait_clone_soldier_infertile_full_potential }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_clone_soldier_infertile_full_potential
+							}
+							change_species_characteristics = { remove_trait = trait_clone_soldier_infertile_full_potential }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_clone_soldier_infertile_full_potential }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqm5iohr = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_clone_soldier_infertile_full_potential }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_clone_soldier_infertile_full_potential }
+					dtp_spx = { T = dtp_ok_t_trait_clone_soldier_infertile_full_potential }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_clone_soldier_infertile_full_potential
+							}
+							change_species_characteristics = { remove_trait = trait_clone_soldier_infertile_full_potential }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_clone_soldier_infertile_full_potential }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqmuue57 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_clone_soldier_infertile_full_potential } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_clone_soldier_infertile_full_potential }
+					dtp_spx = { T = dtp_ok_t_trait_clone_soldier_infertile_full_potential }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_clone_soldier_infertile_full_potential
+							}
+							change_species_characteristics = { remove_trait = trait_clone_soldier_infertile_full_potential }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_clone_soldier_infertile_full_potential }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqghq33i = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_communal }
+					dtp_spx = { T = dtp_ok_t_trait_communal }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_communal
+							}
+							change_species_characteristics = { remove_trait = trait_communal }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_communal }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqpyofzn = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_communal }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_communal }
+					dtp_spx = { T = dtp_ok_t_trait_communal }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_communal
+							}
+							change_species_characteristics = { remove_trait = trait_communal }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_communal }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqhsr72v = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_communal } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_communal }
+					dtp_spx = { T = dtp_ok_t_trait_communal }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_communal
+							}
+							change_species_characteristics = { remove_trait = trait_communal }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_communal }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqjyrek8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_conformists }
+					dtp_spx = { T = dtp_ok_t_trait_conformists }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_conformists
+							}
+							change_species_characteristics = { remove_trait = trait_conformists }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_conformists }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqr0imx8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_conformists }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_conformists }
+					dtp_spx = { T = dtp_ok_t_trait_conformists }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_conformists
+							}
+							change_species_characteristics = { remove_trait = trait_conformists }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_conformists }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqynvfu0 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_conformists } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_conformists }
+					dtp_spx = { T = dtp_ok_t_trait_conformists }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_conformists
+							}
+							change_species_characteristics = { remove_trait = trait_conformists }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_conformists }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqi92q8d = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_conservational }
+					dtp_spx = { T = dtp_ok_t_trait_conservational }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_conservational
+							}
+							change_species_characteristics = { remove_trait = trait_conservational }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_conservational }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqdjqcld = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_conservational }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_conservational }
+					dtp_spx = { T = dtp_ok_t_trait_conservational }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_conservational
+							}
+							change_species_characteristics = { remove_trait = trait_conservational }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_conservational }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqclfk85 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_conservational } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_conservational }
+					dtp_spx = { T = dtp_ok_t_trait_conservational }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_conservational
+							}
+							change_species_characteristics = { remove_trait = trait_conservational }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_conservational }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqotj7li = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_crucible_community }
+					dtp_spx = { T = dtp_ok_t_trait_crucible_community }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_crucible_community
+							}
+							change_species_characteristics = { remove_trait = trait_crucible_community }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_crucible_community }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqgz8giq = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_crucible_community }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_crucible_community }
+					dtp_spx = { T = dtp_ok_t_trait_crucible_community }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_crucible_community
+							}
+							change_species_characteristics = { remove_trait = trait_crucible_community }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_crucible_community }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq90vpvq = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_crucible_community } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_crucible_community }
+					dtp_spx = { T = dtp_ok_t_trait_crucible_community }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_crucible_community
+							}
+							change_species_characteristics = { remove_trait = trait_crucible_community }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_crucible_community }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqwab1g9 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_cybernetic }
+					dtp_spx = { T = dtp_ok_t_trait_cybernetic }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_cybernetic
+							}
+							change_species_characteristics = { remove_trait = trait_cybernetic }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_cybernetic }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq1c6lro = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_cybernetic }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_cybernetic }
+					dtp_spx = { T = dtp_ok_t_trait_cybernetic }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_cybernetic
+							}
+							change_species_characteristics = { remove_trait = trait_cybernetic }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_cybernetic }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq71rowg = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_cybernetic } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_cybernetic }
+					dtp_spx = { T = dtp_ok_t_trait_cybernetic }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_cybernetic
+							}
+							change_species_characteristics = { remove_trait = trait_cybernetic }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_cybernetic }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq7e585m = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_decadent }
+					dtp_spx = { T = dtp_ok_t_trait_decadent }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_decadent
+							}
+							change_species_characteristics = { remove_trait = trait_decadent }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_decadent }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq3ol9lv = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_decadent }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_decadent }
+					dtp_spx = { T = dtp_ok_t_trait_decadent }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_decadent
+							}
+							change_species_characteristics = { remove_trait = trait_decadent }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_decadent }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq4p8byf = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_decadent } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_decadent }
+					dtp_spx = { T = dtp_ok_t_trait_decadent }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_decadent
+							}
+							change_species_characteristics = { remove_trait = trait_decadent }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_decadent }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqt5dyvc = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_deviants }
+					dtp_spx = { T = dtp_ok_t_trait_deviants }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_deviants
+							}
+							change_species_characteristics = { remove_trait = trait_deviants }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_deviants }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq6dwr9z = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_deviants }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_deviants }
+					dtp_spx = { T = dtp_ok_t_trait_deviants }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_deviants
+							}
+							change_species_characteristics = { remove_trait = trait_deviants }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_deviants }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq2yvrlf = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_deviants } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_deviants }
+					dtp_spx = { T = dtp_ok_t_trait_deviants }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_deviants
+							}
+							change_species_characteristics = { remove_trait = trait_deviants }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_deviants }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq8zcf0l = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_docile }
+					dtp_spx = { T = dtp_ok_t_trait_docile }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_docile
+							}
+							change_species_characteristics = { remove_trait = trait_docile }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_docile }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq8r4phz = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_docile }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_docile }
+					dtp_spx = { T = dtp_ok_t_trait_docile }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_docile
+							}
+							change_species_characteristics = { remove_trait = trait_docile }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_docile }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq0mamb7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_docile } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_docile }
+					dtp_spx = { T = dtp_ok_t_trait_docile }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_docile
+							}
+							change_species_characteristics = { remove_trait = trait_docile }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_docile }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqanjm05 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_egg_laying }
+					dtp_spx = { T = dtp_ok_t_trait_egg_laying }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_egg_laying
+							}
+							change_species_characteristics = { remove_trait = trait_egg_laying }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_egg_laying }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq9e3zyv = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_egg_laying }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_egg_laying }
+					dtp_spx = { T = dtp_ok_t_trait_egg_laying }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_egg_laying
+							}
+							change_species_characteristics = { remove_trait = trait_egg_laying }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_egg_laying }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqgrmto3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_egg_laying } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_egg_laying }
+					dtp_spx = { T = dtp_ok_t_trait_egg_laying }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_egg_laying
+							}
+							change_species_characteristics = { remove_trait = trait_egg_laying }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_egg_laying }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq9kex9p = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enduring }
+					dtp_spx = { T = dtp_ok_t_trait_enduring }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enduring
+							}
+							change_species_characteristics = { remove_trait = trait_enduring }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enduring }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqwp8nl6 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_enduring }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enduring }
+					dtp_spx = { T = dtp_ok_t_trait_enduring }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enduring
+							}
+							change_species_characteristics = { remove_trait = trait_enduring }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enduring }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqsz4qha = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_enduring } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enduring }
+					dtp_spx = { T = dtp_ok_t_trait_enduring }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enduring
+							}
+							change_species_characteristics = { remove_trait = trait_enduring }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enduring }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqyhevsq = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enigmatic_intelligence }
+					dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enigmatic_intelligence
+							}
+							change_species_characteristics = { remove_trait = trait_enigmatic_intelligence }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enigmatic_intelligence }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqzs20nc = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_enigmatic_intelligence }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enigmatic_intelligence }
+					dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enigmatic_intelligence
+							}
+							change_species_characteristics = { remove_trait = trait_enigmatic_intelligence }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enigmatic_intelligence }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq7mwc6k = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enigmatic_intelligence }
+					dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enigmatic_intelligence
+							}
+							change_species_characteristics = { remove_trait = trait_enigmatic_intelligence }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enigmatic_intelligence }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqccjdab = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enigmatic_intelligence_failed }
+					dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence_failed }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enigmatic_intelligence_failed
+							}
+							change_species_characteristics = { remove_trait = trait_enigmatic_intelligence_failed }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enigmatic_intelligence_failed }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqq9n9wc = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_enigmatic_intelligence_failed }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enigmatic_intelligence_failed }
+					dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence_failed }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enigmatic_intelligence_failed
+							}
+							change_species_characteristics = { remove_trait = trait_enigmatic_intelligence_failed }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enigmatic_intelligence_failed }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqyfsy48 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence_failed } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enigmatic_intelligence_failed }
+					dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence_failed }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enigmatic_intelligence_failed
+							}
+							change_species_characteristics = { remove_trait = trait_enigmatic_intelligence_failed }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enigmatic_intelligence_failed }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqcf0u08 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enigmatic_intelligence_poor }
+					dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence_poor }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enigmatic_intelligence_poor
+							}
+							change_species_characteristics = { remove_trait = trait_enigmatic_intelligence_poor }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enigmatic_intelligence_poor }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqotirrk = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_enigmatic_intelligence_poor }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enigmatic_intelligence_poor }
+					dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence_poor }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enigmatic_intelligence_poor
+							}
+							change_species_characteristics = { remove_trait = trait_enigmatic_intelligence_poor }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enigmatic_intelligence_poor }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqj2x5ys = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence_poor } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_enigmatic_intelligence_poor }
+					dtp_spx = { T = dtp_ok_t_trait_enigmatic_intelligence_poor }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_enigmatic_intelligence_poor
+							}
+							change_species_characteristics = { remove_trait = trait_enigmatic_intelligence_poor }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_enigmatic_intelligence_poor }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqyr4slq = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_exd }
+					dtp_spx = { T = dtp_ok_t_trait_exd }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_exd
+							}
+							change_species_characteristics = { remove_trait = trait_exd }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_exd }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqjafvih = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_exd }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_exd }
+					dtp_spx = { T = dtp_ok_t_trait_exd }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_exd
+							}
+							change_species_characteristics = { remove_trait = trait_exd }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_exd }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqogznsd = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_exd } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_exd }
+					dtp_spx = { T = dtp_ok_t_trait_exd }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_exd
+							}
+							change_species_characteristics = { remove_trait = trait_exd }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_exd }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqawb67z = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_exotic_metabolism }
+					dtp_spx = { T = dtp_ok_t_trait_exotic_metabolism }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_exotic_metabolism
+							}
+							change_species_characteristics = { remove_trait = trait_exotic_metabolism }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_exotic_metabolism }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqhh8db7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_exotic_metabolism }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_exotic_metabolism }
+					dtp_spx = { T = dtp_ok_t_trait_exotic_metabolism }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_exotic_metabolism
+							}
+							change_species_characteristics = { remove_trait = trait_exotic_metabolism }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_exotic_metabolism }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq9sh69z = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_exotic_metabolism } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_exotic_metabolism }
+					dtp_spx = { T = dtp_ok_t_trait_exotic_metabolism }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_exotic_metabolism
+							}
+							change_species_characteristics = { remove_trait = trait_exotic_metabolism }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_exotic_metabolism }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqvg4x99 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_extremely_adaptive }
+					dtp_spx = { T = dtp_ok_t_trait_extremely_adaptive }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_extremely_adaptive
+							}
+							change_species_characteristics = { remove_trait = trait_extremely_adaptive }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_extremely_adaptive }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq8dmmbk = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_extremely_adaptive }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_extremely_adaptive }
+					dtp_spx = { T = dtp_ok_t_trait_extremely_adaptive }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_extremely_adaptive
+							}
+							change_species_characteristics = { remove_trait = trait_extremely_adaptive }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_extremely_adaptive }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq0z69d0 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_extremely_adaptive } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_extremely_adaptive }
+					dtp_spx = { T = dtp_ok_t_trait_extremely_adaptive }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_extremely_adaptive
+							}
+							change_species_characteristics = { remove_trait = trait_extremely_adaptive }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_extremely_adaptive }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqxcgbif = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_familial }
+					dtp_spx = { T = dtp_ok_t_trait_familial }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_familial
+							}
+							change_species_characteristics = { remove_trait = trait_familial }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_familial }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq4xwinp = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_familial }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_familial }
+					dtp_spx = { T = dtp_ok_t_trait_familial }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_familial
+							}
+							change_species_characteristics = { remove_trait = trait_familial }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_familial }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq3gk93l = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_familial } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_familial }
+					dtp_spx = { T = dtp_ok_t_trait_familial }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_familial
+							}
+							change_species_characteristics = { remove_trait = trait_familial }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_familial }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqefdd5o = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_fleeting }
+					dtp_spx = { T = dtp_ok_t_trait_fleeting }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_fleeting
+							}
+							change_species_characteristics = { remove_trait = trait_fleeting }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_fleeting }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqm1qjky = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_fleeting }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_fleeting }
+					dtp_spx = { T = dtp_ok_t_trait_fleeting }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						owner_species = {
+							save_event_target_as = dtp_sp
+						}
+					}
+					event_target:dtp_sp = {
+						if = {
+							limit = {
+								has_trait = trait_fleeting
+							}
+							change_species_characteristics = { remove_trait = trait_fleeting }
+						}
+						else = {
+							change_species_characteristics = { add_trait = trait_fleeting }
+						}
+					}
+					dtp_result = { CODE = 22 }
+				}
+				else = {
+					dtp_fail = { CODE = 22 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+

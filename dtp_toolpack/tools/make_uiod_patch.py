@@ -13,7 +13,7 @@ import os, sys, shutil, subprocess, tempfile
 
 UIOD, VI, VC, VMAP, DEST = sys.argv[1:6]
 HERE = os.path.dirname(os.path.abspath(__file__))
-FILES = ["main.gui", "planet_view.gui", "fleet_view.gui", "starbase_view.gui"]
+FILES = ["main.gui", "planet_view.gui", "fleet_view.gui", "starbase_view.gui", "Ω_uiod_main_bottom.gui"]   # 11.2: редактор держав — в нижней панели UIOD
 tmp = tempfile.mkdtemp(prefix="dtp_uiod_")
 overlay = os.path.join(tmp, "interface")
 shutil.copytree(VI, overlay)                                   # игровые файлы…
@@ -30,7 +30,8 @@ ver = open(os.path.join(out, "descriptor.mod"), encoding="utf-8").read().split('
 pdir = os.path.join(DEST, "dtp_toolpack_uiod")
 shutil.rmtree(pdir, ignore_errors=True); os.makedirs(os.path.join(pdir, "interface"))
 for f in FILES:
-    shutil.copy(os.path.join(out, "interface", f), os.path.join(pdir, "interface", f))
+    if os.path.exists(os.path.join(out, "interface", f)):
+        shutil.copy(os.path.join(out, "interface", f), os.path.join(pdir, "interface", f))
 desc = ('version="%s"\ntags={\n\t"Utilities"\n\t"Interface"\n}\nname="Debug Toolpack — UI Overhaul Dynamic patch"\n'
         'dependencies={\n\t"UI Overhaul Dynamic"\n\t"Debug Toolpack (DTP)"\n}\nsupported_version="v4.5.*"\n') % ver
 open(os.path.join(pdir, "descriptor.mod"), "w", encoding="utf-8").write(desc)

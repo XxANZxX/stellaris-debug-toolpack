@@ -7,7 +7,7 @@ import glob
 s = "\n".join(open(f, encoding="utf-8").read() for f in sorted(glob.glob(os.path.join(MOD, "common/button_effects/*.txt"))))
 def blocks(text):
     out = {}
-    for m in re.finditer(r"^(dtp_b_\w+) = \{", text, re.M):
+    for m in re.finditer(r"^((?:dtp_|dq)\w+) = \{", text, re.M):
         i, d = m.end(), 1
         while d:
             d += {"{": 1, "}": -1}.get(text[i], 0); i += 1
