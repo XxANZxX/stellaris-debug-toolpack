@@ -1,3 +1,3 @@
-Патч совместимости Debug Toolpack 11.2.10 и UI Overhaul Dynamic.
+Патч совместимости Debug Toolpack 11.3.4 и UI Overhaul Dynamic.
 Порядок модов: UI Overhaul Dynamic → Debug Toolpack (DTP) → этот патч (последним).
 Файлы UIOD, взятые за основу: main.gui, planet_view.gui, fleet_view.gui, starbase_view.gui, Ω_uiod_main_bottom.gui

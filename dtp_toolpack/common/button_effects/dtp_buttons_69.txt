@@ -1,0 +1,4873 @@
+# Debug Toolpack 11.3.4 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dqctjrb4 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_industrial_ring_world }
+					dtp_tpx = { T = dtp_pok_z_zone_industrial_ring_world }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_rw_urban_1
+								}
+								remove_zone = { district = district_rw_urban_1 zone = zone_industrial_ring_world }
+							}
+							else_if = {
+								limit = {
+									has_district = district_rw_urban_2
+								}
+								remove_zone = { district = district_rw_urban_2 zone = zone_industrial_ring_world }
+							}
+							else_if = {
+								limit = {
+									has_district = district_rw_urban_3
+								}
+								remove_zone = { district = district_rw_urban_3 zone = zone_industrial_ring_world }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_rw_urban_1
+									}
+									add_zone = { district = district_rw_urban_1 zone = zone_industrial_ring_world replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_2
+									}
+									add_zone = { district = district_rw_urban_2 zone = zone_industrial_ring_world replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_3
+									}
+									add_zone = { district = district_rw_urban_3 zone = zone_industrial_ring_world replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_rw_urban_1
+									}
+									add_zone = { district = district_rw_urban_1 zone = zone_industrial_ring_world }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_2
+									}
+									add_zone = { district = district_rw_urban_2 zone = zone_industrial_ring_world }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_3
+									}
+									add_zone = { district = district_rw_urban_3 zone = zone_industrial_ring_world }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqhk64p3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_machine_replication }
+					dtp_tpx = { T = dtp_pok_z_zone_machine_replication }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mindlink
+								}
+								remove_zone = { district = district_mindlink zone = zone_machine_replication }
+							}
+							else_if = {
+								limit = {
+									has_district = district_city
+								}
+								remove_zone = { district = district_city zone = zone_machine_replication }
+							}
+							else_if = {
+								limit = {
+									has_district = district_prison
+								}
+								remove_zone = { district = district_prison zone = zone_machine_replication }
+							}
+							else_if = {
+								limit = {
+									has_district = district_slave
+								}
+								remove_zone = { district = district_slave zone = zone_machine_replication }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive
+								}
+								remove_zone = { district = district_hive zone = zone_machine_replication }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus
+								}
+								remove_zone = { district = district_nexus zone = zone_machine_replication }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_machine_replication replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_machine_replication replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_machine_replication replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_machine_replication replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_machine_replication replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_machine_replication replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_machine_replication }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_machine_replication }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_machine_replication }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_machine_replication }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_machine_replication }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_machine_replication }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dq4o940p = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_minerals }
+					dtp_tpx = { T = dtp_pok_z_zone_minerals }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mining
+								}
+								remove_zone = { district = district_mining zone = zone_minerals }
+							}
+							else_if = {
+								limit = {
+									has_district = district_melting
+								}
+								remove_zone = { district = district_melting zone = zone_minerals }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hab_mining
+								}
+								remove_zone = { district = district_hab_mining zone = zone_minerals }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hollow_mountains
+								}
+								remove_zone = { district = district_hollow_mountains zone = zone_minerals }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mining
+									}
+									add_zone = { district = district_mining zone = zone_minerals replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_melting
+									}
+									add_zone = { district = district_melting zone = zone_minerals replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hab_mining
+									}
+									add_zone = { district = district_hab_mining zone = zone_minerals replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hollow_mountains
+									}
+									add_zone = { district = district_hollow_mountains zone = zone_minerals replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mining
+									}
+									add_zone = { district = district_mining zone = zone_minerals }
+								}
+								else_if = {
+									limit = {
+										has_district = district_melting
+									}
+									add_zone = { district = district_melting zone = zone_minerals }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hab_mining
+									}
+									add_zone = { district = district_hab_mining zone = zone_minerals }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hollow_mountains
+									}
+									add_zone = { district = district_hollow_mountains zone = zone_minerals }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqfz9xde = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_minerals_hive }
+					dtp_tpx = { T = dtp_pok_z_zone_minerals_hive }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_hive_1
+								}
+								remove_zone = { district = district_hive_1 zone = zone_minerals_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_2
+								}
+								remove_zone = { district = district_hive_2 zone = zone_minerals_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_3
+								}
+								remove_zone = { district = district_hive_3 zone = zone_minerals_hive }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_minerals_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_minerals_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_minerals_hive replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_minerals_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_minerals_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_minerals_hive }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqo1m3ns = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_minerals_nexus }
+					dtp_tpx = { T = dtp_pok_z_zone_minerals_nexus }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_nexus_1
+								}
+								remove_zone = { district = district_nexus_1 zone = zone_minerals_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_2
+								}
+								remove_zone = { district = district_nexus_2 zone = zone_minerals_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_3
+								}
+								remove_zone = { district = district_nexus_3 zone = zone_minerals_nexus }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_minerals_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_minerals_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_minerals_nexus replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_minerals_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_minerals_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_minerals_nexus }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqg188az = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_minerals_physics }
+					dtp_tpx = { T = dtp_pok_z_zone_minerals_physics }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mining
+								}
+								remove_zone = { district = district_mining zone = zone_minerals_physics }
+							}
+							else_if = {
+								limit = {
+									has_district = district_melting
+								}
+								remove_zone = { district = district_melting zone = zone_minerals_physics }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hollow_mountains
+								}
+								remove_zone = { district = district_hollow_mountains zone = zone_minerals_physics }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mining
+									}
+									add_zone = { district = district_mining zone = zone_minerals_physics replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_melting
+									}
+									add_zone = { district = district_melting zone = zone_minerals_physics replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hollow_mountains
+									}
+									add_zone = { district = district_hollow_mountains zone = zone_minerals_physics replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mining
+									}
+									add_zone = { district = district_mining zone = zone_minerals_physics }
+								}
+								else_if = {
+									limit = {
+										has_district = district_melting
+									}
+									add_zone = { district = district_melting zone = zone_minerals_physics }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hollow_mountains
+									}
+									add_zone = { district = district_hollow_mountains zone = zone_minerals_physics }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqb7zvcd = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_minerals_wilderness }
+					dtp_tpx = { T = dtp_pok_z_zone_minerals_wilderness }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mining
+								}
+								remove_zone = { district = district_mining zone = zone_minerals_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_melting
+								}
+								remove_zone = { district = district_melting zone = zone_minerals_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hollow_mountains
+								}
+								remove_zone = { district = district_hollow_mountains zone = zone_minerals_wilderness }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mining
+									}
+									add_zone = { district = district_mining zone = zone_minerals_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_melting
+									}
+									add_zone = { district = district_melting zone = zone_minerals_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hollow_mountains
+									}
+									add_zone = { district = district_hollow_mountains zone = zone_minerals_wilderness replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mining
+									}
+									add_zone = { district = district_mining zone = zone_minerals_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_melting
+									}
+									add_zone = { district = district_melting zone = zone_minerals_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hollow_mountains
+									}
+									add_zone = { district = district_hollow_mountains zone = zone_minerals_wilderness }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqxmnx37 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_rare_crystals }
+					dtp_tpx = { T = dtp_pok_z_zone_rare_crystals }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mining
+								}
+								remove_zone = { district = district_mining zone = zone_rare_crystals }
+							}
+							else_if = {
+								limit = {
+									has_district = district_melting
+								}
+								remove_zone = { district = district_melting zone = zone_rare_crystals }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hollow_mountains
+								}
+								remove_zone = { district = district_hollow_mountains zone = zone_rare_crystals }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mining
+									}
+									add_zone = { district = district_mining zone = zone_rare_crystals replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_melting
+									}
+									add_zone = { district = district_melting zone = zone_rare_crystals replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hollow_mountains
+									}
+									add_zone = { district = district_hollow_mountains zone = zone_rare_crystals replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mining
+									}
+									add_zone = { district = district_mining zone = zone_rare_crystals }
+								}
+								else_if = {
+									limit = {
+										has_district = district_melting
+									}
+									add_zone = { district = district_melting zone = zone_rare_crystals }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hollow_mountains
+									}
+									add_zone = { district = district_hollow_mountains zone = zone_rare_crystals }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqxpcr8s = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_rare_crystals_hive }
+					dtp_tpx = { T = dtp_pok_z_zone_rare_crystals_hive }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_hive_1
+								}
+								remove_zone = { district = district_hive_1 zone = zone_rare_crystals_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_2
+								}
+								remove_zone = { district = district_hive_2 zone = zone_rare_crystals_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_3
+								}
+								remove_zone = { district = district_hive_3 zone = zone_rare_crystals_hive }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_rare_crystals_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_rare_crystals_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_rare_crystals_hive replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_rare_crystals_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_rare_crystals_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_rare_crystals_hive }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqfehx5m = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_rare_crystals_nexus }
+					dtp_tpx = { T = dtp_pok_z_zone_rare_crystals_nexus }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_nexus_1
+								}
+								remove_zone = { district = district_nexus_1 zone = zone_rare_crystals_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_2
+								}
+								remove_zone = { district = district_nexus_2 zone = zone_rare_crystals_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_3
+								}
+								remove_zone = { district = district_nexus_3 zone = zone_rare_crystals_nexus }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_rare_crystals_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_rare_crystals_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_rare_crystals_nexus replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_rare_crystals_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_rare_crystals_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_rare_crystals_nexus }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dq7g9e8k = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research }
+					dtp_tpx = { T = dtp_pok_z_zone_research }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mindlink
+								}
+								remove_zone = { district = district_mindlink zone = zone_research }
+							}
+							else_if = {
+								limit = {
+									has_district = district_city
+								}
+								remove_zone = { district = district_city zone = zone_research }
+							}
+							else_if = {
+								limit = {
+									has_district = district_prison
+								}
+								remove_zone = { district = district_prison zone = zone_research }
+							}
+							else_if = {
+								limit = {
+									has_district = district_slave
+								}
+								remove_zone = { district = district_slave zone = zone_research }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive
+								}
+								remove_zone = { district = district_hive zone = zone_research }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus
+								}
+								remove_zone = { district = district_nexus zone = zone_research }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqx1no22 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_arcology }
+					dtp_tpx = { T = dtp_pok_z_zone_research_arcology }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_arcology_urban_1
+								}
+								remove_zone = { district = district_arcology_urban_1 zone = zone_research_arcology }
+							}
+							else_if = {
+								limit = {
+									has_district = district_arcology_urban_2
+								}
+								remove_zone = { district = district_arcology_urban_2 zone = zone_research_arcology }
+							}
+							else_if = {
+								limit = {
+									has_district = district_arcology_urban_3
+								}
+								remove_zone = { district = district_arcology_urban_3 zone = zone_research_arcology }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_arcology_urban_1
+									}
+									add_zone = { district = district_arcology_urban_1 zone = zone_research_arcology replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_2
+									}
+									add_zone = { district = district_arcology_urban_2 zone = zone_research_arcology replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_3
+									}
+									add_zone = { district = district_arcology_urban_3 zone = zone_research_arcology replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_arcology_urban_1
+									}
+									add_zone = { district = district_arcology_urban_1 zone = zone_research_arcology }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_2
+									}
+									add_zone = { district = district_arcology_urban_2 zone = zone_research_arcology }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_3
+									}
+									add_zone = { district = district_arcology_urban_3 zone = zone_research_arcology }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqkh5g5d = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_engineering }
+					dtp_tpx = { T = dtp_pok_z_zone_research_engineering }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mindlink
+								}
+								remove_zone = { district = district_mindlink zone = zone_research_engineering }
+							}
+							else_if = {
+								limit = {
+									has_district = district_city
+								}
+								remove_zone = { district = district_city zone = zone_research_engineering }
+							}
+							else_if = {
+								limit = {
+									has_district = district_prison
+								}
+								remove_zone = { district = district_prison zone = zone_research_engineering }
+							}
+							else_if = {
+								limit = {
+									has_district = district_slave
+								}
+								remove_zone = { district = district_slave zone = zone_research_engineering }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive
+								}
+								remove_zone = { district = district_hive zone = zone_research_engineering }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus
+								}
+								remove_zone = { district = district_nexus zone = zone_research_engineering }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_engineering replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_engineering replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_engineering replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_engineering replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_engineering replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_engineering replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_engineering }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_engineering }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_engineering }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_engineering }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_engineering }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_engineering }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqcsee9y = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_engineering_arcology }
+					dtp_tpx = { T = dtp_pok_z_zone_research_engineering_arcology }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_arcology_urban_1
+								}
+								remove_zone = { district = district_arcology_urban_1 zone = zone_research_engineering_arcology }
+							}
+							else_if = {
+								limit = {
+									has_district = district_arcology_urban_2
+								}
+								remove_zone = { district = district_arcology_urban_2 zone = zone_research_engineering_arcology }
+							}
+							else_if = {
+								limit = {
+									has_district = district_arcology_urban_3
+								}
+								remove_zone = { district = district_arcology_urban_3 zone = zone_research_engineering_arcology }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_arcology_urban_1
+									}
+									add_zone = { district = district_arcology_urban_1 zone = zone_research_engineering_arcology replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_2
+									}
+									add_zone = { district = district_arcology_urban_2 zone = zone_research_engineering_arcology replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_3
+									}
+									add_zone = { district = district_arcology_urban_3 zone = zone_research_engineering_arcology replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_arcology_urban_1
+									}
+									add_zone = { district = district_arcology_urban_1 zone = zone_research_engineering_arcology }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_2
+									}
+									add_zone = { district = district_arcology_urban_2 zone = zone_research_engineering_arcology }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_3
+									}
+									add_zone = { district = district_arcology_urban_3 zone = zone_research_engineering_arcology }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dq52oxpv = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_engineering_hive }
+					dtp_tpx = { T = dtp_pok_z_zone_research_engineering_hive }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_hive_1
+								}
+								remove_zone = { district = district_hive_1 zone = zone_research_engineering_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_2
+								}
+								remove_zone = { district = district_hive_2 zone = zone_research_engineering_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_3
+								}
+								remove_zone = { district = district_hive_3 zone = zone_research_engineering_hive }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_research_engineering_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_research_engineering_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_research_engineering_hive replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_research_engineering_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_research_engineering_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_research_engineering_hive }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqknw9x4 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_engineering_nexus }
+					dtp_tpx = { T = dtp_pok_z_zone_research_engineering_nexus }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_nexus_1
+								}
+								remove_zone = { district = district_nexus_1 zone = zone_research_engineering_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_2
+								}
+								remove_zone = { district = district_nexus_2 zone = zone_research_engineering_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_3
+								}
+								remove_zone = { district = district_nexus_3 zone = zone_research_engineering_nexus }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_research_engineering_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_research_engineering_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_research_engineering_nexus replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_research_engineering_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_research_engineering_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_research_engineering_nexus }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqwgknod = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_engineering_ring_world }
+					dtp_tpx = { T = dtp_pok_z_zone_research_engineering_ring_world }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_rw_urban_1
+								}
+								remove_zone = { district = district_rw_urban_1 zone = zone_research_engineering_ring_world }
+							}
+							else_if = {
+								limit = {
+									has_district = district_rw_urban_2
+								}
+								remove_zone = { district = district_rw_urban_2 zone = zone_research_engineering_ring_world }
+							}
+							else_if = {
+								limit = {
+									has_district = district_rw_urban_3
+								}
+								remove_zone = { district = district_rw_urban_3 zone = zone_research_engineering_ring_world }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_rw_urban_1
+									}
+									add_zone = { district = district_rw_urban_1 zone = zone_research_engineering_ring_world replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_2
+									}
+									add_zone = { district = district_rw_urban_2 zone = zone_research_engineering_ring_world replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_3
+									}
+									add_zone = { district = district_rw_urban_3 zone = zone_research_engineering_ring_world replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_rw_urban_1
+									}
+									add_zone = { district = district_rw_urban_1 zone = zone_research_engineering_ring_world }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_2
+									}
+									add_zone = { district = district_rw_urban_2 zone = zone_research_engineering_ring_world }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_3
+									}
+									add_zone = { district = district_rw_urban_3 zone = zone_research_engineering_ring_world }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqcy52e5 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_hive }
+					dtp_tpx = { T = dtp_pok_z_zone_research_hive }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_hive_1
+								}
+								remove_zone = { district = district_hive_1 zone = zone_research_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_2
+								}
+								remove_zone = { district = district_hive_2 zone = zone_research_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_3
+								}
+								remove_zone = { district = district_hive_3 zone = zone_research_hive }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_research_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_research_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_research_hive replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_research_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_research_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_research_hive }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dq2r9dbw = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_nexus }
+					dtp_tpx = { T = dtp_pok_z_zone_research_nexus }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_nexus_1
+								}
+								remove_zone = { district = district_nexus_1 zone = zone_research_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_2
+								}
+								remove_zone = { district = district_nexus_2 zone = zone_research_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_3
+								}
+								remove_zone = { district = district_nexus_3 zone = zone_research_nexus }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_research_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_research_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_research_nexus replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_research_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_research_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_research_nexus }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqo23h5n = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_physics }
+					dtp_tpx = { T = dtp_pok_z_zone_research_physics }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mindlink
+								}
+								remove_zone = { district = district_mindlink zone = zone_research_physics }
+							}
+							else_if = {
+								limit = {
+									has_district = district_city
+								}
+								remove_zone = { district = district_city zone = zone_research_physics }
+							}
+							else_if = {
+								limit = {
+									has_district = district_prison
+								}
+								remove_zone = { district = district_prison zone = zone_research_physics }
+							}
+							else_if = {
+								limit = {
+									has_district = district_slave
+								}
+								remove_zone = { district = district_slave zone = zone_research_physics }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive
+								}
+								remove_zone = { district = district_hive zone = zone_research_physics }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus
+								}
+								remove_zone = { district = district_nexus zone = zone_research_physics }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_physics replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_physics replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_physics replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_physics replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_physics replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_physics replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_physics }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_physics }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_physics }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_physics }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_physics }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_physics }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqkgtkdn = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_physics_arcology }
+					dtp_tpx = { T = dtp_pok_z_zone_research_physics_arcology }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_arcology_urban_1
+								}
+								remove_zone = { district = district_arcology_urban_1 zone = zone_research_physics_arcology }
+							}
+							else_if = {
+								limit = {
+									has_district = district_arcology_urban_2
+								}
+								remove_zone = { district = district_arcology_urban_2 zone = zone_research_physics_arcology }
+							}
+							else_if = {
+								limit = {
+									has_district = district_arcology_urban_3
+								}
+								remove_zone = { district = district_arcology_urban_3 zone = zone_research_physics_arcology }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_arcology_urban_1
+									}
+									add_zone = { district = district_arcology_urban_1 zone = zone_research_physics_arcology replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_2
+									}
+									add_zone = { district = district_arcology_urban_2 zone = zone_research_physics_arcology replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_3
+									}
+									add_zone = { district = district_arcology_urban_3 zone = zone_research_physics_arcology replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_arcology_urban_1
+									}
+									add_zone = { district = district_arcology_urban_1 zone = zone_research_physics_arcology }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_2
+									}
+									add_zone = { district = district_arcology_urban_2 zone = zone_research_physics_arcology }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_3
+									}
+									add_zone = { district = district_arcology_urban_3 zone = zone_research_physics_arcology }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dq3xuzbp = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_physics_hive }
+					dtp_tpx = { T = dtp_pok_z_zone_research_physics_hive }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_hive_1
+								}
+								remove_zone = { district = district_hive_1 zone = zone_research_physics_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_2
+								}
+								remove_zone = { district = district_hive_2 zone = zone_research_physics_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_3
+								}
+								remove_zone = { district = district_hive_3 zone = zone_research_physics_hive }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_research_physics_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_research_physics_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_research_physics_hive replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_research_physics_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_research_physics_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_research_physics_hive }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dq0zf8xk = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_physics_nexus }
+					dtp_tpx = { T = dtp_pok_z_zone_research_physics_nexus }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_nexus_1
+								}
+								remove_zone = { district = district_nexus_1 zone = zone_research_physics_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_2
+								}
+								remove_zone = { district = district_nexus_2 zone = zone_research_physics_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_3
+								}
+								remove_zone = { district = district_nexus_3 zone = zone_research_physics_nexus }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_research_physics_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_research_physics_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_research_physics_nexus replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_research_physics_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_research_physics_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_research_physics_nexus }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqgaydzq = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_physics_ring_world }
+					dtp_tpx = { T = dtp_pok_z_zone_research_physics_ring_world }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_rw_urban_1
+								}
+								remove_zone = { district = district_rw_urban_1 zone = zone_research_physics_ring_world }
+							}
+							else_if = {
+								limit = {
+									has_district = district_rw_urban_2
+								}
+								remove_zone = { district = district_rw_urban_2 zone = zone_research_physics_ring_world }
+							}
+							else_if = {
+								limit = {
+									has_district = district_rw_urban_3
+								}
+								remove_zone = { district = district_rw_urban_3 zone = zone_research_physics_ring_world }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_rw_urban_1
+									}
+									add_zone = { district = district_rw_urban_1 zone = zone_research_physics_ring_world replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_2
+									}
+									add_zone = { district = district_rw_urban_2 zone = zone_research_physics_ring_world replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_3
+									}
+									add_zone = { district = district_rw_urban_3 zone = zone_research_physics_ring_world replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_rw_urban_1
+									}
+									add_zone = { district = district_rw_urban_1 zone = zone_research_physics_ring_world }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_2
+									}
+									add_zone = { district = district_rw_urban_2 zone = zone_research_physics_ring_world }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_3
+									}
+									add_zone = { district = district_rw_urban_3 zone = zone_research_physics_ring_world }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqriymvw = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_ring_world }
+					dtp_tpx = { T = dtp_pok_z_zone_research_ring_world }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_rw_urban_1
+								}
+								remove_zone = { district = district_rw_urban_1 zone = zone_research_ring_world }
+							}
+							else_if = {
+								limit = {
+									has_district = district_rw_urban_2
+								}
+								remove_zone = { district = district_rw_urban_2 zone = zone_research_ring_world }
+							}
+							else_if = {
+								limit = {
+									has_district = district_rw_urban_3
+								}
+								remove_zone = { district = district_rw_urban_3 zone = zone_research_ring_world }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_rw_urban_1
+									}
+									add_zone = { district = district_rw_urban_1 zone = zone_research_ring_world replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_2
+									}
+									add_zone = { district = district_rw_urban_2 zone = zone_research_ring_world replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_3
+									}
+									add_zone = { district = district_rw_urban_3 zone = zone_research_ring_world replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_rw_urban_1
+									}
+									add_zone = { district = district_rw_urban_1 zone = zone_research_ring_world }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_2
+									}
+									add_zone = { district = district_rw_urban_2 zone = zone_research_ring_world }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_3
+									}
+									add_zone = { district = district_rw_urban_3 zone = zone_research_ring_world }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dq0labgq = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_society }
+					dtp_tpx = { T = dtp_pok_z_zone_research_society }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mindlink
+								}
+								remove_zone = { district = district_mindlink zone = zone_research_society }
+							}
+							else_if = {
+								limit = {
+									has_district = district_city
+								}
+								remove_zone = { district = district_city zone = zone_research_society }
+							}
+							else_if = {
+								limit = {
+									has_district = district_prison
+								}
+								remove_zone = { district = district_prison zone = zone_research_society }
+							}
+							else_if = {
+								limit = {
+									has_district = district_slave
+								}
+								remove_zone = { district = district_slave zone = zone_research_society }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive
+								}
+								remove_zone = { district = district_hive zone = zone_research_society }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus
+								}
+								remove_zone = { district = district_nexus zone = zone_research_society }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_society replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_society replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_society replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_society replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_society replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_society replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_society }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_society }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_society }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_society }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_society }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_society }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqnd0tc8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_society_arcology }
+					dtp_tpx = { T = dtp_pok_z_zone_research_society_arcology }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_arcology_urban_1
+								}
+								remove_zone = { district = district_arcology_urban_1 zone = zone_research_society_arcology }
+							}
+							else_if = {
+								limit = {
+									has_district = district_arcology_urban_2
+								}
+								remove_zone = { district = district_arcology_urban_2 zone = zone_research_society_arcology }
+							}
+							else_if = {
+								limit = {
+									has_district = district_arcology_urban_3
+								}
+								remove_zone = { district = district_arcology_urban_3 zone = zone_research_society_arcology }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_arcology_urban_1
+									}
+									add_zone = { district = district_arcology_urban_1 zone = zone_research_society_arcology replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_2
+									}
+									add_zone = { district = district_arcology_urban_2 zone = zone_research_society_arcology replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_3
+									}
+									add_zone = { district = district_arcology_urban_3 zone = zone_research_society_arcology replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_arcology_urban_1
+									}
+									add_zone = { district = district_arcology_urban_1 zone = zone_research_society_arcology }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_2
+									}
+									add_zone = { district = district_arcology_urban_2 zone = zone_research_society_arcology }
+								}
+								else_if = {
+									limit = {
+										has_district = district_arcology_urban_3
+									}
+									add_zone = { district = district_arcology_urban_3 zone = zone_research_society_arcology }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dq2z42o1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_society_hive }
+					dtp_tpx = { T = dtp_pok_z_zone_research_society_hive }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_hive_1
+								}
+								remove_zone = { district = district_hive_1 zone = zone_research_society_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_2
+								}
+								remove_zone = { district = district_hive_2 zone = zone_research_society_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_3
+								}
+								remove_zone = { district = district_hive_3 zone = zone_research_society_hive }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_research_society_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_research_society_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_research_society_hive replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_research_society_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_research_society_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_research_society_hive }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dq1dly9r = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_society_nexus }
+					dtp_tpx = { T = dtp_pok_z_zone_research_society_nexus }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_nexus_1
+								}
+								remove_zone = { district = district_nexus_1 zone = zone_research_society_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_2
+								}
+								remove_zone = { district = district_nexus_2 zone = zone_research_society_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_3
+								}
+								remove_zone = { district = district_nexus_3 zone = zone_research_society_nexus }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_research_society_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_research_society_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_research_society_nexus replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_research_society_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_research_society_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_research_society_nexus }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqlvl7bu = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_society_ring_world }
+					dtp_tpx = { T = dtp_pok_z_zone_research_society_ring_world }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_rw_urban_1
+								}
+								remove_zone = { district = district_rw_urban_1 zone = zone_research_society_ring_world }
+							}
+							else_if = {
+								limit = {
+									has_district = district_rw_urban_2
+								}
+								remove_zone = { district = district_rw_urban_2 zone = zone_research_society_ring_world }
+							}
+							else_if = {
+								limit = {
+									has_district = district_rw_urban_3
+								}
+								remove_zone = { district = district_rw_urban_3 zone = zone_research_society_ring_world }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_rw_urban_1
+									}
+									add_zone = { district = district_rw_urban_1 zone = zone_research_society_ring_world replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_2
+									}
+									add_zone = { district = district_rw_urban_2 zone = zone_research_society_ring_world replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_3
+									}
+									add_zone = { district = district_rw_urban_3 zone = zone_research_society_ring_world replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_rw_urban_1
+									}
+									add_zone = { district = district_rw_urban_1 zone = zone_research_society_ring_world }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_2
+									}
+									add_zone = { district = district_rw_urban_2 zone = zone_research_society_ring_world }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_urban_3
+									}
+									add_zone = { district = district_rw_urban_3 zone = zone_research_society_ring_world }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqcr4bhy = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_unity }
+					dtp_tpx = { T = dtp_pok_z_zone_research_unity }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mindlink
+								}
+								remove_zone = { district = district_mindlink zone = zone_research_unity }
+							}
+							else_if = {
+								limit = {
+									has_district = district_city
+								}
+								remove_zone = { district = district_city zone = zone_research_unity }
+							}
+							else_if = {
+								limit = {
+									has_district = district_prison
+								}
+								remove_zone = { district = district_prison zone = zone_research_unity }
+							}
+							else_if = {
+								limit = {
+									has_district = district_slave
+								}
+								remove_zone = { district = district_slave zone = zone_research_unity }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive
+								}
+								remove_zone = { district = district_hive zone = zone_research_unity }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus
+								}
+								remove_zone = { district = district_nexus zone = zone_research_unity }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_unity replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_unity replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_unity replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_unity replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_unity replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_unity replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_unity }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_unity }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_unity }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_unity }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_unity }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_unity }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqjpsxib = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_unity_wilderness }
+					dtp_tpx = { T = dtp_pok_z_zone_research_unity_wilderness }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mindlink
+								}
+								remove_zone = { district = district_mindlink zone = zone_research_unity_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_city
+								}
+								remove_zone = { district = district_city zone = zone_research_unity_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_prison
+								}
+								remove_zone = { district = district_prison zone = zone_research_unity_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_slave
+								}
+								remove_zone = { district = district_slave zone = zone_research_unity_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive
+								}
+								remove_zone = { district = district_hive zone = zone_research_unity_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus
+								}
+								remove_zone = { district = district_nexus zone = zone_research_unity_wilderness }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_unity_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_unity_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_unity_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_unity_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_unity_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_unity_wilderness replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_unity_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_unity_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_unity_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_unity_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_unity_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_unity_wilderness }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqwc63d6 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_research_wilderness }
+					dtp_tpx = { T = dtp_pok_z_zone_research_wilderness }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_mindlink
+								}
+								remove_zone = { district = district_mindlink zone = zone_research_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_city
+								}
+								remove_zone = { district = district_city zone = zone_research_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_prison
+								}
+								remove_zone = { district = district_prison zone = zone_research_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_slave
+								}
+								remove_zone = { district = district_slave zone = zone_research_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive
+								}
+								remove_zone = { district = district_hive zone = zone_research_wilderness }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus
+								}
+								remove_zone = { district = district_nexus zone = zone_research_wilderness }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_wilderness replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_wilderness replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_mindlink
+									}
+									add_zone = { district = district_mindlink zone = zone_research_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_city
+									}
+									add_zone = { district = district_city zone = zone_research_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_prison
+									}
+									add_zone = { district = district_prison zone = zone_research_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_slave
+									}
+									add_zone = { district = district_slave zone = zone_research_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive
+									}
+									add_zone = { district = district_hive zone = zone_research_wilderness }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus
+									}
+									add_zone = { district = district_nexus zone = zone_research_wilderness }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+

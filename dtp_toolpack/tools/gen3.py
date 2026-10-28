@@ -17,7 +17,7 @@ python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/model
 import zlib, os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "11.2.10"
+VERSION = "11.3.4"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []
@@ -553,9 +553,14 @@ INIT = B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_ch
 EFF.append(B("dtp_host_check", B("if", B("limit", "NOT = { has_global_flag = dtp_host_set }", "NOT = { any_country = { has_country_flag = dtp_host_seat } }"), "dtp_auto_host = yes")))
 # открыть «Редактор держав и вида» на нужном разделе
 def ED_OPEN_AT(tab=None, cat=1):
-    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open",
+    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open", "remove_country_flag = dtp_pe_open",
         *([setv("dtp_edtab", tab), setv("dtp_edcat", cat), setv("dtp_edpg", 1)] if tab else
           [B("if", B("limit", "NOT = { is_variable_set = dtp_edtab }"), setv("dtp_edtab", 1), setv("dtp_edcat", 1), setv("dtp_edpg", 1))]))
+# 11.3: открыть «Редактор планеты и системы» (на нужном разделе); второй редактор при этом закрывается
+def PE_OPEN_AT(tab=None, cat=1):
+    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_pe_open", "remove_country_flag = dtp_open", "remove_country_flag = dtp_ed_open",
+        *([setv("dtp_petab", tab), setv("dtp_pecat", cat), setv("dtp_pepg", 1)] if tab else
+          [B("if", B("limit", "NOT = { is_variable_set = dtp_petab }"), setv("dtp_petab", 1), setv("dtp_pecat", 1), setv("dtp_pepg", 1))]))
 def act(p, body, code, need_load=True):
     """Тело действия: загрузка целей, проверка прав и наличия целей В МОМЕНТ выполнения, журнал.
     Если выбранная цель исчезла (планета уничтожена, флот погиб, держава пала) — «НЕ ВЫПОЛНЕНО», а не ложное «ГОТОВО»."""
@@ -612,11 +617,6 @@ button("toggle", "", HW - 50, 2, 48, 48, where="handle", sprite="GFX_dtp_toggle"
        effect=INIT + "\n" + B("from", B("if", B("limit", "has_country_flag = dtp_open"), "remove_country_flag = dtp_open"),
                                B("else", "set_country_flag = dtp_open", "remove_country_flag = dtp_ed_open")),
        tt="Debug Toolpack: открыть или закрыть окно.")
-# ---------- зонд режима наблюдателя: видна, только если кнопку смотрит не держава (обсервер)
-OBS = "NOT = { from = { is_scope_type = country } }"
-button("obs_probe", "§YOBSERVER§! · this: [This.GetName] · from: [From.GetName]", 0, 54, 300, 26, where="handle", sprite="GFX_dtp_btn_warn", potential=OBS,
-       effect='log = "DTP OBSERVER click | this=[This.GetName] | from=[From.GetName]"',
-       tt="Проверка режима наблюдателя для Debug Toolpack: нажмите и пришлите game.log (строка DTP OBSERVER).")
 # ---------- точки на карте: проверка, какой объект игра даёт кнопкам в значках карты
 # (в значке звезды — только империю игрока; проверяем остальные значки: станции, флоты, планеты, мегасооружения...)
 MP_TT = "Точки на карте. Включите и посмотрите на галактическую карту: на значках станций, флотов, планет и т. п. появятся метки с названием. Клик по метке пытается отметить систему этого объекта."
@@ -655,14 +655,14 @@ lab("role_n", "§Rнет доступа — раздел «Доступ»§!", 4
 lab("mode_f", "§R!! ПРИНУДИТЕЛЬНЫЙ РЕЖИМ !!§!", 660, 18, 240, potential=B("from", "dtp_force_active = yes"))
 
 # ---------------- навигация
-NAV = [("ГЛАВНОЕ", [15, 16]), ("ЦЕЛИ", [2, 1]), ("ЭКОНОМИКА", [3, 4]), ("МИРЫ", [5, 14, 6]), ("ДЕРЖАВА", [8, 7]), ("СЛУЖЕБНОЕ", [11, 12])]
+NAV = [("ГЛАВНОЕ", [15, 16]), ("ЦЕЛИ", [2, 1]), ("ЭКОНОМИКА", [3, 4]), ("МИРЫ", [5, 6]), ("ДЕРЖАВА", [8, 7]), ("СЛУЖЕБНОЕ", [11, 12])]
 TABD = {16: "для ведущего",
         15: "цель, разделы, быстрые действия",
         1: "отметки и действия над отмеченными",
         2: "A — над кем действуем, B — кому передаём",
         3: "склад державы A",
         4: "бонусы и штрафы",
-        5: "тип, залежи, размер, передача",
+        5: "редактор планеты и системы",
         6: "ремонт, перенос, передача, создание",
         7: "отношения и договоры A и B",
         8: "редактор, технологии, указы",
@@ -672,14 +672,17 @@ TABD = {16: "для ведущего",
         12: "последние действия",
         13: "правление, модели, указы",
         14: "районы и здания планеты"}
-for _t in (9, 13): TABD.pop(_t, None)          # 11.2.6: «Расы» и «Правление» — в «Государстве» и редакторе
+for _t in (9, 13, 14): TABD.pop(_t, None)          # 11.2.6: «Расы» и «Правление» — в «Государстве» и редакторе
 tren("§gредактор, технологии, указы§!", "§geditor, technologies, edicts§!")
 tren("Открыт раздел «Государство». Редактор держав и вида (этики, правление, цивики, традиции, перки, политика, вид, облик, модификаторы), технологии, указы, откаты, принудительный режим.", "The State section is open. The Empire & Species Editor (ethics, authority, civics, traditions, perks, policies, species, look, modifiers), technologies, edicts, cooldowns, force mode.")
 tren("Открыть раздел «Государство». Редактор держав и вида (этики, правление, цивики, традиции, перки, политика, вид, облик, модификаторы), технологии, указы, откаты, принудительный режим.", "Open the State section. The Empire & Species Editor (ethics, authority, civics, traditions, perks, policies, species, look, modifiers), technologies, edicts, cooldowns, force mode.")
+tren("§gредактор планеты и системы§!", "§gplanet & system editor§!")
+tren("Открыт раздел «Планета». Редактор планеты и системы: тип, размер, звезда, залежи, районы, зоны, здания, аномалии, раскопки, специализация, природа, население.", "The Planet section is open. The Planet & System Editor: type, size, star, deposits, districts, zones, buildings, anomalies, dig sites, designation, features, population.")
+tren("Открыть раздел «Планета». Редактор планеты и системы: тип, размер, звезда, залежи, районы, зоны, здания, аномалии, раскопки, специализация, природа, население.", "Open the Planet section. The Planet & System Editor: type, size, star, deposits, districts, zones, buildings, anomalies, dig sites, designation, features, population.")
 TN = {t: n for t, n, p in TABS}
 TABD_FULL = {1: "Отметки систем на карте, список отмеченных, передача, освобождение и претензии.", 2: "Выбор державы A и получателя B для всех инструментов.",
              3: "Ресурсы державы A: добавить, вычесть, задать запас, доход каждый месяц на срок.", 4: "Бонусы и штрафы: свои модификаторы Toolpack и настоящие модификаторы игры.",
-             5: "Выбранная планета: тип, размер, залежи, население, звезда, передача и колонии.", 6: "Выбранный флот: ремонт, перемещение, передача, удаление, новые флоты.",
+             5: "Редактор планеты и системы: тип, размер, звезда, залежи, районы, зоны, здания, аномалии, раскопки, специализация, природа, население.", 6: "Выбранный флот: ремонт, перемещение, передача, удаление, новые флоты.",
              7: "Дипломатия между A и B: отношения, договоры, перемирие, война, вассалитет.", 8: "Редактор держав и вида (этики, правление, цивики, традиции, перки, политика, вид, облик, модификаторы), технологии, указы, откаты, принудительный режим.",
              9: "Вид державы A: признаки и права.", 10: "Настоящие события игры и свои события для цели или для всех.",
              11: "ХОСТ, голосование за ХОСТа и права игроков.", 12: "Журнал действий всех игроков и самопроверки мода.",
@@ -712,7 +715,7 @@ def tcard(tabs, cw):
     button("tcard_%d" % cw, "", CX0, CARD_Y, cw, CARD_H, sprite="GFX_dtp_card", label=True, potential=TS(tabs))
 A_TABS = [2, 3, 4, 8, 11, 12, 15, 16, 7]          # 11.2.6: разделов 9 и 13 больше нет   # главная цель — держава A
 B_TABS = [2, 7, 1, 5, 6, 16]                          # нужен ещё получатель B
-P_TABS = [5, 14]; F_TABS = [6]; S_TABS = [1]
+P_TABS = [5]; F_TABS = [6]; S_TABS = [1]
 for cw in (CWF, CWN):
     tabs = [t for t in set(A_TABS + P_TABS + F_TABS + S_TABS) if (t in NUMTABS) == (cw == CWN)]
     if tabs: tcard(tabs, cw)
@@ -1094,6 +1097,18 @@ for c, lst in UMODS.items():
                potential=M1, effect=ED_OPEN_AT(9, 1), sprite="GFX_dtp_btn_go", tt=ED_MOD_TT)
         row += 1
         continue
+    if c == "p":                                # 11.3: модификаторы планеты — в «Редакторе планеты и системы»
+        for k, n, mk, unit, u in lst:
+            key = "dtp_up_%s" % k
+            UMOD_STATIC.append("%s = {\n\t%s = %s\n}" % (key, mk, unit))
+            loc(key, "Toolpack: " + n); loc(key + "_desc", "Модификатор выдан через Debug Toolpack.")
+        x, y, w = grid(0, cols=1, row0=row)
+        button("um_ped", tren("Модификаторы планеты → в редакторе планеты и системы", "Planet modifiers → in the planet & system editor"), x, y, w, 34,
+               potential=M1, effect=PE_OPEN_AT(12, 1), sprite="GFX_dtp_btn_go",
+               tt=tren("Открыть «Редактор планеты и системы» → «Модификаторы»: 36 своих модификаторов планеты и сотни модификаторов игры, калькулятор силы и срока.",
+                       "Open the 'Planet & System Editor' → 'Modifiers': 36 Toolpack planet modifiers and hundreds of game modifiers, strength and duration calculator."))
+        row += 1
+        continue
     x, y, w = grid(0, cols=1, row0=row)
     lab("um_h_" + c, {"c": "§HДержава§! (выбранная во вкладке «Держава»):", "p": "§HПланета§! (выбранная в окне планеты):", "f": "§HФлот§! (выбранный в окне флота):"}[c], x, y, w, potential=M1)
     row += 1
@@ -1162,8 +1177,14 @@ x, y, w = grid(0, cols=1, row0=0)
 button("vm_ed", tren("Бонусы и штрафы державы → в редакторе держав и вида", "Empire bonuses and penalties → in the empire & species editor"), x, y, w, 34,
        potential=M2, effect=ED_OPEN_AT(9, 2), sprite="GFX_dtp_btn_go", tt=ED_MOD_TT)
 _vrow = 1
+x, y, w = grid(0, cols=1, row0=_vrow)
+button("vm_ped", tren("Бонусы и штрафы планеты → в редакторе планеты и системы", "Planet bonuses and penalties → in the planet & system editor"), x, y, w, 34,
+       potential=M2, effect=PE_OPEN_AT(12, 2), sprite="GFX_dtp_btn_go",
+       tt=tren("Открыть «Редактор планеты и системы» → «Модификаторы»: бонусы и штрафы самой игры для выбранной планеты, со сроком.",
+               "Open the 'Planet & System Editor' → 'Modifiers': the game's own bonuses and penalties for the selected planet, with a duration."))
+_vrow += 1
 for gi, (c, head, spr, lst) in enumerate(VMODS):
-    if c == "c": continue                      # 11.2.6: державные — в редакторе
+    if c in ("c", "p"): continue               # 11.2.6: державные — в редакторе держав; 11.3: планетные — в редакторе планеты
     x, y, w = grid(0, cols=1, row0=_vrow); _vrow += 3
     lab("vm_h%d" % gi, head + "  §g%s, срок — панель справа§!" % ("держава A" if c == "c" else "выбранная планета"), x, y, w, potential=M2)
     obj, p = ("dtp_t", "res") if c == "c" else ("dtp_p", "planet")
@@ -1179,64 +1200,33 @@ for gi, (c, head, spr, lst) in enumerate(VMODS):
         button("vm_" + key, n, x, y, w, potential=T(4, "NOT = { %s }" % hasT + "\n" + B("from", chk("dtp_modpage", 2))), allow=need_perm(p) + "\n" + need_obj,
                effect=act(p, VAPPLY(obj, key), 5), sprite=spr, tt="Модификатор из игры «%s» (%s): %s." % (n, key, vdesc(key)))
 # ---------- 5. Планета (выбранная в окне планеты/звезды)
+# 11.3: всё про планету и систему — в «Редакторе планеты и системы» (своё окно, свой файл интерфейса)
 area(5)
 TP = "dtp_has_tp = yes"
-x, y, w = grid(0, cols=1)
-pass  # подсказка перенесена в карточку цели
+PE_TT = tren("Открыть «Редактор планеты и системы»: тип и размер планеты, звезда, все залежи, районы, зоны, здания, аномалии, раскопки, специализация, природа и население — значками самой игры, с правилами игры (красная метка — обычно нельзя, ставится в принудительном режиме). Работает с любой планетой: выберите её в окне планеты кнопкой «Редактор планеты».",
+             "Open the 'Planet & System Editor': planet type and size, star, every deposit, district, zone, building, anomaly, dig site, designation, natural features and population — with the game's own icons and rules (a red mark — normally forbidden, can be set in force mode). Works with any planet: pick it in the planet window with 'Planet editor'.")
 x, y, w = grid(0, cols=1, row0=0)
-lab("pl_h0", "§YДЕЙСТВИЯ С ПЛАНЕТОЙ§!", x, y, w, potential=T(5))
+button("pl_ed", tren("Открыть редактор планеты и системы", "Open the planet & system editor"), x, y, w, 40, potential=T(5), effect=PE_OPEN_AT(), sprite="GFX_dtp_btn_go", tt=PE_TT)
+x, y, w = grid(0, cols=1, row0=1)
+lab("pl_ed_d", tren("§YВ РЕДАКТОРЕ:§! тип планеты · размер и колония · звезда и система · залежи · районы · зоны районов · здания",
+                    "§YIN THE EDITOR:§! planet type · size & colony · star & system · deposits · districts · district zones · buildings"), x, y + 8, w, potential=T(5))
 x, y, w = grid(0, cols=1, row0=2)
-lab("pl_empty", "§YПланета не выбрана.§! Кликните по любой планете или звезде — под её окном появится полоса Toolpack — нажмите «Выбрать».", x, y, w,
-    potential=T(5, "NOT = { dtp_has_tp = yes }"))
-x, y, w = grid(0, cols=1, row0=3)
-lab("pl_empty2", "§gС галактической карты: клик по значку станции → полоса Toolpack → «Выбрать звезду».§!", x, y, w, potential=T(5, "NOT = { dtp_has_tp = yes }"))
-button("pl_mods", "Бонусы и штрафы планеты →", CX0 + CWF - 280, CY, 280, 26, potential=T(5), sprite="GFX_dtp_btn_go",
-       effect=GOTO(4) + "\n" + B("from", setv("dtp_modpage", 2)), tt="Открыть «Модификаторы → Из игры»: бонусы и штрафы для этой планеты.")
-x, y, w = grid(0, row0=1)
-arm_btn("pl_tr", "Передать планету → B", x, y, w, T(5, "dtp_tp_colony = yes"), need_perm("planet") + "\n" + N_RCP(), "pl_tr", "Передать колонию получателю.")
-x, y, w = grid(1, row0=1)
-button("pl_sys", "Отметить её систему", x, y, w, potential=T(5, TP + "\nNOT = { dtp_tp_marked = yes }"), allow=need_perm("planet"),
-       effect=act("planet", B("event_target:dtp_s", "dtp_mark_sys = yes"), 36) + "\ndtp_mlist = yes")
-button("pl_sys_x", "Снять отметку системы", x, y, w, potential=T(5, "dtp_tp_marked = yes"), allow=need_perm("planet"),
-       effect=act("planet", B("event_target:dtp_s", "dtp_unmark_sys = yes"), 36) + "\ndtp_mlist = yes", sprite="GFX_dtp_btn_on")
-x, y, w = grid(2, row0=1)
-arm_btn("colony_rm", "Уничтожить колонию", x, y, w, T(5, "dtp_tp_colony = yes"), need_perm("planet") + "\n" + N_FORCE(), "colony_rm", "Удалить колонию с населением (принудительный режим).")
-PLP = T(5, TP + "\nNOT = { dtp_tp_star = yes }")
-for r, txt in [(2, "§YТИП ПЛАНЕТЫ§!  §gколонию — только в обитаемый тип, иначе нужен принудительный режим§!"), (5, "§YОСОБЫЕ ТИПЫ§!  §gпринудительный режим§!"), (9, "§YПРИРОДА И РАЗМЕР§!")]:
-    x, y, w = grid(0, cols=1, row0=r)
-    lab("pl_h%d" % r, txt, x, y, w, potential=PLP)
-x, y, w = grid(0, cols=1, row0=2)
-lab("pl_hs", "§YКЛАСС ЗВЕЗДЫ§!  §gпринудительный режим; отметка системы сохраняется§!", x, y, w, potential=T(5, "dtp_tp_star = yes"))
-for i, (k, n) in enumerate(PC_NORMAL):
-    x, y, w = grid(i, cols=5, row0=3)
-    button("pc_" + k, n, x, y, w, potential=PLP, allow=need_perm("planet") + "\n" + need("dtp_need_pc", "Колонию можно перевести только в обитаемый тип; иначе — принудительный режим",
-           B("OR", B("from", "dtp_force_active = yes"), "NOT = { dtp_tp_colony = yes }",
-             orchain(lambda kk: B("event_target:dtp_tp_%d" % kk, B("OR", *["is_planet_class = %s" % c for c, _ in PC_NORMAL]))))),
-           effect=act("planet", B("event_target:dtp_p", "change_pc = %s" % k), 9), tt="Тип «%s»." % n)
-for i, (k, n) in enumerate(PC_SPECIAL):
-    x, y, w = grid(i, cols=5, row0=6)
-    button("pc_" + k, n, x, y, w, potential=PLP, allow=need_perm("planet") + "\n" + N_FORCE(),
-           effect=act("planet", B("event_target:dtp_p", "change_pc = %s" % k), 9), sprite="GFX_dtp_btn_warn", tt="Особый тип «%s» (принудительный режим)." % n)
-for i, (k, n, e, code) in enumerate([("dep", "Новая залежь", "add_random_non_blocker_deposit = yes", 10), ("reroll", "Перегенер. залежи", "reroll_deposits = yes", 10),
-        ("clear", "Убрать препятствия", "clear_blockers = yes", 10), ("pmods", "Перегенер. природу", "reroll_planet_modifiers = yes", 10),
-        ("size_p", "Размер +1", "change_planet_size = 1", 11), ("size_m", "Размер −1", "change_planet_size = -1", 11),
-        ("pop", "+ Население", B("owner", B("owner_species", "save_event_target_as = dtp_popsp")) + "\ncreate_pop_group = { species = event_target:dtp_popsp }", 12),
-        ("terra", "Завершить терраформирование", "finish_terraformation = yes", 9)]):
-    x, y, w = grid(i, cols=4, row0=10)
-    al = need_perm("planet") + ("\n" + need("dtp_need_colony", "Это не колония", "dtp_tp_colony = yes") if k == "pop" else "")
-    if k == "terra":                               # 11.1.5: без идущего терраформирования игра пишет ошибку в error.log
-        al += "\n" + need("dtp_need_terra", "На выбранной планете сейчас не идёт терраформирование", orchain(lambda q: B("event_target:dtp_tp_%d" % q, "is_terraforming = yes")))
-    button("pf_" + k, n, x, y, w, potential=PLP, allow=al, effect=act("planet", B("event_target:dtp_p", e), code))
-for i, (k, n) in enumerate(STARS):
-    x, y, w = grid(i, cols=4, row0=3)
-    rem = "\n".join([setv("dtp_wm", 0), B("if", B("limit", "has_star_flag = dtp_marked"), setv("dtp_wm", 1), "dtp_unmark_sys = yes"),
-                     "set_star_class = %s" % k, B("if", B("limit", chk("dtp_wm", 1)), "dtp_mark_sys = yes")])
-    button("sc_" + k, n, x, y, w, potential=T(5, "dtp_tp_star = yes"), allow=need_perm("planet") + "\n" + N_FORCE(),
-           effect=act("planet", B("event_target:dtp_s", rem), 37), sprite="GFX_dtp_btn_warn",
-           tt="Сменить класс звезды системы на «%s» (меняет вид звезды и её свойства). Принудительный режим." % n)
-confirm("pl_tr_ok", "передать планету получателю", 15, T(5), need_perm("planet") + "\n" + N_RCP(), "pl_tr",
-        B("event_target:dtp_p", "set_owner = event_target:dtp_r", "set_controller = event_target:dtp_r"), "planet", 8)
-confirm("colony_rm_ok", "уничтожить колонию", 15, T(5), need_perm("planet") + "\n" + N_FORCE(), "colony_rm", B("event_target:dtp_p", "destroy_colony = yes"), "planet", 33)
+lab("pl_ed_d2", tren("аномалии и места раскопок · специализация колонии · природа планеты · население — для любой планеты, не только своей",
+                     "anomalies and dig sites · colony designation · planet features · population — for any planet, not only your own"), x, y + 2, w, potential=T(5))
+x, y, w = grid(0, cols=1, row0=4)
+lab("pl_empty", tren("§YКак выбрать планету:§! клик по любой планете или звезде → на полосе Toolpack под окном — «Редактор планеты».",
+                    "§YHow to pick a planet:§! click any planet or star → on the Toolpack strip under its window — 'Planet editor'."), x, y, w,
+    potential=T(5))
+x, y, w = grid(0, cols=1, row0=5)
+lab("pl_empty2", "§gС галактической карты: клик по значку станции → полоса Toolpack → «Выбрать звезду».§!", x, y, w, potential=T(5))
+x, y, w = grid(0, cols=2, row0=7)
+button("pl_mods", tren("Модификаторы планеты →", "Planet modifiers →"), x, y, w, 34, potential=T(5), sprite="GFX_dtp_btn_go",
+       effect=PE_OPEN_AT(12, 1), tt=tren("Открыть редактор планеты на разделе «Модификаторы»: свои бонусы и штрафы планеты и модификаторы игры.", "Open the planet editor on 'Modifiers': Toolpack planet bonuses and penalties and the game's modifiers."))
+x, y, w = grid(1, cols=2, row0=7)
+_qw_ = (w - 12) // 3
+for _j_, (_pt_, _pr_, _pe_) in enumerate([(1, "Тип планеты →", "Planet type →"), (4, "Залежи →", "Deposits →"), (7, "Здания →", "Buildings →")]):
+    button("pl_q%d" % _pt_, tren(_pr_, _pe_), x + _j_ * (_qw_ + 6), y, _qw_, 34, potential=T(5), effect=PE_OPEN_AT(_pt_), sprite="GFX_dtp_btn_go",
+           tt=tren("Открыть редактор планеты сразу на этом разделе.", "Open the planet editor right on this section."))
 
 # ---------- 6. Флот
 area(6)
@@ -1446,42 +1436,7 @@ for i, (k, n) in enumerate(EDICTS):
            effect=act("state", B("event_target:dtp_t", "add_edict = %s" % k), 41), tt="Включить указ «%s» державе A." % n)
 
 
-# ---------- 14. Постройки (выбранная планета)
-area(14)
-DISTR = [("district_city", "Город"), ("district_generator", "Энергия"), ("district_mining", "Добыча"), ("district_farming", "Фермы"),
-         ("district_hive", "Улей"), ("district_nexus", "Нексус")]
-BLDG = [("building_research_lab_1", "Лаборатория"), ("building_foundry_1", "Литейная"), ("building_factory_1", "Фабрика"), ("building_hydroponics_farm", "Гидропоника"),
-        ("building_commercial_zone", "Торговая зона"), ("building_holo_theatres", "Голотеатры"), ("building_bureaucratic_1", "Администрация"), ("building_military_academy", "Воен. академия"),
-        ("building_stronghold", "Крепость"), ("building_planetary_shield_generator", "Планетар. щит"), ("building_refinery", "Переработка газа"), ("building_medical_1", "Медцентр")]
-PL = lambda: need_perm("planet") + "\n" + N_TP()
-x, y, w = grid(0, cols=1)
-per_k_label("bd_t", "Колония: §Y[dtp_tp_#.GetName]§! — районы и здания добавляются без стоимости, если есть место", x, y, w, pot_extra=T(14), none_text="§RСначала выберите планету§!: окно планеты → «Выбрать»", tgt="dtp_tp")
-for i, (k, n) in enumerate(DISTR):
-    x, y, w = grid(i, cols=3, row0=1)
-    hw = (w - 6) // 2
-    button("di_a_" + k, "+ " + n, x, y, hw, potential=T(14), allow=PL(), effect=act("planet", B("event_target:dtp_p", B("if", B("limit", "exists = owner"), "add_district = %s" % k)), 42),
-           tt="Добавить район «%s» на выбранную колонию." % n)
-    button("di_r_" + k, "− " + n, x + hw + 6, y, hw, potential=T(14), allow=PL(), effect=act("planet", B("event_target:dtp_p", "remove_district = %s" % k), 42), sprite="GFX_dtp_btn_danger",
-           tt="Убрать один район «%s»." % n)
-x, y, w = grid(0, cols=1, row0=3)
-lab("bd_h", "§YЗдания§!: + построить сразу, − снести одно.", x, y, w, potential=T(14))
-for i, (k, n) in enumerate(BLDG):
-    x, y, w = grid(i, cols=3, row0=4)
-    hw = w - 46
-    button("bu_a_" + k, "+ " + n, x, y, hw, potential=T(14), allow=PL(), effect=act("planet", B("event_target:dtp_p", B("if", B("limit", "exists = owner"), "add_building = %s" % k)), 43),
-           tt="Построить «%s» сразу (если есть свободный слот)." % n)
-    button("bu_r_" + k, "−", x + hw + 6, y, w - hw - 6, potential=T(14), allow=PL(), effect=act("planet", B("event_target:dtp_p", "remove_building = %s" % k), 43), sprite="GFX_dtp_btn_danger",
-           tt="Снести одно здание «%s»." % n)
-x, y, w = grid(0, cols=3, row0=9)
-button("bd_rep", "Починить все здания", x, y, w, potential=T(14), allow=PL(), effect=act("planet", B("event_target:dtp_p", "repair_all_buildings = yes"), 43))
-x, y, w = grid(1, cols=3, row0=9)
-arm_btn("bd_clrb", "Снести ВСЕ здания", x, y, w, T(14), PL(), "bd_clrb", "Снести все здания на выбранной планете.")
-x, y, w = grid(2, cols=3, row0=9)
-arm_btn("bd_clrd", "Снести ВСЕ районы", x, y, w, T(14), PL(), "bd_clrd", "Убрать все районы на выбранной планете.")
-confirm("bd_clrb_ok", "снести все здания на планете", 15, T(14), PL(), "bd_clrb", B("event_target:dtp_p", "remove_all_buildings = yes"), "planet", 43)
-confirm("bd_clrd_ok", "убрать все районы на планете", 15, T(14), PL(), "bd_clrd", B("event_target:dtp_p", "remove_all_districts = yes"), "planet", 42)
-x, y, w = grid(0, cols=1, row0=11)
-lab("bd_lim", "Очередь строительства скриптам недоступна — постройки ставятся сразу, минуя очередь.", x, y, w, potential=T(14))
+# ---------- 14. Постройки — 11.3: в «Редакторе планеты и системы»
 
 
 # ---------- 15. Главная: стартовая точка — цель (карточка сверху), разделы, быстрые и недавние действия
@@ -2213,8 +2168,12 @@ button("ps_mark", "§R●§! ОТМЕТИТЬ систему   Alt+M", 0, 60, 25
 button("ps_unmark", "✕ Снять отметку   Alt+M", 0, 60, 250 if UIOD else 300, shortcut="alt+m", potential=SPL + "\n" + B("solar_system", "has_star_flag = dtp_marked"), allow=need_perm("planet"),
        effect=act("planet", MKTOG, 36, False) + "\ndtp_mlist = yes", where="planet", sprite="GFX_dtp_btn_on",
        tt="Снять отметку с этой системы (Alt+M). Звезда вернёт свой обычный вид.")
-lab("ps_st_on", "§R● СИСТЕМА ОТМЕЧЕНА§!", 256 if UIOD else 306, 62, 250 if UIOD else 300, potential=SPL + "\n" + B("solar_system", "has_star_flag = dtp_marked"), where="planet")
-lab("ps_st_off", "§gсистема не отмечена§!", 256 if UIOD else 306, 62, 250 if UIOD else 300, potential=SPL + "\n" + B("solar_system", "NOT = { has_star_flag = dtp_marked }"), where="planet")
+lab("ps_st_on", tren("§R● ОТМЕЧЕНА§!", "§R● MARKED§!"), 256 if UIOD else 306, 62, 110 if UIOD else 130, potential=SPL + "\n" + B("solar_system", "has_star_flag = dtp_marked"), where="planet")
+lab("ps_st_off", tren("§gне отмечена§!", "§gnot marked§!"), 256 if UIOD else 306, 62, 110 if UIOD else 130, potential=SPL + "\n" + B("solar_system", "NOT = { has_star_flag = dtp_marked }"), where="planet")
+# 11.3: открыть «Редактор планеты и системы» прямо из окна планеты (планета сразу становится выбранной)
+button("ps_ed", tren("Редактор планеты", "Planet editor"), 370 if UIOD else 440, 60, 140 if UIOD else 160, potential=SPL, effect=PE_OPEN_AT() + "\ndtp_set_tp = yes", where="planet", sprite="GFX_dtp_btn_go",
+       tt=tren("Открыть «Редактор планеты и системы» для этой планеты (или звезды): тип, размер, звезда, залежи, районы, зоны, здания, аномалии, раскопки, специализация, природа, население.",
+               "Open the 'Planet & System Editor' for this planet (or star): type, size, star, deposits, districts, zones, buildings, anomalies, dig sites, designation, features, population."))
 SFL = "OR = { is_scope_type = fleet is_scope_type = ship }\n" + ANY
 lab("fs_title", "§YDEBUG TOOLPACK§! · флот", 0, 0, 260, potential=SFL, where="fleet")
 FLSAVE = B("if", B("limit", "is_scope_type = ship"), B("fleet", "dtp_set_tf = yes")) + "\n" + B("else", "dtp_set_tf = yes")
@@ -2792,6 +2751,8 @@ print("значков на кнопках: %d (спрайтов %d)" % (sum(1 fo
 # ================================================================ РЕДАКТОР ДЕРЖАВЫ И ВИДА (11.2)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "editor3.py"), encoding="utf-8").read())
+# 11.3: «Редактор планеты и системы» — своё окно в своём файле интерфейса
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "planet3.py"), encoding="utf-8").read())
 for _c, _t in CODES_EN.items():
     ED_EN[CODES[_c]] = _t; ED_EN["   §GГОТОВО§!  ·  " + CODES[_c]] = "   §GDONE§!  ·  " + _t
 
@@ -2804,6 +2765,7 @@ def gui_el(g, extra=()):
     parts = ['name="%s"' % g["key"], "position={x=%d y=%d}" % (g["x"], g["y"]), "size={x=%d y=%d}" % (g["w"], g["h"]),
              'quadTextureSprite="%s"' % SKIN.get(g["sprite"], g["sprite"])]
     if txt: parts += ['font="%s"' % g["font"], 'buttonText="%s"' % g["key"]]
+    if g.get("scale"): parts.append("scale=%s" % g["scale"])          # 11.3.3: значки-кадры игры (типы планет) рисуются в своём размере — уменьшаем
     parts.append('effect="%s"' % g.get("eff", g["key"]))
     if g["tt"]: parts.append('tooltipText="%s"' % g["tt"])
     if g.get("shortcut"): parts.append('shortcut="%s"' % g["shortcut"])
@@ -2849,8 +2811,13 @@ def _short(m):
 def shorten(text): return re.sub(r"\bdtp_b_\w+|\bGFX_dtp_gi_\w+", _short, text)
 # 11.2: редактор держав — в нижней панели игры (maingui_bottombar всегда на экране; main.gui и так большой).
 # Корневой контейнер крошечный (не перекрывает карту, пока редактор закрыт), элементы — за его границами (clipping = no).
-dtp_editor = B("containerWindowType", 'name = "dtp_editor"', "position = { x = %d y = %d }" % (-EW // 2, -EH // 2 - 20), "size = { width = 2 height = 2 }",
+ED_GRIP = ("size = { width = 2 height = 2 }",)          # 11.3.4: перетаскивание за заголовок в игре не заработало — корень снова крошечный (не мешает карте)
+dtp_editor = B("containerWindowType", 'name = "dtp_editor"', "position = { x = %d y = %d }" % (-EW // 2, -EH // 2 - 20), *ED_GRIP,
     "orientation = CENTER", "clipping = no", *[gui_el(g) for g in GUI if g["where"] == "editor"])
+# 11.3: редактор планеты — в главном окне игры «maingui» (всегда на экране, во весь экран). Окно переносится из main.gui
+# в отдельный файл dtp_planet_editor.gui: у каждого файла свой предел размера (~1 МБ), main.gui не растёт.
+dtp_peditor = B("containerWindowType", 'name = "dtp_peditor"', "position = { x = %d y = %d }" % (-EW // 2, -EH // 2 - 20), *ED_GRIP,
+    "orientation = CENTER", "clipping = no", *[gui_el(g) for g in GUI if g["where"] == "peditor"])
 def w(path, text, bom=False):
     p = os.path.join(OUT, path); os.makedirs(os.path.dirname(p), exist_ok=True)
     text = shorten(text)
@@ -2888,6 +2855,26 @@ def inject(fname, rx, block, indent, window):
     GUI_REPORT.append("%s → %s" % (fname, how))
     w("interface/" + fname, src[:pos] + ins + src[pos:])
 inject("main.gui", r'name = "maingui_flag".*?button_topbar_government.*?\n\t\t\}\n', dtp_root, "\t\t", "maingui_flag")
+# 11.3: окно «maingui» — из main.gui в dtp_planet_editor.gui (вместе с переменными файла), в его конец — редактор планеты.
+# Имя файла раньше «main.gui» по алфавиту: если main.gui подменит другой мод (например UIOD без патча), победит его окно — ничего не сломается.
+def _split_maingui():
+    pth = os.path.join(OUT, "interface", "main.gui")
+    src = open(pth, encoding="utf-8").read()
+    m = re.search(r'\n\tcontainerWindowType = \{\s*\n\t\tname = "maingui"\s*\n', src)
+    assert m, "main.gui: нет окна maingui"
+    i = src.index("{", m.start()) + 1; d = 1
+    while d: d += {"{": 1, "}": -1}.get(src[i], 0); i += 1
+    blk = src[m.start():i]
+    rest = src[:m.start()] + src[i:]
+    vars_ = re.findall(r"(?m)^\t@\w+\s*=\s*[^\n]+$", src[:m.start()])
+    head = "guiTypes = {\n" + "\n".join(vars_) + "\n"
+    pe = head + blk + "\n}\n"
+    end = end_of_window(pe, "maingui")
+    ins = "\t\t### DEBUG TOOLPACK (DTP) — редактор планеты и системы\n" + "\n".join(l.lstrip("\t") for l in pretty(dtp_peditor).splitlines()) + "\n"
+    w("interface/main.gui", rest)
+    w("interface/dtp_planet_editor.gui", pe[:end] + ins + pe[end:])
+    GUI_REPORT.append("main.gui → окно maingui перенесено в dtp_planet_editor.gui (+ редактор планеты)")
+_split_maingui()
 # 11.1.1: в UIOD картинка планеты рисуется поверх полосы, вставленной сразу после фона, — полосу кладём в конец окна (поверх всего)
 inject("planet_view.gui", None if UIOD else r'name = "planet_view_bg".*?\n\t\t\}\n', planet_strip, "\t\t", "planet_view")
 _mi = open(os.path.join(VI, "mapicons.gui"), encoding="utf-8-sig").read()
@@ -2919,8 +2906,19 @@ for _old in glob.glob(os.path.join(OUT, "common/button_effects/dtp_buttons_*.txt
     os.remove(_old)
 for _i, _c in enumerate(_parts, 1):
     w("common/button_effects/dtp_buttons_%02d.txt" % _i, HDR + "".join(_c))
-w("common/scripted_effects/dtp_scripted_effects.txt", HDR + pretty("\n".join(EFF)))
-w("common/scripted_triggers/dtp_scripted_triggers.txt", HDR + pretty("\n".join(TRG)))
+# 11.3: скриптовые эффекты и условия — тоже частями до ~400 КБ (порядок сохраняется: части читаются по алфавиту)
+def _wparts(folder, base, items, lim=400000):
+    for _old in glob.glob(os.path.join(OUT, folder, base + "*.txt")): os.remove(_old)
+    parts, cur, sz = [], [], 0
+    for it in items:
+        t = pretty(it) + "\n"
+        if cur and sz + len(t.encode()) > lim: parts.append(cur); cur, sz = [], 0
+        cur.append(t); sz += len(t.encode())
+    parts.append(cur)
+    for i, c in enumerate(parts, 1):
+        w("%s/%s%s.txt" % (folder, base, "" if i == 1 else "_%02d" % i), HDR + "".join(c))      # первая часть — прежнее имя файла
+_wparts("common/scripted_effects", "dtp_scripted_effects", EFF)
+_wparts("common/scripted_triggers", "dtp_scripted_triggers", TRG)
 if DEFTXT: w("common/scripted_loc/dtp_scripted_loc.txt", HDR + pretty("\n".join(DEFTXT)))
 # 11.1.3: значки из файлов самой игры (этики, цивики, правление, черты) — растягиваются до размера элемента
 w("interface/dtp_gameicons.gfx", HDR + "spriteTypes = {\n" + "\n".join(
@@ -3081,6 +3079,14 @@ def _en(v):
         _EN_MISS.append(v); return v
     lead = v[:len(v) - len(v.lstrip(" "))]
     return lead + _denorm(t.lstrip(" "), _digits(v))
+# 11.2.11: державы — настоящее название (GetRealName), видно и без контакта
+_RN_RE = re.compile(r"\[((?:dtp_(?:tc|rcp|cl|sb)_\d+|dtp_log\d+_actor|dtp_(?:rule_subj|violator|victim|last_actor|host|wp_a|wp_b|offer_from|emp_new|claimant)|[A-Za-z_0-9.]*\.Owner))\.GetName\]")
+_RN_THIS = ("dtp_mm_", "dtp.1117.", "dtp.1118.")
+def _realname(k, v):
+    v = _RN_RE.sub(r"[\1.GetRealName]", v)
+    if k.startswith(_RN_THIS):
+        v = v.replace("[This.GetName]", "[This.GetRealName]").replace("[From.GetName]", "[From.GetRealName]")
+    return v
 def yml(lang, d):
     rows = []
     for k, v in d.items():
@@ -3089,6 +3095,7 @@ def yml(lang, d):
             v = _en(v)
             for _a, _b in (("—", "-"), ("–", "-"), ("→", "->"), ("←", "<-"), ("−", "-"), ("…", "..."), ("●", "*")):
                 v = v.replace(_a, _b)
+        v = _realname(k, v)
         if k in ICON_PAD:                                  # 11.1.1: сдвиг текста вправо от значка
             v = " " * (_pad_n(ICON_PAD[k], v) or 0) + v
         rows.append(' %s:0 "%s"' % (k, v))

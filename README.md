@@ -17,7 +17,28 @@ DTP was built to make life easier for **game masters** running multiplayer Stell
 
 When updating, delete the old `dtp_toolpack` folder first, so no stale files remain.
 
-**UI Overhaul Dynamic users:** also copy `dtp_toolpack_uiod` and `dtp_toolpack_uiod.mod`, and enable the patch *together with* the base mod, loaded after UIOD and DTP. Update the patch together with the base mod — without the current patch the editor does not appear under UIOD.
+**UI Overhaul Dynamic users:** also copy `dtp_toolpack_uiod` and `dtp_toolpack_uiod.mod`, and enable the patch *together with* the base mod, loaded after UIOD and DTP. Update the patch together with the base mod — without the current patch the editors do not appear under UIOD.
+
+## Planet & System Editor (11.3)
+
+A separate window for **any** planet, not only your own. Open a planet or star window and press **Planet editor** on the Toolpack strip (the planet becomes selected), or use the Planet section of the panel.
+
+| Tab | What it does |
+|---|---|
+| Planet type | 55 planet classes: habitable, special, uninhabitable |
+| Size & colony | size, planetary ascension tier, colony for empire A, transfer to B, destroy the colony, terraforming, repair/demolish, deposits and features as a whole |
+| Star & system | 27 star classes (the system mark is kept), mining and research stations, astral rift, random anomaly / dig site, survey |
+| Deposits | 592 deposits: energy, minerals, food, special, blockers, orbital |
+| Districts / District zones / Buildings | 147 districts, 143 zones (placed into a fitting district), 415 buildings by category; an **Add / Remove** switch at the bottom |
+| Anomalies & dig sites | 326 anomaly categories (one anomaly per planet) and 123 dig sites |
+| Designation | 101 colony designations |
+| Planet features | 70 natural features |
+| Population | any species of empire A (species picker shared with the empire editor), amount from the calculator; remove 10/25/50/100% |
+| Modifiers | 36 Toolpack planet modifiers (strength/duration calculator) and 300 game bonuses and penalties with coloured tooltips |
+
+- The requirements (`potential`, `allow`, `prerequisites`) of buildings, districts, zones, deposits and designations are read from the game files (`tools/pedata.py`). A red **!** means the game normally forbids it (force mode only), a green frame means the planet already has it.
+- The editor lives in its own interface file, `interface/dtp_planet_editor.gui`: the game's always-present `maingui` window is moved there from `main.gui` and the editor is appended to it, because every GUI file is only read up to roughly 1 MB. The green frames and red marks are shared per grid slot (their logic is in the script files, not in the GUI file).
+- The main panel's Planet and Buildings sections were merged into the editor.
 
 ## Empire & Species Editor (11.2)
 
@@ -31,10 +52,10 @@ A separate window that works like the game's empire designer, but for a game alr
 | Species traits | every species trait: organic, robotic, ascension, habitability |
 | Species rights | citizenship, living standard, military service, slavery, purge |
 | Species portrait | the species class and every portrait of that class |
-
-Traits, rights and portrait work on **any species of the empire**: a species picker (up to 40 species, 4 per page with arrows) sits at the top of these three tabs.
 | Look & name | ship set, city style, random flag, empire name (32 presets) |
 | Modifiers | 36 Toolpack modifiers and 24 game modifiers, with a strength/duration calculator (strength 1 = 1%, minus = penalty) |
+
+Traits, rights and portrait work on **any species of the empire**: a species picker (up to 40 species, 4 per page with arrows) sits at the top of these three tabs.
 
 - The game's own rules are checked: ethic points, opposite ethics and the `potential`/`possible` requirements of civics, authorities, traits, perks, traditions and policies are read from the game files (`tools/eddata.py`).
 - Anything the game normally forbids gets a red **!** and can only be set in **force mode**. A green frame means the empire already has it. Ethic points (3 total) are only enforced outside force mode.
@@ -68,8 +89,8 @@ When an empire becomes HOST, it is offered the **Game Master role** (a window ex
 | Game Master | monsters, leaders, map tools, situations, crises (incl. Cetana and the Great Khan), announcements, balance packages, all technologies, player summary, session timer, Galactic Senate, Game Rules |
 | Empire | pick empire A (changed) and recipient B (receives) |
 | Systems | marking systems (see below) |
-| Resources / Modifiers | stockpiles, monthly income; planet and fleet modifiers (empire modifiers are in the editor) |
-| Planet / Buildings | class, size, deposits, districts, buildings, transfer |
+| Resources / Modifiers | stockpiles, monthly income; fleet modifiers (empire and planet modifiers are in the editors) |
+| Planet | the **Planet & System Editor** |
 | Fleet | repair, teleport, transfer, delete, **Fleet Builder** (type, count 1–100, spawn point); "+ N ships" button in the game's fleet window |
 | State | the **Empire & Species Editor**, technologies, traditions and perks from B, edicts, cooldowns, force mode |
 | Diplomacy | relations, trust, borders, truces, vassals, war, **White Peace A ↔ B** |
@@ -81,7 +102,7 @@ When an empire becomes HOST, it is offered the **Game Master role** (a window ex
 - **Red markers** — every marked system gets a red "● MARKED" label on the galaxy map (visible to all players; can be switched off). Removing the mark removes the label.
 - **Marker Ship** — a cloaked HOST ship (cloaking 1000) with extreme speed and an instant jump drive. Right-click any system on the galaxy map: every system it enters is marked. *REMOVES* mode clears marks the same way.
 - **Navigator**, the DTP strips in planet / star / starbase / fleet windows (Alt+M), and bulk actions on all marked systems (claims, outposts, transfer, make ownerless, expand, clear).
-- The strips also have **Select** (shows "✔ Selected" once chosen), **Edit this empire** (makes the owner empire A) and **Give to this empire** (makes the owner recipient B).
+- The strips also have **Select** (shows "✔ Selected" once chosen), **Planet editor** (planet strip), **Edit this empire** (makes the owner empire A) and **Give to this empire** (makes the owner recipient B).
 
 ## Game Rules (war ban)
 
@@ -104,7 +125,7 @@ python3 tools/validate2.py <out_dir> <script-docs-dir> <stellaris>/interface
 ```
 
 English texts come from `tools/i18n/en_map.json` (the editor's texts are written in both languages in `tools/editor3.py`).
-The editor is built by `tools/editor3.py` (run from `gen3.py`) from the game data read by `tools/eddata.py`. Button keys are shortened to hashes when the files are written, so the GUI files stay small.
+The editors are built by `tools/editor3.py` and `tools/planet3.py` (run from `gen3.py`) from the game data read by `tools/eddata.py` and `tools/pedata.py`. Button keys are shortened to hashes when the files are written, so the GUI files stay small; button effects, scripted effects and triggers are split into parts of a few hundred KB.
 
 ## Reporting bugs
 

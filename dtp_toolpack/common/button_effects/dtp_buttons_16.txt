@@ -1,396 +1,11 @@
-# Debug Toolpack 11.2.10 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
-dqu5du60 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 1 }
-		}
-		dtp_tcx = { T = dtp_has_au_corporate }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_au_corporate }
-					dtp_tcx = { T = dtp_ok_auth_corporate }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								NOT = { has_authority = auth_corporate }
-							}
-							if = {
-								limit = {
-									has_ethic = ethic_gestalt_consciousness
-								}
-								country_remove_ethic = ethic_gestalt_consciousness
-								country_add_ethic = ethic_fanatic_pacifist
-								country_add_ethic = ethic_materialist
-							}
-							if = {
-								limit = {
-									has_ethic = ethic_fanatic_egalitarian
-								}
-								country_remove_ethic = ethic_fanatic_egalitarian
-								country_add_ethic = ethic_egalitarian
-							}
-							if = {
-								limit = {
-									has_ethic = ethic_fanatic_authoritarian
-								}
-								country_remove_ethic = ethic_fanatic_authoritarian
-								country_add_ethic = ethic_authoritarian
-							}
-							owner_species = {
-								if = {
-									limit = {
-										has_trait = trait_hive_mind
-										NOT = { is_archetype = MACHINE }
-									}
-									change_species_characteristics = { remove_trait = trait_hive_mind }
-								}
-							}
-							dtp_ed_civfix_corporate = yes
-							change_government = { authority = auth_corporate cooldown = no remove_invalid_civics = yes }
-						}
-					}
-					dtp_result = { CODE = 39 }
-				}
-				else = {
-					dtp_fail = { CODE = 39 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 39 }
-			}
-		}
-	}
-}
-
-dqvnz1r0 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 1 }
-		}
-		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_auth_corporate } }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_au_corporate }
-					dtp_tcx = { T = dtp_ok_auth_corporate }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								NOT = { has_authority = auth_corporate }
-							}
-							if = {
-								limit = {
-									has_ethic = ethic_gestalt_consciousness
-								}
-								country_remove_ethic = ethic_gestalt_consciousness
-								country_add_ethic = ethic_fanatic_pacifist
-								country_add_ethic = ethic_materialist
-							}
-							if = {
-								limit = {
-									has_ethic = ethic_fanatic_egalitarian
-								}
-								country_remove_ethic = ethic_fanatic_egalitarian
-								country_add_ethic = ethic_egalitarian
-							}
-							if = {
-								limit = {
-									has_ethic = ethic_fanatic_authoritarian
-								}
-								country_remove_ethic = ethic_fanatic_authoritarian
-								country_add_ethic = ethic_authoritarian
-							}
-							owner_species = {
-								if = {
-									limit = {
-										has_trait = trait_hive_mind
-										NOT = { is_archetype = MACHINE }
-									}
-									change_species_characteristics = { remove_trait = trait_hive_mind }
-								}
-							}
-							dtp_ed_civfix_corporate = yes
-							change_government = { authority = auth_corporate cooldown = no remove_invalid_civics = yes }
-						}
-					}
-					dtp_result = { CODE = 39 }
-				}
-				else = {
-					dtp_fail = { CODE = 39 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 39 }
-			}
-		}
-	}
-}
-
-dq4iletm = {
+# Debug Toolpack 11.3.4 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dq6x97io = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-	}
-}
-
-dqgnmh2e = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-		}
-		from = {
-			NOT = { check_variable = { which = dtp_edcat value = 1 } }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-		hidden_effect = {
-			from = {
-				set_variable = { which = dtp_edcat value = 1 }
-				set_variable = { which = dtp_edpg value = 1 }
-			}
-		}
-	}
-}
-
-dqzpkc6c = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-			check_variable = { which = dtp_edcat value = 2 }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-	}
-}
-
-dqa7oz8c = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-		}
-		from = {
-			NOT = { check_variable = { which = dtp_edcat value = 2 } }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-		hidden_effect = {
-			from = {
-				set_variable = { which = dtp_edcat value = 2 }
-				set_variable = { which = dtp_edpg value = 1 }
-			}
-		}
-	}
-}
-
-dqfjzp35 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-			check_variable = { which = dtp_edcat value = 3 }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-	}
-}
-
-dqn8w5hm = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-		}
-		from = {
-			NOT = { check_variable = { which = dtp_edcat value = 3 } }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-		hidden_effect = {
-			from = {
-				set_variable = { which = dtp_edcat value = 3 }
-				set_variable = { which = dtp_edpg value = 1 }
-			}
-		}
-	}
-}
-
-dqa0lgu0 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-			check_variable = { which = dtp_edcat value = 4 }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-	}
-}
-
-dql2en3d = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-		}
-		from = {
-			NOT = { check_variable = { which = dtp_edcat value = 4 } }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-		hidden_effect = {
-			from = {
-				set_variable = { which = dtp_edcat value = 4 }
-				set_variable = { which = dtp_edpg value = 1 }
-			}
-		}
-	}
-}
-
-dq85llwd = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-			check_variable = { which = dtp_edcat value = 5 }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-	}
-}
-
-dqfskovz = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-		}
-		from = {
-			NOT = { check_variable = { which = dtp_edcat value = 5 } }
-		}
-	}
-	allow = {
-		always = yes
-	}
-	effect = {
-		hidden_effect = {
-			from = {
-				set_variable = { which = dtp_edcat value = 5 }
-				set_variable = { which = dtp_edpg value = 1 }
-			}
-		}
-	}
-}
-
-dq5r339z = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -403,8 +18,8 @@ dq5r339z = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_agrarian_idyll }
-					dtp_tcx = { T = dtp_ok_civic_agrarian_idyll }
+					dtp_tcx = { T = dtp_has_cv_memory_vault }
+					dtp_tcx = { T = dtp_ok_civic_memory_vault }
 				}
 			} }
 	}
@@ -432,12 +47,12 @@ dq5r339z = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_agrarian_idyll
+								has_civic = civic_memory_vault
 							}
-							force_remove_civic = civic_agrarian_idyll
+							force_remove_civic = civic_memory_vault
 						}
 						else = {
-							force_add_civic = civic_agrarian_idyll
+							force_add_civic = civic_memory_vault
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -453,15 +68,15 @@ dq5r339z = {
 	}
 }
 
-dqwajx13 = {
+dqh35pt2 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_agrarian_idyll }
+		dtp_tcx = { T = dtp_has_cv_memory_vault }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -473,8 +88,8 @@ dqwajx13 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_agrarian_idyll }
-					dtp_tcx = { T = dtp_ok_civic_agrarian_idyll }
+					dtp_tcx = { T = dtp_has_cv_memory_vault }
+					dtp_tcx = { T = dtp_ok_civic_memory_vault }
 				}
 			} }
 	}
@@ -502,12 +117,12 @@ dqwajx13 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_agrarian_idyll
+								has_civic = civic_memory_vault
 							}
-							force_remove_civic = civic_agrarian_idyll
+							force_remove_civic = civic_memory_vault
 						}
 						else = {
-							force_add_civic = civic_agrarian_idyll
+							force_add_civic = civic_memory_vault
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -523,16 +138,16 @@ dqwajx13 = {
 	}
 }
 
-dqtd5tw3 = {
+dq8wzv5u = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_agrarian_idyll } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_memory_vault } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -544,8 +159,8 @@ dqtd5tw3 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_agrarian_idyll }
-					dtp_tcx = { T = dtp_ok_civic_agrarian_idyll }
+					dtp_tcx = { T = dtp_has_cv_memory_vault }
+					dtp_tcx = { T = dtp_ok_civic_memory_vault }
 				}
 			} }
 	}
@@ -573,12 +188,12 @@ dqtd5tw3 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_agrarian_idyll
+								has_civic = civic_memory_vault
 							}
-							force_remove_civic = civic_agrarian_idyll
+							force_remove_civic = civic_memory_vault
 						}
 						else = {
-							force_add_civic = civic_agrarian_idyll
+							force_add_civic = civic_memory_vault
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -594,13 +209,13 @@ dqtd5tw3 = {
 	}
 }
 
-dqhr934n = {
+dqehcrdw = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -613,8 +228,8 @@ dqhr934n = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_anglers }
-					dtp_tcx = { T = dtp_ok_civic_anglers }
+					dtp_tcx = { T = dtp_has_cv_merchant_guilds }
+					dtp_tcx = { T = dtp_ok_civic_merchant_guilds }
 				}
 			} }
 	}
@@ -642,12 +257,12 @@ dqhr934n = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_anglers
+								has_civic = civic_merchant_guilds
 							}
-							force_remove_civic = civic_anglers
+							force_remove_civic = civic_merchant_guilds
 						}
 						else = {
-							force_add_civic = civic_anglers
+							force_add_civic = civic_merchant_guilds
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -663,15 +278,15 @@ dqhr934n = {
 	}
 }
 
-dqsv3kyl = {
+dqo8utll = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_anglers }
+		dtp_tcx = { T = dtp_has_cv_merchant_guilds }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -683,8 +298,8 @@ dqsv3kyl = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_anglers }
-					dtp_tcx = { T = dtp_ok_civic_anglers }
+					dtp_tcx = { T = dtp_has_cv_merchant_guilds }
+					dtp_tcx = { T = dtp_ok_civic_merchant_guilds }
 				}
 			} }
 	}
@@ -712,12 +327,12 @@ dqsv3kyl = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_anglers
+								has_civic = civic_merchant_guilds
 							}
-							force_remove_civic = civic_anglers
+							force_remove_civic = civic_merchant_guilds
 						}
 						else = {
-							force_add_civic = civic_anglers
+							force_add_civic = civic_merchant_guilds
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -733,226 +348,16 @@ dqsv3kyl = {
 	}
 }
 
-dqvtnt15 = {
+dqijns59 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_anglers } }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_cv_anglers }
-					dtp_tcx = { T = dtp_ok_civic_anglers }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_civic = civic_anglers
-							}
-							force_remove_civic = civic_anglers
-						}
-						else = {
-							force_add_civic = civic_anglers
-						}
-					}
-					dtp_result = { CODE = 40 }
-				}
-				else = {
-					dtp_fail = { CODE = 40 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 40 }
-			}
-		}
-	}
-}
-
-dqvnwoe7 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_cv_aristocratic_elite }
-					dtp_tcx = { T = dtp_ok_civic_aristocratic_elite }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_civic = civic_aristocratic_elite
-							}
-							force_remove_civic = civic_aristocratic_elite
-						}
-						else = {
-							force_add_civic = civic_aristocratic_elite
-						}
-					}
-					dtp_result = { CODE = 40 }
-				}
-				else = {
-					dtp_fail = { CODE = 40 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 40 }
-			}
-		}
-	}
-}
-
-dqar57w7 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_tcx = { T = dtp_has_cv_aristocratic_elite }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_cv_aristocratic_elite }
-					dtp_tcx = { T = dtp_ok_civic_aristocratic_elite }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_civic = civic_aristocratic_elite
-							}
-							force_remove_civic = civic_aristocratic_elite
-						}
-						else = {
-							force_add_civic = civic_aristocratic_elite
-						}
-					}
-					dtp_result = { CODE = 40 }
-				}
-				else = {
-					dtp_fail = { CODE = 40 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 40 }
-			}
-		}
-	}
-}
-
-dqea2ogj = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_aristocratic_elite } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_merchant_guilds } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -964,8 +369,8 @@ dqea2ogj = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_aristocratic_elite }
-					dtp_tcx = { T = dtp_ok_civic_aristocratic_elite }
+					dtp_tcx = { T = dtp_has_cv_merchant_guilds }
+					dtp_tcx = { T = dtp_ok_civic_merchant_guilds }
 				}
 			} }
 	}
@@ -993,12 +398,12 @@ dqea2ogj = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_aristocratic_elite
+								has_civic = civic_merchant_guilds
 							}
-							force_remove_civic = civic_aristocratic_elite
+							force_remove_civic = civic_merchant_guilds
 						}
 						else = {
-							force_add_civic = civic_aristocratic_elite
+							force_add_civic = civic_merchant_guilds
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1014,13 +419,13 @@ dqea2ogj = {
 	}
 }
 
-dqwotdql = {
+dq6tfpus = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -1033,8 +438,8 @@ dqwotdql = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_ascensionists }
-					dtp_tcx = { T = dtp_ok_civic_ascensionists }
+					dtp_tcx = { T = dtp_has_cv_meritocracy }
+					dtp_tcx = { T = dtp_ok_civic_meritocracy }
 				}
 			} }
 	}
@@ -1062,12 +467,12 @@ dqwotdql = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_ascensionists
+								has_civic = civic_meritocracy
 							}
-							force_remove_civic = civic_ascensionists
+							force_remove_civic = civic_meritocracy
 						}
 						else = {
-							force_add_civic = civic_ascensionists
+							force_add_civic = civic_meritocracy
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1083,15 +488,15 @@ dqwotdql = {
 	}
 }
 
-dqqknobu = {
+dqub2ifd = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_ascensionists }
+		dtp_tcx = { T = dtp_has_cv_meritocracy }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -1103,8 +508,8 @@ dqqknobu = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_ascensionists }
-					dtp_tcx = { T = dtp_ok_civic_ascensionists }
+					dtp_tcx = { T = dtp_has_cv_meritocracy }
+					dtp_tcx = { T = dtp_ok_civic_meritocracy }
 				}
 			} }
 	}
@@ -1132,12 +537,12 @@ dqqknobu = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_ascensionists
+								has_civic = civic_meritocracy
 							}
-							force_remove_civic = civic_ascensionists
+							force_remove_civic = civic_meritocracy
 						}
 						else = {
-							force_add_civic = civic_ascensionists
+							force_add_civic = civic_meritocracy
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1153,226 +558,16 @@ dqqknobu = {
 	}
 }
 
-dqifnyq6 = {
+dqvic71p = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_ascensionists } }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_cv_ascensionists }
-					dtp_tcx = { T = dtp_ok_civic_ascensionists }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_civic = civic_ascensionists
-							}
-							force_remove_civic = civic_ascensionists
-						}
-						else = {
-							force_add_civic = civic_ascensionists
-						}
-					}
-					dtp_result = { CODE = 40 }
-				}
-				else = {
-					dtp_fail = { CODE = 40 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 40 }
-			}
-		}
-	}
-}
-
-dqttxfyf = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_cv_astrometeorology }
-					dtp_tcx = { T = dtp_ok_civic_astrometeorology }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_civic = civic_astrometeorology
-							}
-							force_remove_civic = civic_astrometeorology
-						}
-						else = {
-							force_add_civic = civic_astrometeorology
-						}
-					}
-					dtp_result = { CODE = 40 }
-				}
-				else = {
-					dtp_fail = { CODE = 40 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 40 }
-			}
-		}
-	}
-}
-
-dqa2bgyq = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
-		}
-		dtp_tcx = { T = dtp_has_cv_astrometeorology }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_state from = {
-				dtp_has_perm = { P = state }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_tcx = { T = dtp_has_cv_astrometeorology }
-					dtp_tcx = { T = dtp_ok_civic_astrometeorology }
-				}
-			} }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = state }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_t
-					}
-					event_target:dtp_t = {
-						if = {
-							limit = {
-								has_civic = civic_astrometeorology
-							}
-							force_remove_civic = civic_astrometeorology
-						}
-						else = {
-							force_add_civic = civic_astrometeorology
-						}
-					}
-					dtp_result = { CODE = 40 }
-				}
-				else = {
-					dtp_fail = { CODE = 40 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 40 }
-			}
-		}
-	}
-}
-
-dqg2wukm = {
-	potential = {
-		from = {
-			has_country_flag = dtp_ed_open
-			check_variable = { which = dtp_edtab value = 2 }
-			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_astrometeorology } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_meritocracy } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -1384,8 +579,8 @@ dqg2wukm = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_astrometeorology }
-					dtp_tcx = { T = dtp_ok_civic_astrometeorology }
+					dtp_tcx = { T = dtp_has_cv_meritocracy }
+					dtp_tcx = { T = dtp_ok_civic_meritocracy }
 				}
 			} }
 	}
@@ -1413,12 +608,12 @@ dqg2wukm = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_astrometeorology
+								has_civic = civic_meritocracy
 							}
-							force_remove_civic = civic_astrometeorology
+							force_remove_civic = civic_meritocracy
 						}
 						else = {
-							force_add_civic = civic_astrometeorology
+							force_add_civic = civic_meritocracy
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1434,13 +629,13 @@ dqg2wukm = {
 	}
 }
 
-dqrsdg34 = {
+dqlhdqwp = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -1453,8 +648,8 @@ dqrsdg34 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_barbaric_despoilers }
-					dtp_tcx = { T = dtp_ok_civic_barbaric_despoilers }
+					dtp_tcx = { T = dtp_has_cv_mining_guilds }
+					dtp_tcx = { T = dtp_ok_civic_mining_guilds }
 				}
 			} }
 	}
@@ -1482,12 +677,12 @@ dqrsdg34 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_barbaric_despoilers
+								has_civic = civic_mining_guilds
 							}
-							force_remove_civic = civic_barbaric_despoilers
+							force_remove_civic = civic_mining_guilds
 						}
 						else = {
-							force_add_civic = civic_barbaric_despoilers
+							force_add_civic = civic_mining_guilds
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1503,15 +698,15 @@ dqrsdg34 = {
 	}
 }
 
-dqnfwu3x = {
+dq74fxq9 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_barbaric_despoilers }
+		dtp_tcx = { T = dtp_has_cv_mining_guilds }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -1523,8 +718,8 @@ dqnfwu3x = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_barbaric_despoilers }
-					dtp_tcx = { T = dtp_ok_civic_barbaric_despoilers }
+					dtp_tcx = { T = dtp_has_cv_mining_guilds }
+					dtp_tcx = { T = dtp_ok_civic_mining_guilds }
 				}
 			} }
 	}
@@ -1552,12 +747,12 @@ dqnfwu3x = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_barbaric_despoilers
+								has_civic = civic_mining_guilds
 							}
-							force_remove_civic = civic_barbaric_despoilers
+							force_remove_civic = civic_mining_guilds
 						}
 						else = {
-							force_add_civic = civic_barbaric_despoilers
+							force_add_civic = civic_mining_guilds
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1573,16 +768,16 @@ dqnfwu3x = {
 	}
 }
 
-dqkh6znt = {
+dq1f3a3p = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_barbaric_despoilers } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_mining_guilds } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -1594,8 +789,8 @@ dqkh6znt = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_barbaric_despoilers }
-					dtp_tcx = { T = dtp_ok_civic_barbaric_despoilers }
+					dtp_tcx = { T = dtp_has_cv_mining_guilds }
+					dtp_tcx = { T = dtp_ok_civic_mining_guilds }
 				}
 			} }
 	}
@@ -1623,12 +818,12 @@ dqkh6znt = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_barbaric_despoilers
+								has_civic = civic_mining_guilds
 							}
-							force_remove_civic = civic_barbaric_despoilers
+							force_remove_civic = civic_mining_guilds
 						}
 						else = {
-							force_add_civic = civic_barbaric_despoilers
+							force_add_civic = civic_mining_guilds
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1644,13 +839,13 @@ dqkh6znt = {
 	}
 }
 
-dqm28dr8 = {
+dqwpe9c9 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -1663,8 +858,8 @@ dqm28dr8 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_beacon_of_liberty }
-					dtp_tcx = { T = dtp_ok_civic_beacon_of_liberty }
+					dtp_tcx = { T = dtp_has_cv_nationalistic_zeal }
+					dtp_tcx = { T = dtp_ok_civic_nationalistic_zeal }
 				}
 			} }
 	}
@@ -1692,12 +887,12 @@ dqm28dr8 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_beacon_of_liberty
+								has_civic = civic_nationalistic_zeal
 							}
-							force_remove_civic = civic_beacon_of_liberty
+							force_remove_civic = civic_nationalistic_zeal
 						}
 						else = {
-							force_add_civic = civic_beacon_of_liberty
+							force_add_civic = civic_nationalistic_zeal
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1713,15 +908,15 @@ dqm28dr8 = {
 	}
 }
 
-dqst6l1e = {
+dqwzozmm = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_beacon_of_liberty }
+		dtp_tcx = { T = dtp_has_cv_nationalistic_zeal }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -1733,8 +928,8 @@ dqst6l1e = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_beacon_of_liberty }
-					dtp_tcx = { T = dtp_ok_civic_beacon_of_liberty }
+					dtp_tcx = { T = dtp_has_cv_nationalistic_zeal }
+					dtp_tcx = { T = dtp_ok_civic_nationalistic_zeal }
 				}
 			} }
 	}
@@ -1762,12 +957,12 @@ dqst6l1e = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_beacon_of_liberty
+								has_civic = civic_nationalistic_zeal
 							}
-							force_remove_civic = civic_beacon_of_liberty
+							force_remove_civic = civic_nationalistic_zeal
 						}
 						else = {
-							force_add_civic = civic_beacon_of_liberty
+							force_add_civic = civic_nationalistic_zeal
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1783,16 +978,16 @@ dqst6l1e = {
 	}
 }
 
-dqvqnhba = {
+dqrk3bju = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_beacon_of_liberty } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_nationalistic_zeal } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -1804,8 +999,8 @@ dqvqnhba = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_beacon_of_liberty }
-					dtp_tcx = { T = dtp_ok_civic_beacon_of_liberty }
+					dtp_tcx = { T = dtp_has_cv_nationalistic_zeal }
+					dtp_tcx = { T = dtp_ok_civic_nationalistic_zeal }
 				}
 			} }
 	}
@@ -1833,12 +1028,12 @@ dqvqnhba = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_beacon_of_liberty
+								has_civic = civic_nationalistic_zeal
 							}
-							force_remove_civic = civic_beacon_of_liberty
+							force_remove_civic = civic_nationalistic_zeal
 						}
 						else = {
-							force_add_civic = civic_beacon_of_liberty
+							force_add_civic = civic_nationalistic_zeal
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1854,13 +1049,13 @@ dqvqnhba = {
 	}
 }
 
-dqbq7ycc = {
+dqjncc9w = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -1873,8 +1068,8 @@ dqbq7ycc = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_beastmasters }
-					dtp_tcx = { T = dtp_ok_civic_beastmasters }
+					dtp_tcx = { T = dtp_has_cv_natural_design }
+					dtp_tcx = { T = dtp_ok_civic_natural_design }
 				}
 			} }
 	}
@@ -1902,12 +1097,12 @@ dqbq7ycc = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_beastmasters
+								has_civic = civic_natural_design
 							}
-							force_remove_civic = civic_beastmasters
+							force_remove_civic = civic_natural_design
 						}
 						else = {
-							force_add_civic = civic_beastmasters
+							force_add_civic = civic_natural_design
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1923,15 +1118,15 @@ dqbq7ycc = {
 	}
 }
 
-dqvv5ioc = {
+dq644ks0 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_beastmasters }
+		dtp_tcx = { T = dtp_has_cv_natural_design }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -1943,8 +1138,8 @@ dqvv5ioc = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_beastmasters }
-					dtp_tcx = { T = dtp_ok_civic_beastmasters }
+					dtp_tcx = { T = dtp_has_cv_natural_design }
+					dtp_tcx = { T = dtp_ok_civic_natural_design }
 				}
 			} }
 	}
@@ -1972,12 +1167,12 @@ dqvv5ioc = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_beastmasters
+								has_civic = civic_natural_design
 							}
-							force_remove_civic = civic_beastmasters
+							force_remove_civic = civic_natural_design
 						}
 						else = {
-							force_add_civic = civic_beastmasters
+							force_add_civic = civic_natural_design
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -1993,16 +1188,16 @@ dqvv5ioc = {
 	}
 }
 
-dqux3c14 = {
+dq2ffej8 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_beastmasters } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_natural_design } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -2014,8 +1209,8 @@ dqux3c14 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_beastmasters }
-					dtp_tcx = { T = dtp_ok_civic_beastmasters }
+					dtp_tcx = { T = dtp_has_cv_natural_design }
+					dtp_tcx = { T = dtp_ok_civic_natural_design }
 				}
 			} }
 	}
@@ -2043,12 +1238,12 @@ dqux3c14 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_beastmasters
+								has_civic = civic_natural_design
 							}
-							force_remove_civic = civic_beastmasters
+							force_remove_civic = civic_natural_design
 						}
 						else = {
-							force_add_civic = civic_beastmasters
+							force_add_civic = civic_natural_design
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2064,13 +1259,13 @@ dqux3c14 = {
 	}
 }
 
-dqfiswop = {
+dqdlhgkn = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -2083,8 +1278,8 @@ dqfiswop = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_byzantine_bureaucracy }
-					dtp_tcx = { T = dtp_ok_civic_byzantine_bureaucracy }
+					dtp_tcx = { T = dtp_has_cv_parliamentary_system }
+					dtp_tcx = { T = dtp_ok_civic_parliamentary_system }
 				}
 			} }
 	}
@@ -2112,12 +1307,12 @@ dqfiswop = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_byzantine_bureaucracy
+								has_civic = civic_parliamentary_system
 							}
-							force_remove_civic = civic_byzantine_bureaucracy
+							force_remove_civic = civic_parliamentary_system
 						}
 						else = {
-							force_add_civic = civic_byzantine_bureaucracy
+							force_add_civic = civic_parliamentary_system
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2133,15 +1328,15 @@ dqfiswop = {
 	}
 }
 
-dqi29l58 = {
+dqj3czpw = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_byzantine_bureaucracy }
+		dtp_tcx = { T = dtp_has_cv_parliamentary_system }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -2153,8 +1348,8 @@ dqi29l58 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_byzantine_bureaucracy }
-					dtp_tcx = { T = dtp_ok_civic_byzantine_bureaucracy }
+					dtp_tcx = { T = dtp_has_cv_parliamentary_system }
+					dtp_tcx = { T = dtp_ok_civic_parliamentary_system }
 				}
 			} }
 	}
@@ -2182,12 +1377,12 @@ dqi29l58 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_byzantine_bureaucracy
+								has_civic = civic_parliamentary_system
 							}
-							force_remove_civic = civic_byzantine_bureaucracy
+							force_remove_civic = civic_parliamentary_system
 						}
 						else = {
-							force_add_civic = civic_byzantine_bureaucracy
+							force_add_civic = civic_parliamentary_system
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2203,16 +1398,16 @@ dqi29l58 = {
 	}
 }
 
-dqpzueqw = {
+dqotq65s = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_byzantine_bureaucracy } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_parliamentary_system } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -2224,8 +1419,8 @@ dqpzueqw = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_byzantine_bureaucracy }
-					dtp_tcx = { T = dtp_ok_civic_byzantine_bureaucracy }
+					dtp_tcx = { T = dtp_has_cv_parliamentary_system }
+					dtp_tcx = { T = dtp_ok_civic_parliamentary_system }
 				}
 			} }
 	}
@@ -2253,12 +1448,12 @@ dqpzueqw = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_byzantine_bureaucracy
+								has_civic = civic_parliamentary_system
 							}
-							force_remove_civic = civic_byzantine_bureaucracy
+							force_remove_civic = civic_parliamentary_system
 						}
 						else = {
-							force_add_civic = civic_byzantine_bureaucracy
+							force_add_civic = civic_parliamentary_system
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2274,13 +1469,13 @@ dqpzueqw = {
 	}
 }
 
-dq9e18w4 = {
+dqgatsd0 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -2293,8 +1488,8 @@ dq9e18w4 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_caravan_masters }
-					dtp_tcx = { T = dtp_ok_civic_caravan_masters }
+					dtp_tcx = { T = dtp_has_cv_philosopher_king }
+					dtp_tcx = { T = dtp_ok_civic_philosopher_king }
 				}
 			} }
 	}
@@ -2322,12 +1517,12 @@ dq9e18w4 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_caravan_masters
+								has_civic = civic_philosopher_king
 							}
-							force_remove_civic = civic_caravan_masters
+							force_remove_civic = civic_philosopher_king
 						}
 						else = {
-							force_add_civic = civic_caravan_masters
+							force_add_civic = civic_philosopher_king
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2343,15 +1538,15 @@ dq9e18w4 = {
 	}
 }
 
-dqf2pbg6 = {
+dqa37t24 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_caravan_masters }
+		dtp_tcx = { T = dtp_has_cv_philosopher_king }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -2363,8 +1558,8 @@ dqf2pbg6 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_caravan_masters }
-					dtp_tcx = { T = dtp_ok_civic_caravan_masters }
+					dtp_tcx = { T = dtp_has_cv_philosopher_king }
+					dtp_tcx = { T = dtp_ok_civic_philosopher_king }
 				}
 			} }
 	}
@@ -2392,12 +1587,12 @@ dqf2pbg6 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_caravan_masters
+								has_civic = civic_philosopher_king
 							}
-							force_remove_civic = civic_caravan_masters
+							force_remove_civic = civic_philosopher_king
 						}
 						else = {
-							force_add_civic = civic_caravan_masters
+							force_add_civic = civic_philosopher_king
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2413,16 +1608,16 @@ dqf2pbg6 = {
 	}
 }
 
-dqc6eqmq = {
+dqg2n1ko = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_caravan_masters } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_philosopher_king } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -2434,8 +1629,8 @@ dqc6eqmq = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_caravan_masters }
-					dtp_tcx = { T = dtp_ok_civic_caravan_masters }
+					dtp_tcx = { T = dtp_has_cv_philosopher_king }
+					dtp_tcx = { T = dtp_ok_civic_philosopher_king }
 				}
 			} }
 	}
@@ -2463,12 +1658,12 @@ dqc6eqmq = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_caravan_masters
+								has_civic = civic_philosopher_king
 							}
-							force_remove_civic = civic_caravan_masters
+							force_remove_civic = civic_philosopher_king
 						}
 						else = {
-							force_add_civic = civic_caravan_masters
+							force_add_civic = civic_philosopher_king
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2484,13 +1679,13 @@ dqc6eqmq = {
 	}
 }
 
-dqv0jzqe = {
+dq1j98x8 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -2503,8 +1698,8 @@ dqv0jzqe = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_catalytic_processing }
-					dtp_tcx = { T = dtp_ok_civic_catalytic_processing }
+					dtp_tcx = { T = dtp_has_cv_pleasure_seekers }
+					dtp_tcx = { T = dtp_ok_civic_pleasure_seekers }
 				}
 			} }
 	}
@@ -2532,12 +1727,12 @@ dqv0jzqe = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_catalytic_processing
+								has_civic = civic_pleasure_seekers
 							}
-							force_remove_civic = civic_catalytic_processing
+							force_remove_civic = civic_pleasure_seekers
 						}
 						else = {
-							force_add_civic = civic_catalytic_processing
+							force_add_civic = civic_pleasure_seekers
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2553,15 +1748,15 @@ dqv0jzqe = {
 	}
 }
 
-dqiwdje6 = {
+dqidxzny = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_catalytic_processing }
+		dtp_tcx = { T = dtp_has_cv_pleasure_seekers }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -2573,8 +1768,8 @@ dqiwdje6 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_catalytic_processing }
-					dtp_tcx = { T = dtp_ok_civic_catalytic_processing }
+					dtp_tcx = { T = dtp_has_cv_pleasure_seekers }
+					dtp_tcx = { T = dtp_ok_civic_pleasure_seekers }
 				}
 			} }
 	}
@@ -2602,12 +1797,12 @@ dqiwdje6 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_catalytic_processing
+								has_civic = civic_pleasure_seekers
 							}
-							force_remove_civic = civic_catalytic_processing
+							force_remove_civic = civic_pleasure_seekers
 						}
 						else = {
-							force_add_civic = civic_catalytic_processing
+							force_add_civic = civic_pleasure_seekers
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2623,16 +1818,16 @@ dqiwdje6 = {
 	}
 }
 
-dqovn5l6 = {
+dqoem016 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_catalytic_processing } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_pleasure_seekers } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -2644,8 +1839,8 @@ dqovn5l6 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_catalytic_processing }
-					dtp_tcx = { T = dtp_ok_civic_catalytic_processing }
+					dtp_tcx = { T = dtp_has_cv_pleasure_seekers }
+					dtp_tcx = { T = dtp_ok_civic_pleasure_seekers }
 				}
 			} }
 	}
@@ -2673,12 +1868,12 @@ dqovn5l6 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_catalytic_processing
+								has_civic = civic_pleasure_seekers
 							}
-							force_remove_civic = civic_catalytic_processing
+							force_remove_civic = civic_pleasure_seekers
 						}
 						else = {
-							force_add_civic = civic_catalytic_processing
+							force_add_civic = civic_pleasure_seekers
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2694,13 +1889,13 @@ dqovn5l6 = {
 	}
 }
 
-dqmx065p = {
+dqgatvaf = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -2713,8 +1908,8 @@ dqmx065p = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_chosen }
-					dtp_tcx = { T = dtp_ok_civic_chosen }
+					dtp_tcx = { T = dtp_has_cv_police_state }
+					dtp_tcx = { T = dtp_ok_civic_police_state }
 				}
 			} }
 	}
@@ -2742,12 +1937,12 @@ dqmx065p = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_chosen
+								has_civic = civic_police_state
 							}
-							force_remove_civic = civic_chosen
+							force_remove_civic = civic_police_state
 						}
 						else = {
-							force_add_civic = civic_chosen
+							force_add_civic = civic_police_state
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2763,15 +1958,15 @@ dqmx065p = {
 	}
 }
 
-dq4tnsec = {
+dqgdc5n6 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_chosen }
+		dtp_tcx = { T = dtp_has_cv_police_state }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -2783,8 +1978,8 @@ dq4tnsec = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_chosen }
-					dtp_tcx = { T = dtp_ok_civic_chosen }
+					dtp_tcx = { T = dtp_has_cv_police_state }
+					dtp_tcx = { T = dtp_ok_civic_police_state }
 				}
 			} }
 	}
@@ -2812,12 +2007,12 @@ dq4tnsec = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_chosen
+								has_civic = civic_police_state
 							}
-							force_remove_civic = civic_chosen
+							force_remove_civic = civic_police_state
 						}
 						else = {
-							force_add_civic = civic_chosen
+							force_add_civic = civic_police_state
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2833,16 +2028,16 @@ dq4tnsec = {
 	}
 }
 
-dq3k79pc = {
+dqaqpng6 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_chosen } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_police_state } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -2854,8 +2049,8 @@ dq3k79pc = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_chosen }
-					dtp_tcx = { T = dtp_ok_civic_chosen }
+					dtp_tcx = { T = dtp_has_cv_police_state }
+					dtp_tcx = { T = dtp_ok_civic_police_state }
 				}
 			} }
 	}
@@ -2883,12 +2078,12 @@ dq3k79pc = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_chosen
+								has_civic = civic_police_state
 							}
-							force_remove_civic = civic_chosen
+							force_remove_civic = civic_police_state
 						}
 						else = {
-							force_add_civic = civic_chosen
+							force_add_civic = civic_police_state
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2904,13 +2099,13 @@ dq3k79pc = {
 	}
 }
 
-dq8mo31z = {
+dqlpvupt = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -2923,8 +2118,8 @@ dq8mo31z = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_citizen_service }
-					dtp_tcx = { T = dtp_ok_civic_citizen_service }
+					dtp_tcx = { T = dtp_has_cv_pompous_purists }
+					dtp_tcx = { T = dtp_ok_civic_pompous_purists }
 				}
 			} }
 	}
@@ -2952,12 +2147,12 @@ dq8mo31z = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_citizen_service
+								has_civic = civic_pompous_purists
 							}
-							force_remove_civic = civic_citizen_service
+							force_remove_civic = civic_pompous_purists
 						}
 						else = {
-							force_add_civic = civic_citizen_service
+							force_add_civic = civic_pompous_purists
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -2973,15 +2168,15 @@ dq8mo31z = {
 	}
 }
 
-dqvif6hy = {
+dq5o3vop = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_citizen_service }
+		dtp_tcx = { T = dtp_has_cv_pompous_purists }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -2993,8 +2188,8 @@ dqvif6hy = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_citizen_service }
-					dtp_tcx = { T = dtp_ok_civic_citizen_service }
+					dtp_tcx = { T = dtp_has_cv_pompous_purists }
+					dtp_tcx = { T = dtp_ok_civic_pompous_purists }
 				}
 			} }
 	}
@@ -3022,12 +2217,12 @@ dqvif6hy = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_citizen_service
+								has_civic = civic_pompous_purists
 							}
-							force_remove_civic = civic_citizen_service
+							force_remove_civic = civic_pompous_purists
 						}
 						else = {
-							force_add_civic = civic_citizen_service
+							force_add_civic = civic_pompous_purists
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3043,16 +2238,16 @@ dqvif6hy = {
 	}
 }
 
-dquaaldu = {
+dq2qek3x = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_citizen_service } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_pompous_purists } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -3064,8 +2259,8 @@ dquaaldu = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_citizen_service }
-					dtp_tcx = { T = dtp_ok_civic_citizen_service }
+					dtp_tcx = { T = dtp_has_cv_pompous_purists }
+					dtp_tcx = { T = dtp_ok_civic_pompous_purists }
 				}
 			} }
 	}
@@ -3093,12 +2288,12 @@ dquaaldu = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_citizen_service
+								has_civic = civic_pompous_purists
 							}
-							force_remove_civic = civic_citizen_service
+							force_remove_civic = civic_pompous_purists
 						}
 						else = {
-							force_add_civic = civic_citizen_service
+							force_add_civic = civic_pompous_purists
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3114,13 +2309,13 @@ dquaaldu = {
 	}
 }
 
-dq8gs1jd = {
+dq5x8upu = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -3133,8 +2328,8 @@ dq8gs1jd = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_civil_education }
-					dtp_tcx = { T = dtp_ok_civic_civil_education }
+					dtp_tcx = { T = dtp_has_cv_pyrolatry }
+					dtp_tcx = { T = dtp_ok_civic_pyrolatry }
 				}
 			} }
 	}
@@ -3162,12 +2357,12 @@ dq8gs1jd = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_civil_education
+								has_civic = civic_pyrolatry
 							}
-							force_remove_civic = civic_civil_education
+							force_remove_civic = civic_pyrolatry
 						}
 						else = {
-							force_add_civic = civic_civil_education
+							force_add_civic = civic_pyrolatry
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3183,15 +2378,15 @@ dq8gs1jd = {
 	}
 }
 
-dqsy247m = {
+dqdqmp6v = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_civil_education }
+		dtp_tcx = { T = dtp_has_cv_pyrolatry }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -3203,8 +2398,8 @@ dqsy247m = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_civil_education }
-					dtp_tcx = { T = dtp_ok_civic_civil_education }
+					dtp_tcx = { T = dtp_has_cv_pyrolatry }
+					dtp_tcx = { T = dtp_ok_civic_pyrolatry }
 				}
 			} }
 	}
@@ -3232,12 +2427,12 @@ dqsy247m = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_civil_education
+								has_civic = civic_pyrolatry
 							}
-							force_remove_civic = civic_civil_education
+							force_remove_civic = civic_pyrolatry
 						}
 						else = {
-							force_add_civic = civic_civil_education
+							force_add_civic = civic_pyrolatry
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3253,16 +2448,16 @@ dqsy247m = {
 	}
 }
 
-dqwpq7xy = {
+dqcjlg0z = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_civil_education } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_pyrolatry } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -3274,8 +2469,8 @@ dqwpq7xy = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_civil_education }
-					dtp_tcx = { T = dtp_ok_civic_civil_education }
+					dtp_tcx = { T = dtp_has_cv_pyrolatry }
+					dtp_tcx = { T = dtp_ok_civic_pyrolatry }
 				}
 			} }
 	}
@@ -3303,12 +2498,12 @@ dqwpq7xy = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_civil_education
+								has_civic = civic_pyrolatry
 							}
-							force_remove_civic = civic_civil_education
+							force_remove_civic = civic_pyrolatry
 						}
 						else = {
-							force_add_civic = civic_civil_education
+							force_add_civic = civic_pyrolatry
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3324,13 +2519,13 @@ dqwpq7xy = {
 	}
 }
 
-dqkw7gkv = {
+dq4eai38 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -3343,8 +2538,8 @@ dqkw7gkv = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_corporate_dominion }
-					dtp_tcx = { T = dtp_ok_civic_corporate_dominion }
+					dtp_tcx = { T = dtp_has_cv_reanimated_armies }
+					dtp_tcx = { T = dtp_ok_civic_reanimated_armies }
 				}
 			} }
 	}
@@ -3372,12 +2567,12 @@ dqkw7gkv = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_corporate_dominion
+								has_civic = civic_reanimated_armies
 							}
-							force_remove_civic = civic_corporate_dominion
+							force_remove_civic = civic_reanimated_armies
 						}
 						else = {
-							force_add_civic = civic_corporate_dominion
+							force_add_civic = civic_reanimated_armies
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3393,15 +2588,15 @@ dqkw7gkv = {
 	}
 }
 
-dqupn8dg = {
+dq6icmsl = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_corporate_dominion }
+		dtp_tcx = { T = dtp_has_cv_reanimated_armies }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -3413,8 +2608,8 @@ dqupn8dg = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_corporate_dominion }
-					dtp_tcx = { T = dtp_ok_civic_corporate_dominion }
+					dtp_tcx = { T = dtp_has_cv_reanimated_armies }
+					dtp_tcx = { T = dtp_ok_civic_reanimated_armies }
 				}
 			} }
 	}
@@ -3442,12 +2637,12 @@ dqupn8dg = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_corporate_dominion
+								has_civic = civic_reanimated_armies
 							}
-							force_remove_civic = civic_corporate_dominion
+							force_remove_civic = civic_reanimated_armies
 						}
 						else = {
-							force_add_civic = civic_corporate_dominion
+							force_add_civic = civic_reanimated_armies
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3463,16 +2658,16 @@ dqupn8dg = {
 	}
 }
 
-dqtzs11c = {
+dq0rl88x = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_corporate_dominion } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_reanimated_armies } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -3484,8 +2679,8 @@ dqtzs11c = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_corporate_dominion }
-					dtp_tcx = { T = dtp_ok_civic_corporate_dominion }
+					dtp_tcx = { T = dtp_has_cv_reanimated_armies }
+					dtp_tcx = { T = dtp_ok_civic_reanimated_armies }
 				}
 			} }
 	}
@@ -3513,12 +2708,12 @@ dqtzs11c = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_corporate_dominion
+								has_civic = civic_reanimated_armies
 							}
-							force_remove_civic = civic_corporate_dominion
+							force_remove_civic = civic_reanimated_armies
 						}
 						else = {
-							force_add_civic = civic_corporate_dominion
+							force_add_civic = civic_reanimated_armies
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3534,13 +2729,13 @@ dqtzs11c = {
 	}
 }
 
-dqxwzkhp = {
+dqo8cy2x = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -3553,8 +2748,8 @@ dqxwzkhp = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_corvee_system }
-					dtp_tcx = { T = dtp_ok_civic_corvee_system }
+					dtp_tcx = { T = dtp_has_cv_relentless_industrialists }
+					dtp_tcx = { T = dtp_ok_civic_relentless_industrialists }
 				}
 			} }
 	}
@@ -3582,12 +2777,12 @@ dqxwzkhp = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_corvee_system
+								has_civic = civic_relentless_industrialists
 							}
-							force_remove_civic = civic_corvee_system
+							force_remove_civic = civic_relentless_industrialists
 						}
 						else = {
-							force_add_civic = civic_corvee_system
+							force_add_civic = civic_relentless_industrialists
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3603,15 +2798,15 @@ dqxwzkhp = {
 	}
 }
 
-dq6xevmb = {
+dq4zodpd = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_corvee_system }
+		dtp_tcx = { T = dtp_has_cv_relentless_industrialists }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -3623,8 +2818,8 @@ dq6xevmb = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_corvee_system }
-					dtp_tcx = { T = dtp_ok_civic_corvee_system }
+					dtp_tcx = { T = dtp_has_cv_relentless_industrialists }
+					dtp_tcx = { T = dtp_ok_civic_relentless_industrialists }
 				}
 			} }
 	}
@@ -3652,12 +2847,12 @@ dq6xevmb = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_corvee_system
+								has_civic = civic_relentless_industrialists
 							}
-							force_remove_civic = civic_corvee_system
+							force_remove_civic = civic_relentless_industrialists
 						}
 						else = {
-							force_add_civic = civic_corvee_system
+							force_add_civic = civic_relentless_industrialists
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3673,16 +2868,16 @@ dq6xevmb = {
 	}
 }
 
-dq1ghmnr = {
+dq3ewi6d = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_corvee_system } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_relentless_industrialists } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -3694,8 +2889,8 @@ dq1ghmnr = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_corvee_system }
-					dtp_tcx = { T = dtp_ok_civic_corvee_system }
+					dtp_tcx = { T = dtp_has_cv_relentless_industrialists }
+					dtp_tcx = { T = dtp_ok_civic_relentless_industrialists }
 				}
 			} }
 	}
@@ -3723,12 +2918,12 @@ dq1ghmnr = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_corvee_system
+								has_civic = civic_relentless_industrialists
 							}
-							force_remove_civic = civic_corvee_system
+							force_remove_civic = civic_relentless_industrialists
 						}
 						else = {
-							force_add_civic = civic_corvee_system
+							force_add_civic = civic_relentless_industrialists
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3744,13 +2939,13 @@ dq1ghmnr = {
 	}
 }
 
-dq40kota = {
+dqnwqrsq = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -3763,8 +2958,8 @@ dq40kota = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_crafters }
-					dtp_tcx = { T = dtp_ok_civic_crafters }
+					dtp_tcx = { T = dtp_has_cv_scavengers }
+					dtp_tcx = { T = dtp_ok_civic_scavengers }
 				}
 			} }
 	}
@@ -3792,12 +2987,12 @@ dq40kota = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_crafters
+								has_civic = civic_scavengers
 							}
-							force_remove_civic = civic_crafters
+							force_remove_civic = civic_scavengers
 						}
 						else = {
-							force_add_civic = civic_crafters
+							force_add_civic = civic_scavengers
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3813,15 +3008,15 @@ dq40kota = {
 	}
 }
 
-dqjio7sd = {
+dqdesqo9 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_crafters }
+		dtp_tcx = { T = dtp_has_cv_scavengers }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -3833,8 +3028,8 @@ dqjio7sd = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_crafters }
-					dtp_tcx = { T = dtp_ok_civic_crafters }
+					dtp_tcx = { T = dtp_has_cv_scavengers }
+					dtp_tcx = { T = dtp_ok_civic_scavengers }
 				}
 			} }
 	}
@@ -3862,12 +3057,12 @@ dqjio7sd = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_crafters
+								has_civic = civic_scavengers
 							}
-							force_remove_civic = civic_crafters
+							force_remove_civic = civic_scavengers
 						}
 						else = {
-							force_add_civic = civic_crafters
+							force_add_civic = civic_scavengers
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3883,16 +3078,16 @@ dqjio7sd = {
 	}
 }
 
-dqpibpc9 = {
+dqcqbxil = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_crafters } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_scavengers } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -3904,8 +3099,8 @@ dqpibpc9 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_crafters }
-					dtp_tcx = { T = dtp_ok_civic_crafters }
+					dtp_tcx = { T = dtp_has_cv_scavengers }
+					dtp_tcx = { T = dtp_ok_civic_scavengers }
 				}
 			} }
 	}
@@ -3933,12 +3128,12 @@ dqpibpc9 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_crafters
+								has_civic = civic_scavengers
 							}
-							force_remove_civic = civic_crafters
+							force_remove_civic = civic_scavengers
 						}
 						else = {
-							force_add_civic = civic_crafters
+							force_add_civic = civic_scavengers
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -3954,13 +3149,13 @@ dqpibpc9 = {
 	}
 }
 
-dq04cthh = {
+dquren3f = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -3973,8 +3168,8 @@ dq04cthh = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_crowdsourcing }
-					dtp_tcx = { T = dtp_ok_civic_crowdsourcing }
+					dtp_tcx = { T = dtp_has_cv_scorched_earth }
+					dtp_tcx = { T = dtp_ok_civic_scorched_earth }
 				}
 			} }
 	}
@@ -4002,12 +3197,12 @@ dq04cthh = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_crowdsourcing
+								has_civic = civic_scorched_earth
 							}
-							force_remove_civic = civic_crowdsourcing
+							force_remove_civic = civic_scorched_earth
 						}
 						else = {
-							force_add_civic = civic_crowdsourcing
+							force_add_civic = civic_scorched_earth
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4023,15 +3218,15 @@ dq04cthh = {
 	}
 }
 
-dqridqs0 = {
+dqz0m6iv = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_crowdsourcing }
+		dtp_tcx = { T = dtp_has_cv_scorched_earth }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -4043,8 +3238,8 @@ dqridqs0 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_crowdsourcing }
-					dtp_tcx = { T = dtp_ok_civic_crowdsourcing }
+					dtp_tcx = { T = dtp_has_cv_scorched_earth }
+					dtp_tcx = { T = dtp_ok_civic_scorched_earth }
 				}
 			} }
 	}
@@ -4072,12 +3267,12 @@ dqridqs0 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_crowdsourcing
+								has_civic = civic_scorched_earth
 							}
-							force_remove_civic = civic_crowdsourcing
+							force_remove_civic = civic_scorched_earth
 						}
 						else = {
-							force_add_civic = civic_crowdsourcing
+							force_add_civic = civic_scorched_earth
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4093,16 +3288,16 @@ dqridqs0 = {
 	}
 }
 
-dqz4960k = {
+dqqs489v = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_crowdsourcing } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_scorched_earth } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -4114,8 +3309,8 @@ dqz4960k = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_crowdsourcing }
-					dtp_tcx = { T = dtp_ok_civic_crowdsourcing }
+					dtp_tcx = { T = dtp_has_cv_scorched_earth }
+					dtp_tcx = { T = dtp_ok_civic_scorched_earth }
 				}
 			} }
 	}
@@ -4143,12 +3338,12 @@ dqz4960k = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_crowdsourcing
+								has_civic = civic_scorched_earth
 							}
-							force_remove_civic = civic_crowdsourcing
+							force_remove_civic = civic_scorched_earth
 						}
 						else = {
-							force_add_civic = civic_crowdsourcing
+							force_add_civic = civic_scorched_earth
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4164,13 +3359,13 @@ dqz4960k = {
 	}
 }
 
-dq8u9y5n = {
+dqyx7unb = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -4183,8 +3378,8 @@ dq8u9y5n = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_crusader_spirit }
-					dtp_tcx = { T = dtp_ok_civic_crusader_spirit }
+					dtp_tcx = { T = dtp_has_cv_secret_societies }
+					dtp_tcx = { T = dtp_ok_civic_secret_societies }
 				}
 			} }
 	}
@@ -4212,12 +3407,12 @@ dq8u9y5n = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_crusader_spirit
+								has_civic = civic_secret_societies
 							}
-							force_remove_civic = civic_crusader_spirit
+							force_remove_civic = civic_secret_societies
 						}
 						else = {
-							force_add_civic = civic_crusader_spirit
+							force_add_civic = civic_secret_societies
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4233,15 +3428,15 @@ dq8u9y5n = {
 	}
 }
 
-dqkzbjac = {
+dq9el53h = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_crusader_spirit }
+		dtp_tcx = { T = dtp_has_cv_secret_societies }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -4253,8 +3448,8 @@ dqkzbjac = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_crusader_spirit }
-					dtp_tcx = { T = dtp_ok_civic_crusader_spirit }
+					dtp_tcx = { T = dtp_has_cv_secret_societies }
+					dtp_tcx = { T = dtp_ok_civic_secret_societies }
 				}
 			} }
 	}
@@ -4282,12 +3477,12 @@ dqkzbjac = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_crusader_spirit
+								has_civic = civic_secret_societies
 							}
-							force_remove_civic = civic_crusader_spirit
+							force_remove_civic = civic_secret_societies
 						}
 						else = {
-							force_add_civic = civic_crusader_spirit
+							force_add_civic = civic_secret_societies
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4303,16 +3498,16 @@ dqkzbjac = {
 	}
 }
 
-dqlysa9s = {
+dqgqmlbd = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_crusader_spirit } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_secret_societies } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -4324,8 +3519,8 @@ dqlysa9s = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_crusader_spirit }
-					dtp_tcx = { T = dtp_ok_civic_crusader_spirit }
+					dtp_tcx = { T = dtp_has_cv_secret_societies }
+					dtp_tcx = { T = dtp_ok_civic_secret_societies }
 				}
 			} }
 	}
@@ -4353,12 +3548,12 @@ dqlysa9s = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_crusader_spirit
+								has_civic = civic_secret_societies
 							}
-							force_remove_civic = civic_crusader_spirit
+							force_remove_civic = civic_secret_societies
 						}
 						else = {
-							force_add_civic = civic_crusader_spirit
+							force_add_civic = civic_secret_societies
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4374,13 +3569,13 @@ dqlysa9s = {
 	}
 }
 
-dqt5p0bb = {
+dqstlu0c = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 	}
 	allow = {
@@ -4393,8 +3588,8 @@ dqt5p0bb = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_cutthroat_politics }
-					dtp_tcx = { T = dtp_ok_civic_cutthroat_politics }
+					dtp_tcx = { T = dtp_has_cv_selective_kinship }
+					dtp_tcx = { T = dtp_ok_civic_selective_kinship }
 				}
 			} }
 	}
@@ -4422,12 +3617,12 @@ dqt5p0bb = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_cutthroat_politics
+								has_civic = civic_selective_kinship
 							}
-							force_remove_civic = civic_cutthroat_politics
+							force_remove_civic = civic_selective_kinship
 						}
 						else = {
-							force_add_civic = civic_cutthroat_politics
+							force_add_civic = civic_selective_kinship
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4443,15 +3638,15 @@ dqt5p0bb = {
 	}
 }
 
-dqw169jp = {
+dqi4rbb2 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_tcx = { T = dtp_has_cv_cutthroat_politics }
+		dtp_tcx = { T = dtp_has_cv_selective_kinship }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -4463,8 +3658,8 @@ dqw169jp = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_cutthroat_politics }
-					dtp_tcx = { T = dtp_ok_civic_cutthroat_politics }
+					dtp_tcx = { T = dtp_has_cv_selective_kinship }
+					dtp_tcx = { T = dtp_ok_civic_selective_kinship }
 				}
 			} }
 	}
@@ -4492,12 +3687,12 @@ dqw169jp = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_cutthroat_politics
+								has_civic = civic_selective_kinship
 							}
-							force_remove_civic = civic_cutthroat_politics
+							force_remove_civic = civic_selective_kinship
 						}
 						else = {
-							force_add_civic = civic_cutthroat_politics
+							force_add_civic = civic_selective_kinship
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4513,16 +3708,16 @@ dqw169jp = {
 	}
 }
 
-dqsin0z5 = {
+dqpscjh6 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 2 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_cutthroat_politics } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_selective_kinship } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -4534,8 +3729,8 @@ dqsin0z5 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_cutthroat_politics }
-					dtp_tcx = { T = dtp_ok_civic_cutthroat_politics }
+					dtp_tcx = { T = dtp_has_cv_selective_kinship }
+					dtp_tcx = { T = dtp_ok_civic_selective_kinship }
 				}
 			} }
 	}
@@ -4563,12 +3758,12 @@ dqsin0z5 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_cutthroat_politics
+								has_civic = civic_selective_kinship
 							}
-							force_remove_civic = civic_cutthroat_politics
+							force_remove_civic = civic_selective_kinship
 						}
 						else = {
-							force_add_civic = civic_cutthroat_politics
+							force_add_civic = civic_selective_kinship
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4584,13 +3779,13 @@ dqsin0z5 = {
 	}
 }
 
-dqx5zn8j = {
+dqofty0g = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -4603,8 +3798,8 @@ dqx5zn8j = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_dark_consortium }
-					dtp_tcx = { T = dtp_ok_civic_dark_consortium }
+					dtp_tcx = { T = dtp_has_cv_shadow_council }
+					dtp_tcx = { T = dtp_ok_civic_shadow_council }
 				}
 			} }
 	}
@@ -4632,12 +3827,12 @@ dqx5zn8j = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_dark_consortium
+								has_civic = civic_shadow_council
 							}
-							force_remove_civic = civic_dark_consortium
+							force_remove_civic = civic_shadow_council
 						}
 						else = {
-							force_add_civic = civic_dark_consortium
+							force_add_civic = civic_shadow_council
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4653,15 +3848,15 @@ dqx5zn8j = {
 	}
 }
 
-dqidq805 = {
+dqf3yni8 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_tcx = { T = dtp_has_cv_dark_consortium }
+		dtp_tcx = { T = dtp_has_cv_shadow_council }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -4673,8 +3868,8 @@ dqidq805 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_dark_consortium }
-					dtp_tcx = { T = dtp_ok_civic_dark_consortium }
+					dtp_tcx = { T = dtp_has_cv_shadow_council }
+					dtp_tcx = { T = dtp_ok_civic_shadow_council }
 				}
 			} }
 	}
@@ -4702,12 +3897,12 @@ dqidq805 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_dark_consortium
+								has_civic = civic_shadow_council
 							}
-							force_remove_civic = civic_dark_consortium
+							force_remove_civic = civic_shadow_council
 						}
 						else = {
-							force_add_civic = civic_dark_consortium
+							force_add_civic = civic_shadow_council
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4723,16 +3918,16 @@ dqidq805 = {
 	}
 }
 
-dqpocxgh = {
+dqc53d9g = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_dark_consortium } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_shadow_council } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -4744,8 +3939,8 @@ dqpocxgh = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_dark_consortium }
-					dtp_tcx = { T = dtp_ok_civic_dark_consortium }
+					dtp_tcx = { T = dtp_has_cv_shadow_council }
+					dtp_tcx = { T = dtp_ok_civic_shadow_council }
 				}
 			} }
 	}
@@ -4773,12 +3968,12 @@ dqpocxgh = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_dark_consortium
+								has_civic = civic_shadow_council
 							}
-							force_remove_civic = civic_dark_consortium
+							force_remove_civic = civic_shadow_council
 						}
 						else = {
-							force_add_civic = civic_dark_consortium
+							force_add_civic = civic_shadow_council
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4794,13 +3989,13 @@ dqpocxgh = {
 	}
 }
 
-dq4c6zln = {
+dqxbmo46 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -4813,8 +4008,8 @@ dq4c6zln = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_death_cult }
-					dtp_tcx = { T = dtp_ok_civic_death_cult }
+					dtp_tcx = { T = dtp_has_cv_shared_burden }
+					dtp_tcx = { T = dtp_ok_civic_shared_burden }
 				}
 			} }
 	}
@@ -4842,12 +4037,12 @@ dq4c6zln = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_death_cult
+								has_civic = civic_shared_burden
 							}
-							force_remove_civic = civic_death_cult
+							force_remove_civic = civic_shared_burden
 						}
 						else = {
-							force_add_civic = civic_death_cult
+							force_add_civic = civic_shared_burden
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4863,15 +4058,15 @@ dq4c6zln = {
 	}
 }
 
-dqnq0379 = {
+dqzm2vp2 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_tcx = { T = dtp_has_cv_death_cult }
+		dtp_tcx = { T = dtp_has_cv_shared_burden }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -4883,8 +4078,8 @@ dqnq0379 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_death_cult }
-					dtp_tcx = { T = dtp_ok_civic_death_cult }
+					dtp_tcx = { T = dtp_has_cv_shared_burden }
+					dtp_tcx = { T = dtp_ok_civic_shared_burden }
 				}
 			} }
 	}
@@ -4912,12 +4107,12 @@ dqnq0379 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_death_cult
+								has_civic = civic_shared_burden
 							}
-							force_remove_civic = civic_death_cult
+							force_remove_civic = civic_shared_burden
 						}
 						else = {
-							force_add_civic = civic_death_cult
+							force_add_civic = civic_shared_burden
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -4933,16 +4128,16 @@ dqnq0379 = {
 	}
 }
 
-dqk6zzv5 = {
+dq7thocy = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_death_cult } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_shared_burden } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -4954,8 +4149,8 @@ dqk6zzv5 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_death_cult }
-					dtp_tcx = { T = dtp_ok_civic_death_cult }
+					dtp_tcx = { T = dtp_has_cv_shared_burden }
+					dtp_tcx = { T = dtp_ok_civic_shared_burden }
 				}
 			} }
 	}
@@ -4983,12 +4178,12 @@ dqk6zzv5 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_death_cult
+								has_civic = civic_shared_burden
 							}
-							force_remove_civic = civic_death_cult
+							force_remove_civic = civic_shared_burden
 						}
 						else = {
-							force_add_civic = civic_death_cult
+							force_add_civic = civic_shared_burden
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -5004,13 +4199,13 @@ dqk6zzv5 = {
 	}
 }
 
-dqulde7o = {
+dqszneia = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -5023,8 +4218,8 @@ dqulde7o = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_deep_sleep }
-					dtp_tcx = { T = dtp_ok_civic_deep_sleep }
+					dtp_tcx = { T = dtp_has_cv_slaver_guilds }
+					dtp_tcx = { T = dtp_ok_civic_slaver_guilds }
 				}
 			} }
 	}
@@ -5052,12 +4247,12 @@ dqulde7o = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_deep_sleep
+								has_civic = civic_slaver_guilds
 							}
-							force_remove_civic = civic_deep_sleep
+							force_remove_civic = civic_slaver_guilds
 						}
 						else = {
-							force_add_civic = civic_deep_sleep
+							force_add_civic = civic_slaver_guilds
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -5073,15 +4268,15 @@ dqulde7o = {
 	}
 }
 
-dquha47i = {
+dq3r00w6 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_tcx = { T = dtp_has_cv_deep_sleep }
+		dtp_tcx = { T = dtp_has_cv_slaver_guilds }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -5093,8 +4288,8 @@ dquha47i = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_deep_sleep }
-					dtp_tcx = { T = dtp_ok_civic_deep_sleep }
+					dtp_tcx = { T = dtp_has_cv_slaver_guilds }
+					dtp_tcx = { T = dtp_ok_civic_slaver_guilds }
 				}
 			} }
 	}
@@ -5122,12 +4317,12 @@ dquha47i = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_deep_sleep
+								has_civic = civic_slaver_guilds
 							}
-							force_remove_civic = civic_deep_sleep
+							force_remove_civic = civic_slaver_guilds
 						}
 						else = {
-							force_add_civic = civic_deep_sleep
+							force_add_civic = civic_slaver_guilds
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -5143,16 +4338,16 @@ dquha47i = {
 	}
 }
 
-dqv6zp9m = {
+dq4hvxeq = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_deep_sleep } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_slaver_guilds } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -5164,8 +4359,8 @@ dqv6zp9m = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_deep_sleep }
-					dtp_tcx = { T = dtp_ok_civic_deep_sleep }
+					dtp_tcx = { T = dtp_has_cv_slaver_guilds }
+					dtp_tcx = { T = dtp_ok_civic_slaver_guilds }
 				}
 			} }
 	}
@@ -5193,12 +4388,12 @@ dqv6zp9m = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_deep_sleep
+								has_civic = civic_slaver_guilds
 							}
-							force_remove_civic = civic_deep_sleep
+							force_remove_civic = civic_slaver_guilds
 						}
 						else = {
-							force_add_civic = civic_deep_sleep
+							force_add_civic = civic_slaver_guilds
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -5214,13 +4409,13 @@ dqv6zp9m = {
 	}
 }
 
-dqqrdnc5 = {
+dqbe1dzq = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -5233,8 +4428,8 @@ dqqrdnc5 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_dimensional_worship }
-					dtp_tcx = { T = dtp_ok_civic_dimensional_worship }
+					dtp_tcx = { T = dtp_has_cv_sovereign_guardianship }
+					dtp_tcx = { T = dtp_ok_civic_sovereign_guardianship }
 				}
 			} }
 	}
@@ -5262,12 +4457,12 @@ dqqrdnc5 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_dimensional_worship
+								has_civic = civic_sovereign_guardianship
 							}
-							force_remove_civic = civic_dimensional_worship
+							force_remove_civic = civic_sovereign_guardianship
 						}
 						else = {
-							force_add_civic = civic_dimensional_worship
+							force_add_civic = civic_sovereign_guardianship
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -5283,15 +4478,15 @@ dqqrdnc5 = {
 	}
 }
 
-dqbwm4qc = {
+dqgkonmq = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_tcx = { T = dtp_has_cv_dimensional_worship }
+		dtp_tcx = { T = dtp_has_cv_sovereign_guardianship }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -5303,8 +4498,8 @@ dqbwm4qc = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_dimensional_worship }
-					dtp_tcx = { T = dtp_ok_civic_dimensional_worship }
+					dtp_tcx = { T = dtp_has_cv_sovereign_guardianship }
+					dtp_tcx = { T = dtp_ok_civic_sovereign_guardianship }
 				}
 			} }
 	}
@@ -5332,12 +4527,12 @@ dqbwm4qc = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_dimensional_worship
+								has_civic = civic_sovereign_guardianship
 							}
-							force_remove_civic = civic_dimensional_worship
+							force_remove_civic = civic_sovereign_guardianship
 						}
 						else = {
-							force_add_civic = civic_dimensional_worship
+							force_add_civic = civic_sovereign_guardianship
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -5353,16 +4548,16 @@ dqbwm4qc = {
 	}
 }
 
-dqd4nwnk = {
+dqak0n9i = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_dimensional_worship } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_sovereign_guardianship } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -5374,8 +4569,8 @@ dqd4nwnk = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_dimensional_worship }
-					dtp_tcx = { T = dtp_ok_civic_dimensional_worship }
+					dtp_tcx = { T = dtp_has_cv_sovereign_guardianship }
+					dtp_tcx = { T = dtp_ok_civic_sovereign_guardianship }
 				}
 			} }
 	}
@@ -5403,12 +4598,12 @@ dqd4nwnk = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_dimensional_worship
+								has_civic = civic_sovereign_guardianship
 							}
-							force_remove_civic = civic_dimensional_worship
+							force_remove_civic = civic_sovereign_guardianship
 						}
 						else = {
-							force_add_civic = civic_dimensional_worship
+							force_add_civic = civic_sovereign_guardianship
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -5424,13 +4619,13 @@ dqd4nwnk = {
 	}
 }
 
-dqr4gb84 = {
+dqbqjmll = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -5443,8 +4638,8 @@ dqr4gb84 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_diplomatic_corps }
-					dtp_tcx = { T = dtp_ok_civic_diplomatic_corps }
+					dtp_tcx = { T = dtp_has_cv_star_seekers }
+					dtp_tcx = { T = dtp_ok_civic_star_seekers }
 				}
 			} }
 	}
@@ -5472,12 +4667,12 @@ dqr4gb84 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_diplomatic_corps
+								has_civic = civic_star_seekers
 							}
-							force_remove_civic = civic_diplomatic_corps
+							force_remove_civic = civic_star_seekers
 						}
 						else = {
-							force_add_civic = civic_diplomatic_corps
+							force_add_civic = civic_star_seekers
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -5493,15 +4688,15 @@ dqr4gb84 = {
 	}
 }
 
-dq81v3xj = {
+dqzilsy5 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_tcx = { T = dtp_has_cv_diplomatic_corps }
+		dtp_tcx = { T = dtp_has_cv_star_seekers }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -5513,8 +4708,8 @@ dq81v3xj = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_diplomatic_corps }
-					dtp_tcx = { T = dtp_ok_civic_diplomatic_corps }
+					dtp_tcx = { T = dtp_has_cv_star_seekers }
+					dtp_tcx = { T = dtp_ok_civic_star_seekers }
 				}
 			} }
 	}
@@ -5542,12 +4737,12 @@ dq81v3xj = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_diplomatic_corps
+								has_civic = civic_star_seekers
 							}
-							force_remove_civic = civic_diplomatic_corps
+							force_remove_civic = civic_star_seekers
 						}
 						else = {
-							force_add_civic = civic_diplomatic_corps
+							force_add_civic = civic_star_seekers
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -5563,16 +4758,16 @@ dq81v3xj = {
 	}
 }
 
-dq0h30lf = {
+dq7rccyx = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_tcx = { T = dtp_ok_civic_diplomatic_corps } }
+		NOT = { dtp_tcx = { T = dtp_ok_civic_star_seekers } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -5584,8 +4779,8 @@ dq0h30lf = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_diplomatic_corps }
-					dtp_tcx = { T = dtp_ok_civic_diplomatic_corps }
+					dtp_tcx = { T = dtp_has_cv_star_seekers }
+					dtp_tcx = { T = dtp_ok_civic_star_seekers }
 				}
 			} }
 	}
@@ -5613,12 +4808,12 @@ dq0h30lf = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_diplomatic_corps
+								has_civic = civic_star_seekers
 							}
-							force_remove_civic = civic_diplomatic_corps
+							force_remove_civic = civic_star_seekers
 						}
 						else = {
-							force_add_civic = civic_diplomatic_corps
+							force_add_civic = civic_star_seekers
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -5634,13 +4829,13 @@ dq0h30lf = {
 	}
 }
 
-dqmqb4ev = {
+dq4rbipd = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -5653,8 +4848,8 @@ dqmqb4ev = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_distinguished_admiralty }
-					dtp_tcx = { T = dtp_ok_civic_distinguished_admiralty }
+					dtp_tcx = { T = dtp_has_cv_storm_callers }
+					dtp_tcx = { T = dtp_ok_civic_storm_callers }
 				}
 			} }
 	}
@@ -5682,12 +4877,12 @@ dqmqb4ev = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_distinguished_admiralty
+								has_civic = civic_storm_callers
 							}
-							force_remove_civic = civic_distinguished_admiralty
+							force_remove_civic = civic_storm_callers
 						}
 						else = {
-							force_add_civic = civic_distinguished_admiralty
+							force_add_civic = civic_storm_callers
 						}
 					}
 					dtp_result = { CODE = 40 }
@@ -5703,15 +4898,15 @@ dqmqb4ev = {
 	}
 }
 
-dq2ioct2 = {
+dqwkvkyz = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 2 }
 			check_variable = { which = dtp_edcat value = 1 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_tcx = { T = dtp_has_cv_distinguished_admiralty }
+		dtp_tcx = { T = dtp_has_cv_storm_callers }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_state from = {
@@ -5723,8 +4918,8 @@ dq2ioct2 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_tcx = { T = dtp_has_cv_distinguished_admiralty }
-					dtp_tcx = { T = dtp_ok_civic_distinguished_admiralty }
+					dtp_tcx = { T = dtp_has_cv_storm_callers }
+					dtp_tcx = { T = dtp_ok_civic_storm_callers }
 				}
 			} }
 	}
@@ -5752,12 +4947,852 @@ dq2ioct2 = {
 					event_target:dtp_t = {
 						if = {
 							limit = {
-								has_civic = civic_distinguished_admiralty
+								has_civic = civic_storm_callers
 							}
-							force_remove_civic = civic_distinguished_admiralty
+							force_remove_civic = civic_storm_callers
 						}
 						else = {
-							force_add_civic = civic_distinguished_admiralty
+							force_add_civic = civic_storm_callers
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dqt3fo9b = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_tcx = { T = dtp_ok_civic_storm_callers } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_storm_callers }
+					dtp_tcx = { T = dtp_ok_civic_storm_callers }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_storm_callers
+							}
+							force_remove_civic = civic_storm_callers
+						}
+						else = {
+							force_add_civic = civic_storm_callers
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dq5j51ak = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_superstitious_beliefs }
+					dtp_tcx = { T = dtp_ok_civic_superstitious_beliefs }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_superstitious_beliefs
+							}
+							force_remove_civic = civic_superstitious_beliefs
+						}
+						else = {
+							force_add_civic = civic_superstitious_beliefs
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dq6qq1vo = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+		dtp_tcx = { T = dtp_has_cv_superstitious_beliefs }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_superstitious_beliefs }
+					dtp_tcx = { T = dtp_ok_civic_superstitious_beliefs }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_superstitious_beliefs
+							}
+							force_remove_civic = civic_superstitious_beliefs
+						}
+						else = {
+							force_add_civic = civic_superstitious_beliefs
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dq1nuhcw = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_tcx = { T = dtp_ok_civic_superstitious_beliefs } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_superstitious_beliefs }
+					dtp_tcx = { T = dtp_ok_civic_superstitious_beliefs }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_superstitious_beliefs
+							}
+							force_remove_civic = civic_superstitious_beliefs
+						}
+						else = {
+							force_add_civic = civic_superstitious_beliefs
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dq0xh74t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_tankbound }
+					dtp_tcx = { T = dtp_ok_civic_tankbound }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_tankbound
+							}
+							force_remove_civic = civic_tankbound
+						}
+						else = {
+							force_add_civic = civic_tankbound
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dq8gf3xb = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+		dtp_tcx = { T = dtp_has_cv_tankbound }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_tankbound }
+					dtp_tcx = { T = dtp_ok_civic_tankbound }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_tankbound
+							}
+							force_remove_civic = civic_tankbound
+						}
+						else = {
+							force_add_civic = civic_tankbound
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dqgletiz = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_tcx = { T = dtp_ok_civic_tankbound } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_tankbound }
+					dtp_tcx = { T = dtp_ok_civic_tankbound }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_tankbound
+							}
+							force_remove_civic = civic_tankbound
+						}
+						else = {
+							force_add_civic = civic_tankbound
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dqxqhsxy = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_technocracy }
+					dtp_tcx = { T = dtp_ok_civic_technocracy }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_technocracy
+							}
+							force_remove_civic = civic_technocracy
+						}
+						else = {
+							force_add_civic = civic_technocracy
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dqrtd5wh = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+		dtp_tcx = { T = dtp_has_cv_technocracy }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_technocracy }
+					dtp_tcx = { T = dtp_ok_civic_technocracy }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_technocracy
+							}
+							force_remove_civic = civic_technocracy
+						}
+						else = {
+							force_add_civic = civic_technocracy
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dqxpz9l1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+		dtp_has_tc = yes
+		NOT = { dtp_tcx = { T = dtp_ok_civic_technocracy } }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_technocracy }
+					dtp_tcx = { T = dtp_ok_civic_technocracy }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_technocracy
+							}
+							force_remove_civic = civic_technocracy
+						}
+						else = {
+							force_add_civic = civic_technocracy
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dq3ut6n3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_toxic_baths }
+					dtp_tcx = { T = dtp_ok_civic_toxic_baths }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_toxic_baths
+							}
+							force_remove_civic = civic_toxic_baths
+						}
+						else = {
+							force_add_civic = civic_toxic_baths
+						}
+					}
+					dtp_result = { CODE = 40 }
+				}
+				else = {
+					dtp_fail = { CODE = 40 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 40 }
+			}
+		}
+	}
+}
+
+dqju422n = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 2 }
+			check_variable = { which = dtp_edcat value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+		dtp_tcx = { T = dtp_has_cv_toxic_baths }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_state from = {
+				dtp_has_perm = { P = state }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tcx = { T = dtp_has_cv_toxic_baths }
+					dtp_tcx = { T = dtp_ok_civic_toxic_baths }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = state }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_t
+					}
+					event_target:dtp_t = {
+						if = {
+							limit = {
+								has_civic = civic_toxic_baths
+							}
+							force_remove_civic = civic_toxic_baths
+						}
+						else = {
+							force_add_civic = civic_toxic_baths
 						}
 					}
 					dtp_result = { CODE = 40 }

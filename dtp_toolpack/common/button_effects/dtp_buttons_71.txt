@@ -1,0 +1,5864 @@
+# Debug Toolpack 11.3.4 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dqp0kcwz = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 4 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_volatile_motes }
+					dtp_tpx = { T = dtp_pok_z_zone_volatile_motes }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_generator
+								}
+								remove_zone = { district = district_generator zone = zone_volatile_motes }
+							}
+							else_if = {
+								limit = {
+									has_district = district_geothermal
+								}
+								remove_zone = { district = district_geothermal zone = zone_volatile_motes }
+							}
+							else_if = {
+								limit = {
+									has_district = district_rw_generator
+								}
+								remove_zone = { district = district_rw_generator zone = zone_volatile_motes }
+							}
+							else_if = {
+								limit = {
+									has_district = district_photosynthesis_fields
+								}
+								remove_zone = { district = district_photosynthesis_fields zone = zone_volatile_motes }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_generator
+									}
+									add_zone = { district = district_generator zone = zone_volatile_motes replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_geothermal
+									}
+									add_zone = { district = district_geothermal zone = zone_volatile_motes replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_generator
+									}
+									add_zone = { district = district_rw_generator zone = zone_volatile_motes replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_photosynthesis_fields
+									}
+									add_zone = { district = district_photosynthesis_fields zone = zone_volatile_motes replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_generator
+									}
+									add_zone = { district = district_generator zone = zone_volatile_motes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_geothermal
+									}
+									add_zone = { district = district_geothermal zone = zone_volatile_motes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_rw_generator
+									}
+									add_zone = { district = district_rw_generator zone = zone_volatile_motes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_photosynthesis_fields
+									}
+									add_zone = { district = district_photosynthesis_fields zone = zone_volatile_motes }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqunr9zc = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 4 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_volatile_motes_hive }
+					dtp_tpx = { T = dtp_pok_z_zone_volatile_motes_hive }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_hive_1
+								}
+								remove_zone = { district = district_hive_1 zone = zone_volatile_motes_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_2
+								}
+								remove_zone = { district = district_hive_2 zone = zone_volatile_motes_hive }
+							}
+							else_if = {
+								limit = {
+									has_district = district_hive_3
+								}
+								remove_zone = { district = district_hive_3 zone = zone_volatile_motes_hive }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_volatile_motes_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_volatile_motes_hive replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_volatile_motes_hive replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_hive_1
+									}
+									add_zone = { district = district_hive_1 zone = zone_volatile_motes_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_2
+									}
+									add_zone = { district = district_hive_2 zone = zone_volatile_motes_hive }
+								}
+								else_if = {
+									limit = {
+										has_district = district_hive_3
+									}
+									add_zone = { district = district_hive_3 zone = zone_volatile_motes_hive }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqs06ygg = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 4 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_z_zone_volatile_motes_nexus }
+					dtp_tpx = { T = dtp_pok_z_zone_volatile_motes_nexus }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_district = district_nexus_1
+								}
+								remove_zone = { district = district_nexus_1 zone = zone_volatile_motes_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_2
+								}
+								remove_zone = { district = district_nexus_2 zone = zone_volatile_motes_nexus }
+							}
+							else_if = {
+								limit = {
+									has_district = district_nexus_3
+								}
+								remove_zone = { district = district_nexus_3 zone = zone_volatile_motes_nexus }
+							}
+						}
+						else = {
+							if = {
+								limit = {
+									from = {
+										dtp_force_active = yes
+									}
+								}
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_volatile_motes_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_volatile_motes_nexus replace = yes }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_volatile_motes_nexus replace = yes }
+								}
+							}
+							else = {
+								if = {
+									limit = {
+										has_district = district_nexus_1
+									}
+									add_zone = { district = district_nexus_1 zone = zone_volatile_motes_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_2
+									}
+									add_zone = { district = district_nexus_2 zone = zone_volatile_motes_nexus }
+								}
+								else_if = {
+									limit = {
+										has_district = district_nexus_3
+									}
+									add_zone = { district = district_nexus_3 zone = zone_volatile_motes_nexus }
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 68 }
+				}
+				else = {
+					dtp_fail = { CODE = 68 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 68 }
+			}
+		}
+	}
+}
+
+dqlttyfz = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqt8xw0f = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqiuoyc6 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pepg value = 1 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pepg value = 1 }
+			}
+		}
+	}
+}
+
+dqx9bz4x = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 2 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqpq5obw = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pepg value = 2 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pepg value = 2 }
+			}
+		}
+	}
+}
+
+dqi2jzk4 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 3 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqc4zbi2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pepg value = 3 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pepg value = 3 }
+			}
+		}
+	}
+}
+
+dqpb4jul = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+			check_variable = { which = dtp_pepg value = 4 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqegj97d = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 6 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pepg value = 4 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pepg value = 4 }
+			}
+		}
+	}
+}
+
+dquoxc9m = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dq6prb5b = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pecat value = 1 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pecat value = 1 }
+				set_variable = { which = dtp_pepg value = 1 }
+			}
+		}
+	}
+}
+
+dqqyj3qs = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqzuxrit = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pecat value = 2 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pecat value = 2 }
+				set_variable = { which = dtp_pepg value = 1 }
+			}
+		}
+	}
+}
+
+dqp2am6p = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqwbi4n7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pecat value = 3 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pecat value = 3 }
+				set_variable = { which = dtp_pepg value = 1 }
+			}
+		}
+	}
+}
+
+dqjcwi94 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 4 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqsyj5wg = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pecat value = 4 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pecat value = 4 }
+				set_variable = { which = dtp_pepg value = 1 }
+			}
+		}
+	}
+}
+
+dqzb1oul = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 5 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dq8p5ik6 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pecat value = 5 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pecat value = 5 }
+				set_variable = { which = dtp_pepg value = 1 }
+			}
+		}
+	}
+}
+
+dque5sdf = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 6 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dq19msng = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pecat value = 6 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pecat value = 6 }
+				set_variable = { which = dtp_pepg value = 1 }
+			}
+		}
+	}
+}
+
+dqn5pqiu = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 7 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dquyp9ne = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pecat value = 7 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pecat value = 7 }
+				set_variable = { which = dtp_pepg value = 1 }
+			}
+		}
+	}
+}
+
+dq37qlsg = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 8 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqr5ziq3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_pecat value = 8 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_pecat value = 8 }
+				set_variable = { which = dtp_pepg value = 1 }
+			}
+		}
+	}
+}
+
+dqdb4pjo = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_archaeostudies_faculty }
+					dtp_tpx = { T = dtp_pok_b_building_archaeostudies_faculty }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_archaeostudies_faculty
+								}
+								remove_building = building_archaeostudies_faculty
+							}
+						}
+						else = {
+							add_building = building_archaeostudies_faculty
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqj2lb93 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_biolab_1 }
+					dtp_tpx = { T = dtp_pok_b_building_biolab_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_biolab_1
+								}
+								remove_building = building_biolab_1
+							}
+						}
+						else = {
+							add_building = building_biolab_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqpilmkt = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_biolab_2 }
+					dtp_tpx = { T = dtp_pok_b_building_biolab_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_biolab_2
+								}
+								remove_building = building_biolab_2
+							}
+						}
+						else = {
+							add_building = building_biolab_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqbd2dqz = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_biolab_3 }
+					dtp_tpx = { T = dtp_pok_b_building_biolab_3 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_biolab_3
+								}
+								remove_building = building_biolab_3
+							}
+						}
+						else = {
+							add_building = building_biolab_3
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq49sbq4 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_engineering_facility_1 }
+					dtp_tpx = { T = dtp_pok_b_building_engineering_facility_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_engineering_facility_1
+								}
+								remove_building = building_engineering_facility_1
+							}
+						}
+						else = {
+							add_building = building_engineering_facility_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq5qj2sm = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_engineering_facility_2 }
+					dtp_tpx = { T = dtp_pok_b_building_engineering_facility_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_engineering_facility_2
+								}
+								remove_building = building_engineering_facility_2
+							}
+						}
+						else = {
+							add_building = building_engineering_facility_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqqjmycw = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_engineering_facility_3 }
+					dtp_tpx = { T = dtp_pok_b_building_engineering_facility_3 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_engineering_facility_3
+								}
+								remove_building = building_engineering_facility_3
+							}
+						}
+						else = {
+							add_building = building_engineering_facility_3
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqueyp4j = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_institute }
+					dtp_tpx = { T = dtp_pok_b_building_institute }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_institute
+								}
+								remove_building = building_institute
+							}
+						}
+						else = {
+							add_building = building_institute
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqeys4h8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_physics_lab_1 }
+					dtp_tpx = { T = dtp_pok_b_building_physics_lab_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_physics_lab_1
+								}
+								remove_building = building_physics_lab_1
+							}
+						}
+						else = {
+							add_building = building_physics_lab_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqbzs00m = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_physics_lab_2 }
+					dtp_tpx = { T = dtp_pok_b_building_physics_lab_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_physics_lab_2
+								}
+								remove_building = building_physics_lab_2
+							}
+						}
+						else = {
+							add_building = building_physics_lab_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqp1g7eo = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_physics_lab_3 }
+					dtp_tpx = { T = dtp_pok_b_building_physics_lab_3 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_physics_lab_3
+								}
+								remove_building = building_physics_lab_3
+							}
+						}
+						else = {
+							add_building = building_physics_lab_3
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqjipp91 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_ranger_lodge }
+					dtp_tpx = { T = dtp_pok_b_building_ranger_lodge }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_ranger_lodge
+								}
+								remove_building = building_ranger_lodge
+							}
+						}
+						else = {
+							add_building = building_ranger_lodge
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqullkc0 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_research_efficiency_1 }
+					dtp_tpx = { T = dtp_pok_b_building_research_efficiency_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_research_efficiency_1
+								}
+								remove_building = building_research_efficiency_1
+							}
+						}
+						else = {
+							add_building = building_research_efficiency_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqmdqhli = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_research_lab_1 }
+					dtp_tpx = { T = dtp_pok_b_building_research_lab_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_research_lab_1
+								}
+								remove_building = building_research_lab_1
+							}
+						}
+						else = {
+							add_building = building_research_lab_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqjy3yuk = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_research_lab_2 }
+					dtp_tpx = { T = dtp_pok_b_building_research_lab_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_research_lab_2
+								}
+								remove_building = building_research_lab_2
+							}
+						}
+						else = {
+							add_building = building_research_lab_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqgw9ku2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_research_lab_3 }
+					dtp_tpx = { T = dtp_pok_b_building_research_lab_3 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_research_lab_3
+								}
+								remove_building = building_research_lab_3
+							}
+						}
+						else = {
+							add_building = building_research_lab_3
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqf1mu2t = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_research_upkeep_1 }
+					dtp_tpx = { T = dtp_pok_b_building_research_upkeep_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_research_upkeep_1
+								}
+								remove_building = building_research_upkeep_1
+							}
+						}
+						else = {
+							add_building = building_research_upkeep_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqxiq8p4 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_shroud_observatory_1 }
+					dtp_tpx = { T = dtp_pok_b_building_shroud_observatory_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_shroud_observatory_1
+								}
+								remove_building = building_shroud_observatory_1
+							}
+						}
+						else = {
+							add_building = building_shroud_observatory_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqqn7epe = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_shroud_observatory_2 }
+					dtp_tpx = { T = dtp_pok_b_building_shroud_observatory_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_shroud_observatory_2
+								}
+								remove_building = building_shroud_observatory_2
+							}
+						}
+						else = {
+							add_building = building_shroud_observatory_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq5tukro = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_shroud_observatory_3 }
+					dtp_tpx = { T = dtp_pok_b_building_shroud_observatory_3 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_shroud_observatory_3
+								}
+								remove_building = building_shroud_observatory_3
+							}
+						}
+						else = {
+							add_building = building_shroud_observatory_3
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqa5ezao = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_supercomputer }
+					dtp_tpx = { T = dtp_pok_b_building_supercomputer }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_supercomputer
+								}
+								remove_building = building_supercomputer
+							}
+						}
+						else = {
+							add_building = building_supercomputer
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq67rcz2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_vultaum_reality_computer }
+					dtp_tpx = { T = dtp_pok_b_building_vultaum_reality_computer }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_vultaum_reality_computer
+								}
+								remove_building = building_vultaum_reality_computer
+							}
+						}
+						else = {
+							add_building = building_vultaum_reality_computer
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq87zcdp = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_baol_organic_plant }
+					dtp_tpx = { T = dtp_pok_b_building_baol_organic_plant }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_baol_organic_plant
+								}
+								remove_building = building_baol_organic_plant
+							}
+						}
+						else = {
+							add_building = building_baol_organic_plant
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqales6z = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_bio_reactor }
+					dtp_tpx = { T = dtp_pok_b_building_bio_reactor }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_bio_reactor
+								}
+								remove_building = building_bio_reactor
+							}
+						}
+						else = {
+							add_building = building_bio_reactor
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqfcgvfo = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_bio_reactor_2 }
+					dtp_tpx = { T = dtp_pok_b_building_bio_reactor_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_bio_reactor_2
+								}
+								remove_building = building_bio_reactor_2
+							}
+						}
+						else = {
+							add_building = building_bio_reactor_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqtzosqs = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_energy_grid }
+					dtp_tpx = { T = dtp_pok_b_building_energy_grid }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_energy_grid
+								}
+								remove_building = building_energy_grid
+							}
+						}
+						else = {
+							add_building = building_energy_grid
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqzgwn7g = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_energy_nexus }
+					dtp_tpx = { T = dtp_pok_b_building_energy_nexus }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_energy_nexus
+								}
+								remove_building = building_energy_nexus
+							}
+						}
+						else = {
+							add_building = building_energy_nexus
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqt9w9br = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_farming_districts_1 }
+					dtp_tpx = { T = dtp_pok_b_building_farming_districts_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_farming_districts_1
+								}
+								remove_building = building_farming_districts_1
+							}
+						}
+						else = {
+							add_building = building_farming_districts_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqvpiyrx = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_farming_districts_2 }
+					dtp_tpx = { T = dtp_pok_b_building_farming_districts_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_farming_districts_2
+								}
+								remove_building = building_farming_districts_2
+							}
+						}
+						else = {
+							add_building = building_farming_districts_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq1h153v = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_farming_districts_3 }
+					dtp_tpx = { T = dtp_pok_b_building_farming_districts_3 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_farming_districts_3
+								}
+								remove_building = building_farming_districts_3
+							}
+						}
+						else = {
+							add_building = building_farming_districts_3
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq71yfnc = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_farming_districts_4 }
+					dtp_tpx = { T = dtp_pok_b_building_farming_districts_4 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_farming_districts_4
+								}
+								remove_building = building_farming_districts_4
+							}
+						}
+						else = {
+							add_building = building_farming_districts_4
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqhmk34l = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_food_processing_center }
+					dtp_tpx = { T = dtp_pok_b_building_food_processing_center }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_food_processing_center
+								}
+								remove_building = building_food_processing_center
+							}
+						}
+						else = {
+							add_building = building_food_processing_center
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqpuy7a1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_food_processing_facility }
+					dtp_tpx = { T = dtp_pok_b_building_food_processing_facility }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_food_processing_facility
+								}
+								remove_building = building_food_processing_facility
+							}
+						}
+						else = {
+							add_building = building_food_processing_facility
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqy4thod = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_generator_districts_1 }
+					dtp_tpx = { T = dtp_pok_b_building_generator_districts_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_generator_districts_1
+								}
+								remove_building = building_generator_districts_1
+							}
+						}
+						else = {
+							add_building = building_generator_districts_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqqpx8nb = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_generator_districts_2 }
+					dtp_tpx = { T = dtp_pok_b_building_generator_districts_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_generator_districts_2
+								}
+								remove_building = building_generator_districts_2
+							}
+						}
+						else = {
+							add_building = building_generator_districts_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq5cr6vl = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_generator_districts_3 }
+					dtp_tpx = { T = dtp_pok_b_building_generator_districts_3 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_generator_districts_3
+								}
+								remove_building = building_generator_districts_3
+							}
+						}
+						else = {
+							add_building = building_generator_districts_3
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq368hte = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_generator_districts_4 }
+					dtp_tpx = { T = dtp_pok_b_building_generator_districts_4 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_generator_districts_4
+								}
+								remove_building = building_generator_districts_4
+							}
+						}
+						else = {
+							add_building = building_generator_districts_4
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq041oeu = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_generator_generic }
+					dtp_tpx = { T = dtp_pok_b_building_generator_generic }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_generator_generic
+								}
+								remove_building = building_generator_generic
+							}
+						}
+						else = {
+							add_building = building_generator_generic
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqdm1mj7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_hydroponics_farm }
+					dtp_tpx = { T = dtp_pok_b_building_hydroponics_farm }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_hydroponics_farm
+								}
+								remove_building = building_hydroponics_farm
+							}
+						}
+						else = {
+							add_building = building_hydroponics_farm
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqmzo5kh = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_mine_generic }
+					dtp_tpx = { T = dtp_pok_b_building_mine_generic }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_mine_generic
+								}
+								remove_building = building_mine_generic
+							}
+						}
+						else = {
+							add_building = building_mine_generic
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqi8d1bb = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_mineral_purification_hub }
+					dtp_tpx = { T = dtp_pok_b_building_mineral_purification_hub }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_mineral_purification_hub
+								}
+								remove_building = building_mineral_purification_hub
+							}
+						}
+						else = {
+							add_building = building_mineral_purification_hub
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqgjcol4 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_mineral_purification_plant }
+					dtp_tpx = { T = dtp_pok_b_building_mineral_purification_plant }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_mineral_purification_plant
+								}
+								remove_building = building_mineral_purification_plant
+							}
+						}
+						else = {
+							add_building = building_mineral_purification_plant
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqenhsui = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_mining_districts_1 }
+					dtp_tpx = { T = dtp_pok_b_building_mining_districts_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_mining_districts_1
+								}
+								remove_building = building_mining_districts_1
+							}
+						}
+						else = {
+							add_building = building_mining_districts_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqd6r7xs = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_mining_districts_2 }
+					dtp_tpx = { T = dtp_pok_b_building_mining_districts_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_mining_districts_2
+								}
+								remove_building = building_mining_districts_2
+							}
+						}
+						else = {
+							add_building = building_mining_districts_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqok0h2e = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_mining_districts_3 }
+					dtp_tpx = { T = dtp_pok_b_building_mining_districts_3 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_mining_districts_3
+								}
+								remove_building = building_mining_districts_3
+							}
+						}
+						else = {
+							add_building = building_mining_districts_3
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqj6p3gl = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_mining_districts_4 }
+					dtp_tpx = { T = dtp_pok_b_building_mining_districts_4 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_mining_districts_4
+								}
+								remove_building = building_mining_districts_4
+							}
+						}
+						else = {
+							add_building = building_mining_districts_4
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqj1699a = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 2 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_resource_silo }
+					dtp_tpx = { T = dtp_pok_b_building_resource_silo }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_resource_silo
+								}
+								remove_building = building_resource_silo
+							}
+						}
+						else = {
+							add_building = building_resource_silo
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqdtp366 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_archaeo_refinery }
+					dtp_tpx = { T = dtp_pok_b_building_archaeo_refinery }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_archaeo_refinery
+								}
+								remove_building = building_archaeo_refinery
+							}
+						}
+						else = {
+							add_building = building_archaeo_refinery
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqh7sn8p = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_chemical_plant }
+					dtp_tpx = { T = dtp_pok_b_building_chemical_plant }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_chemical_plant
+								}
+								remove_building = building_chemical_plant
+							}
+						}
+						else = {
+							add_building = building_chemical_plant
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqh34xai = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_coordinated_fulfillment_center_1 }
+					dtp_tpx = { T = dtp_pok_b_building_coordinated_fulfillment_center_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_coordinated_fulfillment_center_1
+								}
+								remove_building = building_coordinated_fulfillment_center_1
+							}
+						}
+						else = {
+							add_building = building_coordinated_fulfillment_center_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqan7968 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_coordinated_fulfillment_center_2 }
+					dtp_tpx = { T = dtp_pok_b_building_coordinated_fulfillment_center_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_coordinated_fulfillment_center_2
+								}
+								remove_building = building_coordinated_fulfillment_center_2
+							}
+						}
+						else = {
+							add_building = building_coordinated_fulfillment_center_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqhtk0kz = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_crystal_plant }
+					dtp_tpx = { T = dtp_pok_b_building_crystal_plant }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_crystal_plant
+								}
+								remove_building = building_crystal_plant
+							}
+						}
+						else = {
+							add_building = building_crystal_plant
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqee5in0 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_factory_1 }
+					dtp_tpx = { T = dtp_pok_b_building_factory_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_factory_1
+								}
+								remove_building = building_factory_1
+							}
+						}
+						else = {
+							add_building = building_factory_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqcdf1gm = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_factory_2 }
+					dtp_tpx = { T = dtp_pok_b_building_factory_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_factory_2
+								}
+								remove_building = building_factory_2
+							}
+						}
+						else = {
+							add_building = building_factory_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqpem7qo = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_factory_3 }
+					dtp_tpx = { T = dtp_pok_b_building_factory_3 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_factory_3
+								}
+								remove_building = building_factory_3
+							}
+						}
+						else = {
+							add_building = building_factory_3
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqgqtxze = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_factory_efficiency_1 }
+					dtp_tpx = { T = dtp_pok_b_building_factory_efficiency_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_factory_efficiency_1
+								}
+								remove_building = building_factory_efficiency_1
+							}
+						}
+						else = {
+							add_building = building_factory_efficiency_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq8yh6lp = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_factory_upkeep_1 }
+					dtp_tpx = { T = dtp_pok_b_building_factory_upkeep_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_factory_upkeep_1
+								}
+								remove_building = building_factory_upkeep_1
+							}
+						}
+						else = {
+							add_building = building_factory_upkeep_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqvi0bli = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_foundry_1 }
+					dtp_tpx = { T = dtp_pok_b_building_foundry_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_foundry_1
+								}
+								remove_building = building_foundry_1
+							}
+						}
+						else = {
+							add_building = building_foundry_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqsixkp8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_foundry_2 }
+					dtp_tpx = { T = dtp_pok_b_building_foundry_2 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_foundry_2
+								}
+								remove_building = building_foundry_2
+							}
+						}
+						else = {
+							add_building = building_foundry_2
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dq89jxju = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_foundry_3 }
+					dtp_tpx = { T = dtp_pok_b_building_foundry_3 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_foundry_3
+								}
+								remove_building = building_foundry_3
+							}
+						}
+						else = {
+							add_building = building_foundry_3
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqwmuymw = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_foundry_efficiency_1 }
+					dtp_tpx = { T = dtp_pok_b_building_foundry_efficiency_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_foundry_efficiency_1
+								}
+								remove_building = building_foundry_efficiency_1
+							}
+						}
+						else = {
+							add_building = building_foundry_efficiency_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqbv4d80 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_foundry_upkeep_1 }
+					dtp_tpx = { T = dtp_pok_b_building_foundry_upkeep_1 }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_foundry_upkeep_1
+								}
+								remove_building = building_foundry_upkeep_1
+							}
+						}
+						else = {
+							add_building = building_foundry_upkeep_1
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+
+dqtgpi1v = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 7 }
+			check_variable = { which = dtp_pecat value = 3 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_b_building_ministry_production }
+					dtp_tpx = { T = dtp_pok_b_building_ministry_production }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_building = building_ministry_production
+								}
+								remove_building = building_ministry_production
+							}
+						}
+						else = {
+							add_building = building_ministry_production
+						}
+					}
+					dtp_result = { CODE = 43 }
+				}
+				else = {
+					dtp_fail = { CODE = 43 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 43 }
+			}
+		}
+	}
+}
+

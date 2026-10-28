@@ -1,13 +1,12 @@
-# Debug Toolpack 11.2.10 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
-dqt2zyu6 = {
+# Debug Toolpack 11.3.4 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dqdbdo9a = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_crafted_smiles }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -19,8 +18,8 @@ dqt2zyu6 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_crafted_smiles }
-					dtp_spx = { T = dtp_ok_t_trait_crafted_smiles }
+					dtp_spx = { T = dtp_has_tr_malleable_ameneties }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_ameneties }
 				}
 			} }
 	}
@@ -45,12 +44,12 @@ dqt2zyu6 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_crafted_smiles
+							has_trait = trait_malleable_ameneties
 						}
-						change_species_characteristics = { remove_trait = trait_crafted_smiles }
+						change_species_characteristics = { remove_trait = trait_malleable_ameneties }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_crafted_smiles }
+						change_species_characteristics = { add_trait = trait_malleable_ameneties }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -62,16 +61,79 @@ dqt2zyu6 = {
 	}
 }
 
-dqwkraey = {
+dq2perjd = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+		dtp_spx = { T = dtp_has_tr_malleable_ameneties }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_malleable_ameneties }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_ameneties }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				dtp_sp_load = yes
+				event_target:dtp_sp = {
+					if = {
+						limit = {
+							has_trait = trait_malleable_ameneties
+						}
+						change_species_characteristics = { remove_trait = trait_malleable_ameneties }
+					}
+					else = {
+						change_species_characteristics = { add_trait = trait_malleable_ameneties }
+					}
+				}
+				dtp_result = { CODE = 22 }
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dq5u4qz1 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 3 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_crafted_smiles } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_malleable_ameneties } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -83,8 +145,8 @@ dqwkraey = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_crafted_smiles }
-					dtp_spx = { T = dtp_ok_t_trait_crafted_smiles }
+					dtp_spx = { T = dtp_has_tr_malleable_ameneties }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_ameneties }
 				}
 			} }
 	}
@@ -109,12 +171,12 @@ dqwkraey = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_crafted_smiles
+							has_trait = trait_malleable_ameneties
 						}
-						change_species_characteristics = { remove_trait = trait_crafted_smiles }
+						change_species_characteristics = { remove_trait = trait_malleable_ameneties }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_crafted_smiles }
+						change_species_characteristics = { add_trait = trait_malleable_ameneties }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -126,13 +188,13 @@ dqwkraey = {
 	}
 }
 
-dqinf3nd = {
+dqoy4nrh = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -145,8 +207,8 @@ dqinf3nd = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cranial_hypertrophy }
-					dtp_spx = { T = dtp_ok_t_trait_cranial_hypertrophy }
+					dtp_spx = { T = dtp_has_tr_malleable_energy }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_energy }
 				}
 			} }
 	}
@@ -171,12 +233,12 @@ dqinf3nd = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cranial_hypertrophy
+							has_trait = trait_malleable_energy
 						}
-						change_species_characteristics = { remove_trait = trait_cranial_hypertrophy }
+						change_species_characteristics = { remove_trait = trait_malleable_energy }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cranial_hypertrophy }
+						change_species_characteristics = { add_trait = trait_malleable_energy }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -188,15 +250,15 @@ dqinf3nd = {
 	}
 }
 
-dqgbb8tf = {
+dqnyxn6l = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cranial_hypertrophy }
+		dtp_spx = { T = dtp_has_tr_malleable_energy }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -208,8 +270,8 @@ dqgbb8tf = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cranial_hypertrophy }
-					dtp_spx = { T = dtp_ok_t_trait_cranial_hypertrophy }
+					dtp_spx = { T = dtp_has_tr_malleable_energy }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_energy }
 				}
 			} }
 	}
@@ -234,12 +296,12 @@ dqgbb8tf = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cranial_hypertrophy
+							has_trait = trait_malleable_energy
 						}
-						change_species_characteristics = { remove_trait = trait_cranial_hypertrophy }
+						change_species_characteristics = { remove_trait = trait_malleable_energy }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cranial_hypertrophy }
+						change_species_characteristics = { add_trait = trait_malleable_energy }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -251,16 +313,16 @@ dqgbb8tf = {
 	}
 }
 
-dqayd9mv = {
+dqitk6bd = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cranial_hypertrophy } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_malleable_energy } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -272,8 +334,8 @@ dqayd9mv = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cranial_hypertrophy }
-					dtp_spx = { T = dtp_ok_t_trait_cranial_hypertrophy }
+					dtp_spx = { T = dtp_has_tr_malleable_energy }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_energy }
 				}
 			} }
 	}
@@ -298,12 +360,12 @@ dqayd9mv = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cranial_hypertrophy
+							has_trait = trait_malleable_energy
 						}
-						change_species_characteristics = { remove_trait = trait_cranial_hypertrophy }
+						change_species_characteristics = { remove_trait = trait_malleable_energy }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cranial_hypertrophy }
+						change_species_characteristics = { add_trait = trait_malleable_energy }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -315,13 +377,13 @@ dqayd9mv = {
 	}
 }
 
-dqdl6myn = {
+dqai8rwz = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -334,8 +396,8 @@ dqdl6myn = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cranial_megatrophy }
-					dtp_spx = { T = dtp_ok_t_trait_cranial_megatrophy }
+					dtp_spx = { T = dtp_has_tr_malleable_food }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_food }
 				}
 			} }
 	}
@@ -360,12 +422,12 @@ dqdl6myn = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cranial_megatrophy
+							has_trait = trait_malleable_food
 						}
-						change_species_characteristics = { remove_trait = trait_cranial_megatrophy }
+						change_species_characteristics = { remove_trait = trait_malleable_food }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cranial_megatrophy }
+						change_species_characteristics = { add_trait = trait_malleable_food }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -377,15 +439,15 @@ dqdl6myn = {
 	}
 }
 
-dqoe8uft = {
+dqtiqmt8 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cranial_megatrophy }
+		dtp_spx = { T = dtp_has_tr_malleable_food }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -397,8 +459,8 @@ dqoe8uft = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cranial_megatrophy }
-					dtp_spx = { T = dtp_ok_t_trait_cranial_megatrophy }
+					dtp_spx = { T = dtp_has_tr_malleable_food }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_food }
 				}
 			} }
 	}
@@ -423,12 +485,12 @@ dqoe8uft = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cranial_megatrophy
+							has_trait = trait_malleable_food
 						}
-						change_species_characteristics = { remove_trait = trait_cranial_megatrophy }
+						change_species_characteristics = { remove_trait = trait_malleable_food }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cranial_megatrophy }
+						change_species_characteristics = { add_trait = trait_malleable_food }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -440,16 +502,16 @@ dqoe8uft = {
 	}
 }
 
-dqiewlfh = {
+dqx8x6l4 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cranial_megatrophy } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_malleable_food } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -461,8 +523,8 @@ dqiewlfh = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cranial_megatrophy }
-					dtp_spx = { T = dtp_ok_t_trait_cranial_megatrophy }
+					dtp_spx = { T = dtp_has_tr_malleable_food }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_food }
 				}
 			} }
 	}
@@ -487,12 +549,12 @@ dqiewlfh = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cranial_megatrophy
+							has_trait = trait_malleable_food
 						}
-						change_species_characteristics = { remove_trait = trait_cranial_megatrophy }
+						change_species_characteristics = { remove_trait = trait_malleable_food }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cranial_megatrophy }
+						change_species_characteristics = { add_trait = trait_malleable_food }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -504,13 +566,13 @@ dqiewlfh = {
 	}
 }
 
-dq4aa346 = {
+dq9iou19 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -523,8 +585,8 @@ dq4aa346 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_ancient_dreadnought }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_ancient_dreadnought }
+					dtp_spx = { T = dtp_has_tr_malleable_forge }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_forge }
 				}
 			} }
 	}
@@ -549,12 +611,12 @@ dq4aa346 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_ancient_dreadnought
+							has_trait = trait_malleable_forge
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_ancient_dreadnought }
+						change_species_characteristics = { remove_trait = trait_malleable_forge }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_ancient_dreadnought }
+						change_species_characteristics = { add_trait = trait_malleable_forge }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -566,15 +628,15 @@ dq4aa346 = {
 	}
 }
 
-dq2j1hwq = {
+dq65tcbo = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_ancient_dreadnought }
+		dtp_spx = { T = dtp_has_tr_malleable_forge }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -586,8 +648,8 @@ dq2j1hwq = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_ancient_dreadnought }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_ancient_dreadnought }
+					dtp_spx = { T = dtp_has_tr_malleable_forge }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_forge }
 				}
 			} }
 	}
@@ -612,12 +674,12 @@ dq2j1hwq = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_ancient_dreadnought
+							has_trait = trait_malleable_forge
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_ancient_dreadnought }
+						change_species_characteristics = { remove_trait = trait_malleable_forge }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_ancient_dreadnought }
+						change_species_characteristics = { add_trait = trait_malleable_forge }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -629,16 +691,16 @@ dq2j1hwq = {
 	}
 }
 
-dq60heha = {
+dq370v5s = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_ancient_dreadnought } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_malleable_forge } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -650,8 +712,8 @@ dq60heha = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_ancient_dreadnought }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_ancient_dreadnought }
+					dtp_spx = { T = dtp_has_tr_malleable_forge }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_forge }
 				}
 			} }
 	}
@@ -676,12 +738,12 @@ dq60heha = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_ancient_dreadnought
+							has_trait = trait_malleable_forge
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_ancient_dreadnought }
+						change_species_characteristics = { remove_trait = trait_malleable_forge }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_ancient_dreadnought }
+						change_species_characteristics = { add_trait = trait_malleable_forge }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -693,13 +755,13 @@ dq60heha = {
 	}
 }
 
-dqhyvn6f = {
+dq9b6of2 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -712,8 +774,8 @@ dqhyvn6f = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_apathy_loops }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_apathy_loops }
+					dtp_spx = { T = dtp_has_tr_malleable_genes }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_genes }
 				}
 			} }
 	}
@@ -738,12 +800,12 @@ dqhyvn6f = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_apathy_loops
+							has_trait = trait_malleable_genes
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_apathy_loops }
+						change_species_characteristics = { remove_trait = trait_malleable_genes }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_apathy_loops }
+						change_species_characteristics = { add_trait = trait_malleable_genes }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -755,15 +817,15 @@ dqhyvn6f = {
 	}
 }
 
-dqhy9t9s = {
+dq1s3d8c = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_apathy_loops }
+		dtp_spx = { T = dtp_has_tr_malleable_genes }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -775,8 +837,8 @@ dqhy9t9s = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_apathy_loops }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_apathy_loops }
+					dtp_spx = { T = dtp_has_tr_malleable_genes }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_genes }
 				}
 			} }
 	}
@@ -801,12 +863,12 @@ dqhy9t9s = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_apathy_loops
+							has_trait = trait_malleable_genes
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_apathy_loops }
+						change_species_characteristics = { remove_trait = trait_malleable_genes }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_apathy_loops }
+						change_species_characteristics = { add_trait = trait_malleable_genes }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -818,16 +880,16 @@ dqhy9t9s = {
 	}
 }
 
-dqq36j9w = {
+dq7qcgrc = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_apathy_loops } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_malleable_genes } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -839,8 +901,8 @@ dqq36j9w = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_apathy_loops }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_apathy_loops }
+					dtp_spx = { T = dtp_has_tr_malleable_genes }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_genes }
 				}
 			} }
 	}
@@ -865,12 +927,12 @@ dqq36j9w = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_apathy_loops
+							has_trait = trait_malleable_genes
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_apathy_loops }
+						change_species_characteristics = { remove_trait = trait_malleable_genes }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_apathy_loops }
+						change_species_characteristics = { add_trait = trait_malleable_genes }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -882,13 +944,13 @@ dqq36j9w = {
 	}
 }
 
-dql9g4nf = {
+dqyuly6m = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -901,8 +963,8 @@ dql9g4nf = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bionic_engineers }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_engineers }
+					dtp_spx = { T = dtp_has_tr_malleable_minerals }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_minerals }
 				}
 			} }
 	}
@@ -927,12 +989,12 @@ dql9g4nf = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bionic_engineers
+							has_trait = trait_malleable_minerals
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bionic_engineers }
+						change_species_characteristics = { remove_trait = trait_malleable_minerals }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bionic_engineers }
+						change_species_characteristics = { add_trait = trait_malleable_minerals }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -944,15 +1006,15 @@ dql9g4nf = {
 	}
 }
 
-dqhqdvec = {
+dqle1bcq = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_bionic_engineers }
+		dtp_spx = { T = dtp_has_tr_malleable_minerals }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -964,8 +1026,8 @@ dqhqdvec = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bionic_engineers }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_engineers }
+					dtp_spx = { T = dtp_has_tr_malleable_minerals }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_minerals }
 				}
 			} }
 	}
@@ -990,12 +1052,12 @@ dqhqdvec = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bionic_engineers
+							has_trait = trait_malleable_minerals
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bionic_engineers }
+						change_species_characteristics = { remove_trait = trait_malleable_minerals }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bionic_engineers }
+						change_species_characteristics = { add_trait = trait_malleable_minerals }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1007,16 +1069,16 @@ dqhqdvec = {
 	}
 }
 
-dq9jab80 = {
+dqmnf10e = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_engineers } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_malleable_minerals } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -1028,8 +1090,8 @@ dq9jab80 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bionic_engineers }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_engineers }
+					dtp_spx = { T = dtp_has_tr_malleable_minerals }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_minerals }
 				}
 			} }
 	}
@@ -1054,12 +1116,12 @@ dq9jab80 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bionic_engineers
+							has_trait = trait_malleable_minerals
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bionic_engineers }
+						change_species_characteristics = { remove_trait = trait_malleable_minerals }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bionic_engineers }
+						change_species_characteristics = { add_trait = trait_malleable_minerals }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1071,13 +1133,13 @@ dq9jab80 = {
 	}
 }
 
-dquiiaqs = {
+dqv3pt37 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -1090,8 +1152,8 @@ dquiiaqs = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bionic_physicists }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_physicists }
+					dtp_spx = { T = dtp_has_tr_malleable_research }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_research }
 				}
 			} }
 	}
@@ -1116,12 +1178,12 @@ dquiiaqs = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bionic_physicists
+							has_trait = trait_malleable_research
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bionic_physicists }
+						change_species_characteristics = { remove_trait = trait_malleable_research }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bionic_physicists }
+						change_species_characteristics = { add_trait = trait_malleable_research }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1133,15 +1195,15 @@ dquiiaqs = {
 	}
 }
 
-dqmn1l86 = {
+dqvog7f5 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_bionic_physicists }
+		dtp_spx = { T = dtp_has_tr_malleable_research }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -1153,8 +1215,8 @@ dqmn1l86 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bionic_physicists }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_physicists }
+					dtp_spx = { T = dtp_has_tr_malleable_research }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_research }
 				}
 			} }
 	}
@@ -1179,12 +1241,12 @@ dqmn1l86 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bionic_physicists
+							has_trait = trait_malleable_research
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bionic_physicists }
+						change_species_characteristics = { remove_trait = trait_malleable_research }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bionic_physicists }
+						change_species_characteristics = { add_trait = trait_malleable_research }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1196,16 +1258,16 @@ dqmn1l86 = {
 	}
 }
 
-dqleg5aq = {
+dqu4xgj9 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_physicists } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_malleable_research } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -1217,8 +1279,8 @@ dqleg5aq = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bionic_physicists }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_physicists }
+					dtp_spx = { T = dtp_has_tr_malleable_research }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_research }
 				}
 			} }
 	}
@@ -1243,12 +1305,12 @@ dqleg5aq = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bionic_physicists
+							has_trait = trait_malleable_research
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bionic_physicists }
+						change_species_characteristics = { remove_trait = trait_malleable_research }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bionic_physicists }
+						change_species_characteristics = { add_trait = trait_malleable_research }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1260,13 +1322,13 @@ dqleg5aq = {
 	}
 }
 
-dqb56ebh = {
+dqcn6dl3 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -1279,8 +1341,8 @@ dqb56ebh = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bionic_sociologists }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_sociologists }
+					dtp_spx = { T = dtp_has_tr_malleable_trade }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_trade }
 				}
 			} }
 	}
@@ -1305,12 +1367,12 @@ dqb56ebh = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bionic_sociologists
+							has_trait = trait_malleable_trade
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bionic_sociologists }
+						change_species_characteristics = { remove_trait = trait_malleable_trade }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bionic_sociologists }
+						change_species_characteristics = { add_trait = trait_malleable_trade }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1322,15 +1384,15 @@ dqb56ebh = {
 	}
 }
 
-dqqt3ezl = {
+dqu6lfay = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_bionic_sociologists }
+		dtp_spx = { T = dtp_has_tr_malleable_trade }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -1342,8 +1404,8 @@ dqqt3ezl = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bionic_sociologists }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_sociologists }
+					dtp_spx = { T = dtp_has_tr_malleable_trade }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_trade }
 				}
 			} }
 	}
@@ -1368,12 +1430,12 @@ dqqt3ezl = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bionic_sociologists
+							has_trait = trait_malleable_trade
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bionic_sociologists }
+						change_species_characteristics = { remove_trait = trait_malleable_trade }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bionic_sociologists }
+						change_species_characteristics = { add_trait = trait_malleable_trade }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1385,16 +1447,16 @@ dqqt3ezl = {
 	}
 }
 
-dqz09scl = {
+dqvhormm = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_sociologists } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_malleable_trade } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -1406,8 +1468,8 @@ dqz09scl = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bionic_sociologists }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bionic_sociologists }
+					dtp_spx = { T = dtp_has_tr_malleable_trade }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_trade }
 				}
 			} }
 	}
@@ -1432,12 +1494,12 @@ dqz09scl = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bionic_sociologists
+							has_trait = trait_malleable_trade
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bionic_sociologists }
+						change_species_characteristics = { remove_trait = trait_malleable_trade }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bionic_sociologists }
+						change_species_characteristics = { add_trait = trait_malleable_trade }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1449,13 +1511,13 @@ dqz09scl = {
 	}
 }
 
-dq3g72tr = {
+dqnzehkm = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -1468,8 +1530,8 @@ dq3g72tr = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bulky }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bulky }
+					dtp_spx = { T = dtp_has_tr_malleable_unity }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_unity }
 				}
 			} }
 	}
@@ -1494,12 +1556,12 @@ dq3g72tr = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bulky
+							has_trait = trait_malleable_unity
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bulky }
+						change_species_characteristics = { remove_trait = trait_malleable_unity }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bulky }
+						change_species_characteristics = { add_trait = trait_malleable_unity }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1511,15 +1573,15 @@ dq3g72tr = {
 	}
 }
 
-dqml5a57 = {
+dqklnc10 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_bulky }
+		dtp_spx = { T = dtp_has_tr_malleable_unity }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -1531,8 +1593,8 @@ dqml5a57 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bulky }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bulky }
+					dtp_spx = { T = dtp_has_tr_malleable_unity }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_unity }
 				}
 			} }
 	}
@@ -1557,12 +1619,12 @@ dqml5a57 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bulky
+							has_trait = trait_malleable_unity
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bulky }
+						change_species_characteristics = { remove_trait = trait_malleable_unity }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bulky }
+						change_species_characteristics = { add_trait = trait_malleable_unity }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1574,16 +1636,16 @@ dqml5a57 = {
 	}
 }
 
-dqlbuk1r = {
+dqnggjb4 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_bulky } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_malleable_unity } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -1595,8 +1657,8 @@ dqlbuk1r = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_bulky }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_bulky }
+					dtp_spx = { T = dtp_has_tr_malleable_unity }
+					dtp_spx = { T = dtp_ok_t_trait_malleable_unity }
 				}
 			} }
 	}
@@ -1621,12 +1683,12 @@ dqlbuk1r = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_bulky
+							has_trait = trait_malleable_unity
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_bulky }
+						change_species_characteristics = { remove_trait = trait_malleable_unity }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_bulky }
+						change_species_characteristics = { add_trait = trait_malleable_unity }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1638,13 +1700,13 @@ dqlbuk1r = {
 	}
 }
 
-dq7me796 = {
+dqent967 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -1657,8 +1719,8 @@ dq7me796 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_cold }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_cold }
+					dtp_spx = { T = dtp_has_tr_natural_machinist }
+					dtp_spx = { T = dtp_ok_t_trait_natural_machinist }
 				}
 			} }
 	}
@@ -1683,12 +1745,12 @@ dq7me796 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_climate_adjustment_cold
+							has_trait = trait_natural_machinist
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_climate_adjustment_cold }
+						change_species_characteristics = { remove_trait = trait_natural_machinist }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_climate_adjustment_cold }
+						change_species_characteristics = { add_trait = trait_natural_machinist }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1700,15 +1762,15 @@ dq7me796 = {
 	}
 }
 
-dqcvw8r4 = {
+dq3n298j = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_cold }
+		dtp_spx = { T = dtp_has_tr_natural_machinist }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -1720,8 +1782,8 @@ dqcvw8r4 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_cold }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_cold }
+					dtp_spx = { T = dtp_has_tr_natural_machinist }
+					dtp_spx = { T = dtp_ok_t_trait_natural_machinist }
 				}
 			} }
 	}
@@ -1746,12 +1808,12 @@ dqcvw8r4 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_climate_adjustment_cold
+							has_trait = trait_natural_machinist
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_climate_adjustment_cold }
+						change_species_characteristics = { remove_trait = trait_natural_machinist }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_climate_adjustment_cold }
+						change_species_characteristics = { add_trait = trait_natural_machinist }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1763,16 +1825,16 @@ dqcvw8r4 = {
 	}
 }
 
-dqc5bktw = {
+dq4wfyuf = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_cold } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_natural_machinist } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -1784,8 +1846,8 @@ dqc5bktw = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_cold }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_cold }
+					dtp_spx = { T = dtp_has_tr_natural_machinist }
+					dtp_spx = { T = dtp_ok_t_trait_natural_machinist }
 				}
 			} }
 	}
@@ -1810,12 +1872,12 @@ dqc5bktw = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_climate_adjustment_cold
+							has_trait = trait_natural_machinist
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_climate_adjustment_cold }
+						change_species_characteristics = { remove_trait = trait_natural_machinist }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_climate_adjustment_cold }
+						change_species_characteristics = { add_trait = trait_natural_machinist }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1827,13 +1889,13 @@ dqc5bktw = {
 	}
 }
 
-dqqj71ph = {
+dq7xdgcy = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -1846,8 +1908,8 @@ dqqj71ph = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_dry }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_dry }
+					dtp_spx = { T = dtp_has_tr_nerve_stapled }
+					dtp_spx = { T = dtp_ok_t_trait_nerve_stapled }
 				}
 			} }
 	}
@@ -1872,12 +1934,12 @@ dqqj71ph = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_climate_adjustment_dry
+							has_trait = trait_nerve_stapled
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_climate_adjustment_dry }
+						change_species_characteristics = { remove_trait = trait_nerve_stapled }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_climate_adjustment_dry }
+						change_species_characteristics = { add_trait = trait_nerve_stapled }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1889,15 +1951,15 @@ dqqj71ph = {
 	}
 }
 
-dqr1alze = {
+dqeoxtla = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_dry }
+		dtp_spx = { T = dtp_has_tr_nerve_stapled }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -1909,8 +1971,8 @@ dqr1alze = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_dry }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_dry }
+					dtp_spx = { T = dtp_has_tr_nerve_stapled }
+					dtp_spx = { T = dtp_ok_t_trait_nerve_stapled }
 				}
 			} }
 	}
@@ -1935,12 +1997,12 @@ dqr1alze = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_climate_adjustment_dry
+							has_trait = trait_nerve_stapled
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_climate_adjustment_dry }
+						change_species_characteristics = { remove_trait = trait_nerve_stapled }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_climate_adjustment_dry }
+						change_species_characteristics = { add_trait = trait_nerve_stapled }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -1952,16 +2014,16 @@ dqr1alze = {
 	}
 }
 
-dqymdrji = {
+dqbg8dwq = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_dry } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_nerve_stapled } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -1973,8 +2035,8 @@ dqymdrji = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_dry }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_dry }
+					dtp_spx = { T = dtp_has_tr_nerve_stapled }
+					dtp_spx = { T = dtp_ok_t_trait_nerve_stapled }
 				}
 			} }
 	}
@@ -1999,12 +2061,12 @@ dqymdrji = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_climate_adjustment_dry
+							has_trait = trait_nerve_stapled
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_climate_adjustment_dry }
+						change_species_characteristics = { remove_trait = trait_nerve_stapled }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_climate_adjustment_dry }
+						change_species_characteristics = { add_trait = trait_nerve_stapled }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2016,13 +2078,13 @@ dqymdrji = {
 	}
 }
 
-dq0n12lj = {
+dqk2fikk = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -2035,8 +2097,8 @@ dq0n12lj = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_wet }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_wet }
+					dtp_spx = { T = dtp_has_tr_preplanned_growth }
+					dtp_spx = { T = dtp_ok_t_trait_preplanned_growth }
 				}
 			} }
 	}
@@ -2061,12 +2123,12 @@ dq0n12lj = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_climate_adjustment_wet
+							has_trait = trait_preplanned_growth
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_climate_adjustment_wet }
+						change_species_characteristics = { remove_trait = trait_preplanned_growth }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_climate_adjustment_wet }
+						change_species_characteristics = { add_trait = trait_preplanned_growth }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2078,15 +2140,15 @@ dq0n12lj = {
 	}
 }
 
-dq0e0s19 = {
+dqnc42lf = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_wet }
+		dtp_spx = { T = dtp_has_tr_preplanned_growth }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -2098,8 +2160,8 @@ dq0e0s19 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_wet }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_wet }
+					dtp_spx = { T = dtp_has_tr_preplanned_growth }
+					dtp_spx = { T = dtp_ok_t_trait_preplanned_growth }
 				}
 			} }
 	}
@@ -2124,12 +2186,12 @@ dq0e0s19 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_climate_adjustment_wet
+							has_trait = trait_preplanned_growth
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_climate_adjustment_wet }
+						change_species_characteristics = { remove_trait = trait_preplanned_growth }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_climate_adjustment_wet }
+						change_species_characteristics = { add_trait = trait_preplanned_growth }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2141,16 +2203,16 @@ dq0e0s19 = {
 	}
 }
 
-dq7zw77t = {
+dqjm05l3 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_wet } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_preplanned_growth } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -2162,8 +2224,8 @@ dq7zw77t = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_climate_adjustment_wet }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_climate_adjustment_wet }
+					dtp_spx = { T = dtp_has_tr_preplanned_growth }
+					dtp_spx = { T = dtp_ok_t_trait_preplanned_growth }
 				}
 			} }
 	}
@@ -2188,12 +2250,12 @@ dq7zw77t = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_climate_adjustment_wet
+							has_trait = trait_preplanned_growth
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_climate_adjustment_wet }
+						change_species_characteristics = { remove_trait = trait_preplanned_growth }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_climate_adjustment_wet }
+						change_species_characteristics = { add_trait = trait_preplanned_growth }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2205,13 +2267,13 @@ dq7zw77t = {
 	}
 }
 
-dq4yp0mt = {
+dqaxtmt2 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -2224,8 +2286,8 @@ dq4yp0mt = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_construction }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_construction }
+					dtp_spx = { T = dtp_has_tr_rapid_breeders_lithoid }
+					dtp_spx = { T = dtp_ok_t_trait_rapid_breeders_lithoid }
 				}
 			} }
 	}
@@ -2250,12 +2312,12 @@ dq4yp0mt = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_construction
+							has_trait = trait_rapid_breeders_lithoid
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_construction }
+						change_species_characteristics = { remove_trait = trait_rapid_breeders_lithoid }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_construction }
+						change_species_characteristics = { add_trait = trait_rapid_breeders_lithoid }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2267,15 +2329,15 @@ dq4yp0mt = {
 	}
 }
 
-dqzzr8u0 = {
+dq32uezf = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_creed_of_construction }
+		dtp_spx = { T = dtp_has_tr_rapid_breeders_lithoid }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -2287,8 +2349,8 @@ dqzzr8u0 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_construction }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_construction }
+					dtp_spx = { T = dtp_has_tr_rapid_breeders_lithoid }
+					dtp_spx = { T = dtp_ok_t_trait_rapid_breeders_lithoid }
 				}
 			} }
 	}
@@ -2313,12 +2375,12 @@ dqzzr8u0 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_construction
+							has_trait = trait_rapid_breeders_lithoid
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_construction }
+						change_species_characteristics = { remove_trait = trait_rapid_breeders_lithoid }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_construction }
+						change_species_characteristics = { add_trait = trait_rapid_breeders_lithoid }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2330,16 +2392,16 @@ dqzzr8u0 = {
 	}
 }
 
-dq7ausyk = {
+dq4c5bgf = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_construction } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_rapid_breeders_lithoid } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -2351,8 +2413,8 @@ dq7ausyk = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_construction }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_construction }
+					dtp_spx = { T = dtp_has_tr_rapid_breeders_lithoid }
+					dtp_spx = { T = dtp_ok_t_trait_rapid_breeders_lithoid }
 				}
 			} }
 	}
@@ -2377,12 +2439,12 @@ dq7ausyk = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_construction
+							has_trait = trait_rapid_breeders_lithoid
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_construction }
+						change_species_characteristics = { remove_trait = trait_rapid_breeders_lithoid }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_construction }
+						change_species_characteristics = { add_trait = trait_rapid_breeders_lithoid }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2394,13 +2456,13 @@ dq7ausyk = {
 	}
 }
 
-dqvlwqin = {
+dqyyf6hq = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -2413,8 +2475,8 @@ dqvlwqin = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_labor }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_labor }
+					dtp_spx = { T = dtp_has_tr_robust }
+					dtp_spx = { T = dtp_ok_t_trait_robust }
 				}
 			} }
 	}
@@ -2439,12 +2501,12 @@ dqvlwqin = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_labor
+							has_trait = trait_robust
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_labor }
+						change_species_characteristics = { remove_trait = trait_robust }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_labor }
+						change_species_characteristics = { add_trait = trait_robust }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2456,15 +2518,15 @@ dqvlwqin = {
 	}
 }
 
-dq7g8iws = {
+dqpqwaab = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_creed_of_labor }
+		dtp_spx = { T = dtp_has_tr_robust }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -2476,8 +2538,8 @@ dq7g8iws = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_labor }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_labor }
+					dtp_spx = { T = dtp_has_tr_robust }
+					dtp_spx = { T = dtp_ok_t_trait_robust }
 				}
 			} }
 	}
@@ -2502,12 +2564,12 @@ dq7g8iws = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_labor
+							has_trait = trait_robust
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_labor }
+						change_species_characteristics = { remove_trait = trait_robust }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_labor }
+						change_species_characteristics = { add_trait = trait_robust }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2519,16 +2581,16 @@ dq7g8iws = {
 	}
 }
 
-dqzud9zs = {
+dqi676gn = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_labor } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_robust } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -2540,8 +2602,8 @@ dqzud9zs = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_labor }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_labor }
+					dtp_spx = { T = dtp_has_tr_robust }
+					dtp_spx = { T = dtp_ok_t_trait_robust }
 				}
 			} }
 	}
@@ -2566,12 +2628,12 @@ dqzud9zs = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_labor
+							has_trait = trait_robust
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_labor }
+						change_species_characteristics = { remove_trait = trait_robust }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_labor }
+						change_species_characteristics = { add_trait = trait_robust }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2583,13 +2645,13 @@ dqzud9zs = {
 	}
 }
 
-dqpi45f5 = {
+dqb1j7c2 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -2602,8 +2664,8 @@ dqpi45f5 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_research }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_research }
+					dtp_spx = { T = dtp_has_tr_spliced_adaptability }
+					dtp_spx = { T = dtp_ok_t_trait_spliced_adaptability }
 				}
 			} }
 	}
@@ -2628,12 +2690,12 @@ dqpi45f5 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_research
+							has_trait = trait_spliced_adaptability
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_research }
+						change_species_characteristics = { remove_trait = trait_spliced_adaptability }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_research }
+						change_species_characteristics = { add_trait = trait_spliced_adaptability }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2645,15 +2707,15 @@ dqpi45f5 = {
 	}
 }
 
-dq02wovu = {
+dq4ms4g1 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_creed_of_research }
+		dtp_spx = { T = dtp_has_tr_spliced_adaptability }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -2665,8 +2727,8 @@ dq02wovu = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_research }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_research }
+					dtp_spx = { T = dtp_has_tr_spliced_adaptability }
+					dtp_spx = { T = dtp_ok_t_trait_spliced_adaptability }
 				}
 			} }
 	}
@@ -2691,12 +2753,12 @@ dq02wovu = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_research
+							has_trait = trait_spliced_adaptability
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_research }
+						change_species_characteristics = { remove_trait = trait_spliced_adaptability }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_research }
+						change_species_characteristics = { add_trait = trait_spliced_adaptability }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2708,16 +2770,16 @@ dq02wovu = {
 	}
 }
 
-dq8bn2ji = {
+dq3m2fad = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_research } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_spliced_adaptability } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -2729,8 +2791,8 @@ dq8bn2ji = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_research }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_research }
+					dtp_spx = { T = dtp_has_tr_spliced_adaptability }
+					dtp_spx = { T = dtp_ok_t_trait_spliced_adaptability }
 				}
 			} }
 	}
@@ -2755,12 +2817,12 @@ dq8bn2ji = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_research
+							has_trait = trait_spliced_adaptability
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_research }
+						change_species_characteristics = { remove_trait = trait_spliced_adaptability }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_research }
+						change_species_characteristics = { add_trait = trait_spliced_adaptability }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2772,13 +2834,13 @@ dq8bn2ji = {
 	}
 }
 
-dqeuzd3f = {
+dqb2uggm = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -2791,8 +2853,8 @@ dqeuzd3f = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_war }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_war }
+					dtp_spx = { T = dtp_has_tr_technical_skill }
+					dtp_spx = { T = dtp_ok_t_trait_technical_skill }
 				}
 			} }
 	}
@@ -2817,12 +2879,12 @@ dqeuzd3f = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_war
+							has_trait = trait_technical_skill
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_war }
+						change_species_characteristics = { remove_trait = trait_technical_skill }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_war }
+						change_species_characteristics = { add_trait = trait_technical_skill }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2834,15 +2896,15 @@ dqeuzd3f = {
 	}
 }
 
-dqonhwet = {
+dqqi8pht = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_creed_of_war }
+		dtp_spx = { T = dtp_has_tr_technical_skill }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -2854,8 +2916,8 @@ dqonhwet = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_war }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_war }
+					dtp_spx = { T = dtp_has_tr_technical_skill }
+					dtp_spx = { T = dtp_ok_t_trait_technical_skill }
 				}
 			} }
 	}
@@ -2880,12 +2942,12 @@ dqonhwet = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_war
+							has_trait = trait_technical_skill
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_war }
+						change_species_characteristics = { remove_trait = trait_technical_skill }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_war }
+						change_species_characteristics = { add_trait = trait_technical_skill }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2897,16 +2959,16 @@ dqonhwet = {
 	}
 }
 
-dqj9j86p = {
+dqy6j1px = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_war } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_technical_skill } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -2918,8 +2980,8 @@ dqj9j86p = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_creed_of_war }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_creed_of_war }
+					dtp_spx = { T = dtp_has_tr_technical_skill }
+					dtp_spx = { T = dtp_ok_t_trait_technical_skill }
 				}
 			} }
 	}
@@ -2944,12 +3006,12 @@ dqj9j86p = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_creed_of_war
+							has_trait = trait_technical_skill
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_creed_of_war }
+						change_species_characteristics = { remove_trait = trait_technical_skill }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_creed_of_war }
+						change_species_characteristics = { add_trait = trait_technical_skill }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -2961,13 +3023,13 @@ dqj9j86p = {
 	}
 }
 
-dqomy6dv = {
+dqnnn8jf = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -2980,8 +3042,8 @@ dqomy6dv = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_delicate_frames }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_delicate_frames }
+					dtp_spx = { T = dtp_has_tr_tiyanki }
+					dtp_spx = { T = dtp_ok_t_trait_tiyanki }
 				}
 			} }
 	}
@@ -3006,12 +3068,12 @@ dqomy6dv = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_delicate_frames
+							has_trait = trait_tiyanki
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_delicate_frames }
+						change_species_characteristics = { remove_trait = trait_tiyanki }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_delicate_frames }
+						change_species_characteristics = { add_trait = trait_tiyanki }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3023,15 +3085,15 @@ dqomy6dv = {
 	}
 }
 
-dq103zsy = {
+dqyp0tu3 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_delicate_frames }
+		dtp_spx = { T = dtp_has_tr_tiyanki }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -3043,8 +3105,8 @@ dq103zsy = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_delicate_frames }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_delicate_frames }
+					dtp_spx = { T = dtp_has_tr_tiyanki }
+					dtp_spx = { T = dtp_ok_t_trait_tiyanki }
 				}
 			} }
 	}
@@ -3069,12 +3131,12 @@ dq103zsy = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_delicate_frames
+							has_trait = trait_tiyanki
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_delicate_frames }
+						change_species_characteristics = { remove_trait = trait_tiyanki }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_delicate_frames }
+						change_species_characteristics = { add_trait = trait_tiyanki }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3086,16 +3148,16 @@ dq103zsy = {
 	}
 }
 
-dq6fh8iu = {
+dqqu9567 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_delicate_frames } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_tiyanki } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -3107,8 +3169,8 @@ dq6fh8iu = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_delicate_frames }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_delicate_frames }
+					dtp_spx = { T = dtp_has_tr_tiyanki }
+					dtp_spx = { T = dtp_ok_t_trait_tiyanki }
 				}
 			} }
 	}
@@ -3133,12 +3195,12 @@ dq6fh8iu = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_delicate_frames
+							has_trait = trait_tiyanki
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_delicate_frames }
+						change_species_characteristics = { remove_trait = trait_tiyanki }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_delicate_frames }
+						change_species_characteristics = { add_trait = trait_tiyanki }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3150,13 +3212,13 @@ dq6fh8iu = {
 	}
 }
 
-dqbexo1z = {
+dq1a7qls = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -3169,8 +3231,8 @@ dqbexo1z = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_double_jointed }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_double_jointed }
+					dtp_spx = { T = dtp_has_tr_uncanny_intuition }
+					dtp_spx = { T = dtp_ok_t_trait_uncanny_intuition }
 				}
 			} }
 	}
@@ -3195,12 +3257,12 @@ dqbexo1z = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_double_jointed
+							has_trait = trait_uncanny_intuition
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_double_jointed }
+						change_species_characteristics = { remove_trait = trait_uncanny_intuition }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_double_jointed }
+						change_species_characteristics = { add_trait = trait_uncanny_intuition }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3212,15 +3274,15 @@ dqbexo1z = {
 	}
 }
 
-dqhfngcf = {
+dqy7ygef = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_double_jointed }
+		dtp_spx = { T = dtp_has_tr_uncanny_intuition }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -3232,8 +3294,8 @@ dqhfngcf = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_double_jointed }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_double_jointed }
+					dtp_spx = { T = dtp_has_tr_uncanny_intuition }
+					dtp_spx = { T = dtp_ok_t_trait_uncanny_intuition }
 				}
 			} }
 	}
@@ -3258,12 +3320,12 @@ dqhfngcf = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_double_jointed
+							has_trait = trait_uncanny_intuition
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_double_jointed }
+						change_species_characteristics = { remove_trait = trait_uncanny_intuition }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_double_jointed }
+						change_species_characteristics = { add_trait = trait_uncanny_intuition }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3275,16 +3337,16 @@ dqhfngcf = {
 	}
 }
 
-dq9te5nf = {
+dqqbv6qr = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_double_jointed } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_uncanny_intuition } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -3296,8 +3358,8 @@ dq9te5nf = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_double_jointed }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_double_jointed }
+					dtp_spx = { T = dtp_has_tr_uncanny_intuition }
+					dtp_spx = { T = dtp_ok_t_trait_uncanny_intuition }
 				}
 			} }
 	}
@@ -3322,12 +3384,12 @@ dq9te5nf = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_double_jointed
+							has_trait = trait_uncanny_intuition
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_double_jointed }
+						change_species_characteristics = { remove_trait = trait_uncanny_intuition }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_double_jointed }
+						change_species_characteristics = { add_trait = trait_uncanny_intuition }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3339,13 +3401,13 @@ dq9te5nf = {
 	}
 }
 
-dq6slcfu = {
+dqlxmd7w = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -3358,8 +3420,8 @@ dq6slcfu = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_durable }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_durable }
+					dtp_spx = { T = dtp_has_tr_vat_grown }
+					dtp_spx = { T = dtp_ok_t_trait_vat_grown }
 				}
 			} }
 	}
@@ -3384,12 +3446,12 @@ dq6slcfu = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_durable
+							has_trait = trait_vat_grown
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_durable }
+						change_species_characteristics = { remove_trait = trait_vat_grown }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_durable }
+						change_species_characteristics = { add_trait = trait_vat_grown }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3401,15 +3463,15 @@ dq6slcfu = {
 	}
 }
 
-dqaf6imu = {
+dqfsvkl2 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_durable }
+		dtp_spx = { T = dtp_has_tr_vat_grown }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -3421,8 +3483,8 @@ dqaf6imu = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_durable }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_durable }
+					dtp_spx = { T = dtp_has_tr_vat_grown }
+					dtp_spx = { T = dtp_ok_t_trait_vat_grown }
 				}
 			} }
 	}
@@ -3447,12 +3509,12 @@ dqaf6imu = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_durable
+							has_trait = trait_vat_grown
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_durable }
+						change_species_characteristics = { remove_trait = trait_vat_grown }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_durable }
+						change_species_characteristics = { add_trait = trait_vat_grown }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3464,16 +3526,16 @@ dqaf6imu = {
 	}
 }
 
-dqflkib6 = {
+dqaccd5e = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_durable } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_vat_grown } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -3485,8 +3547,8 @@ dqflkib6 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_durable }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_durable }
+					dtp_spx = { T = dtp_has_tr_vat_grown }
+					dtp_spx = { T = dtp_ok_t_trait_vat_grown }
 				}
 			} }
 	}
@@ -3511,12 +3573,12 @@ dqflkib6 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_durable
+							has_trait = trait_vat_grown
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_durable }
+						change_species_characteristics = { remove_trait = trait_vat_grown }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_durable }
+						change_species_characteristics = { add_trait = trait_vat_grown }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3528,13 +3590,13 @@ dqflkib6 = {
 	}
 }
 
-dqjaha3w = {
+dqb2clw1 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 	}
 	allow = {
@@ -3547,8 +3609,8 @@ dqjaha3w = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_efficient_processors }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_efficient_processors }
+					dtp_spx = { T = dtp_has_tr_voidling }
+					dtp_spx = { T = dtp_ok_t_trait_voidling }
 				}
 			} }
 	}
@@ -3573,12 +3635,12 @@ dqjaha3w = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_efficient_processors
+							has_trait = trait_voidling
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_efficient_processors }
+						change_species_characteristics = { remove_trait = trait_voidling }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_efficient_processors }
+						change_species_characteristics = { add_trait = trait_voidling }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3590,15 +3652,15 @@ dqjaha3w = {
 	}
 }
 
-dqvwcyzt = {
+dqlxg77m = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_efficient_processors }
+		dtp_spx = { T = dtp_has_tr_voidling }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -3610,8 +3672,8 @@ dqvwcyzt = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_efficient_processors }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_efficient_processors }
+					dtp_spx = { T = dtp_has_tr_voidling }
+					dtp_spx = { T = dtp_ok_t_trait_voidling }
 				}
 			} }
 	}
@@ -3636,12 +3698,12 @@ dqvwcyzt = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_efficient_processors
+							has_trait = trait_voidling
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_efficient_processors }
+						change_species_characteristics = { remove_trait = trait_voidling }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_efficient_processors }
+						change_species_characteristics = { add_trait = trait_voidling }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3653,16 +3715,16 @@ dqvwcyzt = {
 	}
 }
 
-dqsnfa6l = {
+dqmyjy7a = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 1 }
+			check_variable = { which = dtp_edpg value = 3 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_efficient_processors } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_voidling } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -3674,8 +3736,8 @@ dqsnfa6l = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_efficient_processors }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_efficient_processors }
+					dtp_spx = { T = dtp_has_tr_voidling }
+					dtp_spx = { T = dtp_ok_t_trait_voidling }
 				}
 			} }
 	}
@@ -3700,12 +3762,12 @@ dqsnfa6l = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_efficient_processors
+							has_trait = trait_voidling
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_efficient_processors }
+						change_species_characteristics = { remove_trait = trait_voidling }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_efficient_processors }
+						change_species_characteristics = { add_trait = trait_voidling }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3717,7 +3779,61 @@ dqsnfa6l = {
 	}
 }
 
-dqjksj6v = {
+dq5l4wbi = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 3 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqsgequs = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 3 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dq0jp1w7 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_edpg value = 1 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_edpg value = 1 }
+			}
+		}
+	}
+}
+
+dqxmv0yi = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
@@ -3727,67 +3843,82 @@ dqjksj6v = {
 		}
 	}
 	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_species from = {
-				dtp_has_perm = { P = species }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
-		custom_tooltip = { fail_text = dtp_ed_lock OR = {
-				from = {
-					dtp_force_active = yes
-				}
-				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_enhanced_memory }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_enhanced_memory }
-				}
-			} }
+		always = yes
 	}
 	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = species }
-					}
-				}
-				dtp_sp_load = yes
-				event_target:dtp_sp = {
-					if = {
-						limit = {
-							has_trait = trait_cyborg_enhanced_memory
-						}
-						change_species_characteristics = { remove_trait = trait_cyborg_enhanced_memory }
-					}
-					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_enhanced_memory }
-					}
-				}
-				dtp_result = { CODE = 22 }
-			}
-			else = {
-				dtp_deny = { CODE = 22 }
-			}
-		}
 	}
 }
 
-dqx1zvcw = {
+dq6fpncd = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
 			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_enhanced_memory }
+		from = {
+			NOT = { check_variable = { which = dtp_edpg value = 2 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_edpg value = 2 }
+			}
+		}
+	}
+}
+
+dqidx43j = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 3 }
+			check_variable = { which = dtp_edpg value = 3 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqukxfqz = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 3 }
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_edpg value = 3 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_edpg value = 3 }
+			}
+		}
+	}
+}
+
+dqjtgni2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -3799,8 +3930,8 @@ dqx1zvcw = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_enhanced_memory }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_enhanced_memory }
+					dtp_spx = { T = dtp_has_tr_pc_ai_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_ai_preference }
 				}
 			} }
 	}
@@ -3825,12 +3956,12 @@ dqx1zvcw = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_enhanced_memory
+							has_trait = trait_pc_ai_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_enhanced_memory }
+						change_species_characteristics = { remove_trait = trait_pc_ai_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_enhanced_memory }
+						change_species_characteristics = { add_trait = trait_pc_ai_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3842,16 +3973,79 @@ dqx1zvcw = {
 	}
 }
 
-dqrms92c = {
+dq9vy0kb = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
+		}
+		dtp_spx = { T = dtp_has_tr_pc_ai_preference }
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_species from = {
+				dtp_has_perm = { P = species }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tc dtp_has_tc = yes }
+		custom_tooltip = { fail_text = dtp_ed_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_spx = { T = dtp_has_tr_pc_ai_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_ai_preference }
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = species }
+					}
+				}
+				dtp_sp_load = yes
+				event_target:dtp_sp = {
+					if = {
+						limit = {
+							has_trait = trait_pc_ai_preference
+						}
+						change_species_characteristics = { remove_trait = trait_pc_ai_preference }
+					}
+					else = {
+						change_species_characteristics = { add_trait = trait_pc_ai_preference }
+					}
+				}
+				dtp_result = { CODE = 22 }
+			}
+			else = {
+				dtp_deny = { CODE = 22 }
+			}
+		}
+	}
+}
+
+dqh84wn3 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_ed_open
+			check_variable = { which = dtp_edtab value = 6 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_enhanced_memory } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_pc_ai_preference } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -3863,8 +4057,8 @@ dqrms92c = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_enhanced_memory }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_enhanced_memory }
+					dtp_spx = { T = dtp_has_tr_pc_ai_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_ai_preference }
 				}
 			} }
 	}
@@ -3889,12 +4083,12 @@ dqrms92c = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_enhanced_memory
+							has_trait = trait_pc_ai_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_enhanced_memory }
+						change_species_characteristics = { remove_trait = trait_pc_ai_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_enhanced_memory }
+						change_species_characteristics = { add_trait = trait_pc_ai_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3906,13 +4100,13 @@ dqrms92c = {
 	}
 }
 
-dqf05tdu = {
+dqa07ffl = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 	}
 	allow = {
@@ -3925,8 +4119,8 @@ dqf05tdu = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_enigmatic_fortress }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_enigmatic_fortress }
+					dtp_spx = { T = dtp_has_tr_pc_alpine_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_alpine_preference }
 				}
 			} }
 	}
@@ -3951,12 +4145,12 @@ dqf05tdu = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_enigmatic_fortress
+							has_trait = trait_pc_alpine_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_enigmatic_fortress }
+						change_species_characteristics = { remove_trait = trait_pc_alpine_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_enigmatic_fortress }
+						change_species_characteristics = { add_trait = trait_pc_alpine_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -3968,15 +4162,15 @@ dqf05tdu = {
 	}
 }
 
-dq5tufqn = {
+dq585gln = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_enigmatic_fortress }
+		dtp_spx = { T = dtp_has_tr_pc_alpine_preference }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -3988,8 +4182,8 @@ dq5tufqn = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_enigmatic_fortress }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_enigmatic_fortress }
+					dtp_spx = { T = dtp_has_tr_pc_alpine_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_alpine_preference }
 				}
 			} }
 	}
@@ -4014,12 +4208,12 @@ dq5tufqn = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_enigmatic_fortress
+							has_trait = trait_pc_alpine_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_enigmatic_fortress }
+						change_species_characteristics = { remove_trait = trait_pc_alpine_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_enigmatic_fortress }
+						change_species_characteristics = { add_trait = trait_pc_alpine_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4031,16 +4225,16 @@ dq5tufqn = {
 	}
 }
 
-dq2p1n4b = {
+dq21sh7z = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_enigmatic_fortress } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_pc_alpine_preference } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -4052,8 +4246,8 @@ dq2p1n4b = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_enigmatic_fortress }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_enigmatic_fortress }
+					dtp_spx = { T = dtp_has_tr_pc_alpine_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_alpine_preference }
 				}
 			} }
 	}
@@ -4078,12 +4272,12 @@ dq2p1n4b = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_enigmatic_fortress
+							has_trait = trait_pc_alpine_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_enigmatic_fortress }
+						change_species_characteristics = { remove_trait = trait_pc_alpine_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_enigmatic_fortress }
+						change_species_characteristics = { add_trait = trait_pc_alpine_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4095,13 +4289,13 @@ dq2p1n4b = {
 	}
 }
 
-dqdq0cdr = {
+dqwl4qct = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 	}
 	allow = {
@@ -4114,8 +4308,8 @@ dqdq0cdr = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_harvesters }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_harvesters }
+					dtp_spx = { T = dtp_has_tr_pc_arctic_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_arctic_preference }
 				}
 			} }
 	}
@@ -4140,12 +4334,12 @@ dqdq0cdr = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_harvesters
+							has_trait = trait_pc_arctic_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_harvesters }
+						change_species_characteristics = { remove_trait = trait_pc_arctic_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_harvesters }
+						change_species_characteristics = { add_trait = trait_pc_arctic_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4157,15 +4351,15 @@ dqdq0cdr = {
 	}
 }
 
-dq8yg6jw = {
+dqttqe6g = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_harvesters }
+		dtp_spx = { T = dtp_has_tr_pc_arctic_preference }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -4177,8 +4371,8 @@ dq8yg6jw = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_harvesters }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_harvesters }
+					dtp_spx = { T = dtp_has_tr_pc_arctic_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_arctic_preference }
 				}
 			} }
 	}
@@ -4203,12 +4397,12 @@ dq8yg6jw = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_harvesters
+							has_trait = trait_pc_arctic_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_harvesters }
+						change_species_characteristics = { remove_trait = trait_pc_arctic_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_harvesters }
+						change_species_characteristics = { add_trait = trait_pc_arctic_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4220,16 +4414,16 @@ dq8yg6jw = {
 	}
 }
 
-dqh6pphk = {
+dqwyj6ss = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_harvesters } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_pc_arctic_preference } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -4241,8 +4435,8 @@ dqh6pphk = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_harvesters }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_harvesters }
+					dtp_spx = { T = dtp_has_tr_pc_arctic_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_arctic_preference }
 				}
 			} }
 	}
@@ -4267,12 +4461,12 @@ dqh6pphk = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_harvesters
+							has_trait = trait_pc_arctic_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_harvesters }
+						change_species_characteristics = { remove_trait = trait_pc_arctic_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_harvesters }
+						change_species_characteristics = { add_trait = trait_pc_arctic_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4284,13 +4478,13 @@ dqh6pphk = {
 	}
 }
 
-dqlj7818 = {
+dql5858r = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 	}
 	allow = {
@@ -4303,8 +4497,8 @@ dqlj7818 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_high_bandwidth }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_high_bandwidth }
+					dtp_spx = { T = dtp_has_tr_pc_arid_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_arid_preference }
 				}
 			} }
 	}
@@ -4329,12 +4523,12 @@ dqlj7818 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_high_bandwidth
+							has_trait = trait_pc_arid_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_high_bandwidth }
+						change_species_characteristics = { remove_trait = trait_pc_arid_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_high_bandwidth }
+						change_species_characteristics = { add_trait = trait_pc_arid_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4346,15 +4540,15 @@ dqlj7818 = {
 	}
 }
 
-dq48lp9v = {
+dqjd7fm1 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_high_bandwidth }
+		dtp_spx = { T = dtp_has_tr_pc_arid_preference }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -4366,8 +4560,8 @@ dq48lp9v = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_high_bandwidth }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_high_bandwidth }
+					dtp_spx = { T = dtp_has_tr_pc_arid_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_arid_preference }
 				}
 			} }
 	}
@@ -4392,12 +4586,12 @@ dq48lp9v = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_high_bandwidth
+							has_trait = trait_pc_arid_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_high_bandwidth }
+						change_species_characteristics = { remove_trait = trait_pc_arid_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_high_bandwidth }
+						change_species_characteristics = { add_trait = trait_pc_arid_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4409,16 +4603,16 @@ dq48lp9v = {
 	}
 }
 
-dq31buc7 = {
+dqojwnu5 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_high_bandwidth } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_pc_arid_preference } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -4430,8 +4624,8 @@ dq31buc7 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_high_bandwidth }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_high_bandwidth }
+					dtp_spx = { T = dtp_has_tr_pc_arid_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_arid_preference }
 				}
 			} }
 	}
@@ -4456,12 +4650,12 @@ dq31buc7 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_high_bandwidth
+							has_trait = trait_pc_arid_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_high_bandwidth }
+						change_species_characteristics = { remove_trait = trait_pc_arid_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_high_bandwidth }
+						change_species_characteristics = { add_trait = trait_pc_arid_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4473,13 +4667,13 @@ dq31buc7 = {
 	}
 }
 
-dq5kc6b2 = {
+dqn787eu = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 	}
 	allow = {
@@ -4492,8 +4686,8 @@ dq5kc6b2 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_high_maintenance }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_high_maintenance }
+					dtp_spx = { T = dtp_has_tr_pc_ark_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_ark_preference }
 				}
 			} }
 	}
@@ -4518,12 +4712,12 @@ dq5kc6b2 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_high_maintenance
+							has_trait = trait_pc_ark_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_high_maintenance }
+						change_species_characteristics = { remove_trait = trait_pc_ark_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_high_maintenance }
+						change_species_characteristics = { add_trait = trait_pc_ark_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4535,15 +4729,15 @@ dq5kc6b2 = {
 	}
 }
 
-dqy5l6zx = {
+dqdk8328 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_high_maintenance }
+		dtp_spx = { T = dtp_has_tr_pc_ark_preference }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -4555,8 +4749,8 @@ dqy5l6zx = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_high_maintenance }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_high_maintenance }
+					dtp_spx = { T = dtp_has_tr_pc_ark_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_ark_preference }
 				}
 			} }
 	}
@@ -4581,12 +4775,12 @@ dqy5l6zx = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_high_maintenance
+							has_trait = trait_pc_ark_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_high_maintenance }
+						change_species_characteristics = { remove_trait = trait_pc_ark_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_high_maintenance }
+						change_species_characteristics = { add_trait = trait_pc_ark_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4598,16 +4792,16 @@ dqy5l6zx = {
 	}
 }
 
-dqqjskw9 = {
+dqclm290 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_high_maintenance } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_pc_ark_preference } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -4619,8 +4813,8 @@ dqqjskw9 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_high_maintenance }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_high_maintenance }
+					dtp_spx = { T = dtp_has_tr_pc_ark_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_ark_preference }
 				}
 			} }
 	}
@@ -4645,12 +4839,12 @@ dqqjskw9 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_high_maintenance
+							has_trait = trait_pc_ark_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_high_maintenance }
+						change_species_characteristics = { remove_trait = trait_pc_ark_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_high_maintenance }
+						change_species_characteristics = { add_trait = trait_pc_ark_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4662,13 +4856,13 @@ dqqjskw9 = {
 	}
 }
 
-dq339bum = {
+dqclfh2l = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 	}
 	allow = {
@@ -4681,8 +4875,8 @@ dq339bum = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_infinity_sphere }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_infinity_sphere }
+					dtp_spx = { T = dtp_has_tr_pc_city_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_city_preference }
 				}
 			} }
 	}
@@ -4707,12 +4901,12 @@ dq339bum = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_infinity_sphere
+							has_trait = trait_pc_city_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_infinity_sphere }
+						change_species_characteristics = { remove_trait = trait_pc_city_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_infinity_sphere }
+						change_species_characteristics = { add_trait = trait_pc_city_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4724,15 +4918,15 @@ dq339bum = {
 	}
 }
 
-dqevgvkm = {
+dqj24cpl = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_infinity_sphere }
+		dtp_spx = { T = dtp_has_tr_pc_city_preference }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -4744,8 +4938,8 @@ dqevgvkm = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_infinity_sphere }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_infinity_sphere }
+					dtp_spx = { T = dtp_has_tr_pc_city_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_city_preference }
 				}
 			} }
 	}
@@ -4770,12 +4964,12 @@ dqevgvkm = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_infinity_sphere
+							has_trait = trait_pc_city_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_infinity_sphere }
+						change_species_characteristics = { remove_trait = trait_pc_city_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_infinity_sphere }
+						change_species_characteristics = { add_trait = trait_pc_city_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4787,16 +4981,16 @@ dqevgvkm = {
 	}
 }
 
-dqbfcq7m = {
+dqozz871 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_infinity_sphere } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_pc_city_preference } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -4808,8 +5002,8 @@ dqbfcq7m = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_infinity_sphere }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_infinity_sphere }
+					dtp_spx = { T = dtp_has_tr_pc_city_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_city_preference }
 				}
 			} }
 	}
@@ -4834,12 +5028,12 @@ dqbfcq7m = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_infinity_sphere
+							has_trait = trait_pc_city_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_infinity_sphere }
+						change_species_characteristics = { remove_trait = trait_pc_city_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_infinity_sphere }
+						change_species_characteristics = { add_trait = trait_pc_city_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4851,13 +5045,13 @@ dqbfcq7m = {
 	}
 }
 
-dq3bjbzx = {
+dqhric3m = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 	}
 	allow = {
@@ -4870,8 +5064,8 @@ dq3bjbzx = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_integrated_weaponry }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_integrated_weaponry }
+					dtp_spx = { T = dtp_has_tr_pc_continental_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_continental_preference }
 				}
 			} }
 	}
@@ -4896,12 +5090,12 @@ dq3bjbzx = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_integrated_weaponry
+							has_trait = trait_pc_continental_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_integrated_weaponry }
+						change_species_characteristics = { remove_trait = trait_pc_continental_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_integrated_weaponry }
+						change_species_characteristics = { add_trait = trait_pc_continental_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4913,15 +5107,15 @@ dq3bjbzx = {
 	}
 }
 
-dq4see45 = {
+dqv1n0yc = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_integrated_weaponry }
+		dtp_spx = { T = dtp_has_tr_pc_continental_preference }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -4933,8 +5127,8 @@ dq4see45 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_integrated_weaponry }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_integrated_weaponry }
+					dtp_spx = { T = dtp_has_tr_pc_continental_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_continental_preference }
 				}
 			} }
 	}
@@ -4959,12 +5153,12 @@ dq4see45 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_integrated_weaponry
+							has_trait = trait_pc_continental_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_integrated_weaponry }
+						change_species_characteristics = { remove_trait = trait_pc_continental_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_integrated_weaponry }
+						change_species_characteristics = { add_trait = trait_pc_continental_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -4976,16 +5170,16 @@ dq4see45 = {
 	}
 }
 
-dq3likr5 = {
+dqvq114g = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 		dtp_has_tc = yes
-		NOT = { dtp_spx = { T = dtp_ok_t_trait_cyborg_integrated_weaponry } }
+		NOT = { dtp_spx = { T = dtp_ok_t_trait_pc_continental_preference } }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -4997,8 +5191,8 @@ dq3likr5 = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_integrated_weaponry }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_integrated_weaponry }
+					dtp_spx = { T = dtp_has_tr_pc_continental_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_continental_preference }
 				}
 			} }
 	}
@@ -5023,12 +5217,12 @@ dq3likr5 = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_integrated_weaponry
+							has_trait = trait_pc_continental_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_integrated_weaponry }
+						change_species_characteristics = { remove_trait = trait_pc_continental_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_integrated_weaponry }
+						change_species_characteristics = { add_trait = trait_pc_continental_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -5040,13 +5234,13 @@ dq3likr5 = {
 	}
 }
 
-dq4phaqo = {
+dquiyew8 = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
 	}
 	allow = {
@@ -5059,8 +5253,8 @@ dq4phaqo = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_learning_algorithms }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_learning_algorithms }
+					dtp_spx = { T = dtp_has_tr_pc_cosmogenesis_world_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_cosmogenesis_world_preference }
 				}
 			} }
 	}
@@ -5085,12 +5279,12 @@ dq4phaqo = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_learning_algorithms
+							has_trait = trait_pc_cosmogenesis_world_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_learning_algorithms }
+						change_species_characteristics = { remove_trait = trait_pc_cosmogenesis_world_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_learning_algorithms }
+						change_species_characteristics = { add_trait = trait_pc_cosmogenesis_world_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }
@@ -5102,15 +5296,15 @@ dq4phaqo = {
 	}
 }
 
-dq6qibqo = {
+dqlypjkb = {
 	potential = {
 		from = {
 			has_country_flag = dtp_ed_open
 			check_variable = { which = dtp_edtab value = 6 }
-			check_variable = { which = dtp_edcat value = 3 }
-			check_variable = { which = dtp_edpg value = 2 }
+			check_variable = { which = dtp_edcat value = 4 }
+			check_variable = { which = dtp_edpg value = 1 }
 		}
-		dtp_spx = { T = dtp_has_tr_cyborg_learning_algorithms }
+		dtp_spx = { T = dtp_has_tr_pc_cosmogenesis_world_preference }
 	}
 	allow = {
 		custom_tooltip = { fail_text = dtp_need_perm_species from = {
@@ -5122,8 +5316,8 @@ dq6qibqo = {
 					dtp_force_active = yes
 				}
 				OR = {
-					dtp_spx = { T = dtp_has_tr_cyborg_learning_algorithms }
-					dtp_spx = { T = dtp_ok_t_trait_cyborg_learning_algorithms }
+					dtp_spx = { T = dtp_has_tr_pc_cosmogenesis_world_preference }
+					dtp_spx = { T = dtp_ok_t_trait_pc_cosmogenesis_world_preference }
 				}
 			} }
 	}
@@ -5148,12 +5342,12 @@ dq6qibqo = {
 				event_target:dtp_sp = {
 					if = {
 						limit = {
-							has_trait = trait_cyborg_learning_algorithms
+							has_trait = trait_pc_cosmogenesis_world_preference
 						}
-						change_species_characteristics = { remove_trait = trait_cyborg_learning_algorithms }
+						change_species_characteristics = { remove_trait = trait_pc_cosmogenesis_world_preference }
 					}
 					else = {
-						change_species_characteristics = { add_trait = trait_cyborg_learning_algorithms }
+						change_species_characteristics = { add_trait = trait_pc_cosmogenesis_world_preference }
 					}
 				}
 				dtp_result = { CODE = 22 }

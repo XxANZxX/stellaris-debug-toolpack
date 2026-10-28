@@ -660,6 +660,11 @@ for _it in json.load(open(META, encoding="utf-8"))["items"]:
     _m = re.match(r"GFX_dtp_ebanner_(\d+)$", _it["sprite"])
     if _m and _it["sprite"] not in SPR:
         SPR[_it["sprite"]] = ("dtp_ebanner_%s" % _m.group(1), banner(_it["w"], 40, _EBCOL.get(int(_m.group(1)), S_OR2), None, 100 + int(_m.group(1))), "sprite", 0, 1, "buttonstate_onlydisable")
+_PBCOL = {1: (130, 225, 140), 2: S_HI, 3: (255, 214, 90), 4: (130, 200, 255), 5: (190, 160, 255), 6: (190, 160, 255), 7: S_OR2, 8: (130, 200, 255), 9: S_HI, 10: (130, 225, 140), 11: (255, 214, 90), 12: S_OR2}
+for _it in json.load(open(META, encoding="utf-8"))["items"]:          # 11.3: баннеры «Редактора планеты и системы»
+    _m = re.match(r"GFX_dtp_pbanner_(\d+)$", _it["sprite"])
+    if _m and _it["sprite"] not in SPR:
+        SPR[_it["sprite"]] = ("dtp_pbanner_%s" % _m.group(1), banner(_it["w"], 40, _PBCOL.get(int(_m.group(1)), S_OR2), None, 200 + int(_m.group(1))), "sprite", 0, 1, "buttonstate_onlydisable")
 SPR["GFX_dtp_sg"] = ("dtp_sel_g", sel_frame((90, 235, 120)), "corner", 10, 1, "buttonstate_onlydisable")
 SPR["GFX_dtp_sr"] = ("dtp_sel_r", red_badge(), "corner", 0, 1, "buttonstate_onlydisable")
 SPR["GFX_ethics_dtp_gamemaster"] = ("ethic_dtp_gamemaster_b",) + SPR["GFX_ethic_dtp_gamemaster"][1:]
@@ -875,10 +880,10 @@ for _f, _t in [("dtp85_log.png", 12), ("dtp8_gm.png", 16), ("dtp5_home.png", 15)
     render(_f, _t, None)
 
 # ---------------- 11.2: превью «Редактора держав и вида» (значки самой игры здесь — заглушки)
-def edrender(fname, tab, cat=1, pg=1, has_rate=0.12, bad_rate=0.2):
+def edrender(fname, tab, cat=1, pg=1, has_rate=0.12, bad_rate=0.2, where="editor", V=("dtp_edtab", "dtp_edcat", "dtp_edpg")):
     import random
     rnd = random.Random(tab * 31 + cat)
-    items = [it for it in meta["items"] if it["where"] == "editor"]
+    items = [it for it in meta["items"] if it["where"] == where]
     W = max(i["x"] + i["w"] for i in items); H = max(i["y"] + i["h"] for i in items)
     img = Image.new("RGBA", (W + 40, H + 40), (12, 16, 26, 255)); d = ImageDraw.Draw(img)
     tex = {n: Image.open(os.path.join(OUT, "gfx/interface/dtp/%s.dds" % v[0])).convert("RGBA") for n, v in SPR.items() if v[1] is not None}
@@ -905,7 +910,7 @@ def edrender(fname, tab, cat=1, pg=1, has_rate=0.12, bad_rate=0.2):
         img.alpha_composite(t, (x, y))
     def vis(it):
         p = it["pot"]
-        for var, val in (("dtp_edtab", tab), ("dtp_edcat", cat), ("dtp_edpg", pg)):
+        for var, val in zip(V, (tab, cat, pg)):
             neg = [int(v) for v in re.findall(r"NOT = \{ check_variable = \{ which = %s value = (\d+) \} \}" % var, p)]
             if val in neg: return False
             p2 = re.sub(r"NOT = \{ check_variable = \{ which = %s value = \d+ \} \}" % var, "", p)
@@ -923,13 +928,17 @@ def edrender(fname, tab, cat=1, pg=1, has_rate=0.12, bad_rate=0.2):
         if ms and ((ms.group(2) == "2") == bool(ms.group(1))): return False
         if "dtp_last_ok" in p and "NOT = { is_variable_set = dtp_last_ok }" not in p: return False
         if "has_country_flag = dtp_force_mode" in p and "NOT = { has_country_flag = dtp_force_mode }" not in p: return False
+        if "has_country_flag = dtp_pe_rm" in p and "NOT = { has_country_flag = dtp_pe_rm }" not in p: return False
+        if "NOT = { exists = event_target:dtp_tp_1 }" in p: return False
+        if re.search(r"\bOR = \{\s*AND = \{\s*from = \{", p) and it["sprite"] in ("GFX_dtp_sg", "GFX_dtp_sr"): return rnd.random() < (has_rate if it["sprite"] == "GFX_dtp_sg" else bad_rate)
         if re.search(r"which = dtp_(val|years) value", p) and "NOT" not in p: return False
         k = it["key"]
         if it["sprite"] == "GFX_dtp_sg": return rnd.random() < has_rate
         if it["sprite"] == "GFX_dtp_sr": return rnd.random() < bad_rate
         if re.search(r"_on$", k) and ("dtp_tcx" in p or "hasmod" in p): return False
         return True
-    subs = {"[dtp_esl_1.GetName]": "Кзинти", "[dtp_esl_2.GetName]": "Люди", "[dtp_esl_3.GetName]": "Блорги", "[dtp_tsp_1.GetName]": "Люди", "[dtp_tc_1.GetName]": "Республика Кзинти", "[dtp_tc_1.GetSpeciesName]": "Кзинти", "[dtp_tc_1.GetGovernmentName]": "Олигархическая республика", "[From.dtp_val]": "25", "[From.dtp_years]": "10"}
+    subs = {"[dtp_esl_1.GetName]": "Кзинти", "[dtp_esl_2.GetName]": "Люди", "[dtp_esl_3.GetName]": "Блорги", "[dtp_tsp_1.GetName]": "Люди", "[dtp_tc_1.GetName]": "Республика Кзинти", "[dtp_tc_1.GetSpeciesName]": "Кзинти", "[dtp_tc_1.GetGovernmentName]": "Олигархическая республика", "[From.dtp_val]": "25", "[From.dtp_years]": "10",
+            "[dtp_tp_1.GetName]": "Новая Кзинти", "[dtp_tp_1.GetClassName]": "Континентальный мир", "[dtp_tp_1.System.GetName]": "Элион", "[dtp_tp_1.Owner.GetRealName]": "Республика Кзинти"}
     COL = {"Y": (255, 205, 90), "G": (120, 225, 130), "R": (245, 95, 85), "B": (110, 205, 255), "g": (135, 155, 165), "H": (255, 200, 120)}
     GAME = {"civic": "Гражданская модель", "trait": "Черта вида", "ap": "Перк возвышения", "tradition": "Традиции", "policy": "Политика"}
     for it in items:
@@ -969,3 +978,8 @@ def edrender(fname, tab, cat=1, pg=1, has_rate=0.12, bad_rate=0.2):
 for _f, _a in [("ed1_ethics.png", (1,)), ("ed2_civics.png", (2, 1, 1)), ("ed6_traits.png", (6, 1, 1)), ("ed10_portrait.png", (10, 1)), ("ed5_policies.png", (5,)), ("ed7_rights.png", (7,)), ("ed8_look.png", (8,)), ("ed9_mods.png", (9, 1)), ("ed10_portrait.png", (10, 15)), ("ed9_mods_game.png", (9, 2))]:
     edrender(_f, *_a)
 print("превью редактора: 7")
+_PV = dict(where="peditor", V=("dtp_petab", "dtp_pecat", "dtp_pepg"))
+for _f, _a in [("pe1_type.png", (1, 1)), ("pe2_size.png", (2,)), ("pe3_star.png", (3,)), ("pe4_deposits.png", (4, 4)), ("pe5_districts.png", (5, 1)),
+               ("pe6_zones.png", (6,)), ("pe7_buildings.png", (7, 1)), ("pe8_anomalies.png", (8, 1)), ("pe9_designation.png", (9, 1)), ("pe10_nature.png", (10,)), ("pe11_pops.png", (11,)), ("pe12_mods.png", (12, 1)), ("pe12_game.png", (12, 2))]:
+    edrender(_f, *_a, **_PV)
+print("превью редактора планеты: 11")

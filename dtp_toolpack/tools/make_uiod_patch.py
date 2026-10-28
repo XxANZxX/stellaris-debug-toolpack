@@ -13,7 +13,7 @@ import os, sys, shutil, subprocess, tempfile
 
 UIOD, VI, VC, VMAP, DEST = sys.argv[1:6]
 HERE = os.path.dirname(os.path.abspath(__file__))
-FILES = ["main.gui", "planet_view.gui", "fleet_view.gui", "starbase_view.gui", "Ω_uiod_main_bottom.gui"]   # 11.2: редактор держав — в нижней панели UIOD
+FILES = ["main.gui", "planet_view.gui", "fleet_view.gui", "starbase_view.gui", "Ω_uiod_main_bottom.gui", "dtp_planet_editor.gui"]   # 11.2: редактор держав — в нижней панели UIOD
 tmp = tempfile.mkdtemp(prefix="dtp_uiod_")
 overlay = os.path.join(tmp, "interface")
 shutil.copytree(VI, overlay)                                   # игровые файлы…

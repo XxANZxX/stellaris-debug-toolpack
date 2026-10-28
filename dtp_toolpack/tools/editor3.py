@@ -695,7 +695,7 @@ for j, (c, ru, en) in enumerate(CLS):
              "Портрет «%s» (%s, №%d). Нажмите, чтобы поставить его основному виду A." % (p_, ru, i + 1), "Portrait '%s' (%s, #%d). Click to give it to A's main species." % (p_, en, i + 1))
 
 # ---- кнопка «Открыть редактор» (главная панель) — эффект общий
-ED_OPEN_EFF = INIT + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open",
+ED_OPEN_EFF = INIT + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open", "remove_country_flag = dtp_pe_open",
                                B("if", B("limit", "NOT = { is_variable_set = dtp_edtab }"), setv("dtp_edtab", 1), setv("dtp_edcat", 1), setv("dtp_edpg", 1)))
 print("редактор: элементов %d, условий «разрешено игрой» %d" % (sum(1 for g in GUI if g["where"] == "editor"), len(_OKN)))
 
