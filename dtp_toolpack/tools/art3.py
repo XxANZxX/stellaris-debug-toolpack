@@ -660,7 +660,7 @@ for _it in json.load(open(META, encoding="utf-8"))["items"]:
     _m = re.match(r"GFX_dtp_ebanner_(\d+)$", _it["sprite"])
     if _m and _it["sprite"] not in SPR:
         SPR[_it["sprite"]] = ("dtp_ebanner_%s" % _m.group(1), banner(_it["w"], 40, _EBCOL.get(int(_m.group(1)), S_OR2), None, 100 + int(_m.group(1))), "sprite", 0, 1, "buttonstate_onlydisable")
-_PBCOL = {1: (130, 225, 140), 2: S_HI, 3: (255, 214, 90), 4: (130, 200, 255), 5: (190, 160, 255), 6: (190, 160, 255), 7: S_OR2, 8: (130, 200, 255), 9: S_HI, 10: (130, 225, 140), 11: (255, 214, 90), 12: S_OR2}
+_PBCOL = {1: (130, 225, 140), 2: S_HI, 3: (255, 214, 90), 4: (130, 200, 255), 5: (190, 160, 255), 6: (190, 160, 255), 7: S_OR2, 8: (130, 200, 255), 9: S_HI, 10: (130, 225, 140), 11: (255, 214, 90), 12: S_OR2, 13: (130, 200, 255)}
 for _it in json.load(open(META, encoding="utf-8"))["items"]:          # 11.3: баннеры «Редактора планеты и системы»
     _m = re.match(r"GFX_dtp_pbanner_(\d+)$", _it["sprite"])
     if _m and _it["sprite"] not in SPR:
@@ -980,6 +980,6 @@ for _f, _a in [("ed1_ethics.png", (1,)), ("ed2_civics.png", (2, 1, 1)), ("ed6_tr
 print("превью редактора: 7")
 _PV = dict(where="peditor", V=("dtp_petab", "dtp_pecat", "dtp_pepg"))
 for _f, _a in [("pe1_type.png", (1, 1)), ("pe2_size.png", (2,)), ("pe3_star.png", (3,)), ("pe4_deposits.png", (4, 4)), ("pe5_districts.png", (5, 1)),
-               ("pe6_zones.png", (6,)), ("pe7_buildings.png", (7, 1)), ("pe8_anomalies.png", (8, 1)), ("pe9_designation.png", (9, 1)), ("pe10_nature.png", (10,)), ("pe11_pops.png", (11,)), ("pe12_mods.png", (12, 1)), ("pe12_game.png", (12, 2))]:
+               ("pe6_zones.png", (6,)), ("pe7_buildings.png", (7, 1)), ("pe8_anomalies.png", (8, 1)), ("pe9_designation.png", (9, 1)), ("pe10_nature.png", (10,)), ("pe11_pops.png", (11,)), ("pe12_mods.png", (12, 1)), ("pe12_game.png", (12, 2)), ("pe13_lanes.png", (13,))]:
     edrender(_f, *_a, **_PV)
 print("превью редактора планеты: 11")

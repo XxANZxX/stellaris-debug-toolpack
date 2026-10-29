@@ -1,4 +1,4 @@
-# Debug Toolpack 11.3.4 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+# Debug Toolpack 11.3.8 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
 dq0uwxnz = {
 	potential = {
 		from = {
@@ -2460,6 +2460,92 @@ dqtdel04 = {
 		from = {
 			has_country_flag = dtp_pe_open
 			check_variable = { which = dtp_petab value = 12 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqq9h11g = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 13 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dqg9pzs8 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+		}
+		from = {
+			NOT = { check_variable = { which = dtp_petab value = 13 } }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+		hidden_effect = {
+			from = {
+				set_variable = { which = dtp_petab value = 13 }
+				set_variable = { which = dtp_pecat value = 1 }
+				set_variable = { which = dtp_pepg value = 1 }
+			}
+			from = {
+				dtp_pidx_ensure = yes
+				dtp_init_targets = yes
+				dtp_host_check = yes
+			}
+			dtp_load = yes
+			dtp_hn_fill = yes
+		}
+	}
+}
+
+dqp7g3la = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 13 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dq7ngybr = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 13 }
+		}
+	}
+	allow = {
+		always = yes
+	}
+	effect = {
+	}
+}
+
+dq8k7jgi = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 13 }
 		}
 	}
 	allow = {
@@ -6728,107 +6814,6 @@ dqr8c2lw = {
 					}
 					event_target:dtp_p = {
 						set_planet_size = 3
-					}
-					dtp_result = { CODE = 11 }
-				}
-				else = {
-					dtp_fail = { CODE = 11 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 11 }
-			}
-		}
-	}
-}
-
-dq8j87tc = {
-	potential = {
-		from = {
-			has_country_flag = dtp_pe_open
-			check_variable = { which = dtp_petab value = 2 }
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
-				dtp_has_perm = { P = planet }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = planet }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_p
-					}
-					event_target:dtp_p = {
-						set_planet_size = 5
-					}
-					dtp_result = { CODE = 11 }
-				}
-				else = {
-					dtp_fail = { CODE = 11 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 11 }
-			}
-		}
-	}
-}
-
-dqs7pf9i = {
-	potential = {
-		from = {
-			has_country_flag = dtp_pe_open
-			check_variable = { which = dtp_petab value = 2 }
-		}
-		dtp_tpx = { T = dtp_ph_sz5 }
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
-				dtp_has_perm = { P = planet }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = planet }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_p
-					}
-					event_target:dtp_p = {
-						set_planet_size = 5
 					}
 					dtp_result = { CODE = 11 }
 				}

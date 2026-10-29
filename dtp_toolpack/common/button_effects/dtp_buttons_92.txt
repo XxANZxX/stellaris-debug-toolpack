@@ -1,4 +1,2714 @@
-# Debug Toolpack 11.3.4 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+# Debug Toolpack 11.3.8 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dq6xwxp2 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+		}
+		OR = {
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 1 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_planet_uncertain_past }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 2 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_irradiated_wasteland }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 3 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_dread_trophy }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 4 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_planet_new_colony_egalitarian_attraction }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 5 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_god_rayed }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 6 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_corrupt_network_terminated }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 1 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_recent_quake }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 2 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_ecological_emergency }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 3 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_hostile_animal_life }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 4 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_shroud_creatures_occupy }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 5 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_whisperers_madness_gestalt }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 6 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_cartel_war }
+			}
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 1 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = planet_uncertain_past
+									}
+									remove_modifier = planet_uncertain_past
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = planet_uncertain_past days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = planet_uncertain_past days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 2 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = irradiated_wasteland
+									}
+									remove_modifier = irradiated_wasteland
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = irradiated_wasteland days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = irradiated_wasteland days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 3 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = dread_trophy
+									}
+									remove_modifier = dread_trophy
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = dread_trophy days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = dread_trophy days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 4 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = planet_new_colony_egalitarian_attraction
+									}
+									remove_modifier = planet_new_colony_egalitarian_attraction
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = planet_new_colony_egalitarian_attraction days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = planet_new_colony_egalitarian_attraction days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 5 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = god_rayed
+									}
+									remove_modifier = god_rayed
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = god_rayed days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = god_rayed days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 6 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = corrupt_network_terminated
+									}
+									remove_modifier = corrupt_network_terminated
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = corrupt_network_terminated days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = corrupt_network_terminated days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 1 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = recent_quake
+									}
+									remove_modifier = recent_quake
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = recent_quake days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = recent_quake days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 2 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = ecological_emergency
+									}
+									remove_modifier = ecological_emergency
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = ecological_emergency days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = ecological_emergency days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 3 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = hostile_animal_life
+									}
+									remove_modifier = hostile_animal_life
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = hostile_animal_life days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = hostile_animal_life days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 4 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = shroud_creatures_occupy
+									}
+									remove_modifier = shroud_creatures_occupy
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = shroud_creatures_occupy days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = shroud_creatures_occupy days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 5 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = whisperers_madness_gestalt
+									}
+									remove_modifier = whisperers_madness_gestalt
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = whisperers_madness_gestalt days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = whisperers_madness_gestalt days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 6 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = cartel_war
+									}
+									remove_modifier = cartel_war
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = cartel_war days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = cartel_war days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 76 }
+				}
+				else = {
+					dtp_fail = { CODE = 76 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 76 }
+			}
+		}
+	}
+}
+
+dq70i469 = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+		}
+		OR = {
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 1 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_recent_comet }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 2 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_liquid_sands }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 3 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_burnt_tiyanki_trophy }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 4 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_planet_new_colony_xenophile_attraction }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 5 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_superflare_avoided }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 6 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_numistic_magnetostrips }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 1 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_recent_impact }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 2 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_alien_infestation }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 3 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_shifting_sands }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 4 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_collective_autophobia }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 5 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_eater_unhappiness_planet_1 }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 6 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_protection_racket }
+			}
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 1 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = recent_comet
+									}
+									remove_modifier = recent_comet
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = recent_comet days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = recent_comet days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 2 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = liquid_sands
+									}
+									remove_modifier = liquid_sands
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = liquid_sands days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = liquid_sands days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 3 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = burnt_tiyanki_trophy
+									}
+									remove_modifier = burnt_tiyanki_trophy
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = burnt_tiyanki_trophy days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = burnt_tiyanki_trophy days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 4 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = planet_new_colony_xenophile_attraction
+									}
+									remove_modifier = planet_new_colony_xenophile_attraction
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = planet_new_colony_xenophile_attraction days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = planet_new_colony_xenophile_attraction days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 5 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = superflare_avoided
+									}
+									remove_modifier = superflare_avoided
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = superflare_avoided days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = superflare_avoided days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 6 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = numistic_magnetostrips
+									}
+									remove_modifier = numistic_magnetostrips
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = numistic_magnetostrips days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = numistic_magnetostrips days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 1 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = recent_impact
+									}
+									remove_modifier = recent_impact
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = recent_impact days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = recent_impact days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 2 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = alien_infestation
+									}
+									remove_modifier = alien_infestation
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = alien_infestation days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = alien_infestation days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 3 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = shifting_sands
+									}
+									remove_modifier = shifting_sands
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = shifting_sands days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = shifting_sands days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 4 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = collective_autophobia
+									}
+									remove_modifier = collective_autophobia
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = collective_autophobia days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = collective_autophobia days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 5 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = eater_unhappiness_planet_1
+									}
+									remove_modifier = eater_unhappiness_planet_1
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = eater_unhappiness_planet_1 days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = eater_unhappiness_planet_1 days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 6 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = protection_racket
+									}
+									remove_modifier = protection_racket
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = protection_racket days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = protection_racket days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 76 }
+				}
+				else = {
+					dtp_fail = { CODE = 76 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 76 }
+			}
+		}
+	}
+}
+
+dqakkilq = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+		}
+		OR = {
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 1 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_magnetic_research_boost }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 2 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_gas_rich_planet_fo_realz }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 3 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_sky_dragon_trophy }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 4 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_planet_new_colony_xenophobe_attraction }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 5 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_dead_god_planet }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 6 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_planet_food_boost }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 1 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_magnetic_disruption }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 2 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_drone_space_elevator }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 3 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_suppressed_opposition }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 4 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_planet_myrmeku_attacks }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 5 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_eater_unhappiness_planet_1_gestalt }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 6 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_corrupt_administration }
+			}
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 1 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = magnetic_research_boost
+									}
+									remove_modifier = magnetic_research_boost
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = magnetic_research_boost days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = magnetic_research_boost days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 2 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = gas_rich_planet_fo_realz
+									}
+									remove_modifier = gas_rich_planet_fo_realz
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = gas_rich_planet_fo_realz days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = gas_rich_planet_fo_realz days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 3 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = sky_dragon_trophy
+									}
+									remove_modifier = sky_dragon_trophy
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = sky_dragon_trophy days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = sky_dragon_trophy days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 4 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = planet_new_colony_xenophobe_attraction
+									}
+									remove_modifier = planet_new_colony_xenophobe_attraction
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = planet_new_colony_xenophobe_attraction days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = planet_new_colony_xenophobe_attraction days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 5 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = dead_god_planet
+									}
+									remove_modifier = dead_god_planet
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = dead_god_planet days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = dead_god_planet days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 6 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = planet_food_boost
+									}
+									remove_modifier = planet_food_boost
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = planet_food_boost days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = planet_food_boost days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 1 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = magnetic_disruption
+									}
+									remove_modifier = magnetic_disruption
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = magnetic_disruption days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = magnetic_disruption days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 2 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = drone_space_elevator
+									}
+									remove_modifier = drone_space_elevator
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = drone_space_elevator days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = drone_space_elevator days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 3 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = suppressed_opposition
+									}
+									remove_modifier = suppressed_opposition
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = suppressed_opposition days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = suppressed_opposition days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 4 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = planet_myrmeku_attacks
+									}
+									remove_modifier = planet_myrmeku_attacks
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = planet_myrmeku_attacks days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = planet_myrmeku_attacks days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 5 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = eater_unhappiness_planet_1_gestalt
+									}
+									remove_modifier = eater_unhappiness_planet_1_gestalt
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = eater_unhappiness_planet_1_gestalt days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = eater_unhappiness_planet_1_gestalt days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 6 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = corrupt_administration
+									}
+									remove_modifier = corrupt_administration
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = corrupt_administration days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = corrupt_administration days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 76 }
+				}
+				else = {
+					dtp_fail = { CODE = 76 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 76 }
+			}
+		}
+	}
+}
+
+dqb256ah = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+		}
+		OR = {
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 1 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_land_appropriation }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 2 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_food_rich_planet }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 3 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_scavenger_trophy }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 4 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_opinion_respected }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 5 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_dead_god_planet_hidden }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 6 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_planet_luxuries_boost }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 1 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_forest_fire }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 2 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_pheromoned_2 }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 3 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_scared_population }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 4 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_planet_myrmeku_seal_colony }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 5 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_eater_unhappiness_planet_2 }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 6 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_trade_pilfering }
+			}
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 1 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = land_appropriation
+									}
+									remove_modifier = land_appropriation
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = land_appropriation days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = land_appropriation days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 2 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = food_rich_planet
+									}
+									remove_modifier = food_rich_planet
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = food_rich_planet days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = food_rich_planet days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 3 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = scavenger_trophy
+									}
+									remove_modifier = scavenger_trophy
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = scavenger_trophy days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = scavenger_trophy days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 4 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = opinion_respected
+									}
+									remove_modifier = opinion_respected
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = opinion_respected days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = opinion_respected days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 5 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = dead_god_planet_hidden
+									}
+									remove_modifier = dead_god_planet_hidden
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = dead_god_planet_hidden days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = dead_god_planet_hidden days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 6 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = planet_luxuries_boost
+									}
+									remove_modifier = planet_luxuries_boost
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = planet_luxuries_boost days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = planet_luxuries_boost days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 1 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = forest_fire
+									}
+									remove_modifier = forest_fire
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = forest_fire days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = forest_fire days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 2 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = pheromoned_2
+									}
+									remove_modifier = pheromoned_2
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = pheromoned_2 days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = pheromoned_2 days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 3 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = scared_population
+									}
+									remove_modifier = scared_population
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = scared_population days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = scared_population days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 4 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = planet_myrmeku_seal_colony
+									}
+									remove_modifier = planet_myrmeku_seal_colony
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = planet_myrmeku_seal_colony days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = planet_myrmeku_seal_colony days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 5 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = eater_unhappiness_planet_2
+									}
+									remove_modifier = eater_unhappiness_planet_2
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = eater_unhappiness_planet_2 days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = eater_unhappiness_planet_2 days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 6 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = trade_pilfering
+									}
+									remove_modifier = trade_pilfering
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = trade_pilfering days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = trade_pilfering days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 76 }
+				}
+				else = {
+					dtp_fail = { CODE = 76 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 76 }
+			}
+		}
+	}
+}
+
+dqafpvls = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+		}
+		OR = {
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 1 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_turtle_world_modifier }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 2 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_super_sensor_array }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 3 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_wraith_trophy }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 4 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_enclave_artist_festival }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 5 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_soothing_crystals }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 2 }
+					check_variable = { which = dtp_pepg value = 6 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_planet_population_control }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 1 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_nationalist_corruption }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 2 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_pheromoned_3 }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 3 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_secured_factory }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 4 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_planet_myrmeku_upgrade_robots }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 5 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_eater_unhappiness_planet_2_gestalt }
+			}
+			AND = {
+				from = {
+					has_country_flag = dtp_pe_open
+					check_variable = { which = dtp_petab value = 12 }
+					check_variable = { which = dtp_pecat value = 3 }
+					check_variable = { which = dtp_pepg value = 6 }
+				}
+				dtp_tpx = { T = dtp_ph_gm_deviant_interference }
+			}
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					hidden_effect = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 1 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = turtle_world_modifier
+									}
+									remove_modifier = turtle_world_modifier
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = turtle_world_modifier days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = turtle_world_modifier days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 2 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = super_sensor_array
+									}
+									remove_modifier = super_sensor_array
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = super_sensor_array days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = super_sensor_array days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 3 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = wraith_trophy
+									}
+									remove_modifier = wraith_trophy
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = wraith_trophy days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = wraith_trophy days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 4 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = enclave_artist_festival
+									}
+									remove_modifier = enclave_artist_festival
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = enclave_artist_festival days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = enclave_artist_festival days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 5 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = soothing_crystals
+									}
+									remove_modifier = soothing_crystals
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = soothing_crystals days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = soothing_crystals days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 2 }
+									check_variable = { which = dtp_pepg value = 6 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = planet_population_control
+									}
+									remove_modifier = planet_population_control
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = planet_population_control days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = planet_population_control days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 1 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = nationalist_corruption
+									}
+									remove_modifier = nationalist_corruption
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = nationalist_corruption days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = nationalist_corruption days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 2 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = pheromoned_3
+									}
+									remove_modifier = pheromoned_3
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = pheromoned_3 days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = pheromoned_3 days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 3 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = secured_factory
+									}
+									remove_modifier = secured_factory
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = secured_factory days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = secured_factory days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 4 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = planet_myrmeku_upgrade_robots
+									}
+									remove_modifier = planet_myrmeku_upgrade_robots
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = planet_myrmeku_upgrade_robots days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = planet_myrmeku_upgrade_robots days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 5 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = eater_unhappiness_planet_2_gestalt
+									}
+									remove_modifier = eater_unhappiness_planet_2_gestalt
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = eater_unhappiness_planet_2_gestalt days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = eater_unhappiness_planet_2_gestalt days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_open
+									check_variable = { which = dtp_petab value = 12 }
+									check_variable = { which = dtp_pecat value = 3 }
+									check_variable = { which = dtp_pepg value = 6 }
+								}
+							}
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = deviant_interference
+									}
+									remove_modifier = deviant_interference
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = { which = dtp_years value <= 0 }
+											}
+										}
+										add_modifier = { modifier = deviant_interference days = -1 }
+									}
+									else = {
+										set_variable = { which = dtp_ty value = from.dtp_years }
+										add_modifier = { modifier = deviant_interference days = 360 time_multiplier = dtp_ty }
+									}
+								}
+							}
+						}
+					}
+					dtp_result = { CODE = 76 }
+				}
+				else = {
+					dtp_fail = { CODE = 76 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 76 }
+			}
+		}
+	}
+}
+
 dqa3b1x3 = {
 	potential = {
 		from = {
@@ -1065,2716 +3775,6 @@ dq969fci = {
 									else = {
 										set_variable = { which = dtp_ty value = from.dtp_years }
 										add_modifier = { modifier = anticrime_campaign days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-					}
-					dtp_result = { CODE = 76 }
-				}
-				else = {
-					dtp_fail = { CODE = 76 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 76 }
-			}
-		}
-	}
-}
-
-dq93ugg5 = {
-	potential = {
-		from = {
-			has_country_flag = dtp_pe_open
-		}
-		OR = {
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 1 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_embraced_turtle_slavery_modifier }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 2 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_horse_powered_factories_high }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 3 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_horror_stabilized }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 4 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_spiritual_happy_with_open_loop_temple }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 5 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_watery_grave }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 6 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_slave_colony }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 1 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_stellarite_high_temp }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 2 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_unhappy_with_experiments }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 3 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_syndaw_research_malus }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 4 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_media_coverage_negative_low }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 5 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_neutron_bombarded }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 6 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_unemployment_benefits }
-			}
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
-				dtp_has_perm = { P = planet }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = planet }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_p
-					}
-					hidden_effect = {
-						if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 1 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = embraced_turtle_slavery_modifier
-									}
-									remove_modifier = embraced_turtle_slavery_modifier
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = embraced_turtle_slavery_modifier days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = embraced_turtle_slavery_modifier days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 2 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = horse_powered_factories_high
-									}
-									remove_modifier = horse_powered_factories_high
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = horse_powered_factories_high days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = horse_powered_factories_high days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 3 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = horror_stabilized
-									}
-									remove_modifier = horror_stabilized
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = horror_stabilized days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = horror_stabilized days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 4 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = spiritual_happy_with_open_loop_temple
-									}
-									remove_modifier = spiritual_happy_with_open_loop_temple
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = spiritual_happy_with_open_loop_temple days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = spiritual_happy_with_open_loop_temple days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 5 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = watery_grave
-									}
-									remove_modifier = watery_grave
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = watery_grave days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = watery_grave days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 6 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = slave_colony
-									}
-									remove_modifier = slave_colony
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = slave_colony days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = slave_colony days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 1 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = stellarite_high_temp
-									}
-									remove_modifier = stellarite_high_temp
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = stellarite_high_temp days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = stellarite_high_temp days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 2 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = unhappy_with_experiments
-									}
-									remove_modifier = unhappy_with_experiments
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = unhappy_with_experiments days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = unhappy_with_experiments days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 3 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = syndaw_research_malus
-									}
-									remove_modifier = syndaw_research_malus
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = syndaw_research_malus days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = syndaw_research_malus days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 4 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = media_coverage_negative_low
-									}
-									remove_modifier = media_coverage_negative_low
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = media_coverage_negative_low days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = media_coverage_negative_low days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 5 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = neutron_bombarded
-									}
-									remove_modifier = neutron_bombarded
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = neutron_bombarded days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = neutron_bombarded days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 6 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = unemployment_benefits
-									}
-									remove_modifier = unemployment_benefits
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = unemployment_benefits days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = unemployment_benefits days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-					}
-					dtp_result = { CODE = 76 }
-				}
-				else = {
-					dtp_fail = { CODE = 76 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 76 }
-			}
-		}
-	}
-}
-
-dq9lfdlo = {
-	potential = {
-		from = {
-			has_country_flag = dtp_pe_open
-		}
-		OR = {
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 1 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_dportal_trade_normal }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 2 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_society_animal_life }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 3 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_fortress_trophy }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 4 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_native_indoctrination }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 5 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_living_sea }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 6 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_penal_colony_other_planets }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 1 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_stellarite_low_temp }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 2 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_unproductive_without_experiments }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 3 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_nanite_swarm_modifier }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 4 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_media_coverage_negative_medium }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 5 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_uneasy_faith }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 6 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_planet_growth_discouraged }
-			}
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
-				dtp_has_perm = { P = planet }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = planet }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_p
-					}
-					hidden_effect = {
-						if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 1 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = dportal_trade_normal
-									}
-									remove_modifier = dportal_trade_normal
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = dportal_trade_normal days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = dportal_trade_normal days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 2 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = society_animal_life
-									}
-									remove_modifier = society_animal_life
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = society_animal_life days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = society_animal_life days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 3 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = fortress_trophy
-									}
-									remove_modifier = fortress_trophy
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = fortress_trophy days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = fortress_trophy days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 4 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = native_indoctrination
-									}
-									remove_modifier = native_indoctrination
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = native_indoctrination days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = native_indoctrination days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 5 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = living_sea
-									}
-									remove_modifier = living_sea
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = living_sea days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = living_sea days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 6 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = penal_colony_other_planets
-									}
-									remove_modifier = penal_colony_other_planets
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = penal_colony_other_planets days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = penal_colony_other_planets days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 1 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = stellarite_low_temp
-									}
-									remove_modifier = stellarite_low_temp
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = stellarite_low_temp days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = stellarite_low_temp days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 2 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = unproductive_without_experiments
-									}
-									remove_modifier = unproductive_without_experiments
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = unproductive_without_experiments days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = unproductive_without_experiments days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 3 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = nanite_swarm_modifier
-									}
-									remove_modifier = nanite_swarm_modifier
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = nanite_swarm_modifier days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = nanite_swarm_modifier days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 4 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = media_coverage_negative_medium
-									}
-									remove_modifier = media_coverage_negative_medium
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = media_coverage_negative_medium days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = media_coverage_negative_medium days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 5 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = uneasy_faith
-									}
-									remove_modifier = uneasy_faith
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = uneasy_faith days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = uneasy_faith days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 6 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = planet_growth_discouraged
-									}
-									remove_modifier = planet_growth_discouraged
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = planet_growth_discouraged days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = planet_growth_discouraged days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-					}
-					dtp_result = { CODE = 76 }
-				}
-				else = {
-					dtp_fail = { CODE = 76 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 76 }
-			}
-		}
-	}
-}
-
-dq9szauj = {
-	potential = {
-		from = {
-			has_country_flag = dtp_pe_open
-		}
-		OR = {
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 1 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_dportal_trade_low }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 2 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_spiritualist_attraction }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 3 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_voidspawn_trophy }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 4 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_riots_averted }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 5 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_appeased_populace }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 6 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_species_crossbreeding }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 1 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_relentless_industrialists_tomb }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 2 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_unbalanced_ecosystem }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 3 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_perfect_organization_modifier }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 4 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_media_coverage_negative_high }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 5 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_superflare_struck }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 6 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_planet_population_expelled }
-			}
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
-				dtp_has_perm = { P = planet }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = planet }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_p
-					}
-					hidden_effect = {
-						if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 1 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = dportal_trade_low
-									}
-									remove_modifier = dportal_trade_low
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = dportal_trade_low days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = dportal_trade_low days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 2 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = spiritualist_attraction
-									}
-									remove_modifier = spiritualist_attraction
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = spiritualist_attraction days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = spiritualist_attraction days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 3 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = voidspawn_trophy
-									}
-									remove_modifier = voidspawn_trophy
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = voidspawn_trophy days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = voidspawn_trophy days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 4 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = riots_averted
-									}
-									remove_modifier = riots_averted
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = riots_averted days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = riots_averted days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 5 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = appeased_populace
-									}
-									remove_modifier = appeased_populace
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = appeased_populace days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = appeased_populace days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 6 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = species_crossbreeding
-									}
-									remove_modifier = species_crossbreeding
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = species_crossbreeding days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = species_crossbreeding days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 1 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = relentless_industrialists_tomb
-									}
-									remove_modifier = relentless_industrialists_tomb
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = relentless_industrialists_tomb days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = relentless_industrialists_tomb days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 2 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = unbalanced_ecosystem
-									}
-									remove_modifier = unbalanced_ecosystem
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = unbalanced_ecosystem days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = unbalanced_ecosystem days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 3 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = perfect_organization_modifier
-									}
-									remove_modifier = perfect_organization_modifier
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = perfect_organization_modifier days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = perfect_organization_modifier days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 4 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = media_coverage_negative_high
-									}
-									remove_modifier = media_coverage_negative_high
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = media_coverage_negative_high days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = media_coverage_negative_high days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 5 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = superflare_struck
-									}
-									remove_modifier = superflare_struck
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = superflare_struck days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = superflare_struck days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 6 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = planet_population_expelled
-									}
-									remove_modifier = planet_population_expelled
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = planet_population_expelled days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = planet_population_expelled days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-					}
-					dtp_result = { CODE = 76 }
-				}
-				else = {
-					dtp_fail = { CODE = 76 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 76 }
-			}
-		}
-	}
-}
-
-dqb3yw7q = {
-	potential = {
-		from = {
-			has_country_flag = dtp_pe_open
-		}
-		OR = {
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 1 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_dportal_trade_high }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 2 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_materialist_attraction }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 3 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_stellar_devourer_trophy }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 4 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_spiritualist_unrest }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 5 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_stolen_great_work }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 6 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_slot_machine_bounty }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 1 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_subterranean_tech_transaction }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 2 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_comet_sighted_negative }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 3 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_crystal_kraken }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 4 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_low_motivation }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 5 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_researcher_rage }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 6 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_criminal_gambling }
-			}
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
-				dtp_has_perm = { P = planet }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = planet }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_p
-					}
-					hidden_effect = {
-						if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 1 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = dportal_trade_high
-									}
-									remove_modifier = dportal_trade_high
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = dportal_trade_high days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = dportal_trade_high days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 2 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = materialist_attraction
-									}
-									remove_modifier = materialist_attraction
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = materialist_attraction days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = materialist_attraction days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 3 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = stellar_devourer_trophy
-									}
-									remove_modifier = stellar_devourer_trophy
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = stellar_devourer_trophy days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = stellar_devourer_trophy days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 4 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = spiritualist_unrest
-									}
-									remove_modifier = spiritualist_unrest
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = spiritualist_unrest days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = spiritualist_unrest days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 5 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = stolen_great_work
-									}
-									remove_modifier = stolen_great_work
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = stolen_great_work days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = stolen_great_work days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 6 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = slot_machine_bounty
-									}
-									remove_modifier = slot_machine_bounty
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = slot_machine_bounty days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = slot_machine_bounty days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 1 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = subterranean_tech_transaction
-									}
-									remove_modifier = subterranean_tech_transaction
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = subterranean_tech_transaction days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = subterranean_tech_transaction days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 2 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = comet_sighted_negative
-									}
-									remove_modifier = comet_sighted_negative
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = comet_sighted_negative days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = comet_sighted_negative days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 3 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = crystal_kraken
-									}
-									remove_modifier = crystal_kraken
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = crystal_kraken days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = crystal_kraken days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 4 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = low_motivation
-									}
-									remove_modifier = low_motivation
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = low_motivation days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = low_motivation days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 5 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = researcher_rage
-									}
-									remove_modifier = researcher_rage
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = researcher_rage days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = researcher_rage days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 6 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = criminal_gambling
-									}
-									remove_modifier = criminal_gambling
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = criminal_gambling days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = criminal_gambling days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-					}
-					dtp_result = { CODE = 76 }
-				}
-				else = {
-					dtp_fail = { CODE = 76 }
-				}
-			}
-			else = {
-				dtp_deny = { CODE = 76 }
-			}
-		}
-	}
-}
-
-dqbld8dd = {
-	potential = {
-		from = {
-			has_country_flag = dtp_pe_open
-		}
-		OR = {
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 1 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_dportal_trade_crisis }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 2 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_celebrate_idyllic_bloom }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 3 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_shroud_forged_civic_assistance_capital }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 4 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_authoritarian_unrest }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 5 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_multiple_stolen_great_works }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 2 }
-					check_variable = { which = dtp_pepg value = 6 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_heavy_metal }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 1 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_synth_planet_paranoia }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 2 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_ruler_failed_savior }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 3 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_energy_poor }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 4 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_opinion_disrespected }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 5 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_brainslug_woes }
-			}
-			AND = {
-				from = {
-					has_country_flag = dtp_pe_open
-					check_variable = { which = dtp_petab value = 12 }
-					check_variable = { which = dtp_pecat value = 3 }
-					check_variable = { which = dtp_pepg value = 6 }
-				}
-				dtp_tpx = { T = dtp_ph_gm_festival_aftermath }
-			}
-		}
-	}
-	allow = {
-		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
-				dtp_has_perm = { P = planet }
-			} }
-		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
-	}
-	effect = {
-		hidden_effect = {
-			hidden_effect = {
-				from = {
-					dtp_pidx_ensure = yes
-					dtp_init_targets = yes
-					dtp_host_check = yes
-				}
-				dtp_load = yes
-				dtp_disarm = yes
-			}
-			if = {
-				limit = {
-					from = {
-						dtp_has_perm = { P = planet }
-					}
-				}
-				if = {
-					limit = {
-						exists = event_target:dtp_p
-					}
-					hidden_effect = {
-						if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 1 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = dportal_trade_crisis
-									}
-									remove_modifier = dportal_trade_crisis
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = dportal_trade_crisis days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = dportal_trade_crisis days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 2 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = celebrate_idyllic_bloom
-									}
-									remove_modifier = celebrate_idyllic_bloom
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = celebrate_idyllic_bloom days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = celebrate_idyllic_bloom days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 3 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = shroud_forged_civic_assistance_capital
-									}
-									remove_modifier = shroud_forged_civic_assistance_capital
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = shroud_forged_civic_assistance_capital days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = shroud_forged_civic_assistance_capital days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 4 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = authoritarian_unrest
-									}
-									remove_modifier = authoritarian_unrest
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = authoritarian_unrest days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = authoritarian_unrest days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 5 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = multiple_stolen_great_works
-									}
-									remove_modifier = multiple_stolen_great_works
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = multiple_stolen_great_works days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = multiple_stolen_great_works days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 2 }
-									check_variable = { which = dtp_pepg value = 6 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = heavy_metal
-									}
-									remove_modifier = heavy_metal
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = heavy_metal days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = heavy_metal days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 1 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = synth_planet_paranoia
-									}
-									remove_modifier = synth_planet_paranoia
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = synth_planet_paranoia days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = synth_planet_paranoia days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 2 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = ruler_failed_savior
-									}
-									remove_modifier = ruler_failed_savior
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = ruler_failed_savior days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = ruler_failed_savior days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 3 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = energy_poor
-									}
-									remove_modifier = energy_poor
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = energy_poor days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = energy_poor days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 4 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = opinion_disrespected
-									}
-									remove_modifier = opinion_disrespected
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = opinion_disrespected days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = opinion_disrespected days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 5 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = brainslug_woes
-									}
-									remove_modifier = brainslug_woes
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = brainslug_woes days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = brainslug_woes days = 360 time_multiplier = dtp_ty }
-									}
-								}
-							}
-						}
-						else_if = {
-							limit = {
-								from = {
-									has_country_flag = dtp_pe_open
-									check_variable = { which = dtp_petab value = 12 }
-									check_variable = { which = dtp_pecat value = 3 }
-									check_variable = { which = dtp_pepg value = 6 }
-								}
-							}
-							event_target:dtp_p = {
-								if = {
-									limit = {
-										has_modifier = festival_aftermath
-									}
-									remove_modifier = festival_aftermath
-								}
-								else = {
-									if = {
-										limit = {
-											from = {
-												check_variable = { which = dtp_years value <= 0 }
-											}
-										}
-										add_modifier = { modifier = festival_aftermath days = -1 }
-									}
-									else = {
-										set_variable = { which = dtp_ty value = from.dtp_years }
-										add_modifier = { modifier = festival_aftermath days = 360 time_multiplier = dtp_ty }
 									}
 								}
 							}

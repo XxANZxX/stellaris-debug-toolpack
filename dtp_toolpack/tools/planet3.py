@@ -130,7 +130,7 @@ def PT(body, code):
 for _c, _ru, _en in [(68, "зона изменена", "zone changed"), (69, "аномалия добавлена", "anomaly added"), (70, "раскопки добавлены", "dig site added"),
                      (71, "специализация изменена", "designation changed"), (72, "особенность планеты изменена", "planet feature changed"),
                      (73, "население изменено", "population changed"), (74, "уровень возвышения планеты изменён", "planetary ascension changed"),
-                     (75, "станция создана", "station created"), (76, "планета изменена", "planet changed")]:
+                     (75, "станция создана", "station created"), (76, "планета изменена", "planet changed"), (77, "гиперкоридоры изменены", "hyperlanes changed")]:
     CODES[_c] = _ru; CODES_EN[_c] = _en
 for _c, _en in [(9, "planet type changed"), (10, "deposits or blockers changed"), (11, "planet size changed"), (12, "population added"), (37, "star class changed"),
                 (42, "district changed"), (43, "building changed"), (8, "planet transferred"), (33, "colony destroyed"), (53, "colony founded"), (36, "system marks changed")]:
@@ -164,7 +164,7 @@ pb("close", "✕", "✕", EW - 54, 14, 40, 36, pot=PEP(), effect=B("from", "remo
 PTABS = [(1, "Тип планеты", "Planet type"), (2, "Размер и колония", "Size & colony"), (3, "Звезда и система", "Star & system"),
          (4, "Залежи", "Deposits"), (5, "Районы", "Districts"), (6, "Зоны районов", "District zones"), (7, "Здания", "Buildings"),
          (8, "Аномалии и раскопки", "Anomalies & dig sites"), (9, "Специализация", "Designation"), (10, "Природа планеты", "Planet features"),
-         (11, "Население", "Population"), (12, "Модификаторы", "Modifiers")]
+         (11, "Население", "Population"), (12, "Модификаторы", "Modifiers"), (13, "Гиперкоридоры", "Hyperlanes")]
 PTT = {1: ("Тип (класс) планеты: обитаемые, особые и необитаемые — все типы игры.", "Planet type (class): habitable, special and uninhabitable — every type in the game."),
        2: ("Размер планеты, уровень возвышения, колонизация, передача, уничтожение колонии, терраформирование.", "Planet size, ascension tier, colonization, transfer, destroying the colony, terraforming."),
        3: ("Класс звезды системы и объекты в системе: станции, разлом, отметка.", "The system's star class and objects in the system: stations, rift, mark."),
@@ -176,19 +176,20 @@ PTT = {1: ("Тип (класс) планеты: обитаемые, особые
        9: ("Специализация (назначение) колонии — все варианты игры.", "Colony designation — every option in the game."),
        10: ("Особенности природы планеты: опасная погода, богатая жизнь и т. д.", "Natural planet features: hazardous weather, rich wildlife and so on."),
        11: ("Население планеты: добавить группы населения, убрать часть или всех.", "Planet population: add pop groups, remove part or all of them."),
-       12: ("Бонусы и штрафы планеты: модификаторы Toolpack (сила и срок — калькулятор справа) и модификаторы самой игры.", "Planet bonuses and penalties: Toolpack modifiers (strength and duration — calculator on the right) and the game's own modifiers.")}
+       12: ("Бонусы и штрафы планеты: модификаторы Toolpack (сила и срок — калькулятор справа) и модификаторы самой игры.", "Planet bonuses and penalties: Toolpack modifiers (strength and duration — calculator on the right) and the game's own modifiers."),
+       13: ("Гиперкоридоры системы выбранной планеты: проложить или убрать коридор с запомненной системой, изолировать систему, соседи, отмеченные системы.", "Hyperlanes of the selected planet's system: add or remove a lane to the remembered system, isolate the system, neighbours, marked systems.")}
 PSUB = {1: ("класс планеты · как у игры", "planet class · as in the game"), 2: ("размер · колония · владелец", "size · colony · owner"),
         3: ("звезда · станции · разлом", "star · stations · rift"), 4: ("ресурсы · препятствия · орбита", "resources · blockers · orbit"),
         5: ("добавить или убрать", "add or remove"), 6: ("в подходящий район планеты", "into a fitting district of the planet"),
         7: ("добавить или снести", "add or demolish"), 8: ("аномалии · раскопки", "anomalies · dig sites"), 9: ("назначение колонии", "colony designation"),
-        10: ("особенности природы", "natural features"), 11: ("группы населения", "pop groups"), 12: ("бонусы и штрафы планеты", "planet bonuses and penalties")}
+        10: ("особенности природы", "natural features"), 11: ("группы населения", "pop groups"), 12: ("бонусы и штрафы планеты", "planet bonuses and penalties"), 13: ("коридоры между системами", "lanes between systems")}
 pdeco("navbg", 8, 64, 206, EH - 72, "GFX_dtp_frame", PO)
 plab("navh", "§gРАЗДЕЛЫ§!", "§gSECTIONS§!", 22, 70, 180, pot=PEP(), h=22)
 for i, (t, ru, en) in enumerate(PTABS):
     y = 96 + i * 42
     pb("tab%d_on" % t, ru, en, 14, y, 194, 38, pot=PEP(t), sprite="GFX_dtp_ednav_on", tt=PTT[t])
     pb("tab%d" % t, ru, en, 14, y, 194, 38, pot=PEP(extra=B("from", "NOT = { %s }" % chk("dtp_petab", t))),
-       effect=B("from", setv("dtp_petab", t), setv("dtp_pecat", 1), setv("dtp_pepg", 1)) + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes" if t == 11 else ""), sprite="GFX_dtp_ednav", tt=PTT[t])
+       effect=B("from", setv("dtp_petab", t), setv("dtp_pecat", 1), setv("dtp_pepg", 1)) + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes" if t == 11 else "") + ("\n" + INIT + "\ndtp_load = yes\ndtp_hn_fill = yes" if t == 13 else ""), sprite="GFX_dtp_ednav", tt=PTT[t])
     pdeco("ban%d" % t, EX0, 62, EXW, 40, "GFX_dtp_pbanner_%d" % t, B("from", PEOPEN, chk("dtp_petab", t)))
     plab("bt%d" % t, ru.upper(), en.upper(), EX0 + 50, 66, 500, pot=PEP(t), h=30, font="large_title_font")
     plab("bs%d" % t, "§g%s§!" % PSUB[t][0], "§g%s§!" % PSUB[t][1], EX0 + 560, 72, EXW - 570, pot=PEP(t), h=22)
@@ -673,6 +674,136 @@ def pcalc(tab, pfx, rx, rw, years, head_ru, head_en, quick):
 pcalc(12, "k", RX12, RW12, True, "§YСИЛА§!  §gсейчас: §Y[From.dtp_val]§!§!", "§YSTRENGTH§!  §gnow: §Y[From.dtp_val]§!§!", [-50, -10, 25, 100])
 pcalc(11, "n", RX11, RW11, False, "§YКОЛИЧЕСТВО§!  §gнаселения§!", "§YAMOUNT§!  §gof pops§!", [100, 500, 1000, 5000])
 
+
+# ================================================================ 13. ГИПЕРКОРИДОРЫ: система 1 = система выбранной планеты, система 2 = запомненная
+HN_N = 12
+TRG.append(B("dtp_has_hl2", orchain(lambda k: "exists = event_target:dtp_hl2_%d" % k)))
+TRG.append(B("dtp_hl_same", orchain(lambda k: "exists = event_target:dtp_hl2_%d\n" % k + B("event_target:dtp_tp_%d" % k, B("solar_system", "is_same_value = event_target:dtp_hl2_%d" % k)))))
+TRG.append(B("dtp_hl_has", orchain(lambda k: "exists = event_target:dtp_hl2_%d\n" % k + B("event_target:dtp_tp_%d" % k, B("solar_system", "has_hyperlane_to = event_target:dtp_hl2_%d" % k)))))
+EFF.append(B("dtp_hl2_load", chain(lambda k: B("if", B("limit", "exists = event_target:dtp_hl2_%d" % k), B("event_target:dtp_hl2_%d" % k, "save_event_target_as = dtp_s2")), None)))
+# соседи системы 1 по коридорам — в общий список dtp_hn_1..12 (обновляется при открытии раздела и после каждого изменения)
+EFF.append(B("dtp_hn_fill", *[B("if", B("limit", "exists = event_target:dtp_hn_%d" % j), "clear_global_event_target = dtp_hn_%d" % j) for j in range(1, HN_N + 1)],
+    B("if", B("limit", "exists = event_target:dtp_s"), B("event_target:dtp_s", setv("dtp_hnn", 0),
+      B("every_neighbor_system", B("prev", "change_variable = { which = dtp_hnn value = 1 }"),
+        *[B("if", B("limit", B("prev", chk("dtp_hnn", j))), "save_global_event_target_as = dtp_hn_%d" % j) for j in range(1, HN_N + 1)])))))
+# изолировать систему: соседи помечаются, потом коридоры к ним убираются (не меняем список, по которому идём)
+CUT = lambda src: "\n".join([B(src, B("every_neighbor_system", "set_star_flag = dtp_hl_cut")),
+                             B("every_system", B("limit", "has_star_flag = dtp_hl_cut"), "remove_hyperlane = { from = %s to = this }" % src, "remove_star_flag = dtp_hl_cut")])
+HLREF = "\ndtp_load = yes\ndtp_hn_fill = yes"
+AL13 = need_perm("planet") + "\n" + N_TP()
+N_HL2 = need("dtp_need_hl2", "Сначала запомните систему 2: выберите другую планету и нажмите «Запомнить как систему 2»", "dtp_has_hl2 = yes")
+N_HLDIFF = need("dtp_need_hldiff", "Система 1 и система 2 совпадают — выберите планету в другой системе", "NOT = { dtp_hl_same = yes }")
+tren(L["dtp_need_hl2"], "First remember system 2: pick another planet and press 'Remember as system 2'")
+tren(L["dtp_need_hldiff"], "System 1 and system 2 are the same — pick a planet in another system")
+P13 = PEP(13)
+for k in range(1, MAXP + 1):
+    pk = PEP(13, extra=B("from", chk("dtp_pidx", k)))
+    plab("hl1_%d" % k, "§YСИСТЕМА 1:§! [dtp_tp_%d.System.GetName]  §g(система выбранной планеты)§!" % k, "§YSYSTEM 1:§! [dtp_tp_%d.System.GetName]  §g(the selected planet's system)§!" % k,
+         EX0 + 6, EY0 - 40, EXW // 2 - 10, pot=pk + "\nexists = event_target:dtp_tp_%d" % k, h=26)
+    plab("hl2_%d" % k, "§BСИСТЕМА 2:§! [dtp_hl2_%d.GetName]  §g(запомненная)§!" % k, "§BSYSTEM 2:§! [dtp_hl2_%d.GetName]  §g(remembered)§!" % k,
+         EX0 + EXW // 2, EY0 - 40, EXW // 2 - 6, pot=pk + "\nexists = event_target:dtp_hl2_%d" % k, h=26)
+    plab("hl2_%d_x" % k, "§BСИСТЕМА 2:§! §gне запомнена§!", "§BSYSTEM 2:§! §gnot remembered§!", EX0 + EXW // 2, EY0 - 40, EXW // 2 - 6,
+         pot=pk + "\nNOT = { exists = event_target:dtp_hl2_%d }" % k, h=26)
+_C3 = (EXW - 2 * EGAP) // 3
+def hrow(r): return EY0 - 8 + r * 40
+pb("hl_rem", "Запомнить как систему 2", "Remember as system 2", EX0, hrow(0), _C3, 34, pot=P13, allow=AL13,
+   effect=INIT + "\ndtp_load = yes\n" + chain(lambda k: B("if", B("limit", "exists = event_target:dtp_s"), B("event_target:dtp_s", "save_global_event_target_as = dtp_hl2_%d" % k)), None) + "\ndtp_result = { CODE = 29 }",
+   tt=("Запомнить систему выбранной планеты как «систему 2». Потом выберите планету в другой системе — и проложите или уберите коридор между ними.",
+       "Remember the selected planet's system as 'system 2'. Then pick a planet in another system — and add or remove the lane between them."))
+pb("hl_add", "Проложить коридор 1 ↔ 2", "Add lane 1 ↔ 2", EX0 + _C3 + EGAP, hrow(0), _C3, 34, pot=P13 + "\nNOT = { dtp_hl_has = yes }", allow=AL13 + "\n" + N_HL2 + "\n" + N_HLDIFF,
+   effect=act("planet", "dtp_hl2_load = yes\n" + B("if", B("limit", "exists = event_target:dtp_s2", "NOT = { event_target:dtp_s = { is_same_value = event_target:dtp_s2 } }"),
+                                                    "add_hyperlane = { from = event_target:dtp_s to = event_target:dtp_s2 }"), 77) + HLREF, sprite="GFX_dtp_btn_go",
+   tt=("Проложить гиперкоридор между системой 1 и системой 2 — корабли смогут летать напрямую.", "Add a hyperlane between system 1 and system 2 — ships can travel directly."))
+pb("hl_has", "§GКоридор 1 ↔ 2 есть§! — убрать", "§GLane 1 ↔ 2 exists§! — remove", EX0 + _C3 + EGAP, hrow(0), _C3, 34, pot=P13 + "\ndtp_hl_has = yes", allow=AL13 + "\n" + N_HL2,
+   effect=act("planet", "dtp_hl2_load = yes\n" + B("if", B("limit", "exists = event_target:dtp_s2"), "remove_hyperlane = { from = event_target:dtp_s to = event_target:dtp_s2 }"), 77) + HLREF,
+   sprite="GFX_dtp_btn_danger", tt=("Коридор между системами 1 и 2 уже есть. Нажмите, чтобы убрать его.", "The lane between systems 1 and 2 exists. Click to remove it."))
+pb("hl_wh", "Червоточина 1 ↔ 2", "Wormhole 1 ↔ 2", EX0 + 2 * (_C3 + EGAP), hrow(0), _C3, 34, pot=P13, allow=AL13 + "\n" + N_HL2 + "\n" + N_HLDIFF,
+   effect=act("planet", "dtp_hl2_load = yes\n" + B("if", B("limit", "exists = event_target:dtp_s2"),
+                                                    B("event_target:dtp_s", "spawn_natural_wormhole = { bypass_type = wormhole random_pos = yes }"),
+                                                    B("event_target:dtp_s2", "spawn_natural_wormhole = { bypass_type = wormhole random_pos = yes }", "link_wormholes = event_target:dtp_s")), 77),
+   tt=("Создать по червоточине в системах 1 и 2 и связать их между собой — проход без коридора.", "Spawn a wormhole in systems 1 and 2 and link them — a passage without a lane."))
+plab("hl_hb", "§YСИСТЕМА 1 ЦЕЛИКОМ§!", "§YSYSTEM 1 AS A WHOLE§!", EX0 + 6, hrow(1) + 6, EXW - 12, pot=P13, h=26)
+for j, (k, ru, en, ef, tru, ten, spr) in enumerate([
+        ("iso", "Изолировать систему", "Isolate the system", CUT("event_target:dtp_s"),
+         "Убрать ВСЕ гиперкоридоры системы 1 — в неё нельзя будет прилететь иначе как через червоточину или прыжковым двигателем.",
+         "Remove ALL hyperlanes of system 1 — it can only be reached through a wormhole or with a jump drive.", "GFX_dtp_btn_danger"),
+        ("near", "+ коридор к ближней системе", "+ lane to a nearby system",
+         B("event_target:dtp_s", B("random_neighbor_system_euclidean", B("limit", "NOT = { is_same_value = event_target:dtp_s }", "NOT = { has_hyperlane_to = event_target:dtp_s }"),
+                                   "add_hyperlane = { from = event_target:dtp_s to = this }")),
+         "Проложить коридор от системы 1 к случайной ближней (по расстоянию) системе, с которой коридора ещё нет. Можно нажимать несколько раз.",
+         "Add a lane from system 1 to a random nearby (by distance) system it is not yet connected to. Can be clicked several times.", "GFX_dtp_btn_go"),
+        ("refresh", "Обновить список соседей", "Refresh neighbours", "log = \"DTP hyperlanes: refresh\"",
+         "Перечитать соседей системы 1 по коридорам (список ниже).", "Re-read system 1's neighbours by lane (the list below).", None)]):
+    pb("hl_" + k, ru, en, EX0 + j * (_C3 + EGAP), hrow(1) + 34, _C3, 34, pot=P13, allow=AL13, effect=act("planet", ef, 77) + HLREF, sprite=spr or "GFX_dtp_btn", tt=(tru, ten))
+plab("hl_hn", "§YСОСЕДИ СИСТЕМЫ 1 ПО КОРИДОРАМ§!  §g× — убрать коридор · ⇄ — сделать системой 2§!", "§YSYSTEM 1 NEIGHBOURS BY LANE§!  §g× — remove the lane · ⇄ — make it system 2§!",
+     EX0 + 6, hrow(2) + 34, EXW - 12, pot=P13, h=26)
+plab("hl_hn0", "§gСписок пуст — нажмите «Обновить список соседей» (у изолированной системы соседей нет)§!", "§gThe list is empty — press 'Refresh neighbours' (an isolated system has none)§!",
+     EX0 + 6, hrow(3) + 30, EXW - 12, pot=P13 + "\nNOT = { exists = event_target:dtp_hn_1 }", h=26)
+_NW = (EXW - 2 * EGAP) // 3
+for j in range(1, HN_N + 1):
+    x = EX0 + ((j - 1) % 3) * (_NW + EGAP); y = hrow(3) + 30 + ((j - 1) // 3) * 38
+    pe = P13 + "\nexists = event_target:dtp_hn_%d" % j
+    plab("hn%d" % j, "[dtp_hn_%d.GetName]" % j, "[dtp_hn_%d.GetName]" % j, x, y, _NW - 80, pot=pe, h=34, sprite="GFX_dtp_card")
+    pb("hn%d_s2" % j, "⇄", "⇄", x + _NW - 78, y, 36, 34, pot=pe, effect=chain(lambda k, j=j: B("event_target:dtp_hn_%d" % j, "save_global_event_target_as = dtp_hl2_%d" % k), None),
+       tt=("Сделать эту систему системой 2.", "Make this system system 2."))
+    pb("hn%d_x" % j, "×", "×", x + _NW - 38, y, 36, 34, pot=pe, allow=AL13, sprite="GFX_dtp_btn_danger",
+       effect=act("planet", B("if", B("limit", "exists = event_target:dtp_hn_%d" % j), "remove_hyperlane = { from = event_target:dtp_s to = event_target:dtp_hn_%d }" % j), 77) + HLREF,
+       tt=("Убрать коридор между системой 1 и этой системой.", "Remove the lane between system 1 and this system."))
+_ym = hrow(3) + 30 + 4 * 38 + 4
+plab("hl_hm", "§YОТМЕЧЕННЫЕ СИСТЕМЫ§!  §g(красные метки — раздел «Системы» или Alt+M в окне планеты)§!", "§YMARKED SYSTEMS§!  §g(red marks — the Systems section or Alt+M in a planet window)§!",
+     EX0 + 6, _ym, EXW - 12, pot=P13, h=26)
+MK = "has_star_flag = dtp_marked"
+for j, (k, ru, en, ef, tru, ten, spr) in enumerate([
+        ("m_add", "Систему 1 — со всеми отмеченными", "System 1 — to all marked",
+         B("every_system", B("limit", MK, "NOT = { is_same_value = event_target:dtp_s }", "NOT = { has_hyperlane_to = event_target:dtp_s }"), "add_hyperlane = { from = event_target:dtp_s to = this }"),
+         "Проложить коридоры от системы 1 ко всем отмеченным системам.", "Add lanes from system 1 to every marked system.", "GFX_dtp_btn_go"),
+        ("m_rm", "Убрать коридоры 1 ↔ отмеченные", "Remove lanes 1 ↔ marked",
+         B("every_system", B("limit", MK, "has_hyperlane_to = event_target:dtp_s"), "remove_hyperlane = { from = event_target:dtp_s to = this }"),
+         "Убрать коридоры между системой 1 и всеми отмеченными системами.", "Remove the lanes between system 1 and every marked system.", "GFX_dtp_btn_danger"),
+        ("m_mesh", "Связать отмеченные между собой", "Link the marked together",
+         B("every_system", B("limit", MK), "save_event_target_as = dtp_hla",
+           B("every_system", B("limit", MK, "NOT = { is_same_value = event_target:dtp_hla }", "NOT = { has_hyperlane_to = event_target:dtp_hla }"), "add_hyperlane = { from = event_target:dtp_hla to = this }")),
+         "Проложить коридоры между всеми отмеченными системами (каждая с каждой). Отметьте немного систем — коридоров будет много.",
+         "Add lanes between all marked systems (each to each). Mark only a few systems — there will be many lanes.", "GFX_dtp_btn_go"),
+        ("m_iso", "Изолировать все отмеченные", "Isolate all marked",
+         B("every_system", B("limit", MK), "save_event_target_as = dtp_hla", CUT("event_target:dtp_hla")),
+         "Убрать все гиперкоридоры у каждой отмеченной системы.", "Remove every hyperlane of each marked system.", "GFX_dtp_btn_danger")]):
+    pb("hl_" + k, ru, en, EX0 + (j % 2) * ((EXW - EGAP) // 2 + EGAP), _ym + 30 + (j // 2) * 40, (EXW - EGAP) // 2, 34, pot=P13, allow=need_perm("planet"),
+       effect=act("planet", ef, 77, False) if "dtp_s" not in ef else act("planet", ef, 77) + HLREF, sprite=spr, tt=(tru, ten))
+# 11.3.6: червоточины и врата удалить скриптом нельзя (в игре нет такой команды) — их можно «запереть»: проходом пользуется только держава A
+_yw = _ym + 30 + 2 * 40 + 8
+TRG.append(B("dtp_hl_locked", orchain(lambda k: B("event_target:dtp_tp_%d" % k, B("solar_system", B("any_bypass_in_system", "has_lock = yes"))))))
+TRG.append(B("dtp_hl_anybp", orchain(lambda k: B("event_target:dtp_tp_%d" % k, B("solar_system", "any_bypass_in_system = { always = yes }")))))
+plab("hl_hw", "§YЧЕРВОТОЧИНЫ И ВРАТА§!  §gудалить нельзя — можно закрыть§!", "§YWORMHOLES & GATEWAYS§!  §gcan't be deleted — can be closed§!",
+     EX0 + 6, _yw, EXW - 340, pot=P13, h=26)
+plab("hl_wst1", "§RПроходы системы 1 закрыты§!", "§RSystem 1 passages are closed§!", EX0 + EXW - 330, _yw, 324, pot=P13 + "\ndtp_hl_locked = yes", h=26)
+plab("hl_wst0", "§gВ системе 1 нет червоточин и врат§!", "§gSystem 1 has no wormholes or gateways§!", EX0 + EXW - 330, _yw, 324, pot=P13 + "\nNOT = { dtp_hl_anybp = yes }", h=26)
+loc("any_bypass_in_system_trigger", "Любой проход в системе:"); tren(L["any_bypass_in_system_trigger"], "Any passage in the system:")      # у игры нет строки (error.log)
+loc("effect_every_bypass_in_system", "Каждый проход в системе:"); tren(L["effect_every_bypass_in_system"], "Every passage in the system:")
+LOCK = lambda dur, who: B("every_bypass_in_system", "lock_bypass = { country = %s duration = %d }" % (who, dur))
+# «для всех»: проход отдаётся служебной державе игры (тип global_event — без флотов), значит не пройдёт никто
+NOBODY = B("random_country", B("limit", "is_country_type = global_event"), "save_event_target_as = dtp_nobody")
+_W3 = (EXW - 2 * EGAP) // 3
+for j, (k, ru, en, ef, tru, ten, spr, al) in enumerate([
+        ("w_all", "Закрыть для всех", "Close to everyone", NOBODY + "\n" + B("if", B("limit", "exists = event_target:dtp_nobody"), B("event_target:dtp_s", LOCK(36000, "event_target:dtp_nobody"))),
+         "Закрыть червоточины и врата системы 1 на 100 лет для ВСЕХ держав, включая владельца системы.",
+         "Close system 1's wormholes and gateways for 100 years to ALL empires, the system owner included.", "GFX_dtp_btn_danger", ""),
+        ("w_lock", "Закрыть, кроме державы A", "Close to all but A", B("event_target:dtp_s", LOCK(36000, "event_target:dtp_t")),
+         "Закрыть червоточины и врата системы 1 на 100 лет: пройти сможет только держава A.",
+         "Close system 1's wormholes and gateways for 100 years: only empire A can pass.", "GFX_dtp_btn_danger", N_TC()),
+        ("w_open", "Открыть проходы", "Open passages", NOBODY + "\n" + B("if", B("limit", "exists = event_target:dtp_nobody"), B("event_target:dtp_s", LOCK(1, "event_target:dtp_nobody"))),
+         "Снять закрытие с червоточин и врат системы 1: оно сокращается до одного дня и проходит само.",
+         "Lift the closure of system 1's wormholes and gateways: it is shortened to one day and then expires.", "GFX_dtp_btn_go", ""),
+        ("w_mall", "Отмеченные: закрыть для всех", "Marked: close to everyone", NOBODY + "\n" + B("if", B("limit", "exists = event_target:dtp_nobody"), B("every_system", B("limit", MK), LOCK(36000, "event_target:dtp_nobody"))),
+         "Закрыть червоточины и врата во всех отмеченных системах на 100 лет для всех держав.", "Close the wormholes and gateways of every marked system for 100 years to all empires.", "GFX_dtp_btn_danger", ""),
+        ("w_mlock", "Отмеченные: кроме A", "Marked: all but A", B("every_system", B("limit", MK), LOCK(36000, "event_target:dtp_t")),
+         "Закрыть червоточины и врата во всех отмеченных системах на 100 лет: пройти сможет только держава A.",
+         "Close the wormholes and gateways of every marked system for 100 years: only empire A can pass.", "GFX_dtp_btn_danger", N_TC()),
+        ("w_mopen", "Отмеченные: открыть", "Marked: open", NOBODY + "\n" + B("if", B("limit", "exists = event_target:dtp_nobody"), B("every_system", B("limit", MK), LOCK(1, "event_target:dtp_nobody"))),
+         "Снять закрытие с червоточин и врат во всех отмеченных системах (через день).", "Lift the closure in every marked system (after one day).", "GFX_dtp_btn_go", "")]):
+    pb("hl_" + k, ru, en, EX0 + (j % 3) * (_W3 + EGAP), _yw + 30 + (j // 3) * 40, _W3, 34, pot=P13,
+       allow=need_perm("planet") + ("\n" + al if al else "") + ("\n" + N_TP() if "dtp_s" in ef else ""), effect=act("planet", ef, 77), sprite=spr, tt=(tru, ten))
+
 pslots()
 # ---- открыть редактор планеты (из главной панели и из окна планеты)
 PE_OPEN_EFF = B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_pe_open", "remove_country_flag = dtp_open", "remove_country_flag = dtp_ed_open",
@@ -684,7 +815,7 @@ _GI = "gfx/interface/icons/"
 PNAVTEX = {1: _GI + "planet_modifiers/pm_extensive_moon_system.dds", 2: _GI + "resources/minerals.dds", 3: _GI + "resources/energy.dds", 4: _GI + "deposits/default.dds",
            5: _GI + "districts/district_city.dds", 6: _GI + "districts/district_specialization_icons/district_specialization_urban.dds", 7: _GI + "buildings/building_research_lab_1.dds",
            8: _GI + "resources/physics_research.dds", 9: _GI + "resources/influence.dds", 10: _GI + "planet_modifiers/pm_lush.dds", 11: _GI + "resources/food.dds",
-           12: _GI + "resources/unity.dds"}
+           12: _GI + "resources/unity.dds", 13: _GI + "resources/engineering_research.dds"}
 for _g, _m in list(zip(GUI, META)):
     if _g["where"] != "peditor" or _g["label"]: continue
     mm = re.match(r"dtp_b_pe_tab(\d+)(_on)?$", _g["key"])

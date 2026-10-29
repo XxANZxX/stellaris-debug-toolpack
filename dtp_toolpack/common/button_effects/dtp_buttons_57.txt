@@ -1,4 +1,83 @@
-# Debug Toolpack 11.3.4 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+# Debug Toolpack 11.3.8 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dqdohhgb = {
+	potential = {
+		from = {
+			has_country_flag = dtp_pe_open
+			check_variable = { which = dtp_petab value = 4 }
+			check_variable = { which = dtp_pecat value = 1 }
+			check_variable = { which = dtp_pepg value = 1 }
+		}
+	}
+	allow = {
+		custom_tooltip = { fail_text = dtp_need_perm_planet from = {
+				dtp_has_perm = { P = planet }
+			} }
+		custom_tooltip = { fail_text = dtp_need_tp dtp_has_tp = yes }
+		custom_tooltip = { fail_text = dtp_pe_lock OR = {
+				from = {
+					dtp_force_active = yes
+				}
+				OR = {
+					dtp_tpx = { T = dtp_ph_d_d_underwater_vent }
+					dtp_tpx = { T = dtp_pok_d_d_underwater_vent }
+					from = {
+						has_country_flag = dtp_pe_rm
+					}
+				}
+			} }
+	}
+	effect = {
+		hidden_effect = {
+			hidden_effect = {
+				from = {
+					dtp_pidx_ensure = yes
+					dtp_init_targets = yes
+					dtp_host_check = yes
+				}
+				dtp_load = yes
+				dtp_disarm = yes
+			}
+			if = {
+				limit = {
+					from = {
+						dtp_has_perm = { P = planet }
+					}
+				}
+				if = {
+					limit = {
+						exists = event_target:dtp_p
+					}
+					event_target:dtp_p = {
+						if = {
+							limit = {
+								from = {
+									has_country_flag = dtp_pe_rm
+								}
+							}
+							if = {
+								limit = {
+									has_deposit = d_underwater_vent
+								}
+								remove_deposit = d_underwater_vent
+							}
+						}
+						else = {
+							add_deposit = d_underwater_vent
+						}
+					}
+					dtp_result = { CODE = 10 }
+				}
+				else = {
+					dtp_fail = { CODE = 10 }
+				}
+			}
+			else = {
+				dtp_deny = { CODE = 10 }
+			}
+		}
+	}
+}
+
 dq0oa13p = {
 	potential = {
 		from = {

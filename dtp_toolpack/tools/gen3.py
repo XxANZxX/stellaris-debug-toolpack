@@ -17,7 +17,7 @@ python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/model
 import zlib, os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "11.3.4"
+VERSION = "11.3.8"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []

@@ -35,6 +35,7 @@ A separate window for **any** planet, not only your own. Open a planet or star w
 | Planet features | 70 natural features |
 | Population | any species of empire A (species picker shared with the empire editor), amount from the calculator; remove 10/25/50/100% |
 | Modifiers | 36 Toolpack planet modifiers (strength/duration calculator) and 300 game bonuses and penalties with coloured tooltips |
+| Hyperlanes | system 1 = the selected planet's system, system 2 = a remembered one: add/remove the lane between them, linked wormholes, isolate a system, lane to a nearby system, the neighbour list (remove a lane or make it system 2), lanes to/between/off the marked systems; close wormholes and gateways to everyone or to all but empire A (the game cannot delete them) |
 
 - The requirements (`potential`, `allow`, `prerequisites`) of buildings, districts, zones, deposits and designations are read from the game files (`tools/pedata.py`). A red **!** means the game normally forbids it (force mode only), a green frame means the planet already has it.
 - The editor lives in its own interface file, `interface/dtp_planet_editor.gui`: the game's always-present `maingui` window is moved there from `main.gui` and the editor is appended to it, because every GUI file is only read up to roughly 1 MB. The green frames and red marks are shared per grid slot (their logic is in the script files, not in the GUI file).
