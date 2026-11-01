@@ -1,15 +1,15 @@
-# Debug Toolpack 11.3.8 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
-dtp_remember_class = {
+# Debug Toolpack 11.5.4 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+dxovfsn = {
 	set_star_flag = dtp_oc_known
 }
 
-dtp_star_fix = {
+dxuz7pn = {
 	if = {
 		limit = {
 			NOT = { has_star_flag = dtp_marked }
 			NOT = { OR = {  } }
 		}
-		dtp_remember_class = yes
+		dxovfsn = yes
 		remove_star_flag = dtp_gray
 		log = "DTP STARFIX restored"
 	}
@@ -193,7 +193,7 @@ dtp_nav_set = {
 	}
 }
 
-dtp_mark_sys = {
+dxt1mbj = {
 	log = "DTP MARK start"
 	if = {
 		limit = {
@@ -201,11 +201,11 @@ dtp_mark_sys = {
 		}
 		set_star_flag = dtp_marked
 		log = "DTP MARK flag set"
-		dtp_flag_add = yes
+		dxiknko = yes
 	}
 }
 
-dtp_flag_add = {
+dxiknko = {
 	if = {
 		limit = {
 			NOT = { has_global_flag = dtp_starhide }
@@ -220,7 +220,7 @@ dtp_flag_add = {
 	}
 }
 
-dtp_flag_del = {
+dx8ptj4 = {
 	every_system_megastructure = {
 		limit = {
 			is_megastructure_type = dtp_mark_mega
@@ -229,7 +229,7 @@ dtp_flag_del = {
 	}
 }
 
-dtp_beacon_add = {
+dxql6zs = {
 	if = {
 		limit = {
 			exists = event_target:dtp_host
@@ -267,7 +267,7 @@ dtp_beacon_add = {
 	}
 }
 
-dtp_beacon_del = {
+dxkxxdc = {
 	every_fleet_in_system = {
 		limit = {
 			has_fleet_flag = dtp_beacon
@@ -276,10 +276,10 @@ dtp_beacon_del = {
 	}
 }
 
-dtp_unmark_sys = {
+dxbwigi = {
 	log = "DTP UNMARK"
-	dtp_beacon_del = yes
-	dtp_flag_del = yes
+	dxkxxdc = yes
+	dx8ptj4 = yes
 	if = {
 		limit = {
 			has_star_flag = dtp_marked
@@ -292,7 +292,7 @@ dtp_unmark_sys = {
 			set_star_flag = dtp_gray
 		}
 		else = {
-			dtp_remember_class = yes
+			dxovfsn = yes
 			else = {
 				log = "DTP UNMARK: original class unknown"
 			}
@@ -327,13 +327,13 @@ dtp_gray_on = {
 		limit = {
 			NOT = { has_star_flag = dtp_marked }
 		}
-		dtp_remember_class = yes
+		dxovfsn = yes
 		set_star_flag = dtp_gray
 	}
 	log = "DTP GRAY on"
 }
 
-dtp_gray_off = {
+dxc0dua = {
 	remove_global_flag = dtp_graymode
 	every_system = {
 		limit = {
@@ -497,11 +497,11 @@ dtp_mlist = {
 			}
 		}
 	}
-	dtp_poi_sync_all = yes
+	dxaa0zv = yes
 	log = "DTP MLIST done"
 }
 
-dtp_mlist_root = {
+dxt7ub1 = {
 	if = {
 		limit = {
 			exists = event_target:dtp_ml_1
@@ -653,11 +653,11 @@ dtp_mlist_root = {
 			}
 		}
 	}
-	dtp_poi_sync_all = yes
+	dxaa0zv = yes
 	log = "DTP MLIST done"
 }
 
-dtp_poi_sync = {
+dxi5lic = {
 	if = {
 		limit = {
 			has_point_of_interest = { poi = dtp_mk_poi.1 }
@@ -841,7 +841,7 @@ dtp_poi_sync = {
 	if = {
 		limit = {
 			NOT = { has_country_flag = dtp_poi_off }
-			dtp_has_any_perm = yes
+			dxvgich = yes
 		}
 		if = {
 			limit = {
@@ -1170,7 +1170,7 @@ dtp_poi_sync = {
 	}
 }
 
-dtp_war_sync = {
+dxk7dx4 = {
 	every_country = {
 		limit = {
 			OR = { has_modifier = dtp_war_lock AND = { NOT = { has_global_flag = dtp_war_soft } OR = { AND = { OR = { is_ai = no has_global_flag = dtp_war_ai } has_global_flag = dtp_rule_nopvp } has_country_flag = dtp_rule_np } } }
@@ -1211,7 +1211,7 @@ dtp_war_sync = {
 	}
 }
 
-dtp_all_techs = {
+dx20wft = {
 	if = {
 		limit = {
 			NOT = { has_technology = tech_arcane_deciphering }
@@ -5582,17 +5582,17 @@ dtp_all_techs = {
 	log = "DTP GM: all technologies (619)"
 }
 
-dtp_poi_sync_all = {
+dxaa0zv = {
 	every_country = {
 		limit = {
 			is_ai = no
-			OR = { dtp_has_any_perm = yes has_event_chain = dtp_marks_chain }
+			OR = { dxvgich = yes has_event_chain = dtp_marks_chain }
 		}
-		dtp_poi_sync = yes
+		dxi5lic = yes
 	}
 }
 
-dtp_pidx_ensure = {
+dxxohrp = {
 	if = {
 		limit = {
 			NOT = { is_variable_set = dtp_pidx }
@@ -5782,6 +5782,9 @@ dtp_set_tc = {
 		}
 		save_global_event_target_as = dtp_tc_16
 	}
+	from = {
+		set_country_flag = dtp_ok_tc
+	}
 }
 
 dtp_set_rcp = {
@@ -5912,6 +5915,9 @@ dtp_set_rcp = {
 			}
 		}
 		save_global_event_target_as = dtp_rcp_16
+	}
+	from = {
+		set_country_flag = dtp_ok_rcp
 	}
 }
 
@@ -6044,6 +6050,9 @@ dtp_set_tp = {
 		}
 		save_global_event_target_as = dtp_tp_16
 	}
+	from = {
+		set_country_flag = dtp_ok_tp
+	}
 }
 
 dtp_set_tf = {
@@ -6175,9 +6184,12 @@ dtp_set_tf = {
 		}
 		save_global_event_target_as = dtp_tf_16
 	}
+	from = {
+		set_country_flag = dtp_ok_tf
+	}
 }
 
-dtp_init_targets = {
+dxgtkrc = {
 	if = {
 		limit = {
 			check_variable = { which = dtp_pidx value = 1 }
@@ -7264,7 +7276,7 @@ dtp_fail = {
 	}
 }
 
-dtp_auto_host = {
+dxlqrvs = {
 	if = {
 		limit = {
 			NOT = { has_global_flag = dtp_host_set }
@@ -7280,7 +7292,7 @@ dtp_auto_host = {
 					NOT = { has_global_flag = dtp_auto_pick }
 				}
 				set_global_flag = dtp_auto_pick
-				dtp_make_host = yes
+				dxw9d7w = yes
 				log = "DTP HOST: auto -> first player country"
 			}
 		}
@@ -7577,7 +7589,7 @@ dtp_clist = {
 	}
 	every_country = {
 		limit = {
-			dtp_listed_country = yes
+			dx0wny0 = yes
 		}
 		from = {
 			change_variable = { which = dtp_cn value = 1 }
@@ -7705,7 +7717,7 @@ dtp_gm_on = {
 		}
 		every_country = {
 			limit = {
-				dtp_listed_country = yes
+				dx0wny0 = yes
 				NOT = { is_same_value = prev }
 			}
 			establish_communications_no_message = prev
@@ -7736,7 +7748,7 @@ dtp_gm_off = {
 	}
 }
 
-dtp_make_host = {
+dxw9d7w = {
 	every_country = {
 		limit = {
 			has_country_flag = dtp_host
@@ -7763,7 +7775,7 @@ dtp_make_host = {
 	}
 }
 
-dtp_close_vote = {
+dxrgfmg = {
 	remove_global_flag = dtp_vote_open
 	every_country = {
 		limit = {
@@ -7773,7 +7785,7 @@ dtp_close_vote = {
 	}
 }
 
-dtp_fire_catalog = {
+dxyelzn = {
 	from = {
 		save_global_event_target_as = dtp_last_actor
 	}
@@ -7942,24 +7954,24 @@ dtp_fire_catalog = {
 		limit = {
 			check_variable = { which = dtp_fired value = 1 }
 		}
-		dtp_result = { CODE = 13 }
+		dw8tpglh = yes
 	}
 	else = {
-		dtp_fail = { CODE = 13 }
+		dwbuvvtu = yes
 	}
 }
 
-dtp_host_check = {
+dxdo31j = {
 	if = {
 		limit = {
 			NOT = { has_global_flag = dtp_host_set }
 			NOT = { any_country = { has_country_flag = dtp_host_seat } }
 		}
-		dtp_auto_host = yes
+		dxlqrvs = yes
 	}
 }
 
-dtp_gc_pass_current = {
+dxf87wl = {
 	if = {
 		limit = {
 			is_voting_on_resolution = resolution_ecology_repeal_1
@@ -9901,7 +9913,7 @@ dtp_gc_pass_current = {
 	}
 }
 
-dtp_gc_reject_current = {
+dxzgog2 = {
 	if = {
 		limit = {
 			is_voting_on_resolution = resolution_ecology_repeal_1
@@ -11843,7 +11855,7 @@ dtp_gc_reject_current = {
 	}
 }
 
-dtp_ed_civfix_democratic = {
+dxm6l1n = {
 	if = {
 		limit = {
 			has_civic = civic_machine_remnants
@@ -12782,7 +12794,7 @@ dtp_ed_civfix_democratic = {
 	}
 }
 
-dtp_ed_civfix_oligarchic = {
+dxx6v8u = {
 	if = {
 		limit = {
 			has_civic = civic_machine_remnants
@@ -13721,7 +13733,7 @@ dtp_ed_civfix_oligarchic = {
 	}
 }
 
-dtp_ed_civfix_dictatorial = {
+dxjb4qe = {
 	if = {
 		limit = {
 			has_civic = civic_machine_remnants
@@ -14660,7 +14672,7 @@ dtp_ed_civfix_dictatorial = {
 	}
 }
 
-dtp_ed_civfix_imperial = {
+dx0cnqu = {
 	if = {
 		limit = {
 			has_civic = civic_machine_remnants

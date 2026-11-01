@@ -156,7 +156,9 @@ def arc_sites(vc, spr):
     for k, (b, f) in top(os.path.join(vc, "archaeological_site_types/*.txt")).items():
         if k == "random": continue
         pic = _s(get(b, "picture"))
-        out.append(dict(key=k, icon=spr.get(pic) if pic else None))
+        vis = get(b, "visible")
+        special = isinstance(vis, list) and any(x[0] != "default_site_visible_trigger" for x in vis)
+        out.append(dict(key=k, icon=spr.get(pic) if pic else None, special=special))
     return out
 
 def colony_types(vc, spr):

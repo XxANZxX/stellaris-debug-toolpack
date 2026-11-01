@@ -7,7 +7,7 @@ ROOT, DOCS = sys.argv[1], sys.argv[2]
 errors, warns = [], []
 def strip(t): return re.sub(r'#.*', '', re.sub(r'"[^"]*"', '""', t))
 txt = {f: open(f, encoding="utf-8-sig").read() for f in glob.glob(os.path.join(ROOT, "**/*.txt"), recursive=True)
-       if not f.replace("\\", "/").endswith(("diplomatic_actions/zz_dtp_declare_war.txt", "game_rules/00_rules.txt", "scripted_triggers/00_scripted_triggers.txt", "country_types/dtp_country_types.txt", "ethics/dtp_ethics.txt"))}   # копия игрового файла — проверяется отдельно ниже
+       if not f.replace("\\", "/").endswith(("diplomatic_actions/zz_dtp_declare_war.txt", "game_rules/00_rules.txt", "scripted_triggers/00_scripted_triggers.txt", "scripted_triggers/02_scripted_triggers_archaeology.txt", "country_types/dtp_country_types.txt", "ethics/dtp_ethics.txt"))}   # копия игрового файла — проверяется отдельно ниже
 gui = {f: open(f, encoding="utf-8-sig").read() for f in glob.glob(os.path.join(ROOT, "interface/*.gui"))}
 gfx = {f: open(f, encoding="utf-8-sig").read() for f in glob.glob(os.path.join(ROOT, "interface/*.gfx"))}
 for f, t in {**txt, **gui, **gfx}.items():
@@ -36,7 +36,8 @@ STRUCT = set("""id title desc option name trigger limit immediate text picture i
 modifier days multiplier time_multiplier who target type status amount num_of_claims show_notification resource variable species owner size fraction
 country cooldown authority civics class radius scaled_size skill design min max localization_key defined_text count weight ai_weight potential allow effect attacker_war_goal opinion decay base mult add_trait remove_trait flag side on_war_beginning events event on_monthly_pulse on_game_start parameters rounded setting color condition display_claims enable_terra_incognita icon can_change_point_of_view custom_tooltip dtp_rules_map_mode spawn_random_storm_weighted has_machine_age_dlc relations event_chain location poi situation_log_category surveyed surveyor dtp_marks_chain on_entering_system_fleet random_existing_design on_claim_system num_of_claims who target count Target Count
 fail_text root prev from this AND OR NOT NOR NAND K CODE RES OP P ACT R remove_invalid_civics icon icon_frame message tech angle required_component section ship_design ship_size slot template entity portrait show_in_outliner place_entity_on_planet_plane orbit_distance planet possible policy plural trait traits change_all homeworld category district district_type holding ignore_cap percentage pop_group random_pos zone ethos replace to bypass_type country duration""".split())
-RESKEYS = {"energy", "minerals", "food", "alloys", "consumer_goods", "influence", "unity", "physics_research", "society_research", "engineering_research"}
+RESKEYS = {"energy", "minerals", "food", "alloys", "consumer_goods", "influence", "unity", "physics_research", "society_research", "engineering_research",
+           "astral_threads", "exotic_gases", "minor_artifacts", "nanites", "rare_crystals", "sr_dark_matter", "sr_living_metal", "sr_zro", "volatile_motes"}
 for k in sorted(set(re.findall(r'(?<![:\w.$@])([a-z_][a-z0-9_]*)\s*(?:=|>|<)', code))):
     if k in STRUCT or k in RESKEYS or k in eff or k in trg or k in btn or k in smod or k in opn or k.startswith("dtp_"): continue
     if k in E or k in T or k in S: continue
@@ -64,7 +65,7 @@ calls = collections.defaultdict(set)
 for f in txt:
     if "scripted_effects" not in f: continue
     for m in re.finditer(r'^(\w+)\s*=\s*\{(.*?)^\}', strip(txt[f]), re.M | re.S):
-        for c in re.findall(r'(?<![:\w])(dtp_\w+)\s*=\s*(?:yes|\{)', m.group(2)):
+        for c in re.findall(r'(?<![:\w])(\w+)\s*=\s*(?:yes|\{)', m.group(2)):
             if c in eff: calls[m.group(1)].add(c)
         for a in re.findall(r'dtp_act_\$ACT\$|dtp_res_op_\$OP\$', m.group(2)):
             calls[m.group(1)] |= {e for e in eff if e.startswith(a.split("$")[0])}
@@ -113,7 +114,7 @@ for sub in ("scripted_effects", "scripted_triggers"):
             errors.append("[ в %s/%s: игра читает его как макрос (Invalid macro entry)" % (sub, f))
 # двуязычность: одинаковые ключи в RU и EN, в EN нет кириллицы, ключи только ASCII, теги §/[ ] совпадают
 LOCS = {}
-for lang in ("russian", "english"):
+for lang in ("russian", "english", "simp_chinese"):
     d = os.path.join(ROOT, "localisation", lang); LOCS[lang] = {}
     for f in os.listdir(d) if os.path.isdir(d) else []:
         LOCS[lang].update(dict(re.findall(r'^ (\S+):0 "(.*)"$', open(os.path.join(d, f), encoding="utf-8-sig").read(), re.M)))
@@ -125,7 +126,14 @@ for k, v in en_.items():
     if k in ru_:
         for pat in (r"\[[^\]]*\]", r"\$\w+\$", r"§[A-Za-z!]"):
             if sorted(re.findall(pat, v)) != sorted(re.findall(pat, ru_[k])): errors.append("EN/RU: разные теги %s в %s" % (pat, k))
-print("локализация: RU %d · EN %d" % (len(ru_), len(en_)))
+zh_ = LOCS["simp_chinese"]                                         # 11.4: китайский — те же ключи и теги, что в EN
+if zh_:
+    for k in set(zh_) ^ set(en_): errors.append("ZH: ключ %s есть только в одном из EN/ZH" % k)
+    for k, v in zh_.items():
+        if k in en_:
+            for pat in (r"\[[^\]]*\]", r"\$\w+\$", r"§[A-Za-z!]"):
+                if sorted(re.findall(pat, v)) != sorted(re.findall(pat, en_[k])): errors.append("ZH/EN: разные теги %s в %s" % (pat, k))
+print("локализация: RU %d · EN %d · ZH %d" % (len(ru_), len(en_), len(zh_)))
 # копия игровых дипломатических действий: только наши вставки (ключи подсказок есть, скобки сбалансированы)
 _da = os.path.join(ROOT, "common", "diplomatic_actions", "zz_dtp_declare_war.txt")
 if os.path.exists(os.path.join(ROOT, "common", "diplomatic_actions", "00_actions.txt")): errors.append("00_actions.txt в моде: не подменяйте весь игровой файл")

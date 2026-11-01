@@ -5,7 +5,7 @@
 DTP was built to make life easier for **game masters** running multiplayer Stellaris sessions: rule enforcement, announcements, fixing things after a desync or a mistake, and quick changes, all from one in-game window, without the console.
 
 - Game version: **Stellaris 4.5.x**
-- Languages: **English, Russian**
+- Languages: **English, Russian, Simplified Chinese**
 - Current version: see `dtp_toolpack/descriptor.mod`
 
 ## Installation
@@ -18,6 +18,20 @@ DTP was built to make life easier for **game masters** running multiplayer Stell
 When updating, delete the old `dtp_toolpack` folder first, so no stale files remain.
 
 **UI Overhaul Dynamic users:** also copy `dtp_toolpack_uiod` and `dtp_toolpack_uiod.mod`, and enable the patch *together with* the base mod, loaded after UIOD and DTP. Update the patch together with the base mod — without the current patch the editors do not appear under UIOD.
+
+## Performance fix (11.5)
+
+The game copies every scripted effect / trigger into **each place it is called**. DTP used to call the same shared logic (player index, targets, log, editor targets) from each of ~9,600 buttons, which added gigabytes of RAM and very long loading. Since 11.5:
+
+- a button only stores its action number and fires a hidden event; the shared logic and every button's action are written **once** in those events (`events/dtp_dispatch_*.txt`, routed through `dtp.29999`);
+- the open editor uses one shared target (`dtp_pv` planet, `dtp_ev` empire, `dtp_evs` species) instead of 16 per-player variants in every condition, so each editor is open for one player at a time;
+- calls with constant parameters are turned into ready, parameter-free definitions; repeated condition blocks are moved into shared scripted triggers; long internal names are shortened (`tools/optimize.py`).
+
+Nothing was removed — every feature works as before. The UIOD patch is unchanged.
+
+## Simplified Chinese (11.4)
+
+The Chinese localisation is generated from the English texts by templates (`tools/i18n/zh_map.json`, numbers, `$keys$` and `[script]` are placeholders). Game terms (traits, civics, buildings, deposits) come from the game's own official translation.
 
 ## Planet & System Editor (11.3)
 
@@ -125,7 +139,7 @@ python3 tools/gen3.py <out_dir> <stellaris>/interface <stellaris>/common <stella
 python3 tools/validate2.py <out_dir> <script-docs-dir> <stellaris>/interface
 ```
 
-English texts come from `tools/i18n/en_map.json` (the editor's texts are written in both languages in `tools/editor3.py`).
+English texts come from `tools/i18n/en_map.json`, Chinese from `tools/i18n/zh_map.json` (the editor's texts are written in both languages in `tools/editor3.py`).
 The editors are built by `tools/editor3.py` and `tools/planet3.py` (run from `gen3.py`) from the game data read by `tools/eddata.py` and `tools/pedata.py`. Button keys are shortened to hashes when the files are written, so the GUI files stay small; button effects, scripted effects and triggers are split into parts of a few hundred KB.
 
 ## Reporting bugs

@@ -34,7 +34,9 @@ def pok(name, body):
     nm = "dtp_pok_" + name
     if nm not in _POK:
         _POK[nm] = "trivial" if not (body or "").strip() else 1
-        TRG.append(B(nm, body or "always = yes"))
+        b_ = body or "always = yes"
+        if re.search(r"\bowner\b", b_): b_ = "exists = owner\n" + b_     # 11.5.2: у звезды/ничейной планеты нет владельца (error.log)
+        TRG.append(B(nm, b_))
     return "dtp_tpx = { T = %s }" % nm
 _PHS = set()
 def phas(name, body):
@@ -435,9 +437,13 @@ pgrid(8, 1, _ANO, mk)
 _ARC = sorted(_pd.arc_sites(VC, _SPR), key=lambda x: x["key"])
 def mk(i, it, x, y, w, pot):
     k = it["key"]
+    sp_ru = "\n§HОсобое место: игра показывает его только державам, дошедшим до нужного сюжета (флаги истории, происхождение) — у остальных оно невидимо.§!" if it.get("special") else ""
+    sp_en = "\n§HSpecial site: the game shows it only to empires that reached the related story (story flags, origin) — others can't see it.§!" if it.get("special") else ""
     pcard("ar_" + k, _nm(k), _nm(k), x, y, w, pot, None, None, None,
-          PT("create_archaeological_site = %s" % k, 70),
-          "§Y$%s$§!\n\n§gНажмите: создать на выбранной планете это место раскопок.§!" % k, "§Y$%s$§!\n\n§gClick: create this dig site on the selected planet.§!" % k)
+          PT(B("if", B("limit", "exists = archaeological_site"), B("archaeological_site", "save_event_target_as = dtp_arc"), "destroy_archaeological_site = event_target:dtp_arc") +
+             "\ncreate_archaeological_site = %s" % k, 70),
+          "§Y$%s$§!\n\n§gНажмите: создать на выбранной планете это место раскопок (прежнее место раскопок на этой планете заменяется — у планеты оно одно).§!%s" % (k, sp_ru),
+          "§Y$%s$§!\n\n§gClick: create this dig site on the selected planet (the planet's previous dig site is replaced — a planet has only one).§!%s" % (k, sp_en))
 pgrid(8, 2, _ARC, mk)
 
 # ================================================================ 9. СПЕЦИАЛИЗАЦИЯ

@@ -17,7 +17,7 @@ python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/model
 import zlib, os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "11.3.8"
+VERSION = "11.5.4"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []
@@ -360,7 +360,8 @@ EFF.append(B("dtp_pidx_ensure", B("if", B("limit", "NOT = { is_variable_set = dt
 # назначение целей (вызывается в области объекта; номер игрока — из from)
 for t in ("tc", "rcp", "tp", "tf"):
     EFF.append(B("dtp_set_%s" % t, chain(None, None) if False else "\n".join(
-        B("if" if k == 1 else "else_if", B("limit", B("from", chk("dtp_pidx", k))), "save_global_event_target_as = dtp_%s_%d" % (t, k)) for k in range(1, MAXP + 1))))
+        B("if" if k == 1 else "else_if", B("limit", B("from", chk("dtp_pidx", k))), "save_global_event_target_as = dtp_%s_%d" % (t, k)) for k in range(1, MAXP + 1)),
+        B("from", "set_country_flag = dtp_ok_%s" % t)))
 EFF.append(B("dtp_init_targets", "\n".join(B("if" if k == 1 else "else_if", B("limit", chk("dtp_pidx", k)),
     B("if", B("limit", "NOT = { exists = event_target:dtp_tc_%d }" % k), "save_global_event_target_as = dtp_tc_%d" % k),
     B("if", B("limit", "NOT = { exists = event_target:dtp_rcp_%d }" % k), "save_global_event_target_as = dtp_rcp_%d" % k)) for k in range(1, MAXP + 1))))
@@ -540,6 +541,7 @@ def button(name, text, x, y, w, h=30, potential="", allow="", effect="", tt=None
     tkey = loc(key + "_tt", tt) if tt else None
     # 10.7.6: у каждой кнопки своя подсказка (tt); автоматический разбор эффекта игрой показывал служебное
     # («Устанавливает переменную dtp_tab…») — эффект целиком скрыт от подсказки, работает так же.
+    if effect.strip(): effect = effect + "\n" + B("from", "dtp_vsync = yes")      # 11.5: цель открытого редактора — общая (см. dtp_vsync)
     BTN.append(B(key, B("potential", potential or "always = yes"), B("allow", allow or "always = yes"), B("effect", B("hidden_effect", effect) if effect.strip() else effect)))
     GUI.append(dict(key=key, x=x, y=y, w=w, h=h, sprite=sprite, tt=tkey, label=label, font=font, where=where, shortcut=shortcut))
     META.append(dict(key=key, x=x, y=y, w=w, h=h, sprite=sprite, text=text, pot=potential or "", label=label, where=where, font=font))
@@ -2895,6 +2897,179 @@ assert not (ARMS_USED - set(ARMS)), "кнопки с подтверждение�
 HDR = "# Debug Toolpack %s — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.\n" % VERSION
 # Игра читает из одного файла не больше ~1 МБ — всё дальше молча теряется (кнопки без описания видны всегда).
 # Кнопки раскладываются по файлам до ~120 КБ: если игра споткнётся на одной кнопке, она теряет только хвост своего файла.
+# 11.5.1: ЭФФЕКТЫ КНОПОК — В СОБЫТИЯХ. Замер (11.5, тест «пустые скрипты»): игра подставляет каждый общий эффект
+# (dtp_load, журнал, цели игрока…) копией на каждом месте вызова — 9 651 кнопка × ~30 КБ ≈ 200 МБ скрипта и ~9 ГБ памяти.
+# Теперь кнопка окна DTP/редакторов только запоминает номер действия и вызывает скрытое событие; общая часть
+# (номер игрока, цели, загрузка, сброс подтверждения, журнал, цель редактора) записана в каждом событии ОДИН раз,
+# а «тело» каждой кнопки — один раз в своём событии (по 100 действий на событие).
+import optimize as _opt0
+_WHERE = {g["key"]: g["where"] for g in GUI}
+_DISP_N, _DISP_EV, _DISP_BODIES, _DISP_SZ = 0, [], {}, [0, 0, 30000]
+_PRO_INIT = {"dtp_pidx_ensure", "dtp_init_targets", "dtp_host_check"}
+def _is_init_from(n):
+    return n[0] == "from" and isinstance(n[2], list) and n[2] and all(c[0] in _PRO_INIT and c[2] == "yes" for c in n[2])
+def _strip_body(nodes, top=True, st=None):
+    """Убирает из тела общую часть (она в событии) и заменяет записи журнала переменными."""
+    out = []
+    for n in nodes:
+        k, op, v = n
+        if k in ("dtp_load", "dtp_sp_load") and v == "yes": continue
+        if _is_init_from(n): continue
+        if k == "from" and isinstance(v, list) and len(v) == 1 and v[0][0] == "dtp_vsync": continue
+        if k == "dtp_disarm" and v == "yes" and top and not st.get("keep"):   # сброс подтверждения — в начале события
+            st["dis"] = True; continue
+        if k in ("dtp_result", "dtp_deny", "dtp_fail", "dtp_log") and isinstance(v, list):
+            a = {c[0]: c[2] for c in v}
+            res = {"dtp_result": "1", "dtp_deny": "0", "dtp_fail": "2"}.get(k, a.get("RES"))
+            out.append(["from", "=", [["set_variable", "=", [["which", "=", "dtp_rc"], ["value", "=", a["CODE"]]]],
+                                      ["set_variable", "=", [["which", "=", "dtp_rr"], ["value", "=", res]]]]])
+            continue
+        if k == "hidden_effect" and isinstance(v, list):
+            inner = _strip_body(v, top, st)
+            if inner: out.append([k, op, inner])
+            continue
+        if isinstance(v, list) and k not in ("limit",):
+            out.append([k, op, _strip_body(v, False, st)])
+        else:
+            out.append(n)
+    return out
+_NEW_BTN = []
+for _b in BTN:
+    _key = re.match(r"(\w+) = \{", _b).group(1)
+    _tree = _opt0.parse(_b)[0]
+    _eff = [sec for sec in _tree[2] if sec[0] == "effect"]
+    if _WHERE.get(_key) not in ("main", "editor", "peditor") or not _eff or not _eff[0][2]:
+        _NEW_BTN.append(_b); continue
+    _txt0 = _opt0.ser(_eff[0][2])
+    _st = {"dis": False}
+    _body = _strip_body(_eff[0][2], True, _st)
+    _bt = _opt0.ser(_body)
+    _dpos, _apos = _txt0.find("dtp_disarm = yes"), _txt0.find("dtp_arm_")
+    if _st["dis"] and _apos != -1 and _apos < _dpos:          # флаг подтверждения читается ДО сброса — оставить сброс в теле
+        _st = {"dis": False, "keep": True}
+        _bt = _opt0.ser(_strip_body(_eff[0][2], True, _st))
+    _DISP_N += 1
+    if _DISP_N == 1 or _DISP_SZ[0] + len(_bt) > 250000 or _DISP_SZ[1] >= 100:   # событие — до ~100 действий и ~250 КБ
+        _DISP_SZ[:] = [0, 0, 30000 + len(_DISP_BODIES)]
+    _ev = _DISP_SZ[2]; _DISP_SZ[0] += len(_bt); _DISP_SZ[1] += 1
+    _DISP_BODIES.setdefault(_ev, []).append((_DISP_N, _bt))
+    _eff[0][2][:] = [["hidden_effect", "=", [["from", "=", [["set_variable", "=", [["which", "=", "dtp_act"], ["value", "=", str(_DISP_N)]]],   # 11.5.4: скрыто от подсказки
+                                    ["set_variable", "=", [["which", "=", "dtp_dis"], ["value", "=", "1" if _st["dis"] else "0"]]],
+                                    ["country_event", "=", [["id", "=", "dtp.29999"]]]]]]]]
+    _NEW_BTN.append(_opt0.ser([_tree]))
+BTN = _NEW_BTN
+def _log_vars():
+    t = log_effect()
+    t = t[t.index("{") + 1:t.rindex("}")]
+    return t.replace("$CODE$", "dtp_rc").replace("$RES$", "dtp_rr").replace('log = "DTP | code dtp_rc | result dtp_rr"', 'log = "DTP | code [From.dtp_rc] | result [From.dtp_rr]"')
+_LOGV = _log_vars()
+for _ev, _items in sorted(_DISP_BODIES.items()):
+    _sw = "\n".join(B("if" if i == 0 else "else_if", B("limit", B("from", chk("dtp_act", n))), bt or "")
+                    for i, (n, bt) in enumerate(_items))
+    _DISP_EV.append(B("country_event", "id = dtp.%d" % _ev, "hide_window = yes", "is_triggered_only = yes", B("immediate",
+        B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes", setv("dtp_rr", -1)),
+        "dtp_load = yes", "dtp_sp_load = yes",
+        *[B("if", B("limit", "exists = event_target:dtp_%s" % _l), "set_country_flag = dtp_ok_%s" % _f) + "\n" + B("else", "remove_country_flag = dtp_ok_%s" % _f)
+          for _l, _f in (("t", "tc"), ("r", "rcp"), ("p", "tp"), ("f", "tf"))],
+        B("if", B("limit", B("from", chk("dtp_dis", 1))), "dtp_disarm = yes"),
+        _sw,
+        B("from", "dtp_vsync = yes"),
+        B("if", B("limit", B("from", chk("dtp_rr", -1, ">"))), _LOGV))))
+# 11.5.2: маршрутизатор. FROM события = ROOT места вызова; у кнопки, нажатой при открытом окне планеты, ROOT — планета
+# (error.log 01.11: «Wrong scope … Current Scope: planet»). Поэтому кнопка вызывает dtp.29999 (его ROOT — игрок), а уже он
+# вызывает нужное событие: у того и ROOT, и FROM — игрок, как у прежних кнопок.
+_rt, _prev = [], 0
+for _ev, _items in sorted(_DISP_BODIES.items()):
+    _hi = _items[-1][0]
+    _rt.append(B("if" if not _rt else "else_if", B("limit", chk("dtp_act", _hi, "<=")), "country_event = { id = dtp.%d }" % _ev))
+_DISP_EV.insert(0, B("country_event", "id = dtp.29999", "hide_window = yes", "is_triggered_only = yes", B("immediate", *_rt)))
+print("кнопки → события: действий %d, событий %d" % (_DISP_N, len(_DISP_EV)))
+# 11.5 (а): условия редакторов. Раньше каждое условие «у выбранной планеты/державы/вида есть X» было вызовом с параметром
+# (dtp_tpx = { T = X }), а игра при загрузке разворачивает КАЖДЫЙ такой вызов в 16 копий (по копии на номер игрока) —
+# десятки мегабайт скрипта. Теперь у открытого редактора одна общая цель (dtp_pv — планета, dtp_ev — держава, dtp_evs — вид):
+# её выставляет dtp_vsync после каждого нажатия игроком, у которого редактор открыт. Каждый редактор одновременно открыт
+# только у одного игрока (открывший закрывает его у остальных).
+_PVX = {"tpx": "dtp_pv", "tcx": "dtp_ev", "spx": "dtp_evs"}
+def _rw_ed(s_):
+    return re.sub(r"dtp_(tpx|tcx|spx) = \{\s*T = (\w+)\s*\}", lambda m: "AND = { exists = event_target:%s event_target:%s = { %s = yes } }" % (_PVX[m.group(1)], _PVX[m.group(1)], m.group(2)), s_)
+def _lock(s_):
+    for _f in ("dtp_pe_open", "dtp_ed_open"):
+        s_ = s_.replace("set_country_flag = %s" % _f, B("every_country", B("limit", "has_country_flag = %s" % _f), "remove_country_flag = %s" % _f) + "\nset_country_flag = %s" % _f)
+    return s_
+# 11.5.2: «выбрана ли держава/планета/флот/получатель» в подсказках кнопок — флаг игрока (ставится при каждом нажатии и при выборе цели),
+# а не перебор 16 номеров игроков в каждой кнопке
+BTN = [re.sub(r"\bdtp_has_(tc|rcp|tp|tf) = yes", lambda m: "from = { has_country_flag = dtp_ok_%s }" % m.group(1), b) for b in BTN]
+BTN = [_lock(_rw_ed(b)) for b in BTN]
+_DISP_EV = [_lock(_rw_ed(e)) for e in _DISP_EV]
+TRG = [t for t in TRG if not re.match(r"dtp_(tpx|tcx|spx) = \{", t)]
+def _vs_chain(fn):
+    return "\n".join(B("if" if k == 1 else "else_if", B("limit", chk("dtp_pidx", k)), fn(k)) for k in range(1, MAXP + 1))
+EFF.append(B("dtp_vsync",                                   # область — страна игрока, нажавшего кнопку
+    B("if", B("limit", "has_country_flag = dtp_pe_open"), _vs_chain(lambda k:
+        B("if", B("limit", "exists = event_target:dtp_tp_%d" % k), B("event_target:dtp_tp_%d" % k, "save_global_event_target_as = dtp_pv")) + "\n" +
+        B("else_if", B("limit", "exists = event_target:dtp_pv"), "clear_global_event_target = dtp_pv")), "set_global_flag = dtp_pv_on"),
+    B("if", B("limit", "has_country_flag = dtp_ed_open"), _vs_chain(lambda k:
+        B("if", B("limit", "exists = event_target:dtp_tc_%d" % k), B("event_target:dtp_tc_%d" % k, "save_global_event_target_as = dtp_ev")) + "\n" +
+        B("else_if", B("limit", "exists = event_target:dtp_ev"), "clear_global_event_target = dtp_ev") + "\n" +
+        B("if", B("limit", "exists = event_target:dtp_tsp_%d" % k), B("event_target:dtp_tsp_%d" % k, "save_global_event_target_as = dtp_evs")) + "\n" +
+        B("else_if", B("limit", "exists = event_target:dtp_tc_%d" % k), B("event_target:dtp_tc_%d" % k, B("owner_species", "save_global_event_target_as = dtp_evs"))) + "\n" +
+        B("else_if", B("limit", "exists = event_target:dtp_evs"), "clear_global_event_target = dtp_evs")))))
+# 11.5 (б): вызовы с постоянными параметрами (dtp_has_perm = { P = state }, dtp_result = { CODE = 65 } …) — тоже разворачивались
+# игрой на каждом месте вызова (dtp_result внутри ещё и dtp_log на 4 КБ). Теперь для каждого набора значений — своё готовое
+# определение без параметров (разбирается один раз), вызов — «dwXXXXXX = yes». Исходные определения остаются.
+def _materialize():
+    global BTN
+    made = {}
+    for _it in range(8):
+        pdefs = {}
+        for _lst in (TRG, EFF):
+            for _i, _d in enumerate(_lst):
+                _m = re.match(r"(\w+) = \{\n", _d)
+                if _m and "$" in _d and _d.endswith("\n}"): pdefs[_m.group(1)] = (_lst is TRG, _d[_m.end():-2])
+        if not pdefs: break
+        rx = re.compile(r"(?<![\w:.$])(%s) = \{\s*((?:[A-Z][A-Z_]* = [^\s{}$\"]+\s+)+)\}" % "|".join(map(re.escape, sorted(pdefs, key=len, reverse=True))))
+        new = []
+        def rep(m):
+            nm, args = m.group(1), dict(re.findall(r"([A-Z][A-Z_]*) = (\S+)", m.group(2)))
+            key = nm + "|" + "|".join("%s=%s" % kv for kv in sorted(args.items()))
+            if key not in made:
+                body = re.sub(r"\$(\w+)\|([^$]*)\$", lambda q: args.get(q.group(1), q.group(2)), pdefs[nm][1])
+                body = re.sub(r"\$(\w+)\$", lambda q: args.get(q.group(1), q.group(0)), body)
+                if "$" in body: return m.group(0)
+                h, sn = zlib.crc32(key.encode()), None
+                while sn is None or sn in _MAT_NAMES:
+                    n_, r_ = h % 36 ** 6, ""
+                    for _ in range(6): n_, d_ = divmod(n_, 36); r_ = "0123456789abcdefghijklmnopqrstuvwxyz"[d_] + r_
+                    sn, h = "dw" + r_, h + 1
+                _MAT_NAMES.add(sn); made[key] = sn
+                new.append((pdefs[nm][0], B(sn, body)))
+            return made[key] + " = yes"
+        TRG[:] = [rx.sub(rep, t) for t in TRG]; EFF[:] = [rx.sub(rep, e) for e in EFF]
+        BTN = [rx.sub(rep, b) for b in BTN]
+        for _istrg, _d in new: (TRG if _istrg else EFF).append(rx.sub(rep, _d))
+        if not new: break
+    return made
+_MAT_NAMES = set()
+_mat = _materialize()
+print("вызовы с параметрами → готовые определения: %d" % len(_mat))
+# 11.5: общие куски кнопок → общие scripted_triggers/effects без параметров (см. optimize.py)
+import optimize as _opt
+_EDEF = {}
+for _e in EFF:
+    _m = re.match(r"(\w+) = \{", _e)
+    if _m: _EDEF[_m.group(1)] = set(re.findall(r"(?<![:\w])(\w+)\s*=\s*(?:yes|\{)", _e[_m.end():]))
+_DCACHE = {}
+def _edepth_name(n, seen=()):
+    if n in _DCACHE: return _DCACHE[n]
+    if n in seen: return 0
+    d = 1 + max([_edepth_name(c, seen + (n,)) for c in _EDEF.get(n, ()) if c in _EDEF] or [0])
+    _DCACHE[n] = d; return d
+def _edepth(text):
+    return max([_edepth_name(c) for c in re.findall(r"(?<![:\w])(\w+)\s*=\s*(?:yes|\{)", text) if c in _EDEF] or [0])
+_nb0 = sum(len(b) for b in BTN)
+BTN, _itrg, _ieff = _opt.intern(BTN, _edepth)
+TRG.extend(_itrg); EFF.extend(_ieff)
+print("общие куски: условий %d, эффектов %d · кнопки %d → %d КБ" % (len(_itrg), len(_ieff), _nb0 // 1024, sum(len(b) for b in BTN) // 1024))
 _parts, _cur, _sz = [], [], 0
 for _b in BTN:
     _t = pretty(_b) + "\n"
@@ -2926,6 +3101,12 @@ w("interface/dtp_gameicons.gfx", HDR + "spriteTypes = {\n" + "\n".join(
 w("common/game_rules/00_rules.txt", RULES_FILE)
 _st = open(os.path.join(VC, "scripted_triggers", "00_scripted_triggers.txt"), encoding="utf-8-sig").read()
 assert "is_regular_empire = {" in _st
+# 11.5.2: места раскопок видны только державам типа default — держава Гейм-мастера (dtp_gamemaster) их не видела
+_sa = open(os.path.join(VC, "scripted_triggers", "02_scripted_triggers_archaeology.txt"), encoding="utf-8-sig").read()
+assert _sa.count("default_site_visible_trigger = {") == 1
+_sa = re.sub(r"(default_site_visible_trigger = \{\s*)is_country_type = default", r"\1OR = { is_country_type = default is_country_type = dtp_gamemaster }", _sa, 1)
+assert "is_country_type = dtp_gamemaster" in _sa
+w("common/scripted_triggers/02_scripted_triggers_archaeology.txt", "# Debug Toolpack " + VERSION + ": copy of the game file; dig sites are also visible to the Game Master country type (dtp_gamemaster).\n" + _sa)
 w("common/scripted_triggers/00_scripted_triggers.txt", "# Debug Toolpack " + VERSION + ": copy of the game file; the Game Master country type (dtp_gamemaster) counts as a regular empire.\n" +
   _st.replace("is_country_type = default", "OR = { is_country_type = default is_country_type = dtp_gamemaster }"))
 # тип державы Гейм-мастера: копия обычного (default), «неигровой» как у угасших, без роста населения и без дипломатических войн
@@ -3045,6 +3226,15 @@ loc("dtp_rules_map_mode_desc", "Режим карты ведущего: §Oор�
 w("common/map_modes/dtp_map_modes.txt", HDR + pretty(B("dtp_rules_map_mode", 'icon = "GFX_dtp_map_mode"', "enable_terra_incognita = yes", "can_change_point_of_view = no",
     "display_claims = no", *[B("color", "type = country_and_borders", "value = %s" % c_, "custom_tooltip = %s" % k_, B("condition", cond_)) for k_, c_, cond_, _ in MMC])) + "\n")
 w("events/dtp_catalog_events.txt", HDR + "namespace = dtp\n\n" + pretty("\n".join(CAT)))
+for _old in glob.glob(os.path.join(OUT, "events/dtp_dispatch*.txt")): os.remove(_old)
+_dp, _cur, _sz = [], [], 0                                     # 11.5.1: события кнопок — частями до ~400 КБ
+for _e in _DISP_EV:
+    _t = pretty(_e) + "\n"
+    if _cur and _sz + len(_t.encode()) > 400000: _dp.append(_cur); _cur, _sz = [], 0
+    _cur.append(_t); _sz += len(_t.encode())
+if _cur: _dp.append(_cur)
+for _i, _c in enumerate(_dp, 1):
+    w("events/dtp_dispatch_%02d.txt" % _i, HDR + "namespace = dtp\n\n" + "".join(_c))
 CUSTOM = ["# Перезаписывается редактором шаблонов (tools/event_template_editor.html).",
           "# Контекст: кнопка в окне Toolpack. From = нажавший игрок; event_target:dtp_t — выбранная держава,",
           "# dtp_p — выбранная планета, dtp_f — выбранный флот, dtp_r — получатель."]
@@ -3103,8 +3293,34 @@ def yml(lang, d):
 for lang in ("russian", "english"):
     w("localisation/%s/dtp_l_%s.yml" % (lang, lang), yml(lang, L), True)
     w("localisation/%s/dtp_custom_l_%s.yml" % (lang, lang), yml(lang, CUSTOM_L), True)
+# 11.4: упрощённый китайский — перевод английских строк по шаблонам (i18n/zh_map.json; числа, $ключи$ и [скрипт] — подстановки)
+from i18n_zh import tmpl as _ztmpl, fill as _zfill
+_ZHMAP = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "i18n", "zh_map.json"), encoding="utf-8"))
+_ZH_MISS = []
+_YML_GLY = (("✔ ", "§G●§! "), ("✔", "§G●§!"), ("↻ ", ""), ("↻", ""), ("⇄ ", "→ "), ("⇄", "→"), ("↶", "←"), ("✕", "×"),
+            ("⌂ ", ""), ("⌂", ""), ("‹", "<"), ("›", ">"), ("↔", "/"), ("↺ ", ""), ("↺", ""), ("◎ ", ""), ("◎", ""),
+            ("—", "-"), ("–", "-"), ("→", "->"), ("←", "<-"), ("−", "-"), ("…", "..."), ("●", "*"))
+def yml_zh(d):
+    rows = []
+    for line in yml("english", d).splitlines()[1:]:
+        k, v = _re.match(r'^ (\S+):0 "(.*)"$', line).groups()
+        v = v.replace("§O", "§H")
+        for _a, _b in _YML_GLY: v = v.replace(_a, _b)
+        lead, t, args = _ztmpl(v)
+        z = _ZHMAP.get(t)
+        if z is None:
+            if _re.search(r"[A-Za-z]{3}", _re.sub(r"\$[^$]*\$|\[[^\]]*\]|§.", "", t)): _ZH_MISS.append(t)
+            z = t
+        rows.append(' %s:0 "%s"' % (k, _zfill(lead, z, args)))
+    return "l_simp_chinese:\n" + "\n".join(rows) + "\n"
+w("localisation/simp_chinese/dtp_l_simp_chinese.yml", yml_zh(L), True)
+w("localisation/simp_chinese/dtp_custom_l_simp_chinese.yml", yml_zh(CUSTOM_L), True)
+if _ZH_MISS:
+    print("!! нет китайского перевода для %d строк (оставлен английский):" % len(set(_ZH_MISS))); [print("   ", s) for s in sorted(set(_ZH_MISS))[:20]]
 json.dump({"W": W, "H": H, "items": META, "stars": STARCLS}, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "gui_meta3.json"), "w", encoding="utf-8"), ensure_ascii=False)
 if _EN_MISS:
     print("!! нет английского перевода для %d строк:" % len(_EN_MISS)); [print("   ", s) for s in sorted(set(_EN_MISS))[:40]]
     json.dump(sorted({_norm(s) for s in _EN_MISS}), open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "i18n", "missing.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=0)
+_ren = _opt.rename(OUT)                                                       # 11.5: короткие имена своих условий и эффектов
+print("короткие имена: %d" % len(_ren))
 print("кнопок %d · отмеченных классов звёзд %d · ключей %d" % (len(BTN), len(STARCLS), len(L)))
