@@ -618,7 +618,8 @@ def vpretty(key):
         pct = kk.endswith(("_mult", "pop_happiness", "_tolerance")) and abs(fv) < 5
         good = (fv > 0) != any(b_ in kk for b_ in _BADK)
         val = ("%+d%%" % round(fv * 100)) if pct else ("%+g" % fv)
-        out.append("%s%s§! $mod_%s$" % ("§G" if good else "§R", val.replace("-", "−"), kk))
+        nm = MODNAME(kk)
+        if nm: out.append("%s%s§! %s" % ("§G" if good else "§R", val.replace("-", "−"), nm))
     return "\n".join(out)
 _PMK = {x["key"] for x in _PM}
 _GB, _GP = [], []

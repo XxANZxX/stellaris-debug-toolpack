@@ -42,6 +42,18 @@ def okx(name, body, sp=False):
         _OKN[nm] = "trivial" if not (body or "").strip() else 1      # условий нет — красная метка не нужна
         TRG.append(B(nm, body or "always = yes"))
     return ("dtp_spx = { T = %s }" if sp else "dtp_tcx = { T = %s }") % nm
+# 11.5.5: что даёт черта / модель / этика / перк / политика — строки модификаторов с названиями из самой игры ($mod_…$)
+_BADM = ("crime", "upkeep", "cost", "usage", "devastation", "unemployment", "decline", "war_exhaustion", "_unrest", "deviancy", "_jobs_bonus_workforce_mult_neg")
+def MODS(mods, head=""):
+    out = []
+    for kk, fv in mods:
+        if fv == 0 or "attunement" in kk: continue         # служебные модификаторы покровителей Завесы — не показываем
+        pct = abs(fv) < 5 and (kk.endswith(("_mult", "pop_happiness", "_tolerance", "_speed", "_chance", "approval")) or (abs(fv) < 1 and fv != round(fv) and not kk.endswith("_add")))
+        good = (fv > 0) != any(b_ in kk for b_ in _BADM)
+        val = ("%+d%%" % round(fv * 100)) if pct else ("%+g" % fv)
+        nm = MODNAME(kk)
+        if nm: out.append("%s%s§! %s" % ("§G" if good else "§R", val.replace("-", "−"), nm))
+    return ("\n" + head + "\n".join(out)) if out else ""
 FORCE_FROM = B("from", "dtp_force_active = yes")
 loc("dtp_ed_lock", "§RИгра обычно это запрещает§! (этики, правление, другие модели, вид или происхождение). Включите §Yпринудительный режим§! внизу окна, чтобы поставить всё равно.")
 tren(L["dtp_ed_lock"], "§RThe game normally forbids this§! (ethics, authority, other civics, species or origin). Turn on §Yforce mode§! at the bottom of the window to set it anyway.")
@@ -187,6 +199,7 @@ def head(tab, ru, en, y=EY0 - 40):
 AXES = [("militarist", "pacifist"), ("pacifist", "militarist"), ("xenophobe", "xenophile"), ("xenophile", "xenophobe"),
         ("authoritarian", "egalitarian"), ("egalitarian", "authoritarian"), ("spiritualist", "materialist"), ("materialist", "spiritualist")]
 ETH_RU = dict(ETHICS)
+_EMODS = _ed.ethic_mods(VC)
 ETH_EN = {"militarist": "Militarist", "pacifist": "Pacifist", "xenophobe": "Xenophobe", "xenophile": "Xenophile", "authoritarian": "Authoritarian",
           "egalitarian": "Egalitarian", "spiritualist": "Spiritualist", "materialist": "Materialist"}
 def _pts(excl, amount):
@@ -212,15 +225,15 @@ for i, (a, o) in enumerate(AXES):
          act("state", B("event_target:dtp_t", B("if", B("limit", ex), "country_remove_ethic = ethic_%s" % a),
                          B("else_if", B("limit", fx), "country_remove_ethic = ethic_fanatic_%s" % a, "country_add_ethic = ethic_%s" % a),
                          B("else", "country_add_ethic = ethic_%s" % a)), 20), "state",
-         "§Y$ethic_%s$§!\n$ethic_%s_desc$\n\n§gНажмите: добавить этику (у фанатичной — сделать обычной); если уже есть — убрать.§!" % (a, a),
-         "§Y$ethic_%s$§!\n$ethic_%s_desc$\n\n§gClick: add the ethic (a fanatic one becomes regular); if already present — remove it.§!" % (a, a), soft=pt_n)
+         "§Y$ethic_%s$§!\n$ethic_%s_desc$%s\n\n§gНажмите: добавить этику (у фанатичной — сделать обычной); если уже есть — убрать.§!" % (a, a, MODS(_EMODS.get("ethic_" + a, []))),
+         "§Y$ethic_%s$§!\n$ethic_%s_desc$%s\n\n§gClick: add the ethic (a fanatic one becomes regular); if already present — remove it.§!" % (a, a, MODS(_EMODS.get("ethic_" + a, []))), soft=pt_n)
     TRG.append(B("dtp_has_e_%s" % a, ex))
     TRG.append(B("dtp_has_ef_%s" % a, fx))
     card("ethf_" + a, "Фанат. " + ETH_RU[a].lower(), "Fanatic " + ETH_EN[a].lower(), EX0 + 280 + EGAP, y, 280, EDP(1), tf, "dtp_tcx = { T = dtp_has_ef_%s }" % a, ok_f,
          act("state", B("event_target:dtp_t", B("if", B("limit", fx), "country_remove_ethic = ethic_fanatic_%s" % a),
                          B("else", B("if", B("limit", ex), "country_remove_ethic = ethic_%s" % a), "country_add_ethic = ethic_fanatic_%s" % a)), 20), "state",
-         "§Y$ethic_fanatic_%s$§!\n$ethic_fanatic_%s_desc$\n\n§gНажмите: сделать этику фанатичной (2 очка); если уже есть — убрать.§!" % (a, a),
-         "§Y$ethic_fanatic_%s$§!\n$ethic_fanatic_%s_desc$\n\n§gClick: make the ethic fanatic (2 points); if already present — remove it.§!" % (a, a), soft=pt_f)
+         "§Y$ethic_fanatic_%s$§!\n$ethic_fanatic_%s_desc$%s\n\n§gНажмите: сделать этику фанатичной (2 очка); если уже есть — убрать.§!" % (a, a, MODS(_EMODS.get("ethic_fanatic_" + a, []))),
+         "§Y$ethic_fanatic_%s$§!\n$ethic_fanatic_%s_desc$%s\n\n§gClick: make the ethic fanatic (2 points); if already present — remove it.§!" % (a, a, MODS(_EMODS.get("ethic_fanatic_" + a, []))), soft=pt_f)
 TRG.append(B("dtp_has_e_gestalt", "has_ethic = ethic_gestalt_consciousness"))
 _REGULAR_ETH = ["ethic_%s" % a for a, _o in AXES] + ["ethic_fanatic_%s" % a for a, _o in AXES]
 ok_g = okx("eth_gestalt", "OR = { has_authority = auth_hive_mind has_authority = auth_machine_intelligence }")
@@ -306,8 +319,8 @@ for i, au in enumerate([x for x in _ed.authorities(VC) if x["key"] != "auth_anci
     card(k, _AUTH_RU.get(k, k), _AUTH_EN.get(k, k), AUX, y, AUW, EDP(1), au["icon"], "dtp_tcx = { T = dtp_has_au_%s }" % k[5:], ok,
          act("state", B("event_target:dtp_t", B("if", B("limit", "NOT = { has_authority = %s }" % k), *fx,
                                                  "dtp_ed_civfix_%s = yes" % k[5:], "change_government = { authority = %s cooldown = no remove_invalid_civics = yes }" % k)), 39), "state",
-         ("§Y$%s$§!\n$%s_desc$\n\n§gНажмите: сменить форму правления. Этики подстраиваются сами (разумы получают коллективное сознание, вид — черту коллективного разума), несовместимые гражданские модели снимаются.§!" % (k, k)) + ("\n§gМашинный разум: если вид не машина, держава получает машинный вид с тем же названием и машинным портретом — всё население становится им.§!" if k == "auth_machine_intelligence" else "") + ("\n§gКоллективный разум: если вид — машины или роботы, держава получает органический вид с тем же названием (класс и портрет — по текущему портрету; сначала верните органический портрет в «Портрете вида»).§!" if k == "auth_hive_mind" else ""),
-         ("§Y$%s$§!\n$%s_desc$\n\n§gClick: change the authority. Ethics adjust automatically (hive and machine minds get gestalt consciousness, the species gets the hive-mind trait), incompatible civics are removed.§!" % (k, k)) + ("\n§gMachine intelligence: if the species is not a machine, the empire gets a machine species with the same name and a machine portrait — all pops become it.§!" if k == "auth_machine_intelligence" else "") + ("\n§gHive mind: if the species is machines or robots, the empire gets an organic species with the same name (class and portrait follow the current portrait — set an organic one in Species portrait first).§!" if k == "auth_hive_mind" else ""))
+         ("§Y$%s$§!\n$%s_desc$" % (k, k) + MODS(au.get("mods", [])) + "\n\n§gНажмите: сменить форму правления. Этики подстраиваются сами (разумы получают коллективное сознание, вид — черту коллективного разума), несовместимые гражданские модели снимаются.§!") + ("\n§gМашинный разум: если вид не машина, держава получает машинный вид с тем же названием и машинным портретом — всё население становится им.§!" if k == "auth_machine_intelligence" else "") + ("\n§gКоллективный разум: если вид — машины или роботы, держава получает органический вид с тем же названием (класс и портрет — по текущему портрету; сначала верните органический портрет в «Портрете вида»).§!" if k == "auth_hive_mind" else ""),
+         ("§Y$%s$§!\n$%s_desc$" % (k, k) + MODS(au.get("mods", [])) + "\n\n§gClick: change the authority. Ethics adjust automatically (hive and machine minds get gestalt consciousness, the species gets the hive-mind trait), incompatible civics are removed.§!") + ("\n§gMachine intelligence: if the species is not a machine, the empire gets a machine species with the same name and a machine portrait — all pops become it.§!" if k == "auth_machine_intelligence" else "") + ("\n§gHive mind: if the species is machines or robots, the empire gets an organic species with the same name (class and portrait follow the current portrait — set an organic one in Species portrait first).§!" if k == "auth_hive_mind" else ""))
     TRG.append(B("dtp_has_au_%s" % k[5:], "has_authority = %s" % k))
 
 # ================================================================ 2. ГРАЖДАНСКИЕ МОДЕЛИ
@@ -322,8 +335,8 @@ for c, ck, ru, en in CIV_CATS:
         TRG.append(B("dtp_has_cv_%s" % k[6:], "has_civic = %s" % k))
         card(k, "$%s$" % k, "$%s$" % k, x, y, w, pot, it["icon"], "dtp_tcx = { T = dtp_has_cv_%s }" % k[6:], okx(k, "\n".join(it["req"])),
              act("state", B("event_target:dtp_t", B("if", B("limit", "has_civic = %s" % k), "force_remove_civic = %s" % k), B("else", "force_add_civic = %s" % k)), 40), "state",
-             "§Y$%s$§!\n\n§gНажмите: добавить гражданскую модель; если уже есть — убрать.§!" % k,
-             "§Y$%s$§!\n\n§gClick: add the civic; if already present — remove it.§!" % k)
+             "§Y$%s$§!\n$%s_desc$%s\n\n§gНажмите: добавить гражданскую модель; если уже есть — убрать.§!" % (k, k, MODS(it.get("mods", []))),
+             "§Y$%s$§!\n$%s_desc$%s\n\n§gClick: add the civic; if already present — remove it.§!" % (k, k, MODS(it.get("mods", []))))
     grid_items(2, c, items, mk)
 
 # ================================================================ 3. ТРАДИЦИИ
@@ -346,7 +359,7 @@ def mk(i, it, x, y, w, pot):
     TRG.append(B("dtp_has_ap_%s" % k, "has_ascension_perk = %s" % k))
     card(k, "$%s$" % k, "$%s$" % k, x, y, w, pot, it["icon"], "dtp_tcx = { T = dtp_has_ap_%s }" % k, okx(k, "\n".join(it["req"])),
          act("state", B("event_target:dtp_t", B("if", B("limit", "has_ascension_perk = %s" % k), "remove_ascension_perk = %s" % k), B("else", "add_ascension_perk = %s" % k)), 64), "state",
-         "§Y$%s$§!\n$%s_desc$\n\n§gНажмите: добавить перк; если уже есть — убрать.§!" % (k, k), "§Y$%s$§!\n$%s_desc$\n\n§gClick: add the perk; if present — remove it.§!" % (k, k))
+         "§Y$%s$§!\n$%s_desc$%s\n\n§gНажмите: добавить перк; если уже есть — убрать.§!" % (k, k, MODS(it.get("mods", []))), "§Y$%s$§!\n$%s_desc$%s\n\n§gClick: add the perk; if present — remove it.§!" % (k, k, MODS(it.get("mods", []))))
 grid_items(4, None, sorted(_ed.perks(VC, _SPRT), key=lambda x: x["key"]), mk)
 
 # ================================================================ 5. ПОЛИТИКА: слева название политики, справа её варианты
@@ -369,7 +382,7 @@ for po, pg, r in rows:
             TRG.append(B("dtp_has_po_%s" % n, "has_policy_flag = %s" % o["flag"])); has = "dtp_tcx = { T = dtp_has_po_%s }" % n
         card("po_%s_%s" % (k, n), "$%s$" % n, "$%s$" % n, x, y, _OW, pot, o["icon"], has, okx("po_%s_%s" % (k, n), "can_set_policy = { policy = %s option = %s }" % (k, n)),
              act("state", B("event_target:dtp_t", "set_policy = { policy = %s option = %s cooldown = no }" % (k, n)), 65), "state",
-             "§Y$%s$§!\n\n§gНажмите: выбрать этот вариант политики.§!" % n, "§Y$%s$§!\n\n§gClick: choose this policy option.§!" % n)
+             "§Y$%s$§!%s\n\n§gНажмите: выбрать этот вариант политики.§!" % (n, MODS(o.get("mods", []))), "§Y$%s$§!%s\n\n§gClick: choose this policy option.§!" % (n, MODS(o.get("mods", []))))
 pages("g5", 5, None, pg)
 
 # ================================================================ ВЫБОР ВИДА (общий для «Черт», «Прав» и «Портрета»)
@@ -446,8 +459,8 @@ for c, ck, ru, en in TR_CATS:
         card(k, "$%s$" % k, "$%s$" % k, x, y, w, pot, it["icon"], "dtp_spx = { T = dtp_has_tr_%s }" % k[6:], okx("t_" + k, "\n".join(cond), sp=True),
              act("species", "dtp_sp_load = yes\n" + B("event_target:dtp_sp", B("if", B("limit", "has_trait = %s" % k), "change_species_characteristics = { remove_trait = %s }" % k),
                                               B("else", "change_species_characteristics = { add_trait = %s }" % k)), 22), "species",
-             "§Y$%s$§!\n$%s_desc$\n\n§gНажмите: добавить черту всему виду; если уже есть — убрать. Игра разрешает черту только своему типу вида (органики, литоиды, роботы, машины) и без противоположных черт.§!" % (k, k),
-             "§Y$%s$§!\n$%s_desc$\n\n§gClick: add the trait to the whole species; if present — remove it. The game allows a trait only for its species type (organic, lithoid, robot, machine) and without opposite traits.§!" % (k, k), sp=True)
+             "§Y$%s$§!\n$%s_desc$" % (k, k) + MODS(it.get("mods", [])) + "\n\n§gНажмите: добавить черту всему виду; если уже есть — убрать. Игра разрешает черту только своему типу вида (органики, литоиды, роботы, машины) и без противоположных черт.§!",
+             "§Y$%s$§!\n$%s_desc$" % (k, k) + MODS(it.get("mods", [])) + "\n\n§gClick: add the trait to the whole species; if present — remove it. The game allows a trait only for its species type (organic, lithoid, robot, machine) and without opposite traits.§!", sp=True)
     grid_items(6, c, items, mk, dy=40)
 
 # ================================================================ 7. ПРАВА И ПОРТРЕТ

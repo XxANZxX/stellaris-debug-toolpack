@@ -19,6 +19,13 @@ When updating, delete the old `dtp_toolpack` folder first, so no stale files rem
 
 **UI Overhaul Dynamic users:** also copy `dtp_toolpack_uiod` and `dtp_toolpack_uiod.mod`, and enable the patch *together with* the base mod, loaded after UIOD and DTP. Update the patch together with the base mod — without the current patch the editors do not appear under UIOD.
 
+## Movable windows and bonus tooltips (11.6)
+
+- Every DTP window can be dragged with the mouse, the same way as the game's own windows (`moveable = yes`, `respect_parent_boundaries = no`): the icon with the panel at the top left (by its plate), the strips in the planet, star, starbase and fleet windows (by their background), the empire and planet editors (by the **Drag the window** tab above the top-left corner).
+- Empire editor tooltips show what each item gives — species traits, civics (with their description), ethics, authorities, ascension perks and policies — using the game's own modifier names. The real localisation keys of game modifiers are listed in `tools/i18n/game_modloc_keys.json`, so no bonus name is left empty.
+- Fixed empty bonus names in the planet editor's Modifiers tab.
+- **The UIOD patch changed** — update it together with the base mod.
+
 ## Performance fix (11.5)
 
 The game copies every scripted effect / trigger into **each place it is called**. DTP used to call the same shared logic (player index, targets, log, editor targets) from each of ~9,600 buttons, which added gigabytes of RAM and very long loading. Since 11.5:
@@ -27,7 +34,7 @@ The game copies every scripted effect / trigger into **each place it is called**
 - the open editor uses one shared target (`dtp_pv` planet, `dtp_ev` empire, `dtp_evs` species) instead of 16 per-player variants in every condition, so each editor is open for one player at a time;
 - calls with constant parameters are turned into ready, parameter-free definitions; repeated condition blocks are moved into shared scripted triggers; long internal names are shortened (`tools/optimize.py`).
 
-Nothing was removed — every feature works as before. The UIOD patch is unchanged.
+Nothing was removed — every feature works as before.
 
 ## Simplified Chinese (11.4)
 

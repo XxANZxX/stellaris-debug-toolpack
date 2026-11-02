@@ -133,6 +133,12 @@ if zh_:
         if k in en_:
             for pat in (r"\[[^\]]*\]", r"\$\w+\$", r"§[A-Za-z!]"):
                 if sorted(re.findall(pat, v)) != sorted(re.findall(pat, en_[k])): errors.append("ZH/EN: разные теги %s в %s" % (pat, k))
+_gmk_p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "i18n", "game_modloc_keys.json")    # 11.5.6: ссылки на названия бонусов игры
+if os.path.exists(_gmk_p):
+    import json as _json
+    _gmk = set(_json.load(open(_gmk_p, encoding="utf-8")))
+    for _r in sorted({r for v in ru_.values() for r in re.findall(r"\$((?:mod|MOD)_\w+)\$", v)}):
+        if _r not in _gmk and _r not in ru_: errors.append("ссылка на несуществующее название бонуса: $%s$" % _r)
 print("локализация: RU %d · EN %d · ZH %d" % (len(ru_), len(en_), len(zh_)))
 # копия игровых дипломатических действий: только наши вставки (ключи подсказок есть, скобки сбалансированы)
 _da = os.path.join(ROOT, "common", "diplomatic_actions", "zz_dtp_declare_war.txt")

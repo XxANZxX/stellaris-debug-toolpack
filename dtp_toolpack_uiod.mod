@@ -1,4 +1,4 @@
-version="11.5.4"
+version="11.6.0"
 tags={
 	"Utilities"
 	"Interface"

@@ -94,7 +94,7 @@ def civics(vc):
                else "corp" if "auth_corporate" in posi else "reg")
         if f == "01_special_civics.txt" or "always = no" in " ".join(req): cat = "special"
         icon = (get(b, "icon") or "gfx/interface/icons/governments/civics/%s.dds" % k).strip('"')
-        out.append(dict(key=k, icon=icon, req=req, cat=cat))
+        out.append(dict(key=k, icon=icon, req=req, cat=cat, mods=modlist(b, vc)))
     return out
 
 def authorities(vc):
@@ -104,7 +104,7 @@ def authorities(vc):
         pos = [r for r in gov_req(get(b, "possible")) if "has_ethic" not in r]        # этики редактор подстраивает сам
         pot = gov_req(get(b, "potential")); play = get(b, "playable")
         req = pot + pos + ([ser(play)] if isinstance(play, list) and play else [])
-        out.append(dict(key=k, icon="gfx/interface/icons/governments/authorities/%s.dds" % ("auth_machine_intelligence" if k == "auth_ancient_machine_intelligence" else k), req=req))   # у древнего разума своего значка нет (error.log)
+        out.append(dict(key=k, icon="gfx/interface/icons/governments/authorities/%s.dds" % ("auth_machine_intelligence" if k == "auth_ancient_machine_intelligence" else k), req=req, mods=modlist(b, vc)))   # у древнего разума своего значка нет (error.log)
     return out
 
 def traits(vc):
@@ -123,7 +123,7 @@ def traits(vc):
                else "ascend" if cat in ("cyborg", "psionic", "advanced_genetic", "overtuned", "malleable", "mutation") or "ascension" in f or "cyborg" in f
                else "bio")
         if re.match(r"trait_pc_\w+_preference$", k): grp = "hab"
-        out.append(dict(key=k, icon=icon, arch=arch, opp=opp, special=(initial == "no" and mod == "no"), cat=cat, grp=grp))
+        out.append(dict(key=k, icon=icon, arch=arch, opp=opp, special=(initial == "no" and mod == "no"), cat=cat, grp=grp, mods=modlist(b, vc)))
     return out
 
 _VARS = {}
@@ -138,12 +138,26 @@ def resolve(txt, vc):
     v = _vars(vc)
     txt = re.sub(r"@\w+", lambda m: v.get(m.group(0), m.group(0)), txt)
     return None if "@" in txt or "$" in txt else txt
+def modlist(b, vc, keys=("modifier", "country_modifier")):
+    """11.5.5: постоянные модификаторы объекта игры (что он даёт) — [(ключ, число)]; условные (triggered_*) не берём."""
+    out = []
+    for key in keys:
+        for blk in getall(b, key):
+            if not isinstance(blk, list): continue
+            for kk, op, v in blk:
+                if not kk or not isinstance(v, str) or kk in ("description", "custom_tooltip"): continue
+                r = resolve(v, vc)
+                try: out.append((kk, float(r)))
+                except (TypeError, ValueError): pass
+    return out
+def ethic_mods(vc):
+    return {k: modlist(b, vc) for k, (b, f) in top(os.path.join(vc, "ethics/*.txt")).items()}
 def perks(vc, spr):
     out = []
     for k, (b, f) in top(os.path.join(vc, "ascension_perks/*.txt")).items():
         req = [r for r in (resolve(ser(x), vc) for x in (get(b, "potential"), get(b, "possible")) if isinstance(x, list) and x) if r]
         tex = spr.get("GFX_" + k) or "gfx/interface/icons/ascension_perks/%s.dds" % k
-        out.append(dict(key=k, icon=tex, req=req))
+        out.append(dict(key=k, icon=tex, req=req, mods=modlist(b, vc)))
     return out
 
 def tradition_trees(vc, spr):
@@ -168,7 +182,7 @@ def policies(vc, spr):
             if not n or re.search(r"fallen_empire|_nomad$|_ignorant|_questioning|_eager|_fearful|_uncertain|culture_shock", n): continue
             fl = [x for _, _, x in (get(o, "policy_flags") or []) if isinstance(x, str)]
             ic = (get(o, "icon") or "").strip('"')
-            opts.append(dict(name=n, flag=(n if n in fl else (fl[0] if fl else None)), icon=spr.get(ic)))
+            opts.append(dict(name=n, flag=(n if n in fl else (fl[0] if fl else None)), icon=spr.get(ic), mods=modlist(o, vc)))
         if len(opts) >= 2:
             out.append(dict(key=k, cat=get(b, "category") or "misc", opts=opts))
     return out

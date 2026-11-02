@@ -17,7 +17,7 @@ python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/model
 import zlib, os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "11.5.4"
+VERSION = "11.6.0"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []
@@ -615,6 +615,7 @@ HW, HH = 210, 52                            # ручка перетаскива�
 ACC = B("from", B("OR", "dtp_has_any_perm = yes", B("AND", "is_ai = no", "has_country_flag = dtp_host_seat", "NOT = { any_country = { has_country_flag = dtp_host is_ai = no } }"), B("AND", "is_ai = no", "count_country = { limit = { is_ai = no } count = 1 }")))
 HDRAG = 0
 button("handle_img", "", 0, 0, HW, HH, where="handle", sprite="GFX_dtp_handle", label=True, potential=ACC)
+GUI[-1]["passthru"] = True                     # 11.6: значок DTP тянут за плашку (клик проходит к перетаскиваемому корню)
 button("toggle", "", HW - 50, 2, 48, 48, where="handle", sprite="GFX_dtp_toggle", potential=ACC,
        effect=INIT + "\n" + B("from", B("if", B("limit", "has_country_flag = dtp_open"), "remove_country_flag = dtp_open"),
                                B("else", "set_country_flag = dtp_open", "remove_country_flag = dtp_ed_open")),
@@ -2752,6 +2753,24 @@ print("значков на кнопках: %d (спрайтов %d)" % (sum(1 fo
 
 # ================================================================ РЕДАКТОР ДЕРЖАВЫ И ВИДА (11.2)
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# 11.5.6: названия бонусов (модификаторов) — по настоящим ключам локализации игры (i18n/game_modloc_keys.json снят с русской
+# локализации 4.5.2): у игры они бывают MOD_X, mod_x, x или MOD_COUNTRY_X. Ссылка на несуществующий ключ даёт пустую строку.
+_GMK = set(json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "i18n", "game_modloc_keys.json"), encoding="utf-8")))
+_MODFB = {"all_technology_research_speed": ("Скорость исследований", "Research speed"), "arkship_fire_rate": ("Скорострельность ковчега", "Arkship fire rate"),
+          "country_election_cost_mult": ("Стоимость выборов", "Election cost"), "dangerous_tech_draw_chance_mult": ("Шанс опасных технологий", "Dangerous tech chance"),
+          "external_leader_pool_add": ("Внешние лидеры для найма", "External recruitable leaders"), "monthly_loyalty_from_subjects": ("Лояльность подданных в месяц", "Monthly subject loyalty"),
+          "pop_ethics_shift_speed_mult": ("Скорость смены этик населения", "Pop ethics shift speed"), "rare_tech_draw_chance_mult": ("Шанс редких технологий", "Rare tech chance"),
+          "science_ship_survey_speed": ("Скорость исследования систем", "Survey speed"), "ship_emergency_ftl_mult": ("Аварийный сверхсветовой прыжок", "Emergency FTL"),
+          "slave_market_cost_mult": ("Цена на рынке рабов", "Slave market cost"), "specialist_subject_conversion_time_mult": ("Время смены специализации подданного", "Subject specialization time"),
+          "species_leader_exp_gain": ("Опыт лидеров вида", "Species leader experience")}
+_MODNO = set()
+def MODNAME(kk):
+    """$ключ$ названия бонуса из локализации игры; свой перевод, если у игры его нет; None — бонус не показываем."""
+    for c in ("MOD_" + kk.upper(), "mod_" + kk, kk, "MOD_COUNTRY_" + kk.upper()):
+        if c in _GMK: return "$%s$" % c
+    if kk in _MODFB:
+        return "$%s$" % loc("dtp_mod_" + kk, tren(*_MODFB[kk]))
+    _MODNO.add(kk); return None
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "editor3.py"), encoding="utf-8").read())
 # 11.3: «Редактор планеты и системы» — своё окно в своём файле интерфейса
 exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "planet3.py"), encoding="utf-8").read())
@@ -2770,6 +2789,7 @@ def gui_el(g, extra=()):
     if g.get("scale"): parts.append("scale=%s" % g["scale"])          # 11.3.3: значки-кадры игры (типы планет) рисуются в своём размере — уменьшаем
     parts.append('effect="%s"' % g.get("eff", g["key"]))
     if g["tt"]: parts.append('tooltipText="%s"' % g["tt"])
+    if g.get("passthru"): parts.append("alwaysTransparent=yes")      # 11.6: клик проходит сквозь элемент к окну — за него можно тянуть окно
     if g.get("shortcut"): parts.append('shortcut="%s"' % g["shortcut"])
     # 11.2.3: alwaysTransparent не пишем — у рамок и значков то же действие, что у карточки (экономия размера файла)
     parts += (["format=left"] if txt else []) if g["label"] else (["format=left"] if g.get("left") else []) + ([] if g.get("transp") or g.get("quiet") else ["clicksound=interface"])     # 11.2: без oversound — main.gui меньше
@@ -2782,21 +2802,21 @@ main_children = [gui_el(g) for g in GUI if g["where"] == "main"]
 # Само окно — кнопки-эффекты, видимые по флагу dtp_open, висят под ручкой за её границами (clipping = no).
 DX, DY = HW - W, HH + 4
 dtp_root = B("containerWindowType", 'name = "dtp_root"', ("position = { x = -360 y = 50 }" if UIOD else "position = { x = -360 y = 40 }"), "size = { width = %d height = %d }" % (HW, HH + HDRAG),
-    "orientation = UPPER_RIGHT", "origo = UPPER_RIGHT", "moveable = yes", "clipping = no",
+    "orientation = UPPER_RIGHT", "origo = UPPER_RIGHT", "moveable = yes", "respect_parent_boundaries = no", "clipping = no",
     B("background", 'name = "bg"', 'quadTextureSprite = "GFX_dtp_label"'),
     *[gui_el(g) for g in GUI if g["where"] == "handle"],
     *[gui_el(dict(g, x=g["x"] + DX, y=g["y"] + DY)) for g in GUI if g["where"] == "main"])
 loc("dtp_toggle_tt", "Debug Toolpack: открыть или закрыть окно. Окно перетаскивается за шапку.")
 for _nm, _cond, _w in (("planet", SPL, 520 if UIOD else 620), ("fleet", SFL, 440), ("starbase", SSB, 536)):
     lab("%s_bg" % _nm[:2], "", -8, -2, _w, h=96, where=_nm, potential=_cond)
-    GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_panel"
+    GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_panel"; GUI[-1]["passthru"] = True      # 11.6: полоску тянут за фон
     GUI.insert(0, GUI.pop()); META.insert(0, META.pop())      # первым — рисуется под кнопками полосы
-planet_strip = B("containerWindowType", 'name = "dtp_planet_strip"', ("position = { x = 362 y = 112 }" if UIOD else "position = { x = 14 y = 686 }"), ("size = { width = 520 height = 96 }" if UIOD else "size = { width = 620 height = 96 }"), "moveable = yes",
+planet_strip = B("containerWindowType", 'name = "dtp_planet_strip"', ("position = { x = 362 y = 112 }" if UIOD else "position = { x = 14 y = 686 }"), ("size = { width = 520 height = 96 }" if UIOD else "size = { width = 620 height = 96 }"), "moveable = yes", "respect_parent_boundaries = no",
     B("background", 'name = "bg"', 'quadTextureSprite = "GFX_dtp_label"'), *[gui_el(dict(g, x=g["x"] + 8, y=g["y"] + 2)) for g in GUI if g["where"] == "planet"])
-fleet_strip = B("containerWindowType", 'name = "dtp_fleet_strip"', ("position = { x = 606 y = -60 }" if UIOD else "position = { x = 516 y = -60 }"), "size = { width = 440 height = 96 }", "moveable = yes",
+fleet_strip = B("containerWindowType", 'name = "dtp_fleet_strip"', ("position = { x = 606 y = -60 }" if UIOD else "position = { x = 516 y = -60 }"), "size = { width = 440 height = 96 }", "moveable = yes", "respect_parent_boundaries = no",
     B("background", 'name = "bg"', 'quadTextureSprite = "GFX_dtp_label"'), *[gui_el(dict(g, x=g["x"] + 8, y=g["y"] + 2)) for g in GUI if g["where"] == "fleet"])
 
-starbase_strip = B("containerWindowType", 'name = "dtp_starbase_strip"', *(["position = { x = 62 y = 134 }"] if UIOD else ["position = { x = 14 y = 124 }"]), "size = { width = 536 height = 96 }", "moveable = yes",
+starbase_strip = B("containerWindowType", 'name = "dtp_starbase_strip"', *(["position = { x = 62 y = 134 }"] if UIOD else ["position = { x = 14 y = 124 }"]), "size = { width = 536 height = 96 }", "moveable = yes", "respect_parent_boundaries = no",
     B("background", 'name = "bg"', 'quadTextureSprite = "GFX_dtp_label"'), *[gui_el(dict(g, x=g["x"] + 8, y=g["y"] + 2)) for g in GUI if g["where"] == "starbase"])
 # 11.2: короткие ключи кнопок в файлах игры (dtp_b_длинное_имя → dtp_z<хэш>): main.gui с редактором держав
 # должен остаться меньше ~900 КБ. Хэш не зависит от раскладки (ваниль/UIOD), поэтому патч UIOD совпадает с модом.
@@ -2813,13 +2833,23 @@ def _short(m):
 def shorten(text): return re.sub(r"\bdtp_b_\w+|\bGFX_dtp_gi_\w+", _short, text)
 # 11.2: редактор держав — в нижней панели игры (maingui_bottombar всегда на экране; main.gui и так большой).
 # Корневой контейнер крошечный (не перекрывает карту, пока редактор закрыт), элементы — за его границами (clipping = no).
-ED_GRIP = ("size = { width = 2 height = 2 }",)          # 11.3.4: перетаскивание за заголовок в игре не заработало — корень снова крошечный (не мешает карте)
-dtp_editor = B("containerWindowType", 'name = "dtp_editor"', "position = { x = %d y = %d }" % (-EW // 2, -EH // 2 - 20), *ED_GRIP,
-    "orientation = CENTER", "clipping = no", *[gui_el(g) for g in GUI if g["where"] == "editor"])
+# 11.6: перетаскивание как в игре (вложенные окна флота/планеты): moveable + respect_parent_boundaries = no + площадь, за которую тянут.
+# Корень окна — «язычок» над левым верхним углом редактора (GRIP_W × GRIP_H, невидимый фон); надпись на нём видна только при
+# открытом редакторе и пропускает клик к корню. Всё содержимое — ниже язычка (сдвиг на GRIP_H).
+GRIP_W, GRIP_H = 260, 30
+ED_GRIP = ("size = { width = %d height = %d }" % (GRIP_W, GRIP_H), "moveable = yes", "respect_parent_boundaries = no",
+           B("background", 'name = "grip_bg"', 'quadTextureSprite = "GFX_invisible"'))
+for _w, _flag in (("editor", "dtp_ed_open"), ("peditor", "dtp_pe_open")):
+    lab("%s_grip" % _w, tren("   §Y:::§!  Перетащить окно", "   §Y:::§!  Drag the window"), 0, -GRIP_H, GRIP_W, h=GRIP_H, where=_w, potential=B("from", "has_country_flag = %s" % _flag))
+    GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_tab"; GUI[-1]["passthru"] = True
+def _ed_els(where):
+    return [gui_el(dict(g, y=g["y"] + GRIP_H)) for g in GUI if g["where"] == where]
+dtp_editor = B("containerWindowType", 'name = "dtp_editor"', "position = { x = %d y = %d }" % (-EW // 2, -EH // 2 - 20 - GRIP_H), *ED_GRIP,
+    "orientation = CENTER", "clipping = no", *_ed_els("editor"))
 # 11.3: редактор планеты — в главном окне игры «maingui» (всегда на экране, во весь экран). Окно переносится из main.gui
 # в отдельный файл dtp_planet_editor.gui: у каждого файла свой предел размера (~1 МБ), main.gui не растёт.
-dtp_peditor = B("containerWindowType", 'name = "dtp_peditor"', "position = { x = %d y = %d }" % (-EW // 2, -EH // 2 - 20), *ED_GRIP,
-    "orientation = CENTER", "clipping = no", *[gui_el(g) for g in GUI if g["where"] == "peditor"])
+dtp_peditor = B("containerWindowType", 'name = "dtp_peditor"', "position = { x = %d y = %d }" % (-EW // 2, -EH // 2 - 20 - GRIP_H), *ED_GRIP,
+    "orientation = CENTER", "clipping = no", *_ed_els("peditor"))
 def w(path, text, bom=False):
     p = os.path.join(OUT, path); os.makedirs(os.path.dirname(p), exist_ok=True)
     text = shorten(text)
@@ -3104,7 +3134,7 @@ assert "is_regular_empire = {" in _st
 # 11.5.2: места раскопок видны только державам типа default — держава Гейм-мастера (dtp_gamemaster) их не видела
 _sa = open(os.path.join(VC, "scripted_triggers", "02_scripted_triggers_archaeology.txt"), encoding="utf-8-sig").read()
 assert _sa.count("default_site_visible_trigger = {") == 1
-_sa = re.sub(r"(default_site_visible_trigger = \{\s*)is_country_type = default", r"\1OR = { is_country_type = default is_country_type = dtp_gamemaster }", _sa, 1)
+_sa = re.sub(r"(default_site_visible_trigger = \{\s*)is_country_type = default", r"\1OR = { is_country_type = default is_country_type = dtp_gamemaster }", _sa, count=1)
 assert "is_country_type = dtp_gamemaster" in _sa
 w("common/scripted_triggers/02_scripted_triggers_archaeology.txt", "# Debug Toolpack " + VERSION + ": copy of the game file; dig sites are also visible to the Game Master country type (dtp_gamemaster).\n" + _sa)
 w("common/scripted_triggers/00_scripted_triggers.txt", "# Debug Toolpack " + VERSION + ": copy of the game file; the Game Master country type (dtp_gamemaster) counts as a regular empire.\n" +
@@ -3297,6 +3327,30 @@ for lang in ("russian", "english"):
 from i18n_zh import tmpl as _ztmpl, fill as _zfill
 _ZHMAP = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "i18n", "zh_map.json"), encoding="utf-8"))
 _ZH_MISS = []
+# 11.5.5: «голова» подсказки без слов (название, описание, строки модификаторов — всё из игры) + известный «хвост» с пояснением.
+# Хвосты берём из готовых переводов: «…\n\n§gНажмите: …§!» → китайский хвост; номера подстановок пересчитываются.
+def _renum(t):
+    order = []
+    def r(m):
+        if m.group(0) not in order: order.append(m.group(0))
+        return "{%d}" % order.index(m.group(0))
+    return re.sub(r"\{\d+\}", r, t), order
+_ZH_TAIL = {}
+for _e1, _z1 in _ZHMAP.items():
+    if "\\n\\n" in _e1 and "\\n\\n" in _z1:
+        _et, _eo = _renum(_e1.rsplit("\\n\\n", 1)[1])
+        _zt = _z1.rsplit("\\n\\n", 1)[1]
+        _mp = {o: "{%d}" % i for i, o in enumerate(_eo)}
+        if all(x in _mp for x in re.findall(r"\{\d+\}", _zt)):
+            _ZH_TAIL.setdefault(_et, re.sub(r"\{\d+\}", lambda m: "⟦%s⟧" % _mp[m.group(0)][1:-1], _zt))
+def _zh_split(t):
+    if "\\n\\n" not in t: return None
+    head, tail = t.rsplit("\\n\\n", 1)
+    if re.search(r"[A-Za-z]", re.sub(r"§[A-Za-z!]|\{\d+\}|\\n", "", head)): return None
+    tn, order = _renum(tail)
+    zt = _ZH_TAIL.get(tn)
+    if zt is None: return None
+    return head + "\\n\\n" + re.sub(r"⟦(\d+)⟧", lambda m: order[int(m.group(1))], zt)
 _YML_GLY = (("✔ ", "§G●§! "), ("✔", "§G●§!"), ("↻ ", ""), ("↻", ""), ("⇄ ", "→ "), ("⇄", "→"), ("↶", "←"), ("✕", "×"),
             ("⌂ ", ""), ("⌂", ""), ("‹", "<"), ("›", ">"), ("↔", "/"), ("↺ ", ""), ("↺", ""), ("◎ ", ""), ("◎", ""),
             ("—", "-"), ("–", "-"), ("→", "->"), ("←", "<-"), ("−", "-"), ("…", "..."), ("●", "*"))
@@ -3307,7 +3361,7 @@ def yml_zh(d):
         v = v.replace("§O", "§H")
         for _a, _b in _YML_GLY: v = v.replace(_a, _b)
         lead, t, args = _ztmpl(v)
-        z = _ZHMAP.get(t)
+        z = _ZHMAP.get(t) or _zh_split(t)
         if z is None:
             if _re.search(r"[A-Za-z]{3}", _re.sub(r"\$[^$]*\$|\[[^\]]*\]|§.", "", t)): _ZH_MISS.append(t)
             z = t
@@ -3321,6 +3375,7 @@ json.dump({"W": W, "H": H, "items": META, "stars": STARCLS}, open(os.path.join(o
 if _EN_MISS:
     print("!! нет английского перевода для %d строк:" % len(_EN_MISS)); [print("   ", s) for s in sorted(set(_EN_MISS))[:40]]
     json.dump(sorted({_norm(s) for s in _EN_MISS}), open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "i18n", "missing.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=0)
+if _MODNO: print("бонусы без названия в игре (не показаны): %d — %s" % (len(_MODNO), ", ".join(sorted(_MODNO))))
 _ren = _opt.rename(OUT)                                                       # 11.5: короткие имена своих условий и эффектов
 print("короткие имена: %d" % len(_ren))
 print("кнопок %d · отмеченных классов звёзд %d · ключей %d" % (len(BTN), len(STARCLS), len(L)))
