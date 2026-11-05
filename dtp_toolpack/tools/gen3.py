@@ -17,7 +17,7 @@ python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/model
 import zlib, os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "11.6.0"
+VERSION = "11.6.6"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []
@@ -2275,7 +2275,8 @@ CAT.append(B("country_event", "id = dtp.1201", "hide_window = yes", "is_triggere
       B("OR", "AND = { OR = { is_ai = no has_global_flag = dtp_war_ai } has_global_flag = dtp_rule_nopvp }",
               "has_country_flag = dtp_rule_np",
               "AND = { OR = { is_ai = no has_global_flag = dtp_war_ai } from = { any_defender = { has_country_flag = dtp_rule_prot } } }")),
-    B("immediate", "set_timed_global_flag = { flag = dtp_viol_cd days = 3 }", "set_global_flag = dtp_viol_open", "save_global_event_target_as = dtp_violator",
+    B("immediate", B("if", B("limit", "exists = event_target:dtp_victim"), "clear_global_event_target = dtp_victim"),   # 11.6.1: жертва прошлого нарушения не должна остаться
+      "set_timed_global_flag = { flag = dtp_viol_cd days = 3 }", "set_global_flag = dtp_viol_open", "save_global_event_target_as = dtp_violator",
       B("from", B("random_defender", B("limit", "is_ai = no"), "save_global_event_target_as = dtp_victim"),
                 B("random_defender", B("limit", "has_country_flag = dtp_rule_prot"), "save_global_event_target_as = dtp_victim"),
                 B("if", B("limit", "NOT = { exists = event_target:dtp_victim }"), B("random_defender", "save_global_event_target_as = dtp_victim"))),
@@ -2375,7 +2376,12 @@ CAT.append(B("fleet_event", "id = dtp.1281", "hide_window = yes", "is_triggered_
 CAT.append(B("country_event", "id = dtp.1282", "hide_window = yes", "is_triggered_only = yes", B("immediate", "dtp_mlist_root = yes")))
 # правило игры «можно ли поставить претензию»: для ведущего в режиме отметки — можно всегда и везде (в т. ч. на ничьи системы);
 # для всех остальных — правило игры без изменений (копируется из файлов игры при сборке).
-_rules = open(os.path.join(VC, "game_rules", "00_rules.txt"), encoding="utf-8-sig").read()
+# 11.7: сборщик патчей подставляет файл другого мода с тем же именем (DTP_VC_OVR) — правка встраивается в его версию
+VC_OVR = os.environ.get("DTP_VC_OVR", "")
+def vc_file(*parts):
+    _p = os.path.join(VC_OVR, *parts) if VC_OVR else ""
+    return _p if _p and os.path.exists(_p) else os.path.join(VC, *parts)
+_rules = open(vc_file("game_rules", "00_rules.txt"), encoding="utf-8-sig").read()
 _m = re.search(r"(?m)^can_add_claim = \{", _rules); _i = _m.end(); _d = 1
 while _d:
     _d += {"{": 1, "}": -1}.get(_rules[_i], 0); _i += 1
@@ -2818,8 +2824,8 @@ fleet_strip = B("containerWindowType", 'name = "dtp_fleet_strip"', ("position = 
 
 starbase_strip = B("containerWindowType", 'name = "dtp_starbase_strip"', *(["position = { x = 62 y = 134 }"] if UIOD else ["position = { x = 14 y = 124 }"]), "size = { width = 536 height = 96 }", "moveable = yes", "respect_parent_boundaries = no",
     B("background", 'name = "bg"', 'quadTextureSprite = "GFX_dtp_label"'), *[gui_el(dict(g, x=g["x"] + 8, y=g["y"] + 2)) for g in GUI if g["where"] == "starbase"])
-# 11.2: короткие ключи кнопок в файлах игры (dtp_b_длинное_имя → dtp_z<хэш>): main.gui с редактором держав
-# должен остаться меньше ~900 КБ. Хэш не зависит от раскладки (ваниль/UIOD), поэтому патч UIOD совпадает с модом.
+# 11.2: короткие ключи кнопок в файлах игры (dtp_b_длинное_имя → dtp_z<хэш>): файлы окон меньше, загрузка быстрее
+# (предел ~900 КБ, ради которого это делалось, не подтвердился — см. проверку 05.11). Хэш не зависит от раскладки (ваниль/UIOD), поэтому патч UIOD совпадает с модом.
 _SHORT = {}
 def _short(m):
     k = m.group(0)
@@ -2847,9 +2853,15 @@ def _ed_els(where):
 dtp_editor = B("containerWindowType", 'name = "dtp_editor"', "position = { x = %d y = %d }" % (-EW // 2, -EH // 2 - 20 - GRIP_H), *ED_GRIP,
     "orientation = CENTER", "clipping = no", *_ed_els("editor"))
 # 11.3: редактор планеты — в главном окне игры «maingui» (всегда на экране, во весь экран). Окно переносится из main.gui
-# в отдельный файл dtp_planet_editor.gui: у каждого файла свой предел размера (~1 МБ), main.gui не растёт.
+# в отдельный файл dtp_planet_editor.gui (тогда считали, что игра читает файл до ~1 МБ — неверно: проверено тестом 05.11 (4.5.3): окна, события, эффекты и условия по 3,6 МБ читаются целиком; отдельный файл оставлен —
+# моды, заменяющие main.gui, не задевают редактор планеты).
 dtp_peditor = B("containerWindowType", 'name = "dtp_peditor"', "position = { x = %d y = %d }" % (-EW // 2, -EH // 2 - 20 - GRIP_H), *ED_GRIP,
     "orientation = CENTER", "clipping = no", *_ed_els("peditor"))
+# 11.6.4: только символы, которые есть в переводах самой игры (шрифт/кодировка игры знает их). Символов «· ● → ← ±» в переводах
+# игры нет — в error.log «Failed conversion of utf8 string» при показе окон DTP. Замены — на символы, которые игра использует сама.
+SAFE_CHARS = {"russian": (("·", "•"), ("●", "•"), ("→", "»"), ("←", "«"), ("±", "~")),
+              "english": (("·", "|"), ("●", "*"), ("→", "->"), ("←", "<-"), ("±", "+/-"), ("«", "<"), ("»", ">")),
+              "simp_chinese": (("●", "*"), ("→", "->"), ("←", "<-"), ("±", "~"), ("«", "<"), ("»", ">"), ("「", "“"), ("」", "”"), ("【", "（"), ("】", "）"))}      # «·» в китайском переводе игры есть
 def w(path, text, bom=False):
     p = os.path.join(OUT, path); os.makedirs(os.path.dirname(p), exist_ok=True)
     text = shorten(text)
@@ -2861,22 +2873,38 @@ def w(path, text, bom=False):
         if "english" in path:                                    # 10.9.9: в английском шрифте игры нет этих знаков — на экране «?» (22.10)
             for _a, _b in (("—", "-"), ("–", "-"), ("→", "->"), ("←", "<-"), ("−", "-"), ("…", "..."), ("●", "*")):
                 text = text.replace(_a, _b)
+    if path.endswith(".yml"):                                    # 11.6.4: только символы из переводов самой игры на этом языке
+        for _lg in SAFE_CHARS:
+            if "/%s/" % _lg in path:
+                for _a, _b in SAFE_CHARS[_lg]: text = text.replace(_a, _b)
     with open(p, "w", encoding="utf-8-sig" if bom else "utf-8", newline="\n") as f: f.write(text)
 GUI_REPORT = []
+# 11.7: СБОРЩИК ПАТЧЕЙ (tools/make_compat_patch.py). Окно игры может объявить не «свой» файл, а файл другого мода
+# (BPV — zzzzzz_….gui, SpeedDial/Giga — Ω_uiod_main_bottom_….gui). Если одно окно объявлено в нескольких файлах, игра берёт
+# то, что читает ПОЗЖЕ (по имени файла: так устроены UIOD «Ω_…» и патчи сообщества). Поэтому окно DTP встраивается в тот файл,
+# который победит, а не всегда в игровой. Файлы читаются с любым оформлением (пробелы, name="x", комментарии со скобками).
+MODDED = set(filter(None, os.environ.get("DTP_MODDED", "").split("|")))   # файлы интерфейса, взятые из других модов (ставит сборщик)
+GUI_TARGETS = []                                                          # какие файлы интерфейса изменены встраиванием
+from gen3_scan import read_gui, top_windows                       # разбор окон — общий с make_compat_patch.py
+def gui_owner(window, default):
+    """Файл, чьё объявление окна `window` победит в игре (читается последним); если окна нигде нет — default."""
+    import gen3_scan
+    return gen3_scan.owner(VI, window, default)
 def end_of_window(src, name):
     """Позиция перед закрывающей скобкой окна верхнего уровня `name` (вставка поверх его содержимого)."""
-    m = re.search(r'\n\tcontainerWindowType = \{\s*\n\t\tname = "%s"' % name, src)
-    if not m: return None
-    i = src.index("{", m.start()) + 1; d = 1
-    while d:
-        d += {"{": 1, "}": -1}.get(src[i], 0); i += 1
-    return src.rindex("\n", 0, i - 1) + 1
-def inject(fname, rx, block, indent, window):
-    """Вставка окна мода в игровой файл интерфейса. Сначала — в привычное место (rx); если файл другой
-    (например, UI Overhaul Dynamic) и места нет — в конец окна `window` верхнего уровня. Если нет и его — сборка останавливается."""
-    src = open(os.path.join(VI, fname), encoding="utf-8-sig").read()
-    ins = "\n".join(l.lstrip("\t") for l in pretty(block).splitlines()) + "\n"     # 11.1.3: без отступов — файл меньше (игра читает до ~1 МБ)
-    m = re.search(rx, src, re.S) if rx else None
+    tw = top_windows(src).get(name)
+    if not tw: return None
+    close = tw[1]
+    ls = src.rindex("\n", 0, close) + 1
+    return ls if not src[ls:close].strip() else close
+def inject(fname, rx, block, indent, window, modded_end=False):
+    """Вставка окна мода в файл интерфейса, чьё окно `window` победит в игре. Сначала — в привычное место (rx);
+    если файл другой (UI Overhaul Dynamic, другой мод) и места нет — в конец окна `window`. Если нет и его — сборка останавливается.
+    modded_end: в файле другого мода — сразу в конец окна (поверх всего: у UIOD картинка планеты перекрывала полосу)."""
+    fname = gui_owner(window, fname)
+    src = read_gui(os.path.join(VI, fname))
+    ins = "\n".join(l.lstrip("\t") for l in pretty(block).splitlines()) + "\n"     # 11.1.3: без отступов — файл меньше
+    m = re.search(rx, src, re.S) if rx and not (modded_end and fname in MODDED) else None
     if m:
         pos, how = m.end(), "обычное место"
         ins = "\n" + indent + "### DEBUG TOOLPACK (DTP) — добавлено модом\n" + ins
@@ -2885,47 +2913,60 @@ def inject(fname, rx, block, indent, window):
         assert pos is not None, "%s: нет окна %s — нужен ручной патч" % (fname, window)
         ins = indent + "### DEBUG TOOLPACK (DTP) — добавлено модом\n" + ins
     GUI_REPORT.append("%s → %s" % (fname, how))
+    if fname not in GUI_TARGETS: GUI_TARGETS.append(fname)
     w("interface/" + fname, src[:pos] + ins + src[pos:])
-inject("main.gui", r'name = "maingui_flag".*?button_topbar_government.*?\n\t\t\}\n', dtp_root, "\t\t", "maingui_flag")
+    return fname
+# 11.6.6: значок и панель DTP — НЕ в окне флага (maingui_flag): Better Colony Automation объявляет это окно заново своим файлом
+# (zz_bca_global_settings_flag_entry.gui), и значок DTP пропадал. Теперь панель — в главном окне maingui (наш файл
+# dtp_planet_editor.gui, перед редактором планеты). Оба окна во весь экран с началом в 0,0 (в игре и в UIOD) — координаты те же.
 # 11.3: окно «maingui» — из main.gui в dtp_planet_editor.gui (вместе с переменными файла), в его конец — редактор планеты.
 # Имя файла раньше «main.gui» по алфавиту: если main.gui подменит другой мод (например UIOD без патча), победит его окно — ничего не сломается.
+# 11.7: если окно maingui объявил другой файл (другой мод) — переносится из него, а редактор кладётся в «<имя>_dtp.gui» (читается сразу после).
 def _split_maingui():
-    pth = os.path.join(OUT, "interface", "main.gui")
-    src = open(pth, encoding="utf-8").read()
-    m = re.search(r'\n\tcontainerWindowType = \{\s*\n\t\tname = "maingui"\s*\n', src)
-    assert m, "main.gui: нет окна maingui"
-    i = src.index("{", m.start()) + 1; d = 1
-    while d: d += {"{": 1, "}": -1}.get(src[i], 0); i += 1
-    blk = src[m.start():i]
-    rest = src[:m.start()] + src[i:]
-    vars_ = re.findall(r"(?m)^\t@\w+\s*=\s*[^\n]+$", src[:m.start()])
+    own = gui_owner("maingui", "main.gui")
+    pth = os.path.join(OUT, "interface", own)
+    src = read_gui(pth if own in GUI_TARGETS else os.path.join(VI, own))     # из сборки — только если файл уже изменён в этом запуске
+    tw = top_windows(src).get("maingui")
+    assert tw, "%s: нет окна maingui" % own
+    st = src.rindex("\n", 0, tw[0]); i = tw[1] + 1
+    blk = src[st:i]
+    rest = src[:st] + src[i:]
+    vars_ = re.findall(r"(?m)^(?:\t| {1,4})@\w+\s*=\s*[^\n]+$", src[:st])
     head = "guiTypes = {\n" + "\n".join(vars_) + "\n"
     pe = head + blk + "\n}\n"
     end = end_of_window(pe, "maingui")
-    ins = "\t\t### DEBUG TOOLPACK (DTP) — редактор планеты и системы\n" + "\n".join(l.lstrip("\t") for l in pretty(dtp_peditor).splitlines()) + "\n"
-    w("interface/main.gui", rest)
-    w("interface/dtp_planet_editor.gui", pe[:end] + ins + pe[end:])
-    GUI_REPORT.append("main.gui → окно maingui перенесено в dtp_planet_editor.gui (+ редактор планеты)")
+    ins = ("\t\t### DEBUG TOOLPACK (DTP) — значок и панель (11.6.6: раньше — в окне флага maingui_flag)\n" + "\n".join(l.lstrip("\t") for l in pretty(dtp_root).splitlines()) + "\n"
+           "\t\t### DEBUG TOOLPACK (DTP) — редактор планеты и системы\n" + "\n".join(l.lstrip("\t") for l in pretty(dtp_peditor).splitlines()) + "\n")
+    pef = "dtp_planet_editor.gui" if own == "main.gui" else own[:-4] + "_dtp.gui"
+    w("interface/" + own, rest)
+    w("interface/" + pef, pe[:end] + ins + pe[end:])
+    for f in (own, pef):
+        if f not in GUI_TARGETS: GUI_TARGETS.append(f)
+    GUI_REPORT.append("%s → окно maingui перенесено в %s (+ панель DTP и редактор планеты)" % (own, pef))
 _split_maingui()
 # 11.1.1: в UIOD картинка планеты рисуется поверх полосы, вставленной сразу после фона, — полосу кладём в конец окна (поверх всего)
-inject("planet_view.gui", None if UIOD else r'name = "planet_view_bg".*?\n\t\t\}\n', planet_strip, "\t\t", "planet_view")
-_mi = open(os.path.join(VI, "mapicons.gui"), encoding="utf-8-sig").read()
-for ic in MAP_ICONS:
-    els = [gui_el(g) for g in GUI if g["where"] == "map:" + ic]
-    end = end_of_window(_mi, ic); assert end, ic
-    _mi = _mi[:end] + "\t\t### DEBUG TOOLPACK (DTP)\n" + "\n".join("\t\t" + l for l in pretty("\n".join(els)).splitlines()) + "\n" + _mi[end:]
-if MAP_ICONS: w("interface/mapicons.gui", _mi)
+inject("planet_view.gui", None if UIOD else r'name = "planet_view_bg".*?\n\t\t\}\n', planet_strip, "\t\t", "planet_view", modded_end=True)
+if MAP_ICONS:
+    _mif = {}
+    for ic in MAP_ICONS: _mif.setdefault(gui_owner(ic, "mapicons.gui"), []).append(ic)
+    for _f, _ics in _mif.items():
+        _mi = read_gui(os.path.join(VI, _f))
+        for ic in _ics:
+            els = [gui_el(g) for g in GUI if g["where"] == "map:" + ic]
+            end = end_of_window(_mi, ic); assert end, ic
+            _mi = _mi[:end] + "\t\t### DEBUG TOOLPACK (DTP)\n" + "\n".join("\t\t" + l for l in pretty("\n".join(els)).splitlines()) + "\n" + _mi[end:]
+        w("interface/" + _f, _mi); GUI_TARGETS.append(_f)
 # UIOD не меняет main_bottom.gui, а переопределяет окно maingui_bottombar своим файлом Ω_uiod_main_bottom.gui (читается позже) —
-# с UIOD редактор встраивается в его файл, иначе окно UIOD перекрыло бы наше
-_MB = "Ω_uiod_main_bottom.gui" if os.path.exists(os.path.join(VI, "Ω_uiod_main_bottom.gui")) else "main_bottom.gui"
-inject(_MB, None, dtp_editor, "\t\t", "maingui_bottombar")
+# с UIOD редактор встраивается в его файл, иначе окно UIOD перекрыло бы наше (11.7: этот файл находит gui_owner)
+inject("main_bottom.gui", None, dtp_editor, "\t\t", "maingui_bottombar")
 inject("starbase_view.gui", None, starbase_strip, "\t\t", "starbase_view")     # окно станции: в конец корневого контейнера (поверх содержимого)
 inject("fleet_view.gui", r'\tcontainerWindowType = \{\n\t\tname = "fleet_view".*?name = "header".*?\n\t\t\}\n', fleet_strip, "\t\t", "fleet_view")
 print("встраивание в окна игры: " + "; ".join(GUI_REPORT))
 # 10.8.0: каждая кнопка с подтверждением должна сбрасываться dtp_disarm (иначе бар «ПОДТВЕРДИТЬ» висит — так было у Цетаны и Хана)
 assert not (ARMS_USED - set(ARMS)), "кнопки с подтверждением не сбрасываются dtp_disarm: %s" % sorted(ARMS_USED - set(ARMS))
 HDR = "# Debug Toolpack %s — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.\n" % VERSION
-# Игра читает из одного файла не больше ~1 МБ — всё дальше молча теряется (кнопки без описания видны всегда).
+# (Раньше считали, что игра читает из файла не больше ~1 МБ — неверно: проверено тестом 05.11 (4.5.3): окна, события, эффекты и условия по 3,6 МБ читаются целиком. Вероятно, тогда
+# игра споткнулась на ошибке в одной кнопке и бросила остаток файла — поэтому файлы кнопок по-прежнему небольшие.)
 # Кнопки раскладываются по файлам до ~120 КБ: если игра споткнётся на одной кнопке, она теряет только хвост своего файла.
 # 11.5.1: ЭФФЕКТЫ КНОПОК — В СОБЫТИЯХ. Замер (11.5, тест «пустые скрипты»): игра подставляет каждый общий эффект
 # (dtp_load, журнал, цели игрока…) копией на каждом месте вызова — 9 651 кнопка × ~30 КБ ≈ 200 МБ скрипта и ~9 ГБ памяти.
@@ -3128,17 +3169,49 @@ if DEFTXT: w("common/scripted_loc/dtp_scripted_loc.txt", HDR + pretty("\n".join(
 # 11.1.3: значки из файлов самой игры (этики, цивики, правление, черты) — растягиваются до размера элемента
 w("interface/dtp_gameicons.gfx", HDR + "spriteTypes = {\n" + "\n".join(
     '\tcorneredTileSpriteType = {\n\t\tname = "%s"\n\t\ttextureFile = "%s"\n\t\tborderSize = { x = 0 y = 0 }\n\t\teffectFile = "gfx/FX/buttonstate_onlydisable.shader"\n\t}' % (spr, tex) for tex, spr in sorted(GAME_SPR.items())) + "\n}\n")
-w("common/game_rules/00_rules.txt", RULES_FILE)
-_st = open(os.path.join(VC, "scripted_triggers", "00_scripted_triggers.txt"), encoding="utf-8-sig").read()
-assert "is_regular_empire = {" in _st
+def _top_defs(s):
+    """[(имя, текст)] определений верхнего уровня файла скриптов (комментарии со скобками не мешают)."""
+    c = re.sub(r"#[^\n]*", lambda m: " " * len(m.group(0)), s); out = []; pos = 0
+    rx = re.compile(r"(?m)^([A-Za-z_]\w*)\s*=\s*\{")
+    while True:
+        m = rx.search(c, pos)
+        if not m: break
+        j = c.index("{", m.start()) + 1; d = 1
+        while d: d += {"{": 1, "}": -1}.get(c[j], 0); j += 1
+        out.append((m.group(1), s[m.start():j])); pos = j
+    return out
+# 11.6.3: правила игры — не копия файла целиком. Тест в 4.5.3 (правило в файлах «!», «zz_», «￦~»): игра берёт правило из файла,
+# который читает ПОСЛЕДНИМ, — как Merger of Rules и StarNet AI. Копия 00_rules.txt из 4.5.2 отменяла исправления 4.5.3
+# (обитаемость вулканических планет, черта киборгов), поэтому в свой файл кладутся только изменённые DTP правила (16 из ~218).
+# Имя «zz_…» читается после игры, но до «~…»/«￦~…» (StarNet, Merger of Rules): при пересечении побеждают они — их не ломаем.
+_rv = dict(_top_defs(_rules)); _rm = _top_defs(RULES_FILE)
+_rch = [(k, v) for k, v in _rm if _rv.get(k) != v]
+assert 10 <= len(_rch) <= 40 and "can_declare_war" in dict(_rch), [k for k, v in _rch]
+RULES_OUT = "common/game_rules/zz_dtp_rules.txt"
+w(RULES_OUT, "# Debug Toolpack " + VERSION + ": only the game rules changed by Debug Toolpack (Game Master country type, war ban,\n"
+  "# Game Master vision). The game uses the last loaded definition of a rule; every other rule stays as the game or other mods define it.\n\n"
+  + "\n\n".join(v for k, v in _rch) + "\n")
+if os.path.exists(os.path.join(OUT, "common/game_rules/00_rules.txt")): os.remove(os.path.join(OUT, "common/game_rules/00_rules.txt"))   # копия целого файла из старых версий
+# 11.7: общие условия игры — НЕ копии файлов целиком. В 4.5.3 в 00_scripted_triggers.txt появились новые условия
+# (притяжение этик, кратные звёзды, «Океанский рай»), а копия файла из 4.5.2 их стирала — error.log «cannot find».
+# Игра берёт условие из файла, который читает ПОСЛЕДНИМ (проверено тестом в 4.5.3: «already exists, using the one at zzz_…»),
+# поэтому в свой файл (читается после файлов игры) кладутся только изменённые условия; остальные остаются за игрой и модами.
+_st = open(vc_file("scripted_triggers", "00_scripted_triggers.txt"), encoding="utf-8-sig").read()
+_st_mod = [(k, v.replace("is_country_type = default", "OR = { is_country_type = default is_country_type = dtp_gamemaster }"))
+           for k, v in _top_defs(_st) if "is_country_type = default" in v]
+assert "is_regular_empire" in dict(_st_mod) and len(_st_mod) >= 10, len(_st_mod)
 # 11.5.2: места раскопок видны только державам типа default — держава Гейм-мастера (dtp_gamemaster) их не видела
-_sa = open(os.path.join(VC, "scripted_triggers", "02_scripted_triggers_archaeology.txt"), encoding="utf-8-sig").read()
-assert _sa.count("default_site_visible_trigger = {") == 1
+_sa = dict(_top_defs(open(vc_file("scripted_triggers", "02_scripted_triggers_archaeology.txt"), encoding="utf-8-sig").read()))["default_site_visible_trigger"]
 _sa = re.sub(r"(default_site_visible_trigger = \{\s*)is_country_type = default", r"\1OR = { is_country_type = default is_country_type = dtp_gamemaster }", _sa, count=1)
 assert "is_country_type = dtp_gamemaster" in _sa
-w("common/scripted_triggers/02_scripted_triggers_archaeology.txt", "# Debug Toolpack " + VERSION + ": copy of the game file; dig sites are also visible to the Game Master country type (dtp_gamemaster).\n" + _sa)
-w("common/scripted_triggers/00_scripted_triggers.txt", "# Debug Toolpack " + VERSION + ": copy of the game file; the Game Master country type (dtp_gamemaster) counts as a regular empire.\n" +
-  _st.replace("is_country_type = default", "OR = { is_country_type = default is_country_type = dtp_gamemaster }"))
+GAME_TRIGGERS_FILE = "common/scripted_triggers/zz_dtp_game_triggers.txt"
+w(GAME_TRIGGERS_FILE, "# Debug Toolpack " + VERSION + ": game scripted triggers where the Game Master country type (dtp_gamemaster)\n"
+  "# counts as a regular empire, and dig sites are visible to it. Only these triggers are replaced (the game uses the last loaded\n"
+  "# definition); every other game trigger stays as the game or other mods define it.\n\n" + "\n\n".join(v for k, v in _st_mod) + "\n\n" + _sa + "\n")
+for _old in ("common/scripted_triggers/00_scripted_triggers.txt", "common/scripted_triggers/02_scripted_triggers_archaeology.txt"):
+    if os.path.exists(os.path.join(OUT, _old)): os.remove(os.path.join(OUT, _old))    # копии целых файлов из старых версий
+COMMON_TARGETS = {"scripted_triggers/00_scripted_triggers.txt": GAME_TRIGGERS_FILE, "scripted_triggers/02_scripted_triggers_archaeology.txt": GAME_TRIGGERS_FILE,
+                  "game_rules/00_rules.txt": RULES_OUT}
 # тип державы Гейм-мастера: копия обычного (default), «неигровой» как у угасших, без роста населения и без дипломатических войн
 _ct = open(os.path.join(VC, "country_types", "00_country_types.txt"), encoding="utf-8-sig").read()
 _m = re.search(r"(?m)^default = \{", _ct); _i, _d = _m.end(), 1
@@ -3320,9 +3393,12 @@ def yml(lang, d):
             v = " " * (_pad_n(ICON_PAD[k], v) or 0) + v
         rows.append(' %s:0 "%s"' % (k, v))
     return "l_%s:\n" % lang + "\n".join(rows) + "\n"
+def safe_chars(lang, text):
+    for _a, _b in SAFE_CHARS[lang]: text = text.replace(_a, _b)
+    return text
 for lang in ("russian", "english"):
-    w("localisation/%s/dtp_l_%s.yml" % (lang, lang), yml(lang, L), True)
-    w("localisation/%s/dtp_custom_l_%s.yml" % (lang, lang), yml(lang, CUSTOM_L), True)
+    w("localisation/%s/dtp_l_%s.yml" % (lang, lang), safe_chars(lang, yml(lang, L)), True)
+    w("localisation/%s/dtp_custom_l_%s.yml" % (lang, lang), safe_chars(lang, yml(lang, CUSTOM_L)), True)
 # 11.4: упрощённый китайский — перевод английских строк по шаблонам (i18n/zh_map.json; числа, $ключи$ и [скрипт] — подстановки)
 from i18n_zh import tmpl as _ztmpl, fill as _zfill
 _ZHMAP = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "i18n", "zh_map.json"), encoding="utf-8"))
@@ -3367,8 +3443,8 @@ def yml_zh(d):
             z = t
         rows.append(' %s:0 "%s"' % (k, _zfill(lead, z, args)))
     return "l_simp_chinese:\n" + "\n".join(rows) + "\n"
-w("localisation/simp_chinese/dtp_l_simp_chinese.yml", yml_zh(L), True)
-w("localisation/simp_chinese/dtp_custom_l_simp_chinese.yml", yml_zh(CUSTOM_L), True)
+w("localisation/simp_chinese/dtp_l_simp_chinese.yml", safe_chars("simp_chinese", yml_zh(L)), True)
+w("localisation/simp_chinese/dtp_custom_l_simp_chinese.yml", safe_chars("simp_chinese", yml_zh(CUSTOM_L)), True)
 if _ZH_MISS:
     print("!! нет китайского перевода для %d строк (оставлен английский):" % len(set(_ZH_MISS))); [print("   ", s) for s in sorted(set(_ZH_MISS))[:20]]
 json.dump({"W": W, "H": H, "items": META, "stars": STARCLS}, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "gui_meta3.json"), "w", encoding="utf-8"), ensure_ascii=False)
@@ -3379,3 +3455,5 @@ if _MODNO: print("бонусы без названия в игре (не пок�
 _ren = _opt.rename(OUT)                                                       # 11.5: короткие имена своих условий и эффектов
 print("короткие имена: %d" % len(_ren))
 print("кнопок %d · отмеченных классов звёзд %d · ключей %d" % (len(BTN), len(STARCLS), len(L)))
+if os.environ.get("DTP_REPORT"):                                # 11.7: для сборщика патчей — какие файлы получили окна DTP и правки файлов игры
+    json.dump({"gui": GUI_TARGETS, "report": GUI_REPORT, "common": COMMON_TARGETS}, open(os.environ["DTP_REPORT"], "w", encoding="utf-8"), ensure_ascii=False)

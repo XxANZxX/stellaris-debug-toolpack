@@ -1,4 +1,4 @@
-# Debug Toolpack 11.6.0 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+# Debug Toolpack 11.6.6 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
 namespace = dtp
 
 country_event = {
@@ -467,6 +467,12 @@ country_event = {
 		}
 	}
 	immediate = {
+		if = {
+			limit = {
+				exists = event_target:dtp_victim
+			}
+			clear_global_event_target = dtp_victim
+		}
 		set_timed_global_flag = { flag = dtp_viol_cd days = 3 }
 		set_global_flag = dtp_viol_open
 		save_global_event_target_as = dtp_violator

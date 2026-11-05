@@ -4,8 +4,8 @@ import os, re, sys, glob, collections
 R = sys.argv[1]; P = []
 def txt(p): return open(p, encoding="utf-8-sig").read()
 files = {f: txt(f) for f in glob.glob(os.path.join(R, "**/*.txt"), recursive=True) + glob.glob(os.path.join(R, "**/*.gui"), recursive=True) + glob.glob(os.path.join(R, "**/*.gfx"), recursive=True)}
-for f, t in files.items():                                   # размер: игра не читает дальше ~1 МБ
-    if os.path.getsize(f) > 900000: P.append("файл больше 900 КБ (игра обрежет хвост): " + f)
+for f, t in files.items():                                   # размер: проверено тестом 05.11 (4.5.3): окна, события, эффекты и условия по 3,6 МБ читаются целиком; больше не проверяли
+    if os.path.getsize(f) > 3500000: P.append("файл больше 3,5 МБ (больше не проверяли в игре): " + f)
 for f, t in files.items():                                   # записи, на которых игра сбивается и теряет остаток файла
     for bad in ("spawn_random_storm = yes", "§O"):
         if bad in t: P.append("запись «%s» ломает разбор остатка файла: %s" % (bad, f))

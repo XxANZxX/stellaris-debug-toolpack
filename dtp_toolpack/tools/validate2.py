@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """Проверка Debug Toolpack 2.0: синтаксис, ссылки, глубина вложенности и сверка
-всех команд со справочником игры (effects/triggers/scopes/modifiers 4.5.1).
+всех команд со справочником игры (effects/triggers/scopes/modifiers 4.5.3).
 python3 validate2.py <папка_мода> <папка_справочника>"""
 import os, re, sys, glob, collections
 ROOT, DOCS = sys.argv[1], sys.argv[2]
 errors, warns = [], []
 def strip(t): return re.sub(r'#.*', '', re.sub(r'"[^"]*"', '""', t))
 txt = {f: open(f, encoding="utf-8-sig").read() for f in glob.glob(os.path.join(ROOT, "**/*.txt"), recursive=True)
-       if not f.replace("\\", "/").endswith(("diplomatic_actions/zz_dtp_declare_war.txt", "game_rules/00_rules.txt", "scripted_triggers/00_scripted_triggers.txt", "scripted_triggers/02_scripted_triggers_archaeology.txt", "country_types/dtp_country_types.txt", "ethics/dtp_ethics.txt"))}   # копия игрового файла — проверяется отдельно ниже
+       if not f.replace("\\", "/").endswith(("diplomatic_actions/zz_dtp_declare_war.txt", "game_rules/00_rules.txt", "game_rules/zz_dtp_rules.txt", "scripted_triggers/00_scripted_triggers.txt", "scripted_triggers/02_scripted_triggers_archaeology.txt", "scripted_triggers/zz_dtp_game_triggers.txt", "country_types/dtp_country_types.txt", "ethics/dtp_ethics.txt"))}   # копия игрового файла — проверяется отдельно ниже
 gui = {f: open(f, encoding="utf-8-sig").read() for f in glob.glob(os.path.join(ROOT, "interface/*.gui"))}
 gfx = {f: open(f, encoding="utf-8-sig").read() for f in glob.glob(os.path.join(ROOT, "interface/*.gfx"))}
 for f, t in {**txt, **gui, **gfx}.items():
@@ -17,16 +17,16 @@ for f, t in {**txt, **gui, **gfx}.items():
         if d < 0: errors.append("лишняя } в " + f); break
     if d > 0: errors.append("незакрытые { в " + f)
 # справочник
-E = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, "4.5.1_game_effects.log")).read(), re.M))
-T = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, "4.5.1_game_triggers.log")).read(), re.M))
-S = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, "4.5.1_game_scopes.log")).read(), re.M))
-M = set(re.findall(r'^- (\w+), Category', open(os.path.join(DOCS, "4.5.1_game_modifiers.log")).read(), re.M))
+E = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, "4.5.3_game_effects.log")).read(), re.M))
+T = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, "4.5.3_game_triggers.log")).read(), re.M))
+S = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, "4.5.3_game_scopes.log")).read(), re.M))
+M = set(re.findall(r'^- (\w+), Category', open(os.path.join(DOCS, "4.5.3_game_modifiers.log")).read(), re.M))
 code = "\n".join(strip(t) for f, t in txt.items() if "static_modifiers" not in f and "star_classes" not in f)
 defs = lambda sub: set(re.findall(r'^(\w+)\s*=\s*\{', "\n".join(strip(txt[f]) for f in txt if sub in f), re.M))
 eff, trg, btn, smod, opn = defs("scripted_effects"), defs("scripted_triggers"), defs("button_effects"), defs("static_modifiers"), defs("opinion_modifiers")
 starcls = defs("star_classes")
 # 10.9.1: скриптовые триггеры/эффекты самой игры (условия технологий копируются из файлов игры)
-_vc = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(sys.argv[3]))), "vanilla_common", "common") if len(sys.argv) > 3 else ""
+_vc = sys.argv[4] if len(sys.argv) > 4 else (os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(sys.argv[3]))), "vanilla_common", "common") if len(sys.argv) > 3 else "")   # 11.6.4: папка common игры — 4-м аргументом
 if _vc and os.path.isdir(_vc):
     for _sub in ("scripted_triggers", "scripted_effects"):
         for _f in os.listdir(os.path.join(_vc, _sub)):
@@ -44,7 +44,7 @@ for k in sorted(set(re.findall(r'(?<![:\w.$@])([a-z_][a-z0-9_]*)\s*(?:=|>|<)', c
     if any(re.search(r'^%s\s*=\s*\{' % k, strip(txt[f]), re.M) for f in txt if "static_modifiers" in f):
         if k not in M: errors.append("модификатора нет в 4.5: " + k)
         continue
-    errors.append("неизвестная команда/триггер (нет в справочнике 4.5.1): " + k)
+    errors.append("неизвестная команда/триггер (нет в справочнике 4.5.3): " + k)
 for f in txt:
     if "static_modifiers" in f:
         for k in re.findall(r'^[ \t]+(\w+)\s*=', strip(txt[f]), re.M):
@@ -109,7 +109,7 @@ for k in set(re.findall(r'(?:title|desc|name|localization_key|fail_text)\s*=\s*(
 for sub in ("scripted_effects", "scripted_triggers"):
     d = os.path.join(ROOT, "common", sub)
     for f in os.listdir(d) if os.path.isdir(d) else []:
-        if f == "00_scripted_triggers.txt": continue        # 11.0: копия файла игры (её [ ] игра читает как есть)
+        if f in ("00_scripted_triggers.txt", "zz_dtp_game_triggers.txt"): continue        # 11.0: копия файла игры (её [ ] игра читает как есть)
         if "[" in re.sub(r"#.*", "", open(os.path.join(d, f), encoding="utf-8-sig").read()):
             errors.append("[ в %s/%s: игра читает его как макрос (Invalid macro entry)" % (sub, f))
 # двуязычность: одинаковые ключи в RU и EN, в EN нет кириллицы, ключи только ASCII, теги §/[ ] совпадают
@@ -150,12 +150,30 @@ if os.path.exists(_da):
         if k not in ru_ or k not in en_: errors.append("zz_dtp_declare_war.txt: нет локализации " + k)
     if not re.search(r"action_declare_war = \{.*?possible = \{\s*# --- Debug Toolpack", _t, re.S): errors.append("zz_dtp_declare_war.txt: проверки правил не стоят в action_declare_war")
 print("эффектов %d · триггеров %d · кнопок %d · спрайтов %d · ключей %d · макс. вложенность %d" % (len(eff), len(trg), len(btn), len(sprites), len(loc), maxd))
-for e in sorted(set(errors)): print("ОШИБКА:", e)
-_gr = os.path.join(ROOT, "common", "game_rules", "00_rules.txt")
-if os.path.exists(_gr):
+# 11.6.3: файлы игры целиком мод больше не копирует — только свои правила и условия (игра берёт последнее определение)
+for _whole in ("game_rules/00_rules.txt", "scripted_triggers/00_scripted_triggers.txt", "scripted_triggers/02_scripted_triggers_archaeology.txt"):
+    if os.path.exists(os.path.join(ROOT, "common", _whole)): errors.append("в моде копия целого файла игры common/%s — она стирает изменения новых версий игры" % _whole)
+_gr = os.path.join(ROOT, "common", "game_rules", "zz_dtp_rules.txt")
+if not os.path.exists(_gr): errors.append("нет common/game_rules/zz_dtp_rules.txt (правила DTP)")
+else:
     _t = re.sub(r"#[^\n]*", "", open(_gr, encoding="utf-8").read())
-    if _t.count("{") != _t.count("}"): errors.append("00_rules.txt: несбалансированные скобки")
-    if "fail_text = dtp_war_banned" not in _t: errors.append("00_rules.txt: нет запрета войн ведущего в can_declare_war")
-    print("правила игры: копия игры + запрет войн ведущего в can_declare_war — проверено")
-
+    if _t.count("{") != _t.count("}"): errors.append("zz_dtp_rules.txt: несбалансированные скобки")
+    if "fail_text = dtp_war_banned" not in _t: errors.append("zz_dtp_rules.txt: нет запрета войн ведущего в can_declare_war")
+    for k in set(re.findall(r"fail_text = (dtp_\w+)", _t)):
+        if k not in ru_ or k not in en_: errors.append("zz_dtp_rules.txt: нет локализации " + k)
+    print("правила игры: только изменённые правила (%d) + запрет войн ведущего в can_declare_war — проверено" % len(re.findall(r"(?m)^\w+ = \{", _t)))
+# 11.6.4: в переводах DTP — только символы, которые есть в переводах самой игры на том же языке (иначе error.log
+# «Failed conversion of utf8 string»). 5-й аргумент — папка localisation игры.
+if len(sys.argv) > 5 and os.path.isdir(sys.argv[5]):
+    for _lang in ("russian", "english", "simp_chinese"):
+        _ok = set()
+        for _f in glob.glob(os.path.join(sys.argv[5], _lang, "**", "*.yml"), recursive=True):
+            _ok |= set(open(_f, encoding="utf-8-sig", errors="replace").read())
+        _bad = {}
+        for _f in glob.glob(os.path.join(ROOT, "localisation", _lang, "*.yml")):
+            for _ch in set(open(_f, encoding="utf-8-sig").read()) - _ok:
+                if ord(_ch) > 127: _bad[_ch] = os.path.basename(_f)
+        for _ch, _f in sorted(_bad.items()): errors.append("перевод %s: символа %r (U+%04X) нет в переводах игры — игра может его не показать (%s)" % (_lang, _ch, ord(_ch), _f))
+    print("символы переводов: сверены с переводами игры")
+for e in sorted(set(errors)): print("ОШИБКА:", e)
 print("Итого ошибок:", len(set(errors)))

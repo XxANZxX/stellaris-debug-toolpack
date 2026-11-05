@@ -1,4 +1,4 @@
-# Debug Toolpack 11.6.0 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+# Debug Toolpack 11.6.6 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
 namespace = dtp
 
 country_event = {
@@ -65,10 +65,70 @@ country_event = {
 				}
 			}
 			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_pepg
-						value = 2
+				if = {
+					limit = {
+						from = {
+							dxcyym2 = {
+								P = planet
+							}
+						}
+					}
+					if = {
+						limit = {
+							exists = event_target:dtp_p
+						}
+						event_target:dtp_p = {
+							if = {
+								limit = {
+									from = {
+										has_country_flag = dtp_pe_rm
+									}
+								}
+								if = {
+									limit = {
+										has_deposit = d_wilderness_mining_2
+									}
+									remove_deposit = d_wilderness_mining_2
+								}
+							}
+							else = {
+								add_deposit = d_wilderness_mining_2
+							}
+						}
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 10
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 1
+							}
+						}
+					}
+					else = {
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 10
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 2
+							}
+						}
+					}
+				}
+				else = {
+					from = {
+						set_variable = {
+							which = dtp_rc
+							value = 10
+						}
+						set_variable = {
+							which = dtp_rr
+							value = 0
+						}
 					}
 				}
 			}
@@ -80,10 +140,70 @@ country_event = {
 				}
 			}
 			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_pepg
-						value = 3
+				if = {
+					limit = {
+						from = {
+							dxcyym2 = {
+								P = planet
+							}
+						}
+					}
+					if = {
+						limit = {
+							exists = event_target:dtp_p
+						}
+						event_target:dtp_p = {
+							if = {
+								limit = {
+									from = {
+										has_country_flag = dtp_pe_rm
+									}
+								}
+								if = {
+									limit = {
+										has_deposit = d_wilderness_root_blocker
+									}
+									remove_deposit = d_wilderness_root_blocker
+								}
+							}
+							else = {
+								add_deposit = d_wilderness_root_blocker
+							}
+						}
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 10
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 1
+							}
+						}
+					}
+					else = {
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 10
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 2
+							}
+						}
+					}
+				}
+				else = {
+					from = {
+						set_variable = {
+							which = dtp_rc
+							value = 10
+						}
+						set_variable = {
+							which = dtp_rr
+							value = 0
+						}
 					}
 				}
 			}
@@ -98,7 +218,7 @@ country_event = {
 				from = {
 					set_variable = {
 						which = dtp_pepg
-						value = 4
+						value = 1
 					}
 				}
 			}
@@ -107,6 +227,51 @@ country_event = {
 			limit = {
 				from = {
 					check_variable = { which = dtp_act value = 5004 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_pepg
+						value = 2
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 5005 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_pepg
+						value = 3
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 5006 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_pepg
+						value = 4
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 5007 }
 				}
 			}
 			hidden_effect = {
@@ -181,7 +346,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5005 }
+					check_variable = { which = dtp_act value = 5008 }
 				}
 			}
 			hidden_effect = {
@@ -256,7 +421,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5006 }
+					check_variable = { which = dtp_act value = 5009 }
 				}
 			}
 			hidden_effect = {
@@ -331,7 +496,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5007 }
+					check_variable = { which = dtp_act value = 5010 }
 				}
 			}
 			hidden_effect = {
@@ -406,7 +571,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5008 }
+					check_variable = { which = dtp_act value = 5011 }
 				}
 			}
 			hidden_effect = {
@@ -481,7 +646,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5009 }
+					check_variable = { which = dtp_act value = 5012 }
 				}
 			}
 			hidden_effect = {
@@ -556,7 +721,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5010 }
+					check_variable = { which = dtp_act value = 5013 }
 				}
 			}
 			hidden_effect = {
@@ -631,7 +796,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5011 }
+					check_variable = { which = dtp_act value = 5014 }
 				}
 			}
 			hidden_effect = {
@@ -706,7 +871,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5012 }
+					check_variable = { which = dtp_act value = 5015 }
 				}
 			}
 			hidden_effect = {
@@ -781,7 +946,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5013 }
+					check_variable = { which = dtp_act value = 5016 }
 				}
 			}
 			hidden_effect = {
@@ -856,7 +1021,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5014 }
+					check_variable = { which = dtp_act value = 5017 }
 				}
 			}
 			hidden_effect = {
@@ -931,7 +1096,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5015 }
+					check_variable = { which = dtp_act value = 5018 }
 				}
 			}
 			hidden_effect = {
@@ -1006,7 +1171,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5016 }
+					check_variable = { which = dtp_act value = 5019 }
 				}
 			}
 			hidden_effect = {
@@ -1081,7 +1246,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5017 }
+					check_variable = { which = dtp_act value = 5020 }
 				}
 			}
 			hidden_effect = {
@@ -1156,7 +1321,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5018 }
+					check_variable = { which = dtp_act value = 5021 }
 				}
 			}
 			hidden_effect = {
@@ -1231,7 +1396,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5019 }
+					check_variable = { which = dtp_act value = 5022 }
 				}
 			}
 			hidden_effect = {
@@ -1306,7 +1471,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5020 }
+					check_variable = { which = dtp_act value = 5023 }
 				}
 			}
 			hidden_effect = {
@@ -1381,7 +1546,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5021 }
+					check_variable = { which = dtp_act value = 5024 }
 				}
 			}
 			hidden_effect = {
@@ -1456,7 +1621,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5022 }
+					check_variable = { which = dtp_act value = 5025 }
 				}
 			}
 			hidden_effect = {
@@ -1531,7 +1696,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5023 }
+					check_variable = { which = dtp_act value = 5026 }
 				}
 			}
 			hidden_effect = {
@@ -1606,7 +1771,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5024 }
+					check_variable = { which = dtp_act value = 5027 }
 				}
 			}
 			hidden_effect = {
@@ -1681,7 +1846,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5025 }
+					check_variable = { which = dtp_act value = 5028 }
 				}
 			}
 			hidden_effect = {
@@ -1756,7 +1921,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5026 }
+					check_variable = { which = dtp_act value = 5029 }
 				}
 			}
 			hidden_effect = {
@@ -1831,7 +1996,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5027 }
+					check_variable = { which = dtp_act value = 5030 }
 				}
 			}
 			hidden_effect = {
@@ -1906,7 +2071,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5028 }
+					check_variable = { which = dtp_act value = 5031 }
 				}
 			}
 			hidden_effect = {
@@ -1981,7 +2146,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5029 }
+					check_variable = { which = dtp_act value = 5032 }
 				}
 			}
 			hidden_effect = {
@@ -2056,7 +2221,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5030 }
+					check_variable = { which = dtp_act value = 5033 }
 				}
 			}
 			hidden_effect = {
@@ -2131,7 +2296,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5031 }
+					check_variable = { which = dtp_act value = 5034 }
 				}
 			}
 			hidden_effect = {
@@ -2206,7 +2371,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5032 }
+					check_variable = { which = dtp_act value = 5035 }
 				}
 			}
 			hidden_effect = {
@@ -2281,7 +2446,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5033 }
+					check_variable = { which = dtp_act value = 5036 }
 				}
 			}
 			hidden_effect = {
@@ -2356,7 +2521,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5034 }
+					check_variable = { which = dtp_act value = 5037 }
 				}
 			}
 			hidden_effect = {
@@ -2431,7 +2596,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5035 }
+					check_variable = { which = dtp_act value = 5038 }
 				}
 			}
 			hidden_effect = {
@@ -2506,7 +2671,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5036 }
+					check_variable = { which = dtp_act value = 5039 }
 				}
 			}
 			hidden_effect = {
@@ -2581,7 +2746,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5037 }
+					check_variable = { which = dtp_act value = 5040 }
 				}
 			}
 			hidden_effect = {
@@ -2656,7 +2821,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5038 }
+					check_variable = { which = dtp_act value = 5041 }
 				}
 			}
 			hidden_effect = {
@@ -2731,7 +2896,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5039 }
+					check_variable = { which = dtp_act value = 5042 }
 				}
 			}
 			hidden_effect = {
@@ -2806,7 +2971,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5040 }
+					check_variable = { which = dtp_act value = 5043 }
 				}
 			}
 			hidden_effect = {
@@ -2881,7 +3046,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5041 }
+					check_variable = { which = dtp_act value = 5044 }
 				}
 			}
 			hidden_effect = {
@@ -2956,7 +3121,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5042 }
+					check_variable = { which = dtp_act value = 5045 }
 				}
 			}
 			hidden_effect = {
@@ -3031,7 +3196,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5043 }
+					check_variable = { which = dtp_act value = 5046 }
 				}
 			}
 			hidden_effect = {
@@ -3106,7 +3271,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5044 }
+					check_variable = { which = dtp_act value = 5047 }
 				}
 			}
 			hidden_effect = {
@@ -3181,7 +3346,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5045 }
+					check_variable = { which = dtp_act value = 5048 }
 				}
 			}
 			hidden_effect = {
@@ -3256,7 +3421,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5046 }
+					check_variable = { which = dtp_act value = 5049 }
 				}
 			}
 			hidden_effect = {
@@ -3331,7 +3496,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5047 }
+					check_variable = { which = dtp_act value = 5050 }
 				}
 			}
 			hidden_effect = {
@@ -3406,7 +3571,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5048 }
+					check_variable = { which = dtp_act value = 5051 }
 				}
 			}
 			hidden_effect = {
@@ -3481,7 +3646,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5049 }
+					check_variable = { which = dtp_act value = 5052 }
 				}
 			}
 			hidden_effect = {
@@ -3556,7 +3721,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5050 }
+					check_variable = { which = dtp_act value = 5053 }
 				}
 			}
 			hidden_effect = {
@@ -3631,7 +3796,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5051 }
+					check_variable = { which = dtp_act value = 5054 }
 				}
 			}
 			hidden_effect = {
@@ -3706,7 +3871,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5052 }
+					check_variable = { which = dtp_act value = 5055 }
 				}
 			}
 			hidden_effect = {
@@ -3781,7 +3946,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5053 }
+					check_variable = { which = dtp_act value = 5056 }
 				}
 			}
 			hidden_effect = {
@@ -3856,7 +4021,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5054 }
+					check_variable = { which = dtp_act value = 5057 }
 				}
 			}
 			hidden_effect = {
@@ -3931,7 +4096,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5055 }
+					check_variable = { which = dtp_act value = 5058 }
 				}
 			}
 			hidden_effect = {
@@ -4006,7 +4171,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5056 }
+					check_variable = { which = dtp_act value = 5059 }
 				}
 			}
 			hidden_effect = {
@@ -4081,7 +4246,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5057 }
+					check_variable = { which = dtp_act value = 5060 }
 				}
 			}
 			hidden_effect = {
@@ -4156,7 +4321,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5058 }
+					check_variable = { which = dtp_act value = 5061 }
 				}
 			}
 			hidden_effect = {
@@ -4231,7 +4396,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5059 }
+					check_variable = { which = dtp_act value = 5062 }
 				}
 			}
 			hidden_effect = {
@@ -4306,7 +4471,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5060 }
+					check_variable = { which = dtp_act value = 5063 }
 				}
 			}
 			hidden_effect = {
@@ -4381,7 +4546,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5061 }
+					check_variable = { which = dtp_act value = 5064 }
 				}
 			}
 			hidden_effect = {
@@ -4456,7 +4621,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5062 }
+					check_variable = { which = dtp_act value = 5065 }
 				}
 			}
 			hidden_effect = {
@@ -4531,7 +4696,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5063 }
+					check_variable = { which = dtp_act value = 5066 }
 				}
 			}
 			hidden_effect = {
@@ -4606,7 +4771,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5064 }
+					check_variable = { which = dtp_act value = 5067 }
 				}
 			}
 			hidden_effect = {
@@ -4681,7 +4846,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5065 }
+					check_variable = { which = dtp_act value = 5068 }
 				}
 			}
 			hidden_effect = {
@@ -4756,7 +4921,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5066 }
+					check_variable = { which = dtp_act value = 5069 }
 				}
 			}
 			hidden_effect = {
@@ -4831,7 +4996,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5067 }
+					check_variable = { which = dtp_act value = 5070 }
 				}
 			}
 			hidden_effect = {
@@ -4906,7 +5071,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5068 }
+					check_variable = { which = dtp_act value = 5071 }
 				}
 			}
 			hidden_effect = {
@@ -4981,7 +5146,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5069 }
+					check_variable = { which = dtp_act value = 5072 }
 				}
 			}
 			hidden_effect = {
@@ -5056,7 +5221,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5070 }
+					check_variable = { which = dtp_act value = 5073 }
 				}
 			}
 			hidden_effect = {
@@ -5131,7 +5296,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5071 }
+					check_variable = { which = dtp_act value = 5074 }
 				}
 			}
 			hidden_effect = {
@@ -5206,7 +5371,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5072 }
+					check_variable = { which = dtp_act value = 5075 }
 				}
 			}
 			hidden_effect = {
@@ -5281,7 +5446,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5073 }
+					check_variable = { which = dtp_act value = 5076 }
 				}
 			}
 			hidden_effect = {
@@ -5356,7 +5521,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5074 }
+					check_variable = { which = dtp_act value = 5077 }
 				}
 			}
 			hidden_effect = {
@@ -5431,7 +5596,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5075 }
+					check_variable = { which = dtp_act value = 5078 }
 				}
 			}
 			hidden_effect = {
@@ -5506,7 +5671,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5076 }
+					check_variable = { which = dtp_act value = 5079 }
 				}
 			}
 			hidden_effect = {
@@ -5581,7 +5746,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5077 }
+					check_variable = { which = dtp_act value = 5080 }
 				}
 			}
 			hidden_effect = {
@@ -5656,7 +5821,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5078 }
+					check_variable = { which = dtp_act value = 5081 }
 				}
 			}
 			hidden_effect = {
@@ -5731,7 +5896,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5079 }
+					check_variable = { which = dtp_act value = 5082 }
 				}
 			}
 			hidden_effect = {
@@ -5806,7 +5971,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5080 }
+					check_variable = { which = dtp_act value = 5083 }
 				}
 			}
 			hidden_effect = {
@@ -5881,7 +6046,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5081 }
+					check_variable = { which = dtp_act value = 5084 }
 				}
 			}
 			hidden_effect = {
@@ -5956,7 +6121,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5082 }
+					check_variable = { which = dtp_act value = 5085 }
 				}
 			}
 			hidden_effect = {
@@ -6031,7 +6196,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5083 }
+					check_variable = { which = dtp_act value = 5086 }
 				}
 			}
 			hidden_effect = {
@@ -6106,7 +6271,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5084 }
+					check_variable = { which = dtp_act value = 5087 }
 				}
 			}
 			hidden_effect = {
@@ -6181,7 +6346,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5085 }
+					check_variable = { which = dtp_act value = 5088 }
 				}
 			}
 			hidden_effect = {
@@ -6256,7 +6421,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5086 }
+					check_variable = { which = dtp_act value = 5089 }
 				}
 			}
 			hidden_effect = {
@@ -6331,7 +6496,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5087 }
+					check_variable = { which = dtp_act value = 5090 }
 				}
 			}
 			hidden_effect = {
@@ -6406,7 +6571,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5088 }
+					check_variable = { which = dtp_act value = 5091 }
 				}
 			}
 			hidden_effect = {
@@ -6481,7 +6646,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5089 }
+					check_variable = { which = dtp_act value = 5092 }
 				}
 			}
 			hidden_effect = {
@@ -6556,7 +6721,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5090 }
+					check_variable = { which = dtp_act value = 5093 }
 				}
 			}
 			hidden_effect = {
@@ -6631,7 +6796,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5091 }
+					check_variable = { which = dtp_act value = 5094 }
 				}
 			}
 			hidden_effect = {
@@ -6706,7 +6871,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5092 }
+					check_variable = { which = dtp_act value = 5095 }
 				}
 			}
 			hidden_effect = {
@@ -6781,7 +6946,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5093 }
+					check_variable = { which = dtp_act value = 5096 }
 				}
 			}
 			hidden_effect = {
@@ -6856,7 +7021,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5094 }
+					check_variable = { which = dtp_act value = 5097 }
 				}
 			}
 			hidden_effect = {
@@ -6931,7 +7096,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5095 }
+					check_variable = { which = dtp_act value = 5098 }
 				}
 			}
 			hidden_effect = {
@@ -7006,7 +7171,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5096 }
+					check_variable = { which = dtp_act value = 5099 }
 				}
 			}
 			hidden_effect = {
@@ -7081,7 +7246,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5097 }
+					check_variable = { which = dtp_act value = 5100 }
 				}
 			}
 			hidden_effect = {
@@ -7113,231 +7278,6 @@ country_event = {
 							}
 							else = {
 								add_deposit = d_rare_crystals_4
-							}
-						}
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 10
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 1
-							}
-						}
-					}
-					else = {
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 10
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 2
-							}
-						}
-					}
-				}
-				else = {
-					from = {
-						set_variable = {
-							which = dtp_rc
-							value = 10
-						}
-						set_variable = {
-							which = dtp_rr
-							value = 0
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 5098 }
-				}
-			}
-			hidden_effect = {
-				if = {
-					limit = {
-						from = {
-							dxcyym2 = {
-								P = planet
-							}
-						}
-					}
-					if = {
-						limit = {
-							exists = event_target:dtp_p
-						}
-						event_target:dtp_p = {
-							if = {
-								limit = {
-									from = {
-										has_country_flag = dtp_pe_rm
-									}
-								}
-								if = {
-									limit = {
-										has_deposit = d_rare_crystals_5
-									}
-									remove_deposit = d_rare_crystals_5
-								}
-							}
-							else = {
-								add_deposit = d_rare_crystals_5
-							}
-						}
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 10
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 1
-							}
-						}
-					}
-					else = {
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 10
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 2
-							}
-						}
-					}
-				}
-				else = {
-					from = {
-						set_variable = {
-							which = dtp_rc
-							value = 10
-						}
-						set_variable = {
-							which = dtp_rr
-							value = 0
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 5099 }
-				}
-			}
-			hidden_effect = {
-				if = {
-					limit = {
-						from = {
-							dxcyym2 = {
-								P = planet
-							}
-						}
-					}
-					if = {
-						limit = {
-							exists = event_target:dtp_p
-						}
-						event_target:dtp_p = {
-							if = {
-								limit = {
-									from = {
-										has_country_flag = dtp_pe_rm
-									}
-								}
-								if = {
-									limit = {
-										has_deposit = d_red_giant_dm
-									}
-									remove_deposit = d_red_giant_dm
-								}
-							}
-							else = {
-								add_deposit = d_red_giant_dm
-							}
-						}
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 10
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 1
-							}
-						}
-					}
-					else = {
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 10
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 2
-							}
-						}
-					}
-				}
-				else = {
-					from = {
-						set_variable = {
-							which = dtp_rc
-							value = 10
-						}
-						set_variable = {
-							which = dtp_rr
-							value = 0
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 5100 }
-				}
-			}
-			hidden_effect = {
-				if = {
-					limit = {
-						from = {
-							dxcyym2 = {
-								P = planet
-							}
-						}
-					}
-					if = {
-						limit = {
-							exists = event_target:dtp_p
-						}
-						event_target:dtp_p = {
-							if = {
-								limit = {
-									from = {
-										has_country_flag = dtp_pe_rm
-									}
-								}
-								if = {
-									limit = {
-										has_deposit = d_red_giant_unstable
-									}
-									remove_deposit = d_red_giant_unstable
-								}
-							}
-							else = {
-								add_deposit = d_red_giant_unstable
 							}
 						}
 						from = {
@@ -7592,6 +7532,231 @@ country_event = {
 								}
 								if = {
 									limit = {
+										has_deposit = d_rare_crystals_5
+									}
+									remove_deposit = d_rare_crystals_5
+								}
+							}
+							else = {
+								add_deposit = d_rare_crystals_5
+							}
+						}
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 10
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 1
+							}
+						}
+					}
+					else = {
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 10
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 2
+							}
+						}
+					}
+				}
+				else = {
+					from = {
+						set_variable = {
+							which = dtp_rc
+							value = 10
+						}
+						set_variable = {
+							which = dtp_rr
+							value = 0
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 5102 }
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						from = {
+							dxcyym2 = {
+								P = planet
+							}
+						}
+					}
+					if = {
+						limit = {
+							exists = event_target:dtp_p
+						}
+						event_target:dtp_p = {
+							if = {
+								limit = {
+									from = {
+										has_country_flag = dtp_pe_rm
+									}
+								}
+								if = {
+									limit = {
+										has_deposit = d_red_giant_dm
+									}
+									remove_deposit = d_red_giant_dm
+								}
+							}
+							else = {
+								add_deposit = d_red_giant_dm
+							}
+						}
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 10
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 1
+							}
+						}
+					}
+					else = {
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 10
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 2
+							}
+						}
+					}
+				}
+				else = {
+					from = {
+						set_variable = {
+							which = dtp_rc
+							value = 10
+						}
+						set_variable = {
+							which = dtp_rr
+							value = 0
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 5103 }
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						from = {
+							dxcyym2 = {
+								P = planet
+							}
+						}
+					}
+					if = {
+						limit = {
+							exists = event_target:dtp_p
+						}
+						event_target:dtp_p = {
+							if = {
+								limit = {
+									from = {
+										has_country_flag = dtp_pe_rm
+									}
+								}
+								if = {
+									limit = {
+										has_deposit = d_red_giant_unstable
+									}
+									remove_deposit = d_red_giant_unstable
+								}
+							}
+							else = {
+								add_deposit = d_red_giant_unstable
+							}
+						}
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 10
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 1
+							}
+						}
+					}
+					else = {
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 10
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 2
+							}
+						}
+					}
+				}
+				else = {
+					from = {
+						set_variable = {
+							which = dtp_rc
+							value = 10
+						}
+						set_variable = {
+							which = dtp_rr
+							value = 0
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 5104 }
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						from = {
+							dxcyym2 = {
+								P = planet
+							}
+						}
+					}
+					if = {
+						limit = {
+							exists = event_target:dtp_p
+						}
+						event_target:dtp_p = {
+							if = {
+								limit = {
+									from = {
+										has_country_flag = dtp_pe_rm
+									}
+								}
+								if = {
+									limit = {
 										has_deposit = d_society_1
 									}
 									remove_deposit = d_society_1
@@ -7642,7 +7807,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5102 }
+					check_variable = { which = dtp_act value = 5105 }
 				}
 			}
 			hidden_effect = {
@@ -7717,7 +7882,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5103 }
+					check_variable = { which = dtp_act value = 5106 }
 				}
 			}
 			hidden_effect = {
@@ -7792,7 +7957,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5104 }
+					check_variable = { which = dtp_act value = 5107 }
 				}
 			}
 			hidden_effect = {
@@ -7867,7 +8032,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5105 }
+					check_variable = { which = dtp_act value = 5108 }
 				}
 			}
 			hidden_effect = {
@@ -7942,7 +8107,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5106 }
+					check_variable = { which = dtp_act value = 5109 }
 				}
 			}
 			hidden_effect = {
@@ -8017,7 +8182,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5107 }
+					check_variable = { which = dtp_act value = 5110 }
 				}
 			}
 			hidden_effect = {
@@ -8092,7 +8257,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5108 }
+					check_variable = { which = dtp_act value = 5111 }
 				}
 			}
 			hidden_effect = {
@@ -8167,7 +8332,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5109 }
+					check_variable = { which = dtp_act value = 5112 }
 				}
 			}
 			hidden_effect = {
@@ -8242,7 +8407,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5110 }
+					check_variable = { which = dtp_act value = 5113 }
 				}
 			}
 			hidden_effect = {
@@ -8317,7 +8482,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5111 }
+					check_variable = { which = dtp_act value = 5114 }
 				}
 			}
 			hidden_effect = {
@@ -8392,7 +8557,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5112 }
+					check_variable = { which = dtp_act value = 5115 }
 				}
 			}
 			hidden_effect = {
@@ -8467,7 +8632,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5113 }
+					check_variable = { which = dtp_act value = 5116 }
 				}
 			}
 			hidden_effect = {
@@ -8542,7 +8707,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5114 }
+					check_variable = { which = dtp_act value = 5117 }
 				}
 			}
 			hidden_effect = {
@@ -8617,7 +8782,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5115 }
+					check_variable = { which = dtp_act value = 5118 }
 				}
 			}
 			hidden_effect = {
@@ -8692,7 +8857,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5116 }
+					check_variable = { which = dtp_act value = 5119 }
 				}
 			}
 			hidden_effect = {
@@ -8767,7 +8932,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5117 }
+					check_variable = { which = dtp_act value = 5120 }
 				}
 			}
 			hidden_effect = {
@@ -8842,7 +9007,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5118 }
+					check_variable = { which = dtp_act value = 5121 }
 				}
 			}
 			hidden_effect = {
@@ -8917,7 +9082,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5119 }
+					check_variable = { which = dtp_act value = 5122 }
 				}
 			}
 			hidden_effect = {
@@ -8992,7 +9157,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5120 }
+					check_variable = { which = dtp_act value = 5123 }
 				}
 			}
 			hidden_effect = {
@@ -9067,7 +9232,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5121 }
+					check_variable = { which = dtp_act value = 5124 }
 				}
 			}
 			hidden_effect = {
@@ -9142,7 +9307,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5122 }
+					check_variable = { which = dtp_act value = 5125 }
 				}
 			}
 			hidden_effect = {
@@ -9217,7 +9382,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5123 }
+					check_variable = { which = dtp_act value = 5126 }
 				}
 			}
 			hidden_effect = {
@@ -9292,7 +9457,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5124 }
+					check_variable = { which = dtp_act value = 5127 }
 				}
 			}
 			hidden_effect = {
@@ -9367,7 +9532,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5125 }
+					check_variable = { which = dtp_act value = 5128 }
 				}
 			}
 			hidden_effect = {
@@ -9442,7 +9607,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5126 }
+					check_variable = { which = dtp_act value = 5129 }
 				}
 			}
 			hidden_effect = {
@@ -9517,7 +9682,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5127 }
+					check_variable = { which = dtp_act value = 5130 }
 				}
 			}
 			hidden_effect = {
@@ -9592,7 +9757,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5128 }
+					check_variable = { which = dtp_act value = 5131 }
 				}
 			}
 			hidden_effect = {
@@ -9667,7 +9832,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5129 }
+					check_variable = { which = dtp_act value = 5132 }
 				}
 			}
 			hidden_effect = {
@@ -9742,7 +9907,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5130 }
+					check_variable = { which = dtp_act value = 5133 }
 				}
 			}
 			hidden_effect = {
@@ -9817,7 +9982,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5131 }
+					check_variable = { which = dtp_act value = 5134 }
 				}
 			}
 			hidden_effect = {
@@ -9892,7 +10057,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5132 }
+					check_variable = { which = dtp_act value = 5135 }
 				}
 			}
 			hidden_effect = {
@@ -9967,7 +10132,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5133 }
+					check_variable = { which = dtp_act value = 5136 }
 				}
 			}
 			hidden_effect = {
@@ -10042,51 +10207,6 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5134 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_pepg
-						value = 1
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 5135 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_pepg
-						value = 2
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 5136 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_pepg
-						value = 3
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
 					check_variable = { which = dtp_act value = 5137 }
 				}
 			}
@@ -10094,7 +10214,7 @@ country_event = {
 				from = {
 					set_variable = {
 						which = dtp_pepg
-						value = 4
+						value = 1
 					}
 				}
 			}
@@ -10108,12 +10228,8 @@ country_event = {
 			hidden_effect = {
 				from = {
 					set_variable = {
-						which = dtp_pecat
-						value = 1
-					}
-					set_variable = {
 						which = dtp_pepg
-						value = 1
+						value = 2
 					}
 				}
 			}
@@ -10127,12 +10243,8 @@ country_event = {
 			hidden_effect = {
 				from = {
 					set_variable = {
-						which = dtp_pecat
-						value = 2
-					}
-					set_variable = {
 						which = dtp_pepg
-						value = 1
+						value = 3
 					}
 				}
 			}
@@ -10146,12 +10258,8 @@ country_event = {
 			hidden_effect = {
 				from = {
 					set_variable = {
-						which = dtp_pecat
-						value = 3
-					}
-					set_variable = {
 						which = dtp_pepg
-						value = 1
+						value = 4
 					}
 				}
 			}
@@ -10166,7 +10274,7 @@ country_event = {
 				from = {
 					set_variable = {
 						which = dtp_pecat
-						value = 4
+						value = 1
 					}
 					set_variable = {
 						which = dtp_pepg
@@ -10185,7 +10293,7 @@ country_event = {
 				from = {
 					set_variable = {
 						which = dtp_pecat
-						value = 5
+						value = 2
 					}
 					set_variable = {
 						which = dtp_pepg
@@ -10198,6 +10306,63 @@ country_event = {
 			limit = {
 				from = {
 					check_variable = { which = dtp_act value = 5143 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_pecat
+						value = 3
+					}
+					set_variable = {
+						which = dtp_pepg
+						value = 1
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 5144 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_pecat
+						value = 4
+					}
+					set_variable = {
+						which = dtp_pepg
+						value = 1
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 5145 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_pecat
+						value = 5
+					}
+					set_variable = {
+						which = dtp_pepg
+						value = 1
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 5146 }
 				}
 			}
 			hidden_effect = {
@@ -10285,7 +10450,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5144 }
+					check_variable = { which = dtp_act value = 5147 }
 				}
 			}
 			hidden_effect = {
@@ -10373,7 +10538,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5145 }
+					check_variable = { which = dtp_act value = 5148 }
 				}
 			}
 			hidden_effect = {
@@ -10461,7 +10626,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5146 }
+					check_variable = { which = dtp_act value = 5149 }
 				}
 			}
 			hidden_effect = {
@@ -10549,7 +10714,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5147 }
+					check_variable = { which = dtp_act value = 5150 }
 				}
 			}
 			hidden_effect = {
@@ -10637,7 +10802,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5148 }
+					check_variable = { which = dtp_act value = 5151 }
 				}
 			}
 			hidden_effect = {
@@ -10725,7 +10890,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5149 }
+					check_variable = { which = dtp_act value = 5152 }
 				}
 			}
 			hidden_effect = {
@@ -10813,7 +10978,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5150 }
+					check_variable = { which = dtp_act value = 5153 }
 				}
 			}
 			hidden_effect = {
@@ -10901,7 +11066,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5151 }
+					check_variable = { which = dtp_act value = 5154 }
 				}
 			}
 			hidden_effect = {
@@ -10989,7 +11154,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5152 }
+					check_variable = { which = dtp_act value = 5155 }
 				}
 			}
 			hidden_effect = {
@@ -11077,7 +11242,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5153 }
+					check_variable = { which = dtp_act value = 5156 }
 				}
 			}
 			hidden_effect = {
@@ -11165,7 +11330,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5154 }
+					check_variable = { which = dtp_act value = 5157 }
 				}
 			}
 			hidden_effect = {
@@ -11253,7 +11418,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5155 }
+					check_variable = { which = dtp_act value = 5158 }
 				}
 			}
 			hidden_effect = {
@@ -11341,7 +11506,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5156 }
+					check_variable = { which = dtp_act value = 5159 }
 				}
 			}
 			hidden_effect = {
@@ -11429,7 +11594,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5157 }
+					check_variable = { which = dtp_act value = 5160 }
 				}
 			}
 			hidden_effect = {
@@ -11517,7 +11682,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5158 }
+					check_variable = { which = dtp_act value = 5161 }
 				}
 			}
 			hidden_effect = {
@@ -11605,7 +11770,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5159 }
+					check_variable = { which = dtp_act value = 5162 }
 				}
 			}
 			hidden_effect = {
@@ -11693,7 +11858,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5160 }
+					check_variable = { which = dtp_act value = 5163 }
 				}
 			}
 			hidden_effect = {
@@ -11781,7 +11946,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5161 }
+					check_variable = { which = dtp_act value = 5164 }
 				}
 			}
 			hidden_effect = {
@@ -11869,7 +12034,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5162 }
+					check_variable = { which = dtp_act value = 5165 }
 				}
 			}
 			hidden_effect = {
@@ -11957,7 +12122,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5163 }
+					check_variable = { which = dtp_act value = 5166 }
 				}
 			}
 			hidden_effect = {
@@ -12045,7 +12210,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5164 }
+					check_variable = { which = dtp_act value = 5167 }
 				}
 			}
 			hidden_effect = {
@@ -12133,7 +12298,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5165 }
+					check_variable = { which = dtp_act value = 5168 }
 				}
 			}
 			hidden_effect = {
@@ -12221,7 +12386,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5166 }
+					check_variable = { which = dtp_act value = 5169 }
 				}
 			}
 			hidden_effect = {
@@ -12309,7 +12474,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5167 }
+					check_variable = { which = dtp_act value = 5170 }
 				}
 			}
 			hidden_effect = {
@@ -12397,7 +12562,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5168 }
+					check_variable = { which = dtp_act value = 5171 }
 				}
 			}
 			hidden_effect = {
@@ -12485,7 +12650,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5169 }
+					check_variable = { which = dtp_act value = 5172 }
 				}
 			}
 			hidden_effect = {
@@ -12573,7 +12738,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5170 }
+					check_variable = { which = dtp_act value = 5173 }
 				}
 			}
 			hidden_effect = {
@@ -12661,7 +12826,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5171 }
+					check_variable = { which = dtp_act value = 5174 }
 				}
 			}
 			hidden_effect = {
@@ -12749,7 +12914,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5172 }
+					check_variable = { which = dtp_act value = 5175 }
 				}
 			}
 			hidden_effect = {
@@ -12837,7 +13002,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5173 }
+					check_variable = { which = dtp_act value = 5176 }
 				}
 			}
 			hidden_effect = {
@@ -12925,7 +13090,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5174 }
+					check_variable = { which = dtp_act value = 5177 }
 				}
 			}
 			hidden_effect = {
@@ -13013,7 +13178,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5175 }
+					check_variable = { which = dtp_act value = 5178 }
 				}
 			}
 			hidden_effect = {
@@ -13101,7 +13266,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5176 }
+					check_variable = { which = dtp_act value = 5179 }
 				}
 			}
 			hidden_effect = {
@@ -13189,7 +13354,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5177 }
+					check_variable = { which = dtp_act value = 5180 }
 				}
 			}
 			hidden_effect = {
@@ -13277,7 +13442,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5178 }
+					check_variable = { which = dtp_act value = 5181 }
 				}
 			}
 			hidden_effect = {
@@ -13365,7 +13530,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5179 }
+					check_variable = { which = dtp_act value = 5182 }
 				}
 			}
 			hidden_effect = {
@@ -13453,7 +13618,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5180 }
+					check_variable = { which = dtp_act value = 5183 }
 				}
 			}
 			hidden_effect = {
@@ -13541,7 +13706,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5181 }
+					check_variable = { which = dtp_act value = 5184 }
 				}
 			}
 			hidden_effect = {
@@ -13629,7 +13794,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5182 }
+					check_variable = { which = dtp_act value = 5185 }
 				}
 			}
 			hidden_effect = {
@@ -13717,7 +13882,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5183 }
+					check_variable = { which = dtp_act value = 5186 }
 				}
 			}
 			hidden_effect = {
@@ -13805,7 +13970,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5184 }
+					check_variable = { which = dtp_act value = 5187 }
 				}
 			}
 			hidden_effect = {
@@ -13893,7 +14058,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5185 }
+					check_variable = { which = dtp_act value = 5188 }
 				}
 			}
 			hidden_effect = {
@@ -13981,7 +14146,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5186 }
+					check_variable = { which = dtp_act value = 5189 }
 				}
 			}
 			hidden_effect = {
@@ -14069,7 +14234,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5187 }
+					check_variable = { which = dtp_act value = 5190 }
 				}
 			}
 			hidden_effect = {
@@ -14157,7 +14322,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5188 }
+					check_variable = { which = dtp_act value = 5191 }
 				}
 			}
 			hidden_effect = {
@@ -14245,7 +14410,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5189 }
+					check_variable = { which = dtp_act value = 5192 }
 				}
 			}
 			hidden_effect = {
@@ -14333,7 +14498,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5190 }
+					check_variable = { which = dtp_act value = 5193 }
 				}
 			}
 			hidden_effect = {
@@ -14421,7 +14586,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5191 }
+					check_variable = { which = dtp_act value = 5194 }
 				}
 			}
 			hidden_effect = {
@@ -14509,7 +14674,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5192 }
+					check_variable = { which = dtp_act value = 5195 }
 				}
 			}
 			hidden_effect = {
@@ -14597,7 +14762,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5193 }
+					check_variable = { which = dtp_act value = 5196 }
 				}
 			}
 			hidden_effect = {
@@ -14685,7 +14850,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5194 }
+					check_variable = { which = dtp_act value = 5197 }
 				}
 			}
 			hidden_effect = {
@@ -14773,7 +14938,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5195 }
+					check_variable = { which = dtp_act value = 5198 }
 				}
 			}
 			hidden_effect = {
@@ -14861,7 +15026,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5196 }
+					check_variable = { which = dtp_act value = 5199 }
 				}
 			}
 			hidden_effect = {
@@ -14949,7 +15114,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 5197 }
+					check_variable = { which = dtp_act value = 5200 }
 				}
 			}
 			hidden_effect = {
@@ -14993,270 +15158,6 @@ country_event = {
 								}
 								else = {
 									add_district = district_arcology_spiritualist
-								}
-							}
-						}
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 42
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 1
-							}
-						}
-					}
-					else = {
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 42
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 2
-							}
-						}
-					}
-				}
-				else = {
-					from = {
-						set_variable = {
-							which = dtp_rc
-							value = 42
-						}
-						set_variable = {
-							which = dtp_rr
-							value = 0
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 5198 }
-				}
-			}
-			hidden_effect = {
-				if = {
-					limit = {
-						from = {
-							dxcyym2 = {
-								P = planet
-							}
-						}
-					}
-					if = {
-						limit = {
-							exists = event_target:dtp_p
-						}
-						event_target:dtp_p = {
-							if = {
-								limit = {
-									from = {
-										has_country_flag = dtp_pe_rm
-									}
-								}
-								if = {
-									limit = {
-										has_district = district_arcology_trade
-									}
-									remove_district = district_arcology_trade
-								}
-							}
-							else = {
-								if = {
-									limit = {
-										from = {
-											dxa850p = yes
-										}
-									}
-									add_district = {
-										district_type = district_arcology_trade
-										ignore_cap = yes
-									}
-								}
-								else = {
-									add_district = district_arcology_trade
-								}
-							}
-						}
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 42
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 1
-							}
-						}
-					}
-					else = {
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 42
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 2
-							}
-						}
-					}
-				}
-				else = {
-					from = {
-						set_variable = {
-							which = dtp_rc
-							value = 42
-						}
-						set_variable = {
-							which = dtp_rr
-							value = 0
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 5199 }
-				}
-			}
-			hidden_effect = {
-				if = {
-					limit = {
-						from = {
-							dxcyym2 = {
-								P = planet
-							}
-						}
-					}
-					if = {
-						limit = {
-							exists = event_target:dtp_p
-						}
-						event_target:dtp_p = {
-							if = {
-								limit = {
-									from = {
-										has_country_flag = dtp_pe_rm
-									}
-								}
-								if = {
-									limit = {
-										has_district = district_ark_basic
-									}
-									remove_district = district_ark_basic
-								}
-							}
-							else = {
-								if = {
-									limit = {
-										from = {
-											dxa850p = yes
-										}
-									}
-									add_district = {
-										district_type = district_ark_basic
-										ignore_cap = yes
-									}
-								}
-								else = {
-									add_district = district_ark_basic
-								}
-							}
-						}
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 42
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 1
-							}
-						}
-					}
-					else = {
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 42
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 2
-							}
-						}
-					}
-				}
-				else = {
-					from = {
-						set_variable = {
-							which = dtp_rc
-							value = 42
-						}
-						set_variable = {
-							which = dtp_rr
-							value = 0
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 5200 }
-				}
-			}
-			hidden_effect = {
-				if = {
-					limit = {
-						from = {
-							dxcyym2 = {
-								P = planet
-							}
-						}
-					}
-					if = {
-						limit = {
-							exists = event_target:dtp_p
-						}
-						event_target:dtp_p = {
-							if = {
-								limit = {
-									from = {
-										has_country_flag = dtp_pe_rm
-									}
-								}
-								if = {
-									limit = {
-										has_district = district_ark_basic_society
-									}
-									remove_district = district_ark_basic_society
-								}
-							}
-							else = {
-								if = {
-									limit = {
-										from = {
-											dxa850p = yes
-										}
-									}
-									add_district = {
-										district_type = district_ark_basic_society
-										ignore_cap = yes
-									}
-								}
-								else = {
-									add_district = district_ark_basic_society
 								}
 							}
 						}

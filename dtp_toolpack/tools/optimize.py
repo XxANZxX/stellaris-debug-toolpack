@@ -141,7 +141,7 @@ def intern(btns, eff_depth, min_len=40, call_len=14):
 # ---------------------------------------------------------------- короткие имена
 def rename(out_dir, keep_prefixes=("dtp_custom_",), min_len=12):
     files = [f for f in glob.glob(os.path.join(out_dir, "common", "**", "*.txt"), recursive=True) +
-             glob.glob(os.path.join(out_dir, "events", "*.txt")) if not f.endswith(("00_scripted_triggers.txt", "02_scripted_triggers_archaeology.txt"))]
+             glob.glob(os.path.join(out_dir, "events", "*.txt")) if not f.endswith(("00_scripted_triggers.txt", "02_scripted_triggers_archaeology.txt", "zz_dtp_game_triggers.txt"))]
     raw = {f: open(f, "rb").read() for f in files}
     txt = {f: raw[f].decode("utf-8-sig") for f in files}
     defs = set()

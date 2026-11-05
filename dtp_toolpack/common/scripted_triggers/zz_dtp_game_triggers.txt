@@ -1,0 +1,374 @@
+# Debug Toolpack 11.6.6: game scripted triggers where the Game Master country type (dtp_gamemaster)
+# counts as a regular empire, and dig sites are visible to it. Only these triggers are replaced (the game uses the last loaded
+# definition); every other game trigger stays as the game or other mods define it.
+
+is_country_type_with_subjects = {
+	OR = {
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
+		is_country_type = awakened_fallen_empire
+		is_country_type = awakened_marauders
+	}
+}
+
+blocks_ethic_attraction = {
+	NOR = {
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
+		is_$ETHIC$ = yes
+		has_ethic = ethic_gestalt_consciousness # No governing ethic
+		check_modifier_value = { # Allow foreign ethics if no governing ethics attraction
+			modifier = pop_government_ethic_attraction
+			value <= -1
+		}
+		AND = {
+			is_country_type = primitive
+			has_country_flag = preftl_societal_enlightenment_pact
+			capital_scope = {
+				has_observation_outpost = yes
+				observation_outpost_owner = {
+					is_$ETHIC$ = yes
+				}
+			}
+		}
+	}
+}
+
+is_regular_empire = {
+	OR = {
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
+		#for checks in buildings and districts
+		is_country_type = awakened_marauders
+		is_country_type = fallen_empire
+		is_country_type = awakened_fallen_empire
+		is_country_type = exiled
+	}
+	NOT = { has_ethic = ethic_gestalt_consciousness	}
+}
+
+is_default_or_fallen = {
+	OR = {
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
+		is_country_type = fallen_empire
+		is_country_type = awakened_fallen_empire #for checks in buildings
+	}
+}
+
+can_set_ai_policy = {
+	is_mechanical_empire = no
+	OR = {
+		has_technology = tech_synthetic_workers
+		has_technology = tech_sapient_ai
+		any_relation = {
+			has_communications = prev
+			OR = {
+				has_technology = tech_synthetic_workers
+				has_technology = tech_sapient_ai
+				is_machine_empire = yes
+				is_individual_machine = yes
+			}
+			OR = {
+				OR = { is_country_type = default is_country_type = dtp_gamemaster }
+				has_ai_personality_behaviour = robot_exploiter
+				has_ai_personality_behaviour = robot_liberator
+			}
+		}
+	}
+}
+
+has_comms_with_alien_empire = {
+	custom_tooltip = {
+		fail_text = has_comms_with_alien_empire_tooltip
+		any_relation = {
+			has_communications = root
+			OR = {
+				OR = { is_country_type = default is_country_type = dtp_gamemaster }
+				is_country_type = fallen_empire
+				is_country_type = awakened_fallen_empire
+			}
+		}
+	}
+}
+
+has_comms_with_alien_civilization = {
+	any_relation = {
+		has_communications = root
+		OR = {
+			OR = { is_country_type = default is_country_type = dtp_gamemaster }
+			is_country_type = fallen_empire
+			is_country_type = awakened_fallen_empire
+			is_enclave_country = yes
+			is_country_type = nomad
+			is_country_type = dormant_marauders
+			is_country_type = awakened_marauders
+		}
+	}
+}
+
+has_total_war_cb = {
+	OR = {
+		#attacker checks
+		AND = {
+			OR = {
+				OR = { is_country_type = default is_country_type = dtp_gamemaster }
+				is_country_type = awakened_fallen_empire
+				is_country_type = fallen_empire
+			}
+			OR = {
+				is_country_type = awakened_fallen_empire
+				has_valid_civic = civic_hive_devouring_swarm
+				has_menace_perk = menp_behemoth_ever_hungry
+				has_valid_civic = civic_machine_assimilator
+				has_valid_civic = civic_scorched_earth
+				has_valid_civic = civic_hive_scorched_earth
+				AND = {
+					has_valid_civic = civic_machine_terminator
+					from = {
+						NOR = {
+							has_country_flag = synthetic_empire
+							is_machine_empire = yes
+							is_individual_machine = yes
+						}
+					}
+				}
+				AND = {
+					has_valid_civic = civic_fanatic_purifiers
+					NOT = { is_same_species = from }
+				}
+			}
+		}
+		#end threat checks
+		AND = {
+			OR = { is_country_type = default is_country_type = dtp_gamemaster }
+			NOR = {
+				is_country_type = awakened_fallen_empire
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_assimilator
+				has_valid_civic = civic_machine_terminator
+				has_valid_civic = civic_scorched_earth
+				has_valid_civic = civic_hive_scorched_earth
+			}
+			from = {
+				is_valid_end_threat_target = yes
+			}
+		}
+		# EotC Total War
+		has_country_flag = reached_eotc_situation_stage2
+		# Total War against EotC
+		AND = {
+			has_country_flag = can_declare_total_war_to_eotc
+			from = { has_covenant_with_end_of_the_cycle = yes }
+		}
+	}
+}
+
+can_generate_trade_value = {
+	exists = owner
+	owner = { OR = { is_country_type = default is_country_type = dtp_gamemaster } }
+}
+
+separatism_joining_eligibility_trigger = {
+	if = {
+		limit = {
+			$SPECIES$ = { has_trait = trait_hive_mind }
+		}
+		is_hive_empire = yes
+	}
+	else_if = {
+		limit = {
+			$SPECIES$ = { has_trait = trait_machine_unit }
+		}
+		is_machine_empire = yes
+	}
+	else = {
+		is_regular_empire = yes
+		OR = {
+			is_same_species = $SPECIES$
+			AND = {
+				$SITUATION$ = { has_situation_flag = slave_revolt }
+				is_fanatic_egalitarian = yes
+			}
+		}
+	}
+	NOT = { is_same_value = $SITUATION$.owner }
+	is_subject = no
+	NOR = {
+		is_in_federation_with = $SITUATION$.owner
+		has_defensive_pact = $SITUATION$.owner
+		has_non_aggression_pact = $SITUATION$.owner
+	}
+	has_communications = $SITUATION$.owner
+	OR = { is_country_type = default is_country_type = dtp_gamemaster }
+}
+
+valid_curators_intel_trade_target = {
+	OR = { is_country_type = default is_country_type = dtp_gamemaster }
+	NOR = {
+		is_same_value = root
+		AND = {
+			exists = event_target:curator_customer_1
+			is_same_value = event_target:curator_customer_1
+		}
+		AND = {
+			exists = event_target:curator_customer_2
+			is_same_value = event_target:curator_customer_2
+		}
+		AND = {
+			exists = event_target:curator_customer_3
+			is_same_value = event_target:curator_customer_3
+		}
+	}
+	root = {
+		has_communications = prev
+		NOR = {
+			intel = { who = prev value = 100 }
+			has_relation_flag = {
+				who = prev
+				flag = curator_bought_intel_on
+			}
+		}
+	}
+	OR = { # AI doesn't use Curators, but players can get protection against this by not using them
+		AND = {
+			is_ai = yes
+			has_communications = event_target:curator_enclave_country
+			OR = {
+				is_galactic_community_member = yes
+				any_system_within_border = {
+					any_fleet_in_system = {
+						is_owned_by = event_target:curator_enclave_country
+					}
+				}
+			}
+		}
+		event_target:curator_enclave_country = {
+			trust = {
+				who = prev
+				value >= 50
+			}
+		}
+	}
+}
+
+no_resource_for_component = {
+	OR = { is_country_type = default is_country_type = dtp_gamemaster }
+	if = {
+		limit = {
+			AND = {
+				is_ai = no
+				resource_stockpile_compare = {
+					resource = $RESOURCE$
+					value > 100000		# instant_build sets storage limit to 1000000, so we'll check for 10% of that
+				}
+			}
+		}
+		always = no
+	}
+	else_if = {
+		# Nomads acquire strategic resources via harvesting, not monthly income.
+		# Block the component only when the stockpile is too low to afford it.
+		limit = {
+			is_ai = yes
+			is_nomadic = yes
+		}
+		resource_stockpile_compare = {
+			resource = $RESOURCE$
+			value < @ai_component_strategic_stockpile_min
+		}
+	}
+	else = {
+		OR = {
+			NOT = {
+				can_buy_on_market = $RESOURCE$ #i.e. has galactic market or positive income
+			}
+			AND = {
+				is_ai = yes
+				has_monthly_income = {
+					resource = $RESOURCE$
+					value < -2 #Reflexes to buy more tend to only kick in when below 0
+				}
+				resource_stockpile_compare = {
+					resource = $RESOURCE$
+					value < @ai_component_strategic_stockpile_min
+				}
+			}
+		}
+	}
+}
+
+uses_standard_ship_sizes = {
+	OR = {
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
+		is_country_type = gdf
+		is_mercenary = yes
+		is_country_type = exiled
+		has_country_flag = use_default_ships #for modders: apply this in on_country_created for new country types that you want to use corvettes etc
+	}
+	is_beastmasters_empire = no
+	country_uses_bio_ships = no
+}
+
+ai_should_build_habitats = {
+	OR = { is_country_type = default is_country_type = dtp_gamemaster }
+	OR = {
+		is_at_war = no
+		mid_game_years_passed > 0
+	}
+	has_technology = tech_habitat_1
+	if = {
+		limit = {
+			is_void_dweller_empire = no #VDs should build habitats even if there are other planets available
+		}
+		ai_colonize_plans <= 0
+		OR = {
+			has_aquatic_trait = no
+			has_ascension_perk = ap_hydrocentric
+		}
+	}
+	NOT = {
+		any_planet_within_border = {
+			is_planet_class = pc_habitat
+			is_colony = no
+		}
+	}
+	NOT = {
+		any_neighbor_country = {
+			is_crisis_faction = yes
+		}
+	}
+}
+
+fears_unplugged_empire = { # see also: 'triggered_opinion_cyborgs_normal'
+	OR = { is_country_type = default is_country_type = dtp_gamemaster }
+	NOR = {
+		is_homicidal = yes
+		has_origin = origin_cybernetic_creed # they don't fear Driven Assimilators
+		has_young_origin = yes # too new to the galaxy; includes Unplugged
+		is_fallen_empire = yes # fallen empires don't fear
+		has_civic = civic_machine_assimilator
+	}
+}
+
+has_good_relationships = {
+	any_relation = {
+		OR = { is_country_type = default is_country_type = dtp_gamemaster }
+		has_communications = ROOT
+		opinion_level = {
+			who = root
+			level >= good
+		}
+	}
+}
+
+default_site_visible_trigger = {
+	OR = { is_country_type = default is_country_type = dtp_gamemaster }
+	OR = {
+		intel_level = {
+			level >= low
+			system = from.solar_system
+		}
+		AND = {
+			exists = from
+			from.planet = { is_within_borders_of = root }
+		}
+	}
+}

@@ -1,4 +1,4 @@
-# Debug Toolpack 11.6.0 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
+# Debug Toolpack 11.6.6 — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.
 namespace = dtp
 
 country_event = {
@@ -62,6 +62,288 @@ country_event = {
 			limit = {
 				from = {
 					check_variable = { which = dtp_act value = 6901 }
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						from = {
+							dxcyym2 = {
+								P = planet
+							}
+						}
+					}
+					if = {
+						limit = {
+							exists = event_target:dtp_p
+						}
+						hidden_effect = {
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = eater_unhappiness_planet_2
+									}
+									remove_modifier = eater_unhappiness_planet_2
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = {
+													which = dtp_years
+													value <= 0
+												}
+											}
+										}
+										add_modifier = {
+											modifier = eater_unhappiness_planet_2
+											days = -1
+										}
+									}
+									else = {
+										set_variable = {
+											which = dtp_ty
+											value = from.dtp_years
+										}
+										add_modifier = {
+											modifier = eater_unhappiness_planet_2
+											days = 360
+											time_multiplier = dtp_ty
+										}
+									}
+								}
+							}
+						}
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 5
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 1
+							}
+						}
+					}
+					else = {
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 5
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 2
+							}
+						}
+					}
+				}
+				else = {
+					from = {
+						set_variable = {
+							which = dtp_rc
+							value = 5
+						}
+						set_variable = {
+							which = dtp_rr
+							value = 0
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6902 }
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						from = {
+							dxcyym2 = {
+								P = planet
+							}
+						}
+					}
+					if = {
+						limit = {
+							exists = event_target:dtp_p
+						}
+						hidden_effect = {
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = eater_unhappiness_planet_2_gestalt
+									}
+									remove_modifier = eater_unhappiness_planet_2_gestalt
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = {
+													which = dtp_years
+													value <= 0
+												}
+											}
+										}
+										add_modifier = {
+											modifier = eater_unhappiness_planet_2_gestalt
+											days = -1
+										}
+									}
+									else = {
+										set_variable = {
+											which = dtp_ty
+											value = from.dtp_years
+										}
+										add_modifier = {
+											modifier = eater_unhappiness_planet_2_gestalt
+											days = 360
+											time_multiplier = dtp_ty
+										}
+									}
+								}
+							}
+						}
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 5
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 1
+							}
+						}
+					}
+					else = {
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 5
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 2
+							}
+						}
+					}
+				}
+				else = {
+					from = {
+						set_variable = {
+							which = dtp_rc
+							value = 5
+						}
+						set_variable = {
+							which = dtp_rr
+							value = 0
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6903 }
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						from = {
+							dxcyym2 = {
+								P = planet
+							}
+						}
+					}
+					if = {
+						limit = {
+							exists = event_target:dtp_p
+						}
+						hidden_effect = {
+							event_target:dtp_p = {
+								if = {
+									limit = {
+										has_modifier = instrument_consumer_goods
+									}
+									remove_modifier = instrument_consumer_goods
+								}
+								else = {
+									if = {
+										limit = {
+											from = {
+												check_variable = {
+													which = dtp_years
+													value <= 0
+												}
+											}
+										}
+										add_modifier = {
+											modifier = instrument_consumer_goods
+											days = -1
+										}
+									}
+									else = {
+										set_variable = {
+											which = dtp_ty
+											value = from.dtp_years
+										}
+										add_modifier = {
+											modifier = instrument_consumer_goods
+											days = 360
+											time_multiplier = dtp_ty
+										}
+									}
+								}
+							}
+						}
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 5
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 1
+							}
+						}
+					}
+					else = {
+						from = {
+							set_variable = {
+								which = dtp_rc
+								value = 5
+							}
+							set_variable = {
+								which = dtp_rr
+								value = 2
+							}
+						}
+					}
+				}
+				else = {
+					from = {
+						set_variable = {
+							which = dtp_rc
+							value = 5
+						}
+						set_variable = {
+							which = dtp_rr
+							value = 0
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6904 }
 				}
 			}
 			hidden_effect = {
@@ -155,7 +437,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6902 }
+					check_variable = { which = dtp_act value = 6905 }
 				}
 			}
 			hidden_effect = {
@@ -249,7 +531,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6903 }
+					check_variable = { which = dtp_act value = 6906 }
 				}
 			}
 			hidden_effect = {
@@ -343,7 +625,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6904 }
+					check_variable = { which = dtp_act value = 6907 }
 				}
 			}
 			hidden_effect = {
@@ -437,7 +719,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6905 }
+					check_variable = { which = dtp_act value = 6908 }
 				}
 			}
 			hidden_effect = {
@@ -531,7 +813,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6906 }
+					check_variable = { which = dtp_act value = 6909 }
 				}
 			}
 			hidden_effect = {
@@ -625,7 +907,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6907 }
+					check_variable = { which = dtp_act value = 6910 }
 				}
 			}
 			hidden_effect = {
@@ -719,7 +1001,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6908 }
+					check_variable = { which = dtp_act value = 6911 }
 				}
 			}
 			hidden_effect = {
@@ -813,7 +1095,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6909 }
+					check_variable = { which = dtp_act value = 6912 }
 				}
 			}
 			hidden_effect = {
@@ -907,7 +1189,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6910 }
+					check_variable = { which = dtp_act value = 6913 }
 				}
 			}
 			hidden_effect = {
@@ -1001,7 +1283,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6911 }
+					check_variable = { which = dtp_act value = 6914 }
 				}
 			}
 			hidden_effect = {
@@ -1095,7 +1377,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6912 }
+					check_variable = { which = dtp_act value = 6915 }
 				}
 			}
 			hidden_effect = {
@@ -1189,7 +1471,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6913 }
+					check_variable = { which = dtp_act value = 6916 }
 				}
 			}
 			hidden_effect = {
@@ -1283,7 +1565,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6914 }
+					check_variable = { which = dtp_act value = 6917 }
 				}
 			}
 			hidden_effect = {
@@ -1377,7 +1659,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6915 }
+					check_variable = { which = dtp_act value = 6918 }
 				}
 			}
 			hidden_effect = {
@@ -1471,7 +1753,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6916 }
+					check_variable = { which = dtp_act value = 6919 }
 				}
 			}
 			hidden_effect = {
@@ -1565,7 +1847,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6917 }
+					check_variable = { which = dtp_act value = 6920 }
 				}
 			}
 			hidden_effect = {
@@ -1659,7 +1941,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6918 }
+					check_variable = { which = dtp_act value = 6921 }
 				}
 			}
 			hidden_effect = {
@@ -1753,7 +2035,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6919 }
+					check_variable = { which = dtp_act value = 6922 }
 				}
 			}
 			hidden_effect = {
@@ -1847,7 +2129,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6920 }
+					check_variable = { which = dtp_act value = 6923 }
 				}
 			}
 			hidden_effect = {
@@ -1941,7 +2223,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6921 }
+					check_variable = { which = dtp_act value = 6924 }
 				}
 			}
 			hidden_effect = {
@@ -2035,7 +2317,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6922 }
+					check_variable = { which = dtp_act value = 6925 }
 				}
 			}
 			hidden_effect = {
@@ -2129,7 +2411,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6923 }
+					check_variable = { which = dtp_act value = 6926 }
 				}
 			}
 			hidden_effect = {
@@ -2223,7 +2505,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6924 }
+					check_variable = { which = dtp_act value = 6927 }
 				}
 			}
 			hidden_effect = {
@@ -2317,7 +2599,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6925 }
+					check_variable = { which = dtp_act value = 6928 }
 				}
 			}
 			hidden_effect = {
@@ -2411,7 +2693,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6926 }
+					check_variable = { which = dtp_act value = 6929 }
 				}
 			}
 			hidden_effect = {
@@ -2505,7 +2787,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6927 }
+					check_variable = { which = dtp_act value = 6930 }
 				}
 			}
 			hidden_effect = {
@@ -2599,7 +2881,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6928 }
+					check_variable = { which = dtp_act value = 6931 }
 				}
 			}
 			hidden_effect = {
@@ -2693,7 +2975,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6929 }
+					check_variable = { which = dtp_act value = 6932 }
 				}
 			}
 			hidden_effect = {
@@ -2787,7 +3069,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6930 }
+					check_variable = { which = dtp_act value = 6933 }
 				}
 			}
 			hidden_effect = {
@@ -2881,7 +3163,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6931 }
+					check_variable = { which = dtp_act value = 6934 }
 				}
 			}
 			hidden_effect = {
@@ -2975,7 +3257,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6932 }
+					check_variable = { which = dtp_act value = 6935 }
 				}
 			}
 			hidden_effect = {
@@ -3069,7 +3351,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6933 }
+					check_variable = { which = dtp_act value = 6936 }
 				}
 			}
 			hidden_effect = {
@@ -3163,7 +3445,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6934 }
+					check_variable = { which = dtp_act value = 6937 }
 				}
 			}
 			hidden_effect = {
@@ -3257,7 +3539,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6935 }
+					check_variable = { which = dtp_act value = 6938 }
 				}
 			}
 			hidden_effect = {
@@ -3351,7 +3633,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6936 }
+					check_variable = { which = dtp_act value = 6939 }
 				}
 			}
 			hidden_effect = {
@@ -3445,7 +3727,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6937 }
+					check_variable = { which = dtp_act value = 6940 }
 				}
 			}
 			hidden_effect = {
@@ -3539,7 +3821,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6938 }
+					check_variable = { which = dtp_act value = 6941 }
 				}
 			}
 			hidden_effect = {
@@ -3633,7 +3915,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6939 }
+					check_variable = { which = dtp_act value = 6942 }
 				}
 			}
 			hidden_effect = {
@@ -3727,7 +4009,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6940 }
+					check_variable = { which = dtp_act value = 6943 }
 				}
 			}
 			hidden_effect = {
@@ -3821,7 +4103,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6941 }
+					check_variable = { which = dtp_act value = 6944 }
 				}
 			}
 			hidden_effect = {
@@ -3836,7 +4118,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6942 }
+					check_variable = { which = dtp_act value = 6945 }
 				}
 			}
 			hidden_effect = {
@@ -3851,7 +4133,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6943 }
+					check_variable = { which = dtp_act value = 6946 }
 				}
 			}
 			hidden_effect = {
@@ -3866,7 +4148,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6944 }
+					check_variable = { which = dtp_act value = 6947 }
 				}
 			}
 			hidden_effect = {
@@ -3881,7 +4163,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6945 }
+					check_variable = { which = dtp_act value = 6948 }
 				}
 			}
 			hidden_effect = {
@@ -3896,7 +4178,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6946 }
+					check_variable = { which = dtp_act value = 6949 }
 				}
 			}
 			hidden_effect = {
@@ -3911,7 +4193,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6947 }
+					check_variable = { which = dtp_act value = 6950 }
 				}
 			}
 			hidden_effect = {
@@ -3926,7 +4208,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6948 }
+					check_variable = { which = dtp_act value = 6951 }
 				}
 			}
 			hidden_effect = {
@@ -3964,276 +4246,6 @@ country_event = {
 						change_variable = {
 							which = dtp_in
 							value = 7
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value > 999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = 999999999
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value < -999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = -999999999
-						}
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6949 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					if = {
-						limit = {
-							OR = {
-								check_variable = {
-									which = dtp_in
-									value < 0
-								}
-								AND = {
-									check_variable = {
-										which = dtp_in
-										value = 0
-									}
-									has_country_flag = dtp_kneg
-								}
-							}
-						}
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = -8
-						}
-					}
-					else = {
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = 8
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value > 999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = 999999999
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value < -999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = -999999999
-						}
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6950 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					if = {
-						limit = {
-							OR = {
-								check_variable = {
-									which = dtp_in
-									value < 0
-								}
-								AND = {
-									check_variable = {
-										which = dtp_in
-										value = 0
-									}
-									has_country_flag = dtp_kneg
-								}
-							}
-						}
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = -9
-						}
-					}
-					else = {
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = 9
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value > 999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = 999999999
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value < -999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = -999999999
-						}
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6951 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					if = {
-						limit = {
-							OR = {
-								check_variable = {
-									which = dtp_in
-									value < 0
-								}
-								AND = {
-									check_variable = {
-										which = dtp_in
-										value = 0
-									}
-									has_country_flag = dtp_kneg
-								}
-							}
-						}
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = -4
-						}
-					}
-					else = {
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = 4
 						}
 					}
 					if = {
@@ -4313,994 +4325,6 @@ country_event = {
 						}
 						change_variable = {
 							which = dtp_in
-							value = -5
-						}
-					}
-					else = {
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = 5
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value > 999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = 999999999
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value < -999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = -999999999
-						}
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6953 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					if = {
-						limit = {
-							OR = {
-								check_variable = {
-									which = dtp_in
-									value < 0
-								}
-								AND = {
-									check_variable = {
-										which = dtp_in
-										value = 0
-									}
-									has_country_flag = dtp_kneg
-								}
-							}
-						}
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = -6
-						}
-					}
-					else = {
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = 6
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value > 999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = 999999999
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value < -999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = -999999999
-						}
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6954 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					if = {
-						limit = {
-							OR = {
-								check_variable = {
-									which = dtp_in
-									value < 0
-								}
-								AND = {
-									check_variable = {
-										which = dtp_in
-										value = 0
-									}
-									has_country_flag = dtp_kneg
-								}
-							}
-						}
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = -1
-						}
-					}
-					else = {
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = 1
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value > 999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = 999999999
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value < -999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = -999999999
-						}
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6955 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					if = {
-						limit = {
-							OR = {
-								check_variable = {
-									which = dtp_in
-									value < 0
-								}
-								AND = {
-									check_variable = {
-										which = dtp_in
-										value = 0
-									}
-									has_country_flag = dtp_kneg
-								}
-							}
-						}
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = -2
-						}
-					}
-					else = {
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = 2
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value > 999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = 999999999
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value < -999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = -999999999
-						}
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6956 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					if = {
-						limit = {
-							OR = {
-								check_variable = {
-									which = dtp_in
-									value < 0
-								}
-								AND = {
-									check_variable = {
-										which = dtp_in
-										value = 0
-									}
-									has_country_flag = dtp_kneg
-								}
-							}
-						}
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = -3
-						}
-					}
-					else = {
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = 3
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value > 999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = 999999999
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value < -999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = -999999999
-						}
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6957 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					if = {
-						limit = {
-							OR = {
-								check_variable = {
-									which = dtp_in
-									value < 0
-								}
-								AND = {
-									check_variable = {
-										which = dtp_in
-										value = 0
-									}
-									has_country_flag = dtp_kneg
-								}
-							}
-						}
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = 0
-						}
-					}
-					else = {
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = 0
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value > 999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = 999999999
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value < -999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = -999999999
-						}
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6958 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_country_flag = dtp_kneg
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value > 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_in
-							value = -1
-						}
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6959 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					divide_variable = {
-						which = dtp_in
-						value = 10
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value < 0
-							}
-						}
-						ceiling_variable = dtp_in
-					}
-					else = {
-						floor_variable = dtp_in
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6960 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_in
-						value = 0
-					}
-					remove_country_flag = dtp_kneg
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6961 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_in
-						value = -50
-					}
-					set_country_flag = dtp_kneg
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6962 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_in
-						value = -10
-					}
-					set_country_flag = dtp_kneg
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6963 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_in
-						value = 25
-					}
-					remove_country_flag = dtp_kneg
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6964 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_in
-						value = 100
-					}
-					remove_country_flag = dtp_kneg
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6965 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_years
-						value = 1
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6966 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_years
-						value = 5
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6967 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_years
-						value = 10
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6968 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_years
-						value = 0
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6969 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					set_variable = {
-						which = dtp_years
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_years
-								value < 0
-							}
-						}
-						set_variable = {
-							which = dtp_years
-							value = 0
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6970 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					if = {
-						limit = {
-							OR = {
-								check_variable = {
-									which = dtp_in
-									value < 0
-								}
-								AND = {
-									check_variable = {
-										which = dtp_in
-										value = 0
-									}
-									has_country_flag = dtp_kneg
-								}
-							}
-						}
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = -7
-						}
-					}
-					else = {
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
-							value = 7
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value > 999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = 999999999
-						}
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_in
-								value < -999999999
-							}
-						}
-						set_variable = {
-							which = dtp_in
-							value = -999999999
-						}
-					}
-					set_variable = {
-						which = dtp_val
-						value = dtp_in
-					}
-					set_variable = {
-						which = dtp_amount
-						value = dtp_in
-					}
-					if = {
-						limit = {
-							check_variable = {
-								which = dtp_amount
-								value < 0
-							}
-						}
-						multiply_variable = {
-							which = dtp_amount
-							value = -1
-						}
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6971 }
-				}
-			}
-			hidden_effect = {
-				from = {
-					if = {
-						limit = {
-							OR = {
-								check_variable = {
-									which = dtp_in
-									value < 0
-								}
-								AND = {
-									check_variable = {
-										which = dtp_in
-										value = 0
-									}
-									has_country_flag = dtp_kneg
-								}
-							}
-						}
-						multiply_variable = {
-							which = dtp_in
-							value = 10
-						}
-						change_variable = {
-							which = dtp_in
 							value = -8
 						}
 					}
@@ -5364,7 +4388,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6972 }
+					check_variable = { which = dtp_act value = 6953 }
 				}
 			}
 			hidden_effect = {
@@ -5454,7 +4478,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6973 }
+					check_variable = { which = dtp_act value = 6954 }
 				}
 			}
 			hidden_effect = {
@@ -5544,7 +4568,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6974 }
+					check_variable = { which = dtp_act value = 6955 }
 				}
 			}
 			hidden_effect = {
@@ -5634,7 +4658,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6975 }
+					check_variable = { which = dtp_act value = 6956 }
 				}
 			}
 			hidden_effect = {
@@ -5724,7 +4748,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6976 }
+					check_variable = { which = dtp_act value = 6957 }
 				}
 			}
 			hidden_effect = {
@@ -5814,7 +4838,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6977 }
+					check_variable = { which = dtp_act value = 6958 }
 				}
 			}
 			hidden_effect = {
@@ -5904,7 +4928,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6978 }
+					check_variable = { which = dtp_act value = 6959 }
 				}
 			}
 			hidden_effect = {
@@ -5994,7 +5018,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6979 }
+					check_variable = { which = dtp_act value = 6960 }
 				}
 			}
 			hidden_effect = {
@@ -6084,7 +5108,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6980 }
+					check_variable = { which = dtp_act value = 6961 }
 				}
 			}
 			hidden_effect = {
@@ -6128,7 +5152,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6981 }
+					check_variable = { which = dtp_act value = 6962 }
 				}
 			}
 			hidden_effect = {
@@ -6175,7 +5199,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6982 }
+					check_variable = { which = dtp_act value = 6963 }
 				}
 			}
 			hidden_effect = {
@@ -6211,7 +5235,115 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6983 }
+					check_variable = { which = dtp_act value = 6964 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_in
+						value = -50
+					}
+					set_country_flag = dtp_kneg
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6965 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_in
+						value = -10
+					}
+					set_country_flag = dtp_kneg
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6966 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_in
+						value = 25
+					}
+					remove_country_flag = dtp_kneg
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6967 }
 				}
 			}
 			hidden_effect = {
@@ -6247,16 +5379,1058 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6984 }
+					check_variable = { which = dtp_act value = 6968 }
 				}
 			}
 			hidden_effect = {
 				from = {
 					set_variable = {
-						which = dtp_in
-						value = 500
+						which = dtp_years
+						value = 1
 					}
-					remove_country_flag = dtp_kneg
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6969 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_years
+						value = 5
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6970 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_years
+						value = 10
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6971 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_years
+						value = 0
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6972 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_years
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_years
+								value < 0
+							}
+						}
+						set_variable = {
+							which = dtp_years
+							value = 0
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6973 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					if = {
+						limit = {
+							OR = {
+								check_variable = {
+									which = dtp_in
+									value < 0
+								}
+								AND = {
+									check_variable = {
+										which = dtp_in
+										value = 0
+									}
+									has_country_flag = dtp_kneg
+								}
+							}
+						}
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = -7
+						}
+					}
+					else = {
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = 7
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value > 999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = 999999999
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value < -999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = -999999999
+						}
+					}
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6974 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					if = {
+						limit = {
+							OR = {
+								check_variable = {
+									which = dtp_in
+									value < 0
+								}
+								AND = {
+									check_variable = {
+										which = dtp_in
+										value = 0
+									}
+									has_country_flag = dtp_kneg
+								}
+							}
+						}
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = -8
+						}
+					}
+					else = {
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = 8
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value > 999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = 999999999
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value < -999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = -999999999
+						}
+					}
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6975 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					if = {
+						limit = {
+							OR = {
+								check_variable = {
+									which = dtp_in
+									value < 0
+								}
+								AND = {
+									check_variable = {
+										which = dtp_in
+										value = 0
+									}
+									has_country_flag = dtp_kneg
+								}
+							}
+						}
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = -9
+						}
+					}
+					else = {
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = 9
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value > 999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = 999999999
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value < -999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = -999999999
+						}
+					}
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6976 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					if = {
+						limit = {
+							OR = {
+								check_variable = {
+									which = dtp_in
+									value < 0
+								}
+								AND = {
+									check_variable = {
+										which = dtp_in
+										value = 0
+									}
+									has_country_flag = dtp_kneg
+								}
+							}
+						}
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = -4
+						}
+					}
+					else = {
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = 4
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value > 999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = 999999999
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value < -999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = -999999999
+						}
+					}
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6977 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					if = {
+						limit = {
+							OR = {
+								check_variable = {
+									which = dtp_in
+									value < 0
+								}
+								AND = {
+									check_variable = {
+										which = dtp_in
+										value = 0
+									}
+									has_country_flag = dtp_kneg
+								}
+							}
+						}
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = -5
+						}
+					}
+					else = {
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = 5
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value > 999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = 999999999
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value < -999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = -999999999
+						}
+					}
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6978 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					if = {
+						limit = {
+							OR = {
+								check_variable = {
+									which = dtp_in
+									value < 0
+								}
+								AND = {
+									check_variable = {
+										which = dtp_in
+										value = 0
+									}
+									has_country_flag = dtp_kneg
+								}
+							}
+						}
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = -6
+						}
+					}
+					else = {
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = 6
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value > 999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = 999999999
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value < -999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = -999999999
+						}
+					}
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6979 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					if = {
+						limit = {
+							OR = {
+								check_variable = {
+									which = dtp_in
+									value < 0
+								}
+								AND = {
+									check_variable = {
+										which = dtp_in
+										value = 0
+									}
+									has_country_flag = dtp_kneg
+								}
+							}
+						}
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = -1
+						}
+					}
+					else = {
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = 1
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value > 999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = 999999999
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value < -999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = -999999999
+						}
+					}
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6980 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					if = {
+						limit = {
+							OR = {
+								check_variable = {
+									which = dtp_in
+									value < 0
+								}
+								AND = {
+									check_variable = {
+										which = dtp_in
+										value = 0
+									}
+									has_country_flag = dtp_kneg
+								}
+							}
+						}
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = -2
+						}
+					}
+					else = {
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = 2
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value > 999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = 999999999
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value < -999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = -999999999
+						}
+					}
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6981 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					if = {
+						limit = {
+							OR = {
+								check_variable = {
+									which = dtp_in
+									value < 0
+								}
+								AND = {
+									check_variable = {
+										which = dtp_in
+										value = 0
+									}
+									has_country_flag = dtp_kneg
+								}
+							}
+						}
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = -3
+						}
+					}
+					else = {
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = 3
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value > 999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = 999999999
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value < -999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = -999999999
+						}
+					}
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6982 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					if = {
+						limit = {
+							OR = {
+								check_variable = {
+									which = dtp_in
+									value < 0
+								}
+								AND = {
+									check_variable = {
+										which = dtp_in
+										value = 0
+									}
+									has_country_flag = dtp_kneg
+								}
+							}
+						}
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = 0
+						}
+					}
+					else = {
+						multiply_variable = {
+							which = dtp_in
+							value = 10
+						}
+						change_variable = {
+							which = dtp_in
+							value = 0
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value > 999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = 999999999
+						}
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value < -999999999
+							}
+						}
+						set_variable = {
+							which = dtp_in
+							value = -999999999
+						}
+					}
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6983 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_country_flag = dtp_kneg
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value > 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_in
+							value = -1
+						}
+					}
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6984 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					divide_variable = {
+						which = dtp_in
+						value = 10
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_in
+								value < 0
+							}
+						}
+						ceiling_variable = dtp_in
+					}
+					else = {
+						floor_variable = dtp_in
+					}
 					set_variable = {
 						which = dtp_val
 						value = dtp_in
@@ -6290,7 +6464,7 @@ country_event = {
 				from = {
 					set_variable = {
 						which = dtp_in
-						value = 1000
+						value = 0
 					}
 					remove_country_flag = dtp_kneg
 					set_variable = {
@@ -6326,7 +6500,7 @@ country_event = {
 				from = {
 					set_variable = {
 						which = dtp_in
-						value = 5000
+						value = 100
 					}
 					remove_country_flag = dtp_kneg
 					set_variable = {
@@ -6356,6 +6530,114 @@ country_event = {
 			limit = {
 				from = {
 					check_variable = { which = dtp_act value = 6987 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_in
+						value = 500
+					}
+					remove_country_flag = dtp_kneg
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6988 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_in
+						value = 1000
+					}
+					remove_country_flag = dtp_kneg
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6989 }
+				}
+			}
+			hidden_effect = {
+				from = {
+					set_variable = {
+						which = dtp_in
+						value = 5000
+					}
+					remove_country_flag = dtp_kneg
+					set_variable = {
+						which = dtp_val
+						value = dtp_in
+					}
+					set_variable = {
+						which = dtp_amount
+						value = dtp_in
+					}
+					if = {
+						limit = {
+							check_variable = {
+								which = dtp_amount
+								value < 0
+							}
+						}
+						multiply_variable = {
+							which = dtp_amount
+							value = -1
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				from = {
+					check_variable = { which = dtp_act value = 6990 }
 				}
 			}
 			hidden_effect = {
@@ -6662,7 +6944,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6988 }
+					check_variable = { which = dtp_act value = 6991 }
 				}
 			}
 			hidden_effect = {
@@ -6735,7 +7017,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6989 }
+					check_variable = { which = dtp_act value = 6992 }
 				}
 			}
 			hidden_effect = {
@@ -6803,7 +7085,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6990 }
+					check_variable = { which = dtp_act value = 6993 }
 				}
 			}
 			hidden_effect = {
@@ -6879,7 +7161,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6991 }
+					check_variable = { which = dtp_act value = 6994 }
 				}
 			}
 			hidden_effect = {
@@ -6952,7 +7234,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6992 }
+					check_variable = { which = dtp_act value = 6995 }
 				}
 			}
 			hidden_effect = {
@@ -7026,7 +7308,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6993 }
+					check_variable = { which = dtp_act value = 6996 }
 				}
 			}
 			hidden_effect = {
@@ -7068,7 +7350,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6994 }
+					check_variable = { which = dtp_act value = 6997 }
 				}
 			}
 			hidden_effect = {
@@ -7285,7 +7567,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6995 }
+					check_variable = { which = dtp_act value = 6998 }
 				}
 			}
 			hidden_effect = {
@@ -7352,7 +7634,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6996 }
+					check_variable = { which = dtp_act value = 6999 }
 				}
 			}
 			hidden_effect = {
@@ -7569,7 +7851,7 @@ country_event = {
 		else_if = {
 			limit = {
 				from = {
-					check_variable = { which = dtp_act value = 6997 }
+					check_variable = { which = dtp_act value = 7000 }
 				}
 			}
 			hidden_effect = {
@@ -7631,507 +7913,6 @@ country_event = {
 					}
 				}
 				dtp_hn_fill = yes
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6998 }
-				}
-			}
-			hidden_effect = {
-				if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 1
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_1
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 2
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_2
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 3
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_3
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 4
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_4
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 5
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_5
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 6
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_6
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 7
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_7
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 8
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_8
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 9
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_9
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 10
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_10
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 11
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_11
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 12
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_12
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 13
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_13
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 14
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_14
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 15
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_15
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 16
-							}
-						}
-					}
-					event_target:dtp_hn_3 = {
-						save_global_event_target_as = dtp_hl2_16
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 6999 }
-				}
-			}
-			hidden_effect = {
-				if = {
-					limit = {
-						from = {
-							dxcyym2 = {
-								P = planet
-							}
-						}
-					}
-					if = {
-						limit = {
-							exists = event_target:dtp_s
-						}
-						if = {
-							limit = {
-								exists = event_target:dtp_hn_3
-							}
-							remove_hyperlane = {
-								from = event_target:dtp_s
-								to = event_target:dtp_hn_3
-							}
-						}
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 77
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 1
-							}
-						}
-					}
-					else = {
-						from = {
-							set_variable = {
-								which = dtp_rc
-								value = 77
-							}
-							set_variable = {
-								which = dtp_rr
-								value = 2
-							}
-						}
-					}
-				}
-				else = {
-					from = {
-						set_variable = {
-							which = dtp_rc
-							value = 77
-						}
-						set_variable = {
-							which = dtp_rr
-							value = 0
-						}
-					}
-				}
-				dtp_hn_fill = yes
-			}
-		}
-		else_if = {
-			limit = {
-				from = {
-					check_variable = { which = dtp_act value = 7000 }
-				}
-			}
-			hidden_effect = {
-				if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 1
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_1
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 2
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_2
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 3
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_3
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 4
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_4
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 5
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_5
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 6
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_6
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 7
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_7
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 8
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_8
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 9
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_9
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 10
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_10
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 11
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_11
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 12
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_12
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 13
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_13
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 14
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_14
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 15
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_15
-					}
-				}
-				else_if = {
-					limit = {
-						from = {
-							check_variable = {
-								which = dtp_pidx
-								value = 16
-							}
-						}
-					}
-					event_target:dtp_hn_4 = {
-						save_global_event_target_as = dtp_hl2_16
-					}
-				}
 			}
 		}
 		from = {

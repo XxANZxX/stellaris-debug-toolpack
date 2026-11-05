@@ -1,4 +1,4 @@
-version="11.6.0"
+version="11.6.6"
 tags={
 	"Utilities"
 	"Gameplay"
