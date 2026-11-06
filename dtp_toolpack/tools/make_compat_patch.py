@@ -19,7 +19,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 COMMON_FILES = ["game_rules/00_rules.txt", "scripted_triggers/00_scripted_triggers.txt",
                 "scripted_triggers/02_scripted_triggers_archaeology.txt"]
 KNOWN = {"1623423360": "UI Overhaul Dynamic"}                  # моды из мастерской без descriptor.mod в копии
-WINDOWS = ["maingui", "planet_view", "maingui_bottombar", "starbase_view", "fleet_view"]
+WINDOWS = ["maingui", "planet_view", "starbase_view", "fleet_view"]
 
 def mod_name(d):
     for f in ("descriptor.mod",):

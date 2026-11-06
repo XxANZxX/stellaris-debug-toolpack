@@ -17,7 +17,7 @@ python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/model
 import zlib, os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "11.6.6"
+VERSION = "11.7.5"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []
@@ -130,8 +130,12 @@ CODES = {1: "ресурсы добавлены", 2: "ресурсы вычтен
          52: "держава уничтожена", 53: "колония основана", 54: "станция системы изменена", 55: "галактика изменена",
          39: "правление изменено", 40: "гражданская модель изменена", 41: "указ включён", 42: "район изменён", 43: "здание изменено",
          44: "уровень жизни изменён", 45: "военная служба изменена", 46: "вид рабства изменён", 47: "вид чистки изменён",
-         63: "традиции изменены", 64: "перк возвышения изменён", 65: "политика изменена", 66: "облик или название изменены", 67: "портрет вида изменён"}
-CODES_EN = {63: "traditions changed", 64: "ascension perk changed", 65: "policy changed", 66: "look or name changed", 67: "species portrait changed"}
+         63: "традиции изменены", 64: "перк возвышения изменён", 65: "политика изменена", 66: "облик или название изменены", 67: "портрет вида изменён",
+         90: "лидер выбран", 91: "лидер изменён", 92: "черта лидера изменена", 93: "лидер передан получателю", 94: "лидер убит",
+         95: "технология изучена", 96: "технологии изучены", 97: "исследования продвинуты", 98: "указ включён"}   # 11.7: 68–77 — у редактора планеты
+CODES_EN = {63: "traditions changed", 64: "ascension perk changed", 65: "policy changed", 66: "look or name changed", 67: "species portrait changed",
+            90: "leader selected", 91: "leader changed", 92: "leader trait changed", 93: "leader given to the recipient", 94: "leader killed",
+            95: "technology researched", 96: "technologies researched", 97: "research advanced", 98: "edict enacted"}
 CATALOG = [(1, "Проверка связи", "Тестовое окно, ничего не меняет.", "country"),
            (2, "Дар Хранителей", "Выбор: энергия, сплавы или единство.", "country"),
            (3, "Волнения в столице", "Подавить (−стабильность) или откупиться.", "country"),
@@ -566,7 +570,7 @@ def PE_OPEN_AT(tab=None, cat=1):
 def act(p, body, code, need_load=True):
     """Тело действия: загрузка целей, проверка прав и наличия целей В МОМЕНТ выполнения, журнал.
     Если выбранная цель исчезла (планета уничтожена, флот погиб, держава пала) — «НЕ ВЫПОЛНЕНО», а не ложное «ГОТОВО»."""
-    used = sorted(set(re.findall(r"event_target:(dtp_[ptrfs])\b", body))) if need_load else []
+    used = sorted(set(re.findall(r"event_target:(dtp_[ptrfs]|dtp_lv)\b", body))) if need_load else []     # 11.7: dtp_lv — лидер в редакторе держав
     # расчёты на переменных прячем от подсказки: игра просчитывает её при наведении мыши, когда переменные ещё не заданы
     # (error.log: «Variable … is not set»), и выводит служебные строки «Устанавливает переменную …»
     if re.search(r"\b(set_variable|change_variable|multiply_variable|divide_variable|export_trigger_value_to_variable|dtp_res_do|while)\b", body):
@@ -2859,9 +2863,9 @@ dtp_peditor = B("containerWindowType", 'name = "dtp_peditor"', "position = { x =
     "orientation = CENTER", "clipping = no", *_ed_els("peditor"))
 # 11.6.4: только символы, которые есть в переводах самой игры (шрифт/кодировка игры знает их). Символов «· ● → ← ±» в переводах
 # игры нет — в error.log «Failed conversion of utf8 string» при показе окон DTP. Замены — на символы, которые игра использует сама.
-SAFE_CHARS = {"russian": (("·", "•"), ("●", "•"), ("→", "»"), ("←", "«"), ("±", "~")),
-              "english": (("·", "|"), ("●", "*"), ("→", "->"), ("←", "<-"), ("±", "+/-"), ("«", "<"), ("»", ">")),
-              "simp_chinese": (("●", "*"), ("→", "->"), ("←", "<-"), ("±", "~"), ("«", "<"), ("»", ">"), ("「", "“"), ("」", "”"), ("【", "（"), ("】", "）"))}      # «·» в китайском переводе игры есть
+SAFE_CHARS = {"russian": (("·", "•"), ("●", "•"), ("→", "»"), ("←", "«"), ("±", "~"), ("▶", "»")),
+              "english": (("·", "|"), ("●", "*"), ("→", "->"), ("←", "<-"), ("±", "+/-"), ("«", "<"), ("»", ">"), ("▶", ">")),
+              "simp_chinese": (("●", "*"), ("→", "->"), ("←", "<-"), ("±", "~"), ("«", "<"), ("»", ">"), ("▶", ">"), ("「", "“"), ("」", "”"), ("【", "（"), ("】", "）"))}      # «·» в китайском переводе игры есть
 def w(path, text, bom=False):
     p = os.path.join(OUT, path); os.makedirs(os.path.dirname(p), exist_ok=True)
     text = shorten(text)
@@ -2936,13 +2940,14 @@ def _split_maingui():
     pe = head + blk + "\n}\n"
     end = end_of_window(pe, "maingui")
     ins = ("\t\t### DEBUG TOOLPACK (DTP) — значок и панель (11.6.6: раньше — в окне флага maingui_flag)\n" + "\n".join(l.lstrip("\t") for l in pretty(dtp_root).splitlines()) + "\n"
+           "\t\t### DEBUG TOOLPACK (DTP) — редактор держав и вида (11.6.7: раньше — в нижней панели maingui_bottombar)\n" + "\n".join(l.lstrip("\t") for l in pretty(dtp_editor).splitlines()) + "\n"
            "\t\t### DEBUG TOOLPACK (DTP) — редактор планеты и системы\n" + "\n".join(l.lstrip("\t") for l in pretty(dtp_peditor).splitlines()) + "\n")
     pef = "dtp_planet_editor.gui" if own == "main.gui" else own[:-4] + "_dtp.gui"
     w("interface/" + own, rest)
     w("interface/" + pef, pe[:end] + ins + pe[end:])
     for f in (own, pef):
         if f not in GUI_TARGETS: GUI_TARGETS.append(f)
-    GUI_REPORT.append("%s → окно maingui перенесено в %s (+ панель DTP и редактор планеты)" % (own, pef))
+    GUI_REPORT.append("%s → окно maingui перенесено в %s (+ панель DTP, редакторы держав и планеты)" % (own, pef))
 _split_maingui()
 # 11.1.1: в UIOD картинка планеты рисуется поверх полосы, вставленной сразу после фона, — полосу кладём в конец окна (поверх всего)
 inject("planet_view.gui", None if UIOD else r'name = "planet_view_bg".*?\n\t\t\}\n', planet_strip, "\t\t", "planet_view", modded_end=True)
@@ -2958,7 +2963,11 @@ if MAP_ICONS:
         w("interface/" + _f, _mi); GUI_TARGETS.append(_f)
 # UIOD не меняет main_bottom.gui, а переопределяет окно maingui_bottombar своим файлом Ω_uiod_main_bottom.gui (читается позже) —
 # с UIOD редактор встраивается в его файл, иначе окно UIOD перекрыло бы наше (11.7: этот файл находит gui_owner)
-inject("main_bottom.gui", None, dtp_editor, "\t\t", "maingui_bottombar")
+# 11.6.7: редактор держав — тоже в главном окне maingui (наш файл dtp_planet_editor.gui), а не в нижней панели: нижнюю панель
+# заново объявляют многие моды (UIOD, SpeedDial, Gigastructures, Playable Kaiser…), и редактор пропадал без патча. Предела ~1 МБ на файл
+# нет (тест 05.11: 3,6 МБ читаются целиком), поэтому всё DTP главного экрана — в одном окне. Нижняя панель (main_bottom.gui) больше не трогается.
+for _old in ("interface/main_bottom.gui",):
+    if os.path.exists(os.path.join(OUT, _old)): os.remove(os.path.join(OUT, _old))       # файл из прошлых версий
 inject("starbase_view.gui", None, starbase_strip, "\t\t", "starbase_view")     # окно станции: в конец корневого контейнера (поверх содержимого)
 inject("fleet_view.gui", r'\tcontainerWindowType = \{\n\t\tname = "fleet_view".*?name = "header".*?\n\t\t\}\n', fleet_strip, "\t\t", "fleet_view")
 print("встраивание в окна игры: " + "; ".join(GUI_REPORT))
@@ -2975,7 +2984,7 @@ HDR = "# Debug Toolpack %s — сгенерировано tools/gen3.py. Пра�
 # а «тело» каждой кнопки — один раз в своём событии (по 100 действий на событие).
 import optimize as _opt0
 _WHERE = {g["key"]: g["where"] for g in GUI}
-_DISP_N, _DISP_EV, _DISP_BODIES, _DISP_SZ = 0, [], {}, [0, 0, 30000]
+_DISP_N, _DISP_EV, _DISP_BODIES, _DISP_SZ, _DISP_SEEN = 0, [], {}, [0, 0, 30000], {}
 _PRO_INIT = {"dtp_pidx_ensure", "dtp_init_targets", "dtp_host_check"}
 def _is_init_from(n):
     return n[0] == "from" and isinstance(n[2], list) and n[2] and all(c[0] in _PRO_INIT and c[2] == "yes" for c in n[2])
@@ -3019,12 +3028,18 @@ for _b in BTN:
     if _st["dis"] and _apos != -1 and _apos < _dpos:          # флаг подтверждения читается ДО сброса — оставить сброс в теле
         _st = {"dis": False, "keep": True}
         _bt = _opt0.ser(_strip_body(_eff[0][2], True, _st))
-    _DISP_N += 1
-    if _DISP_N == 1 or _DISP_SZ[0] + len(_bt) > 250000 or _DISP_SZ[1] >= 100:   # событие — до ~100 действий и ~250 КБ
-        _DISP_SZ[:] = [0, 0, 30000 + len(_DISP_BODIES)]
-    _ev = _DISP_SZ[2]; _DISP_SZ[0] += len(_bt); _DISP_SZ[1] += 1
-    _DISP_BODIES.setdefault(_ev, []).append((_DISP_N, _bt))
-    _eff[0][2][:] = [["hidden_effect", "=", [["from", "=", [["set_variable", "=", [["which", "=", "dtp_act"], ["value", "=", str(_DISP_N)]]],   # 11.5.4: скрыто от подсказки
+    # 11.7.2: одинаковые действия — один номер. Рамка «есть у A» и красная метка поверх карточки делают то же, что карточка,
+    # и раньше каждая получала свою копию тела в событиях (×2–3 на каждую из ~2 700 карточек)
+    _dk = (_bt, _st["dis"]) if not os.environ.get("DTP_NODEDUP") else object()   # DTP_NODEDUP=1 — замер памяти без объединения
+    if _dk in _DISP_SEEN:
+        _an = _DISP_SEEN[_dk]
+    else:
+        _DISP_N += 1; _an = _DISP_SEEN[_dk] = _DISP_N
+        if _DISP_N == 1 or _DISP_SZ[0] + len(_bt) > 250000 or _DISP_SZ[1] >= 100:   # событие — до ~100 действий и ~250 КБ
+            _DISP_SZ[:] = [0, 0, 30000 + len(_DISP_BODIES)]
+        _ev = _DISP_SZ[2]; _DISP_SZ[0] += len(_bt); _DISP_SZ[1] += 1
+        _DISP_BODIES.setdefault(_ev, []).append((_DISP_N, _bt))
+    _eff[0][2][:] = [["hidden_effect", "=", [["from", "=", [["set_variable", "=", [["which", "=", "dtp_act"], ["value", "=", str(_an)]]],   # 11.5.4: скрыто от подсказки
                                     ["set_variable", "=", [["which", "=", "dtp_dis"], ["value", "=", "1" if _st["dis"] else "0"]]],
                                     ["country_event", "=", [["id", "=", "dtp.29999"]]]]]]]]
     _NEW_BTN.append(_opt0.ser([_tree]))
@@ -3034,11 +3049,79 @@ def _log_vars():
     t = t[t.index("{") + 1:t.rindex("}")]
     return t.replace("$CODE$", "dtp_rc").replace("$RES$", "dtp_rr").replace('log = "DTP | code dtp_rc | result dtp_rr"', 'log = "DTP | code [From.dtp_rc] | result [From.dtp_rr]"')
 _LOGV = _log_vars()
+# 11.7.4: обвязка действия (права, наличие целей, итог) — один раз на событие, а не в каждом действии.
+# Замер 05.11 (главное меню): события DTP ≈ 350 МБ памяти; у типичного действия обвязка — около половины текста.
+# Действие из act(): «если права → [если цели есть → тело, итог 1; иначе итог 2]; иначе итог 0» разбирается на
+# (права, цели, код, тело). В событии: (1) по номеру действия — код и номер сочетания «права+цели»; (2) одна общая
+# проверка сочетания → dtp_ok (0 нет прав, 1 можно, 2 нет цели); (3) тело по номеру действия, только при dtp_ok = 1.
+def _is_res(n, rr):
+    return (n[0] == "from" and isinstance(n[2], list) and len(n[2]) == 2 and n[2][0][0] == "set_variable" and n[2][1][0] == "set_variable"
+            and _opt0.ser([n[2][0]], True) == _opt0.ser([["set_variable", "=", [["which", "=", "dtp_rc"], n[2][0][2][1]]]], True)
+            and _opt0.ser([n[2][1]], True) == _opt0.ser([["set_variable", "=", [["which", "=", "dtp_rr"], ["value", "=", rr]]]], True))
+def _res_code(n):
+    return n[2][0][2][1][2]
+def _canon(bt):
+    """(P, цели, код, тело) или None, если действие не по образцу act()."""
+    try: nodes = _opt0.parse(bt)
+    except Exception: return None
+    while len(nodes) == 1 and nodes[0][0] == "hidden_effect" and isinstance(nodes[0][2], list): nodes = nodes[0][2]   # обёртка кнопки
+    if len(nodes) != 2 or nodes[0][0] != "if" or nodes[1][0] != "else" or not isinstance(nodes[0][2], list): return None
+    a, b = nodes
+    if not a[2] or a[2][0][0] != "limit" or len(a[2][0][2]) != 1: return None
+    f = a[2][0][2][0]
+    if f[0] != "from" or not isinstance(f[2], list) or len(f[2]) != 1 or f[2][0][0] != "dtp_has_perm" or not isinstance(f[2][0][2], list): return None
+    P = {c[0]: c[2] for c in f[2][0][2]}.get("P")
+    if not P or not isinstance(b[2], list) or len(b[2]) != 1 or not _is_res(b[2][0], "0"): return None
+    code = _res_code(b[2][0]); rest = a[2][1:]
+    if len(rest) == 2 and rest[0][0] == "if" and rest[1][0] == "else" and isinstance(rest[0][2], list) and rest[0][2] and rest[0][2][0][0] == "limit" \
+            and isinstance(rest[1][2], list) and len(rest[1][2]) == 1 and _is_res(rest[1][2][0], "2") and _res_code(rest[1][2][0]) == code:
+        lim = rest[0][2][0][2]
+        if not lim or not all(x[0] == "exists" and isinstance(x[2], str) for x in lim): return None
+        used = tuple(x[2] for x in lim); body = rest[0][2][1:]
+    else:
+        used, body = (), rest
+    if not body or not _is_res(body[-1], "1") or _res_code(body[-1]) != code: return None
+    flat = []
+    for n in body[:-1]:                      # события скрыты — hidden_effect в теле не нужен
+        if n[0] == "hidden_effect" and isinstance(n[2], list): flat.extend(n[2])
+        else: flat.append(n)
+    return P, used, code, _opt0.ser(flat), _opt0.ser([body[-1]])
+_DISP_STAT = [0, 0]
+def _chain(items):
+    return "\n".join(B("if" if i == 0 else "else_if", c, *e) for i, (c, e) in enumerate(items))
 for _ev, _items in sorted(_DISP_BODIES.items()):
-    _sw = "\n".join(B("if" if i == 0 else "else_if", B("limit", B("from", chk("dtp_act", n))), bt or "")
-                    for i, (n, bt) in enumerate(_items))
+    _can, _raw, _combo = [], [], {}
+    for n, bt in _items:
+        c = _canon(bt or "")
+        if c: _can.append((n,) + c); _DISP_STAT[0] += 1
+        else: _raw.append((n, bt)); _DISP_STAT[1] += 1
+    _parts = []
+    if _can:
+        for n, P, used, code, body, res in _can: _combo.setdefault((P, used), len(_combo) + 1)
+        # заголовок: подряд идущие номера с одним кодом и сочетанием — одним диапазоном
+        _runs = []
+        for n, P, used, code, body, res in _can:
+            k_ = (code, _combo[(P, used)])
+            if _runs and _runs[-1][2] == k_ and _runs[-1][1] == n - 1: _runs[-1][1] = n
+            else: _runs.append([n, n, k_])
+        _parts.append(_chain([(B("limit", B("from", chk("dtp_act", a_)) if a_ == b_ else B("from", chk("dtp_act", a_, ">="), chk("dtp_act", b_, "<="))),
+                               [B("from", setv("dtp_rc0", k_[0]), setv("dtp_rc", k_[0]), setv("dtp_rk", k_[1]))]) for a_, b_, k_ in _runs]))
+        _chk_items = []
+        for (P, used), K in sorted(_combo.items(), key=lambda x: x[1]):
+            ok = (B("if", B("limit", *["exists = %s" % u for u in used]), B("from", setv("dtp_ok", 1))) + "\n" + B("else", B("from", setv("dtp_ok", 2)))) if used \
+                 else B("from", setv("dtp_ok", 1))
+            _chk_items.append((B("limit", B("from", chk("dtp_rk", K), "dtp_has_perm = { P = %s }" % P)), [ok]))
+        _parts.append(B("if", B("limit", B("from", chk("dtp_rk", 0, ">"))), B("from", setv("dtp_ok", 0)), _chain(_chk_items),
+                        B("if", B("limit", B("from", chk("dtp_ok", 0))), B("from", setv("dtp_rr", 0))),
+                        B("if", B("limit", B("from", chk("dtp_ok", 2))), B("from", setv("dtp_rr", 2)))))
+        _parts.append(B("if", B("limit", B("from", chk("dtp_rk", 0, ">"), chk("dtp_ok", 1))),
+                        _chain([(B("limit", B("from", chk("dtp_act", n))), [body]) for n, P, used, code, body, res in _can]),
+                        B("from", "set_variable = { which = dtp_rc value = dtp_rc0 }", setv("dtp_rr", 1))))     # итог «готово» — после тела, как раньше
+    if _raw:
+        _parts.append(_chain([(B("limit", B("from", chk("dtp_act", n))), [bt or ""]) for n, bt in _raw]))
+    _sw = "\n".join(_parts)
     _DISP_EV.append(B("country_event", "id = dtp.%d" % _ev, "hide_window = yes", "is_triggered_only = yes", B("immediate",
-        B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes", setv("dtp_rr", -1)),
+        B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes", setv("dtp_rr", -1), setv("dtp_rk", 0)),
         "dtp_load = yes", "dtp_sp_load = yes",
         *[B("if", B("limit", "exists = event_target:dtp_%s" % _l), "set_country_flag = dtp_ok_%s" % _f) + "\n" + B("else", "remove_country_flag = dtp_ok_%s" % _f)
           for _l, _f in (("t", "tc"), ("r", "rcp"), ("p", "tp"), ("f", "tf"))],
@@ -3054,15 +3137,15 @@ for _ev, _items in sorted(_DISP_BODIES.items()):
     _hi = _items[-1][0]
     _rt.append(B("if" if not _rt else "else_if", B("limit", chk("dtp_act", _hi, "<=")), "country_event = { id = dtp.%d }" % _ev))
 _DISP_EV.insert(0, B("country_event", "id = dtp.29999", "hide_window = yes", "is_triggered_only = yes", B("immediate", *_rt)))
-print("кнопки → события: действий %d, событий %d" % (_DISP_N, len(_DISP_EV)))
+print("кнопки → события: действий %d (по образцу act — %d, прочих %d), событий %d" % (_DISP_N, _DISP_STAT[0], _DISP_STAT[1], len(_DISP_EV)))
 # 11.5 (а): условия редакторов. Раньше каждое условие «у выбранной планеты/державы/вида есть X» было вызовом с параметром
 # (dtp_tpx = { T = X }), а игра при загрузке разворачивает КАЖДЫЙ такой вызов в 16 копий (по копии на номер игрока) —
 # десятки мегабайт скрипта. Теперь у открытого редактора одна общая цель (dtp_pv — планета, dtp_ev — держава, dtp_evs — вид):
 # её выставляет dtp_vsync после каждого нажатия игроком, у которого редактор открыт. Каждый редактор одновременно открыт
 # только у одного игрока (открывший закрывает его у остальных).
-_PVX = {"tpx": "dtp_pv", "tcx": "dtp_ev", "spx": "dtp_evs"}
+_PVX = {"tpx": "dtp_pv", "tcx": "dtp_ev", "spx": "dtp_evs", "lvx": "dtp_lv"}
 def _rw_ed(s_):
-    return re.sub(r"dtp_(tpx|tcx|spx) = \{\s*T = (\w+)\s*\}", lambda m: "AND = { exists = event_target:%s event_target:%s = { %s = yes } }" % (_PVX[m.group(1)], _PVX[m.group(1)], m.group(2)), s_)
+    return re.sub(r"dtp_(tpx|tcx|spx|lvx) = \{\s*T = (\w+)\s*\}", lambda m: "AND = { exists = event_target:%s event_target:%s = { %s = yes } }" % (_PVX[m.group(1)], _PVX[m.group(1)], m.group(2)), s_)
 def _lock(s_):
     for _f in ("dtp_pe_open", "dtp_ed_open"):
         s_ = s_.replace("set_country_flag = %s" % _f, B("every_country", B("limit", "has_country_flag = %s" % _f), "remove_country_flag = %s" % _f) + "\nset_country_flag = %s" % _f)
@@ -3072,7 +3155,7 @@ def _lock(s_):
 BTN = [re.sub(r"\bdtp_has_(tc|rcp|tp|tf) = yes", lambda m: "from = { has_country_flag = dtp_ok_%s }" % m.group(1), b) for b in BTN]
 BTN = [_lock(_rw_ed(b)) for b in BTN]
 _DISP_EV = [_lock(_rw_ed(e)) for e in _DISP_EV]
-TRG = [t for t in TRG if not re.match(r"dtp_(tpx|tcx|spx) = \{", t)]
+TRG = [t for t in TRG if not re.match(r"dtp_(tpx|tcx|spx|lvx) = \{", t)]
 def _vs_chain(fn):
     return "\n".join(B("if" if k == 1 else "else_if", B("limit", chk("dtp_pidx", k)), fn(k)) for k in range(1, MAXP + 1))
 EFF.append(B("dtp_vsync",                                   # область — страна игрока, нажавшего кнопку
@@ -3084,7 +3167,12 @@ EFF.append(B("dtp_vsync",                                   # область —
         B("else_if", B("limit", "exists = event_target:dtp_ev"), "clear_global_event_target = dtp_ev") + "\n" +
         B("if", B("limit", "exists = event_target:dtp_tsp_%d" % k), B("event_target:dtp_tsp_%d" % k, "save_global_event_target_as = dtp_evs")) + "\n" +
         B("else_if", B("limit", "exists = event_target:dtp_tc_%d" % k), B("event_target:dtp_tc_%d" % k, B("owner_species", "save_global_event_target_as = dtp_evs"))) + "\n" +
-        B("else_if", B("limit", "exists = event_target:dtp_evs"), "clear_global_event_target = dtp_evs")))))
+        B("else_if", B("limit", "exists = event_target:dtp_evs"), "clear_global_event_target = dtp_evs")),
+      # 11.7: лидер в редакторе (dtp_lv) — только лидер державы A; сменили A или лидер погиб/ушёл — выбор сбрасывается
+      B("if", B("limit", "exists = event_target:dtp_lv", B("OR", "NOT = { exists = event_target:dtp_ev }",
+                                                             B("event_target:dtp_lv", "NOT = { exists = owner }"),
+                                                             B("event_target:dtp_lv", B("owner", "NOT = { is_same_value = event_target:dtp_ev }")))),
+        "clear_global_event_target = dtp_lv"))))
 # 11.5 (б): вызовы с постоянными параметрами (dtp_has_perm = { P = state }, dtp_result = { CODE = 65 } …) — тоже разворачивались
 # игрой на каждом месте вызова (dtp_result внутри ещё и dtp_log на 4 КБ). Теперь для каждого набора значений — своё готовое
 # определение без параметров (разбирается один раз), вызов — «dwXXXXXX = yes». Исходные определения остаются.
@@ -3140,7 +3228,27 @@ def _edepth(text):
 _nb0 = sum(len(b) for b in BTN)
 BTN, _itrg, _ieff = _opt.intern(BTN, _edepth)
 TRG.extend(_itrg); EFF.extend(_ieff)
+# 11.7.3: замер в главном меню — 3075 мелких общих эффектов (11.7.2) стоили ~1,5 ГБ памяти (4 → 5,5 ГБ); без них 3,8 ГБ.
+# Каждое определение scripted_effect игре обходится очень дорого, поэтому новых общих эффектов почти не должно появляться.
+# замеры памяти: DTP_DUMMY_T=N / DTP_DUMMY_E=N — N неиспользуемых определений (цена одного определения)
+for _i in range(int(os.environ.get("DTP_DUMMY_T", "0"))):
+    TRG.append(B("dtp_dummy_t%d" % _i, B("from", "check_variable = { which = dtp_act value = %d }" % _i, "has_country_flag = dtp_dummy")))
+for _i in range(int(os.environ.get("DTP_DUMMY_E", "0"))):
+    EFF.append(B("dtp_dummy_e%d" % _i, B("from", "set_variable = { which = dtp_act value = %d }" % _i, "set_variable = { which = dtp_dis value = 1 }", "country_event = { id = dtp.29999 }")))
+if len(_ieff) > 50:
+    print("!! ВНИМАНИЕ: общих эффектов %d (норма — единицы): каждое определение scripted_effect стоит игре много памяти" % len(_ieff))
 print("общие куски: условий %d, эффектов %d · кнопки %d → %d КБ" % (len(_itrg), len(_ieff), _nb0 // 1024, sum(len(b) for b in BTN) // 1024))
+# замеры памяти: DTP_DUMMY_B=N — N неиспользуемых кнопок; DTP_DUMMY_BIG=1 — каждая ~2 КБ (как три настоящие), иначе крошечная
+for _i in range(int(os.environ.get("DTP_DUMMY_B", "0"))):
+    if os.environ.get("DTP_DUMMY_BIG"):
+        _chk = "\n".join(B("check_variable", "which = dtp_ed%s" % w_, "value = %d" % (_i % 97 + j_)) for j_, w_ in enumerate(("tab", "cat", "pg")))
+        BTN.append(B("dtp_dummy_b%d" % _i, B("potential", B("from", "has_country_flag = dtp_ed_open", _chk), B("AND", "exists = event_target:dtp_ev", B("event_target:dtp_ev", "has_country_flag = dtp_dummy_%d" % _i))),
+                     B("allow", B("custom_tooltip", "fail_text = dtp_need_tc", B("from", B("OR", "has_country_flag = dtp_host", B("AND", "is_ai = no", "has_country_flag = dtp_perm_state")))),
+                       B("custom_tooltip", "fail_text = dtp_need_tc", B("from", "has_country_flag = dtp_ok_tc")), B("custom_tooltip", "fail_text = dtp_need_tc", B("from", _chk))),
+                     B("effect", B("hidden_effect", B("from", "set_variable = { which = dtp_act value = %d }" % _i, "set_variable = { which = dtp_dis value = 1 }",
+                                                      "country_event = { id = dtp.29999 }"), B("from", _chk.replace("check_variable", "set_variable"))))))
+    else:
+        BTN.append(B("dtp_dummy_b%d" % _i, B("potential", "always = no")))
 _parts, _cur, _sz = [], [], 0
 for _b in BTN:
     _t = pretty(_b) + "\n"
@@ -3427,6 +3535,25 @@ def _zh_split(t):
     zt = _ZH_TAIL.get(tn)
     if zt is None: return None
     return head + "\\n\\n" + re.sub(r"⟦(\d+)⟧", lambda m: order[int(m.group(1))], zt)
+# 11.7: перевод по строкам — каждая строка подсказки отдельно (строки из одних названий игры, чисел и тегов — как есть).
+# Так переводятся подсказки, собранные из частей (черты лидеров: название, класс, бонусы по блокам, «Нажмите: …»).
+_ZH_LINE = {}
+for _e1, _z1 in _ZHMAP.items():
+    if "\\n" not in _e1:
+        _et, _eo = _renum(_e1); _mp = {o: "{%d}" % i for i, o in enumerate(_eo)}
+        if all(x in _mp for x in re.findall(r"\{\d+\}", _z1)):
+            _ZH_LINE.setdefault(_et, re.sub(r"\{\d+\}", lambda m: "⟦%s⟧" % _mp[m.group(0)][1:-1], _z1))
+_ZH_LMISS = []
+def _zh_lines(t):
+    if "\\n" not in t: return None
+    out, miss = [], False
+    for part in t.split("\\n"):
+        if not re.search(r"[A-Za-z]{2}", re.sub(r"§[A-Za-z!]|\{\d+\}", "", part)): out.append(part); continue
+        pn, order = _renum(part)
+        zt = _ZH_LINE.get(pn)
+        if zt is None: _ZH_LMISS.append(pn); miss = True; continue
+        out.append(re.sub(r"⟦(\d+)⟧", lambda m: order[int(m.group(1))], zt))
+    return None if miss else "\\n".join(out)
 _YML_GLY = (("✔ ", "§G●§! "), ("✔", "§G●§!"), ("↻ ", ""), ("↻", ""), ("⇄ ", "→ "), ("⇄", "→"), ("↶", "←"), ("✕", "×"),
             ("⌂ ", ""), ("⌂", ""), ("‹", "<"), ("›", ">"), ("↔", "/"), ("↺ ", ""), ("↺", ""), ("◎ ", ""), ("◎", ""),
             ("—", "-"), ("–", "-"), ("→", "->"), ("←", "<-"), ("−", "-"), ("…", "..."), ("●", "*"))
@@ -3437,7 +3564,7 @@ def yml_zh(d):
         v = v.replace("§O", "§H")
         for _a, _b in _YML_GLY: v = v.replace(_a, _b)
         lead, t, args = _ztmpl(v)
-        z = _ZHMAP.get(t) or _zh_split(t)
+        z = _ZHMAP.get(t) or _zh_split(t) or _zh_lines(t)
         if z is None:
             if _re.search(r"[A-Za-z]{3}", _re.sub(r"\$[^$]*\$|\[[^\]]*\]|§.", "", t)): _ZH_MISS.append(t)
             z = t
@@ -3447,6 +3574,9 @@ w("localisation/simp_chinese/dtp_l_simp_chinese.yml", safe_chars("simp_chinese",
 w("localisation/simp_chinese/dtp_custom_l_simp_chinese.yml", safe_chars("simp_chinese", yml_zh(CUSTOM_L)), True)
 if _ZH_MISS:
     print("!! нет китайского перевода для %d строк (оставлен английский):" % len(set(_ZH_MISS))); [print("   ", s) for s in sorted(set(_ZH_MISS))[:20]]
+# 11.7: для перевода — строки целиком (без «\\n») и отдельные строки многострочных подсказок
+_zm = sorted({s for s in _ZH_MISS if "\\n" not in s} | set(_ZH_LMISS))       # пустой список — всё переведено (старый файл не остаётся)
+json.dump(_zm, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "i18n", "zh_missing.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=0)
 json.dump({"W": W, "H": H, "items": META, "stars": STARCLS}, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "gui_meta3.json"), "w", encoding="utf-8"), ensure_ascii=False)
 if _EN_MISS:
     print("!! нет английского перевода для %d строк:" % len(_EN_MISS)); [print("   ", s) for s in sorted(set(_EN_MISS))[:40]]

@@ -19,6 +19,31 @@ When updating, delete the old `dtp_toolpack` folder first, so no stale files rem
 
 **UI Overhaul Dynamic users:** also copy `dtp_toolpack_uiod` and `dtp_toolpack_uiod.mod`, and enable the patch *together with* the base mod, loaded after UIOD and DTP. Update the patch together with the base mod — without the current patch the editors do not appear under UIOD.
 
+## Leaders, Technologies and Edicts (11.7)
+
+Three new tabs in the Empire & Species Editor (they work on empire A).
+
+| Tab | What it does |
+|---|---|
+| Leaders | pick the next leader (by class), the ruler or the heir; level 1–10 and +1000 XP; age, immortality, aging; class and gender; rank (regular / renowned / legendary); unassign, remove from the council; random traits, remove negative / positive / all traits; create a new leader of any class and **any species of the empire** (the species picker of the species tabs is shared); give to recipient B; kill. Trait cards: official, scientist, commander, shared and negative — **763 traits** read from the game files with their icons and bonuses |
+| Technologies | **679 technologies** by area, repeatable and special ones; research in bulk up to tier 1–5 per area or for all areas (only what the empire may get by the game's rules — `can_research_technology`; everything in force mode); finish current research, +25% / +50%; copy all technologies of recipient B |
+| Edicts | **171 edicts**, campaigns, ambitions and sacrifices (grouped by file), enacted for free |
+
+- The game has no effect that removes a researched technology or cancels an edict, so DTP can only add them.
+- Leader trait icons in 4.x are drawn by the game in layers (a dark symbol on a coloured background); DTP cards for them have a light icon slot.
+- Trait names that the game builds from leader-scoped scripted localisation (Backup Clone, Imperial Heir, Chosen, …) use their plain variant in the editor, so no "Wrong scope" errors appear.
+
+## Memory (11.7.2–11.7.5)
+
+Measured in the main menu (RTX 4060): vanilla 2.3 GB, DTP 11.6 ~3.7 GB, **DTP 11.7.5 ~3.5 GB** with the three new tabs; startup ~21 s.
+
+Diagnostic builds (one part removed at a time) showed that almost all of DTP's memory is button effects (~650 MB), the conditions they use (~450 MB) and the dispatch events (~350 MB); interface files, textures and localisation cost almost nothing. Findings:
+
+- **Scripted effects called from buttons are expensive per definition.** In 11.7.2 the optimizer turned 3,075 small repeated button stubs into shared scripted effects, which added ~1.5 GB. Unused definitions cost nothing (3,000 dummy effects or 5,000 dummy triggers: no change), and inlining shared trigger blocks made no difference. The optimizer no longer extracts the dispatch stub, and the generator warns if more than 50 shared effects appear.
+- **Dispatch events:** the rights check, the target check and the result are now written once per event instead of in each of 5,815 actions (an action number range selects the code and the check; the body runs only when the check passes). Event scripts: 12 → 6.8 MB.
+- **Card frames and marks** (green "has it" frame, red "forbidden" mark — about 4,500) are display-only elements with `alwaysTransparent`, the click goes to the card underneath; they no longer repeat the card's conditions and action.
+- Identical actions share one action number.
+
 ## Compatibility and Stellaris 4.5.3 (11.6.1–11.6.6)
 
 - Built on the **Stellaris 4.5.3** game files.
@@ -94,13 +119,14 @@ A separate window that works like the game's empire designer, but for a game alr
 | Species portrait | the species class and every portrait of that class |
 | Look & name | ship set, city style, random flag, empire name (32 presets) |
 | Modifiers | 36 Toolpack modifiers and 24 game modifiers, with a strength/duration calculator (strength 1 = 1%, minus = penalty) |
+| Leaders / Technologies / Edicts | see **11.7** above |
 
 Traits, rights and portrait work on **any species of the empire**: a species picker (up to 40 species, 4 per page with arrows) sits at the top of these three tabs.
 
 - The game's own rules are checked: ethic points, opposite ethics and the `potential`/`possible` requirements of civics, authorities, traits, perks, traditions and policies are read from the game files (`tools/eddata.py`).
 - Anything the game normally forbids gets a red **!** and can only be set in **force mode**. A green frame means the empire already has it. Ethic points (3 total) are only enforced outside force mode.
 - Icons are the game's own textures.
-- The editor lives in the game's bottom bar window (`main_bottom.gui`; with UIOD — `Ω_uiod_main_bottom.gui` in the UIOD patch), so `main.gui` stays under the size the game reads.
+- Since 11.6.6 the editor lives in the game's `maingui` window (`interface/dtp_planet_editor.gui`), together with the DTP icon and panel and the planet editor.
 
 ## Getting HOST status
 

@@ -222,3 +222,83 @@ if __name__ == "__main__":
     po = policies(vc, spr); print("policies", len(po), sum(len(x["opts"]) for x in po), po[0]["opts"][:2])
     print("gc", graphical_cultures(vc))
     pr = portraits(vc); print("portrait classes", {k: len(v) for k, v in pr.items()})
+
+# ---- 11.7: черты лидеров (редактор держав → «Лидеры»)
+LT_MODS = (("councilor_modifier", "В совете", "On the council"), ("self_modifier", "Самому лидеру", "To the leader"),
+           ("modifier", "Где назначен", "Where assigned"), ("planet_modifier", "Планете губернатора", "Governor's planet"),
+           ("sector_modifier", "Сектору", "Sector"), ("fleet_modifier", "Флоту", "Fleet"), ("army_modifier", "Армиям", "Armies"),
+           ("system_modifier", "Системе", "System"), ("federation_modifier", "Федерации", "Federation"), ("galcom_modifier", "Галактическому сообществу", "Galactic Community"))
+def leader_traits(vc, spr):
+    """[{key, classes, cat, icon, tier, mods:[(блок, [(мод, число)])]}]. cat: negative / special (ветеран, подкласс, судьба) / basic."""
+    out = []
+    for k, (b, f) in top(os.path.join(vc, "traits/*.txt")).items():
+        ins = [x for x in getall(b, "inline_script") if isinstance(x, list)]
+        icon_is = [x for x in ins if (get(x, "script") or "").startswith("trait/icon")]
+        lc = get(b, "leader_class")
+        if lc is None and not icon_is: continue                       # черта вида, не лидера
+        if isinstance(lc, list): classes = sorted(x for _, _, x in lc if isinstance(x, str))
+        elif lc == "all": classes = ["commander", "official", "scientist"]
+        else:
+            cl = [get(x, "CLASS") for x in icon_is if get(x, "CLASS")]
+            classes = sorted(set(c for c in cl if c in ("commander", "official", "scientist"))) or ["commander", "official", "scientist"]
+        script = (get(icon_is[0], "script") if icon_is else "") or ""
+        typ = get(b, "leader_trait_type") or "basic"
+        neg = typ == "negative" or "negative" in script or get(b, "negative") == "yes"
+        cat = "negative" if neg else ("special" if typ in ("veteran", "subclass", "destiny") or "subclass" in script else "basic")
+        gfx = None
+        for x in icon_is:
+            if get(x, "ICON"): gfx = get(x, "ICON").strip('"')
+        if not gfx and isinstance(get(b, "icon"), list):
+            for lay in getall(get(b, "icon"), "layer"):
+                ic = get(lay, "icon")
+                if isinstance(ic, str) and ic.strip('"') not in ("GFX_trait_bg",): gfx = ic.strip('"')
+        elif isinstance(get(b, "icon"), str): gfx = get(b, "icon").strip('"')
+        tex = spr.get(gfx) if gfx and gfx.startswith("GFX_") else gfx
+        tier = 0
+        for x in icon_is:
+            try: tier = int(get(x, "TIER") or 0)
+            except ValueError: pass
+        mods = [(blk, modlist(b, vc, keys=(blk,))) for blk, _r, _e in LT_MODS]
+        repl = [x.strip('"') for _, _, x in (get(b, "replace_traits") or []) if isinstance(x, str)]
+        out.append(dict(key=k, classes=classes, cat=cat, icon=tex, tier=tier, repl=repl, mods=[(bk, m) for bk, m in mods if m], file=f))
+    return out
+
+def technologies(vc, spr):
+    """11.7: технологии игры — [{key, area, tier, cats, rare, dangerous, repeat, start, special, icon, mods, file}].
+    special — обычно не выпадают в исследовании (weight = 0 / только по событию / технологии Павших империй)."""
+    out = []
+    for f in sorted(glob.glob(os.path.join(vc, "technology/*.txt"))):
+        if "documentation" in f or "README" in f.upper(): continue
+        for k, op, b in parse(open(f, encoding="utf-8-sig").read()):
+            if not k or not isinstance(b, list) or k.startswith("@") or k == "inline_script": continue
+            area = get(b, "area")
+            if area not in ("physics", "society", "engineering"): continue
+            tr = resolve(get(b, "tier") or "0", vc)
+            try: tier = int(float(tr))
+            except (TypeError, ValueError): tier = 0
+            cats = [x for _, _, x in (get(b, "category") or []) if isinstance(x, str)]
+            lv = get(b, "levels")
+            repeat = lv is not None and str(lv).strip() not in ("0", "1")
+            w = get(b, "weight")
+            start = get(b, "start_tech") == "yes"
+            fe = "fallen_empire" in f
+            special = not start and not repeat and (fe or (isinstance(w, str) and resolve(w, vc) in ("0", "0.0")))
+            ic = get(b, "icon")
+            ic = ic.strip('"') if isinstance(ic, str) else k
+            tex = spr.get("GFX_" + ic) or "gfx/interface/icons/technologies/%s.dds" % ic
+            out.append(dict(key=k, area=area, tier=tier, cats=cats, rare=get(b, "is_rare") == "yes", dangerous=get(b, "is_dangerous") == "yes",
+                            repeat=repeat, start=start, special=special, icon=tex, mods=modlist(b, vc, keys=("modifier",)), file=os.path.basename(f)))
+    return out
+
+EDICT_GRP = {"00_edicts.txt": 1, "01_campaigns.txt": 2, "02_ambitions.txt": 3, "03_sacrifices.txt": 3}   # остальные файлы (DLC) — 4
+def edicts(vc, spr):
+    """11.7: указы игры — [{key, grp, perpetual, icon, req, mods, file}]."""
+    out = []
+    for k, (b, f) in top(os.path.join(vc, "edicts/*.txt")).items():
+        ln = str(get(b, "length") or "")
+        pot = get(b, "potential")
+        req = resolve(ser(pot), vc) if isinstance(pot, list) and pot else None
+        ic = (get(b, "icon") or "").strip('"')
+        out.append(dict(key=k, grp=EDICT_GRP.get(f, 4), perpetual=ln in ("@EdictPerpetual", "-1"), icon=spr.get(ic) if ic.startswith("GFX_") else (ic or None),
+                        req=[req] if req else [], mods=modlist(b, vc), file=f))
+    return out

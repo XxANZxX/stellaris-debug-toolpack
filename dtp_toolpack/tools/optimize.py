@@ -108,6 +108,8 @@ def intern(btns, eff_depth, min_len=40, call_len=14):
     def good(key):
         c, L = cnt.get(key, 0), len(key[1])
         if "[" in key[1]: return False            # «[» в scripted_effects игра читает как макрос
+        if key[0] == "E" and "dtp_act" in key[1]: return False
+        if key[0] == "T" and os.environ.get("DTP_NO_TINTERN"): return False     # замер памяти: без общих условий   # 11.7.3: заглушка «номер действия → событие» крошечная; общий эффект ради неё — лишние 3000 определений
         return c >= 2 and L >= min_len and (c - 1) * L > c * call_len + 20
     def call(key, body_nodes):
         if key not in made:

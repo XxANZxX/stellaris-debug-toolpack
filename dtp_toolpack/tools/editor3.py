@@ -63,25 +63,26 @@ GSPR = {}
 def gspr(tex):
     if not tex: return None
     return GAME_SPR.setdefault(tex, "GFX_dtp_gi_" + re.sub(r"\W", "_", tex.split("/")[-1][:-4]))
-def card(name, ru, en, x, y, w, pot, tex, has, ok, effect, p, tt_ru, tt_en, sp=False, need=None, soft=None):
+def card(name, ru, en, x, y, w, pot, tex, has, ok, effect, p, tt_ru, tt_en, sp=False, need=None, soft=None, light=False):
     """Карточка как в редакторе игры: значок игры + название; зелёная рамка — есть у A; красный знак — игра запрещает."""
     allow = need_perm(p) + "\n" + (need or N_TC())
     okall = B("AND", ok, soft) if soft else ok      # soft — правило только для обычного режима (очки этик): в принудительном не считается
     if ok is not None: allow += "\n" + LOCKED(B("OR", has, okall) if has else okall)
     pad = "              " if tex else "  "        # 11.2.5: в русском шрифте пробел уже — отступ больше (текст наезжал на значок)
-    k = eb(name, pad + ru, pad + en, x, y, w, ECH, pot=pot, allow=allow, effect=effect, tt=(tt_ru, tt_en), left=True, sprite="GFX_dtp_ec" if tex else "GFX_dtp_btn")
+    k = eb(name, pad + ru, pad + en, x, y, w, ECH, pot=pot, allow=allow, effect=effect, tt=(tt_ru, tt_en), left=True, sprite=("GFX_dtp_ecl" if light else "GFX_dtp_ec") if tex else "GFX_dtp_btn")
     GUI[-1]["quiet"] = True              # карточек сотни — без звука щелчка файл окна меньше
     if tex:
         g = dict(GUI[-1]); m = dict(META[-1])
         GUI.append(dict(g, key=k + "_ic", x=x + 5, y=y + 4, w=30, h=30, sprite=gspr(tex), label=True, eff=k, left=False, transp=True, tt=None))
         META.append(dict(m, key=k + "_ic", x=x + 5, y=y + 4, w=30, h=30, sprite=gspr(tex), label=True, text=""))
         L[k + "_ic"] = ""
-    # рамка и метка лежат поверх карточки: если игра не пропустит щелчок сквозь них (alwaysTransparent), они делают то же, что карточка
+    # 11.7.4: рамка и метка — только картинка поверх карточки: alwaysTransparent пропускает щелчок и наведение к карточке
+    # (проверено в 11.6 на плашке окна). Раньше они повторяли условия и действие карточки — 4,5 тыс. лишних копий (~100 МБ).
     if has:
-        eb(name + "_h", "", "", x, y, w, ECH, pot=pot + "\n" + has, allow=allow, effect=effect, tt=(tt_ru, tt_en), sprite="GFX_dtp_sg", transp=True)
+        eb(name + "_h", "", "", x, y, w, ECH, pot=pot + "\n" + has, sprite="GFX_dtp_sg", transp=True, label=True); GUI[-1]["passthru"] = True
     if ok is not None and (soft or _OKN.get(re.search(r"T = (\w+)", ok).group(1)) != "trivial"):
         bad = ("NOT = { %s }" % ok) if not soft else B("OR", "NOT = { %s }" % ok, B("AND", "NOT = { %s }" % FORCE_FROM, "NOT = { %s }" % soft))
-        eb(name + "_x", "", "", x + w - 20, y + 3, 17, 17, pot=pot + "\ndtp_has_tc = yes\n" + bad, allow=allow, effect=effect, sprite="GFX_dtp_sr", transp=True)
+        eb(name + "_x", "", "", x + w - 20, y + 3, 17, 17, pot=pot + "\ndtp_has_tc = yes\n" + bad, sprite="GFX_dtp_sr", transp=True, label=True); GUI[-1]["passthru"] = True
     return k
 def slot(i, cols=ECOLS, w=None, row0=0, x0=EX0, cw=None):
     w = w or ECW
@@ -143,7 +144,8 @@ eb("close", "✕", "✕", EW - 54, 14, 40, 36, pot=EDP(), effect=B("from", "remo
    tt=("Закрыть редактор.", "Close the editor."))
 ETABS = [(1, "Этика и правление", "Ethics & authority"), (2, "Гражданские модели", "Civics"), (3, "Традиции", "Traditions"),
          (4, "Перки возвышения", "Ascension perks"), (5, "Политика", "Policies"), (6, "Черты вида", "Species traits"),
-         (7, "Права вида", "Species rights"), (10, "Портрет вида", "Species portrait"), (8, "Облик и название", "Look & name"), (9, "Модификаторы", "Modifiers")]
+         (7, "Права вида", "Species rights"), (10, "Портрет вида", "Species portrait"), (8, "Облик и название", "Look & name"), (11, "Лидеры", "Leaders"),
+         (12, "Технологии", "Technologies"), (13, "Указы", "Edicts"), (9, "Модификаторы", "Modifiers")]
 ETT = {1: ("Этики державы (обычные и фанатичные), коллективное сознание и форма правления.", "Empire ethics (regular and fanatic), gestalt consciousness and authority."),
        2: ("Все гражданские модели игры: обычные, корпоративные, коллективного разума, машинные и особые.", "All civics in the game: regular, corporate, hive mind, machine and special."),
        3: ("Деревья традиций: принять целиком или убрать.", "Tradition trees: adopt fully or remove."),
@@ -153,18 +155,28 @@ ETT = {1: ("Этики державы (обычные и фанатичные), 
        7: ("Гражданство, уровень жизни, служба, рабство, чистки основного вида A.", "Citizenship, living standard, service, slavery, purge of A's main species."),
        10: ("Класс вида и все портреты класса — как в редакторе вида игры.", "Species class and all portraits of the class — like the game's species editor."),
        8: ("Облик кораблей и городов, флаг, название державы и вида.", "Ship and city style, flag, empire and species name."),
-       9: ("Бонусы и штрафы державы A: свои модификаторы Toolpack и модификаторы самой игры.", "Bonuses and penalties for empire A: Toolpack modifiers and the game's own modifiers.")}
+       9: ("Бонусы и штрафы державы A: свои модификаторы Toolpack и модификаторы самой игры.", "Bonuses and penalties for empire A: Toolpack modifiers and the game's own modifiers."),
+       11: ("Лидеры державы A: выбрать лидера, изменить уровень, возраст, класс, черты; создать, передать или убить лидера.", "Leaders of empire A: pick a leader, change level, age, class, traits; create, give away or kill a leader."),
+       12: ("Технологии державы A: изучить по одной или разом по областям и уровням, завершить текущие исследования.", "Technologies of empire A: research one by one or in bulk by area and tier, finish current research."),
+       13: ("Указы державы A: включить любой указ, кампанию или амбицию бесплатно.", "Edicts of empire A: enact any edict, campaign or ambition for free.")}
 ESUB = {1: ("этики · коллективное сознание · правление", "ethics · gestalt · authority"), 2: ("как при создании державы", "as in empire creation"),
         3: ("деревья целиком", "whole trees"), 4: ("добавить или убрать", "add or remove"), 5: ("вариант каждой политики", "an option for each policy"),
         6: ("черты выбранного вида державы A", "traits of the selected species of A"), 7: ("права выбранного вида державы A", "rights of the selected species of A"), 10: ("класс · все портреты класса", "class · all portraits of the class"),
-        8: ("корабли · города · флаг · название", "ships · cities · flag · name"), 9: ("бонусы и штрафы державы A", "bonuses and penalties of empire A")}
+        8: ("корабли · города · флаг · название", "ships · cities · flag · name"), 9: ("бонусы и штрафы державы A", "bonuses and penalties of empire A"),
+        11: ("лидер · черты · уровень · возраст", "leader · traits · level · age"),
+        12: ("изучить по одной или разом", "one by one or in bulk"), 13: ("включить бесплатно", "enact for free")}
+# 11.7: вкладка «Лидеры» — лидер в редакторе: общая цель dtp_lv (редактор открыт только у одного игрока; dtp_vsync сбрасывает её,
+# если лидер не из державы A). При открытии вкладки без выбранного лидера выбирается правитель A.
+LV_AUTO = B("if", B("limit", "NOT = { exists = event_target:dtp_lv }", "exists = event_target:dtp_t"),
+            B("event_target:dtp_t", B("if", B("limit", "exists = ruler"), B("ruler", "save_global_event_target_as = dtp_lv"))))
 lab("ed_navbg", "", 8, 64, 206, h=EH - 72, potential=B("from", EDOPEN), where="editor"); GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_frame"
 elab("navh", "§gРАЗДЕЛЫ§!", "§gSECTIONS§!", 22, 70, 180, pot=EDP(), h=22)
 for i, (t, ru, en) in enumerate(ETABS):
     y = 96 + i * 42
     eb("tab%d_on" % t, ru, en, 14, y, 194, 38, pot=EDP(t), sprite="GFX_dtp_ednav_on", tt=ETT[t])
     eb("tab%d" % t, ru, en, 14, y, 194, 38, pot=EDP(extra=B("from", "NOT = { %s }" % chk("dtp_edtab", t))),
-       effect=B("from", setv("dtp_edtab", t), setv("dtp_edcat", 1), setv("dtp_edpg", 1)) + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes" if t in (6, 7, 10) else ""), sprite="GFX_dtp_ednav", tt=ETT[t])
+       effect=B("from", setv("dtp_edtab", t), setv("dtp_edcat", 1), setv("dtp_edpg", 1)) + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes" if t in (6, 7, 10) else "")
+           + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes\n" + LV_AUTO if t == 11 else ""), sprite="GFX_dtp_ednav", tt=ETT[t])
     # шапка раздела — баннер, как в главной панели (значок раздела — значок самой игры)
     lab("ed_ban%d" % t, "", EX0, 62, EXW, h=40, potential=B("from", EDOPEN, chk("dtp_edtab", t)), where="editor"); GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_ebanner_%d" % t
     elab("bt%d" % t, ru.upper(), en.upper(), EX0 + 50, 66, 500, pot=EDP(t), h=30, font="large_title_font")
@@ -408,33 +420,34 @@ TRG.append(B("dtp_esl_sel", orchain(lambda k: "exists = event_target:dtp_esl_$J$
 TRG.append(B("dtp_tsp_none", orchain(lambda k: "NOT = { exists = event_target:dtp_tsp_%d }" % k)))
 ESL_FILL = INIT + "\ndtp_load = yes\ndtp_esl_fill = yes"
 _PY = EY0 - 42                                 # строка выбора вида
-_pw = (EXW - 52 - 2 * 40 - 120 - 124 - 6 * (ESL_PG + 3)) // ESL_PG
+def _spk_row(pre, px, py, potf, tsel, tpick):
+    """Строка выбора вида державы A: ‹ Основной [вид 1..4] › Обновить. potf(extra) — условие показа. 11.7.2: та же строка — во вкладке «Лидеры»."""
+    pw = (EX0 + EXW - px - 2 * 40 - 120 - 124 - 6 * (ESL_PG + 3)) // ESL_PG
+    eb(pre + "_prev", "‹", "‹", px, py, 40, 34, pot=potf(B("from", chk("dtp_espg", 1, ">"))), effect=B("from", "change_variable = { which = dtp_espg value = -1 }"),
+       tt=("Предыдущие виды державы A.", "Previous species of empire A."))
+    eb(pre + "_main_on", "Основной", "Main", px + 46, py, 120, 34, pot=potf("dtp_tsp_none = yes"), sprite="GFX_dtp_btn_on",
+       tt=("Выбран основной вид державы A.", "Empire A's main species is selected."))
+    eb(pre + "_main", "Основной", "Main", px + 46, py, 120, 34, pot=potf("NOT = { dtp_tsp_none = yes }"),
+       effect=chain(lambda k: B("if", B("limit", "exists = event_target:dtp_tsp_%d" % k), "clear_global_event_target = dtp_tsp_%d" % k), None),
+       tt=("Выбрать основной вид державы A.", "Pick empire A's main species."))
+    for j in range(1, ESL_N + 1):
+        pgj = (j - 1) // ESL_PG + 1
+        x = px + 46 + 126 + ((j - 1) % ESL_PG) * (pw + 6)
+        pe = "exists = event_target:dtp_esl_%d" % j
+        pot_pg = B("from", chk("dtp_espg", pgj)) if pgj > 1 else B("from", B("OR", chk("dtp_espg", 1), "NOT = { is_variable_set = dtp_espg }"))
+        eb(pre + "%d_on" % j, "[dtp_esl_%d.GetName]" % j, "[dtp_esl_%d.GetName]" % j, x, py, pw, 34, pot=potf(pot_pg + "\n" + pe + "\ndtp_esl_sel = { J = %d }" % j), sprite="GFX_dtp_btn_on", tt=tsel)
+        eb(pre + "%d" % j, "[dtp_esl_%d.GetName]" % j, "[dtp_esl_%d.GetName]" % j, x, py, pw, 34, pot=potf(pot_pg + "\n" + pe + "\nNOT = { dtp_esl_sel = { J = %d } }" % j),
+           effect=B("if", B("limit", pe), chain(lambda k, j=j: B("event_target:dtp_esl_%d" % j, "save_global_event_target_as = dtp_tsp_%d" % k), None)), tt=tpick)
+    nx = px + 46 + 126 + ESL_PG * (pw + 6)
+    eb(pre + "_next", "›", "›", nx, py, 40, 34, pot=potf(B("OR", *[B("AND", B("from", chk("dtp_espg", p_) if p_ > 1 else B("OR", chk("dtp_espg", 1), "NOT = { is_variable_set = dtp_espg }")),
+                                                                     "exists = event_target:dtp_esl_%d" % (p_ * ESL_PG + 1)) for p_ in range(1, ESL_N // ESL_PG)])),
+       effect=B("from", B("if", B("limit", "NOT = { is_variable_set = dtp_espg }"), setv("dtp_espg", 1)), "change_variable = { which = dtp_espg value = 1 }"),
+       tt=("Следующие виды державы A.", "Next species of empire A."))
+    eb(pre + "_refresh", "Обновить", "Refresh", nx + 46, py, EX0 + EXW - nx - 46, 34, pot=potf(""), effect=ESL_FILL, sprite="GFX_dtp_btn_go",
+       tt=("Перечитать виды державы A (список заполняется сам при входе в раздел).", "Re-read empire A's species (the list fills itself when you open the section)."))
 elab("spk_l", "§YВИД:§!", "§YSPECIES:§!", EX0, _PY + 8, 50, pot=EDPS(), h=22)
-_px = EX0 + 52
-eb("spk_prev", "‹", "‹", _px, _PY, 40, 34, pot=EDPS(B("from", chk("dtp_espg", 1, ">"))), effect=B("from", "change_variable = { which = dtp_espg value = -1 }"),
-   tt=("Предыдущие виды державы A.", "Previous species of empire A."))
-eb("spk_main_on", "Основной", "Main", _px + 46, _PY, 120, 34, pot=EDPS("dtp_tsp_none = yes"), sprite="GFX_dtp_btn_on",
-   tt=("Выбран основной вид державы A.", "Empire A's main species is selected."))
-eb("spk_main", "Основной", "Main", _px + 46, _PY, 120, 34, pot=EDPS("NOT = { dtp_tsp_none = yes }"),
-   effect=chain(lambda k: B("if", B("limit", "exists = event_target:dtp_tsp_%d" % k), "clear_global_event_target = dtp_tsp_%d" % k), None),
-   tt=("Менять основной вид державы A.", "Change empire A's main species."))
-for j in range(1, ESL_N + 1):
-    pgj = (j - 1) // ESL_PG + 1
-    x = _px + 46 + 126 + ((j - 1) % ESL_PG) * (_pw + 6)
-    pe = "exists = event_target:dtp_esl_%d" % j
-    pot_pg = B("from", chk("dtp_espg", pgj)) if pgj > 1 else B("from", B("OR", chk("dtp_espg", 1), "NOT = { is_variable_set = dtp_espg }"))
-    eb("spk%d_on" % j, "[dtp_esl_%d.GetName]" % j, "[dtp_esl_%d.GetName]" % j, x, _PY, _pw, 34, pot=EDPS(pot_pg + "\n" + pe + "\ndtp_esl_sel = { J = %d }" % j), sprite="GFX_dtp_btn_on",
-       tt=("Выбран этот вид: черты, права и портрет меняются для него.", "This species is selected: traits, rights and portrait change for it."))
-    eb("spk%d" % j, "[dtp_esl_%d.GetName]" % j, "[dtp_esl_%d.GetName]" % j, x, _PY, _pw, 34, pot=EDPS(pot_pg + "\n" + pe + "\nNOT = { dtp_esl_sel = { J = %d } }" % j),
-       effect=B("if", B("limit", pe), chain(lambda k, j=j: B("event_target:dtp_esl_%d" % j, "save_global_event_target_as = dtp_tsp_%d" % k), None)),
-       tt=("Выбрать этот вид державы A: черты, права и портрет будут меняться для него.", "Pick this species of empire A: traits, rights and portrait will change for it."))
-_nx = _px + 46 + 126 + ESL_PG * (_pw + 6)
-eb("spk_next", "›", "›", _nx, _PY, 40, 34, pot=EDPS(B("OR", *[B("AND", B("from", chk("dtp_espg", p_) if p_ > 1 else B("OR", chk("dtp_espg", 1), "NOT = { is_variable_set = dtp_espg }")),
-                                                                 "exists = event_target:dtp_esl_%d" % (p_ * ESL_PG + 1)) for p_ in range(1, ESL_N // ESL_PG)])),
-   effect=B("from", B("if", B("limit", "NOT = { is_variable_set = dtp_espg }"), setv("dtp_espg", 1)), "change_variable = { which = dtp_espg value = 1 }"),
-   tt=("Следующие виды державы A.", "Next species of empire A."))
-eb("spk_refresh", "Обновить", "Refresh", _nx + 46, _PY, EX0 + EXW - _nx - 46, 34, pot=EDPS(), effect=ESL_FILL, sprite="GFX_dtp_btn_go",
-   tt=("Перечитать виды державы A (список заполняется сам при входе в раздел).", "Re-read empire A's species (the list fills itself when you open the section)."))
+_spk_row("spk", EX0 + 52, _PY, EDPS, ("Выбран этот вид: черты, права и портрет меняются для него.", "This species is selected: traits, rights and portrait change for it."),
+         ("Выбрать этот вид державы A: черты, права и портрет будут меняться для него.", "Pick this species of empire A: traits, rights and portrait will change for it."))
 
 # ================================================================ 6. ЧЕРТЫ ВИДА
 TR_CATS = [(1, "bio", "Органические и литоиды", "Organic & lithoid"), (2, "robot", "Роботы и машины", "Robots & machines"),
@@ -721,12 +734,294 @@ for _f in sorted(os.listdir(os.path.join(VC, "static_modifiers"))):
         while _d and _i < len(_s): _d += {"{": 1, "}": -1}.get(_s[_i], 0); _i += 1
         _ic = re.search(r'icon\s*=\s*"([^"]+\.dds)"', _s[_m.end():_i])
         if _ic: _SMI[_m.group(1)] = _ic.group(1)
+# ================================================================ 11. ЛИДЕРЫ (11.7)
+# Лидер в редакторе — общая цель dtp_lv (см. LV_AUTO и dtp_vsync). Строка выбора лидера — над подразделами, на всех подразделах.
+N_LV = lambda: need("dtp_need_lv", "Выберите лидера: «Следующий», «Правитель» или «Наследник» вверху раздела «Лидеры»", "exists = event_target:dtp_lv")
+tren("Выберите лидера: «Следующий», «Правитель» или «Наследник» вверху раздела «Лидеры»", "Pick a leader: 'Next', 'Ruler' or 'Heir' at the top of the Leaders section")
+TRG.append(B("dtp_lvx", "exists = event_target:dtp_lv", B("event_target:dtp_lv", "$T$ = yes")))
+LVH = "AND = { exists = event_target:dtp_lv event_target:dtp_lv = { %s } }"     # условие на выбранного лидера (для рамок)
+def LVOK(): return need_perm("state") + "\n" + N_TC() + "\n" + N_LV()
+_LY = EY0 - 42
+elab("lv_name", "§Y[dtp_lv.GetName]§!  §g·§! [dtp_lv.GetClass]  §g· уровень§! [dtp_lv.GetSkill]  §g· возраст§! [dtp_lv.GetAge]",
+     "§Y[dtp_lv.GetName]§!  §g·§! [dtp_lv.GetClass]  §g· level§! [dtp_lv.GetSkill]  §g· age§! [dtp_lv.GetAge]", EX0, _LY, 470, pot=EDP(11) + "\nexists = event_target:dtp_lv", h=36)
+elab("lv_none", "§gЛидер не выбран — «Следующий», «Правитель» или «Наследник»§!", "§gNo leader selected — 'Next', 'Ruler' or 'Heir'§!", EX0, _LY, 470,
+     pot=EDP(11) + "\nNOT = { exists = event_target:dtp_lv }", h=36)
+def _lv_next(cls=None):
+    c = ["leader_class = %s" % cls] if cls else []
+    unseen = B("limit", "NOT = { has_leader_flag = dtp_lseen }", *c)
+    return B("event_target:dtp_t",
+             B("if", B("limit", "NOT = { %s }" % B("any_owned_leader", "NOT = { has_leader_flag = dtp_lseen }", *c)),
+               B("every_owned_leader", B("limit", *c) if c else "", "remove_leader_flag = dtp_lseen")),
+             B("random_owned_leader", unseen, "set_leader_flag = dtp_lseen", "save_global_event_target_as = dtp_lv"))
+_SELB = [("lv_next", "▶ Следующий", "▶ Next", 136, _lv_next(), "Выбрать следующего лидера державы A (по кругу, все классы).", "Pick the next leader of empire A (cycles through all classes)."),
+         ("lv_ruler", "Правитель", "Ruler", 120, B("event_target:dtp_t", B("if", B("limit", "exists = ruler"), B("ruler", "save_global_event_target_as = dtp_lv"))),
+          "Выбрать правителя державы A.", "Pick the ruler of empire A."),
+         ("lv_heir", "Наследник", "Heir", 120, B("event_target:dtp_t", B("if", B("limit", "exists = heir"), B("heir", "save_global_event_target_as = dtp_lv"))),
+          "Выбрать наследника державы A (если он есть).", "Pick the heir of empire A (if there is one).")]
+_x = EX0 + 476
+for nm, ru, en, w, body, tr, te in _SELB:
+    eb(nm, ru, en, _x, _LY, w, 36, pot=EDP(11), allow=need_perm("state") + "\n" + N_TC(), effect=act("state", body, 90), tt=(tr, te))
+    _x += w + 6
+LCLS = [("official", "Чиновник", "Official"), ("scientist", "Учёный", "Scientist"), ("commander", "Командир", "Commander")]
+LSUB = [(1, "Лидер", "Leader")] + [(i + 2, ru, en) for i, (_k, ru, en) in enumerate(LCLS)] + [(5, "Общие черты", "Shared traits"), (6, "Отрицательные", "Negative")]
+subtabs(11, LSUB, dy=42)
+# ---- подраздел 1: действия с лидером (строки: подпись слева, кнопки справа)
+_RW = 44
+def lrow(i, ru, en):
+    elab("lr%d" % i, "§Y%s§!" % ru, "§Y%s§!" % en, EX0, EY0 + 44 + i * _RW + 6, 150, pot=EDP(11, 1), h=26)
+    return EY0 + 44 + i * _RW
+def lbtn(nm, ru, en, x, y, w, body, code, tr, te, has=None, sprite="GFX_dtp_btn", lead=True):
+    eff = act("state", B("event_target:dtp_lv", body) if lead else body, code)
+    allow = LVOK() if lead else need_perm("state") + "\n" + N_TC()
+    eb(nm, ru, en, x, y, w, 38, pot=EDP(11, 1), allow=allow, effect=eff, tt=(tr, te), sprite=sprite)
+    if has:
+        eb(nm + "_h", "", "", x, y, w, 38, pot=EDP(11, 1) + "\n" + (LVH % has), sprite="GFX_dtp_sg", transp=True, label=True); GUI[-1]["passthru"] = True
+def lbtns(y, items, x0=EX0 + 156, gap=6):
+    x = x0
+    for it in items:
+        lbtn(*(it[:3] + (x, y, it[3]) + it[4:]))
+        x += it[3] + gap
+# 1) выбрать существующего по классу; 2) создать нового (вид — из строки «Вид» ниже)
+y = lrow(0, "Выбрать", "Pick")
+lbtns(y, [("lv_n_%s" % k, "▶ %s" % ru, "▶ %s" % en, 150, _lv_next(k), 90,
+           "Выбрать для правки следующего лидера державы A класса «%s» (по кругу). Новых лидеров не создаёт." % ru,
+           "Pick the next existing %s of empire A for editing (in a loop). Does not create anyone." % en.lower(), None, "GFX_dtp_btn", False)
+          for k, ru, en in LCLS])
+y = lrow(1, "Создать нового", "Create new")
+lbtns(y, [("lv_c_%s" % k, "+ %s" % ru, "+ %s" % en, 150, "dtp_sp_load = yes\n" + B("event_target:dtp_t", B("create_leader", "class = %s" % k, "species = event_target:dtp_sp", "name = random", "skill = 1"),
+                                                                             B("last_created_leader", "save_global_event_target_as = dtp_lv")), 50,
+           "Создать НОВОГО лидера класса «%s» в державе A и сразу выбрать его. Вид — выбранный в строке «Вид» (по умолчанию — основной вид A)." % ru,
+           "Create a NEW %s in empire A and select them. Species — the one picked in the Species row (A's main species by default)." % en.lower(), None, "GFX_dtp_btn", False) for k, ru, en in LCLS])
+# 2) уровень
+y = lrow(2, "Уровень", "Level")
+lbtns(y, [("lv_lvl%d" % n, str(n), str(n), 44, "set_skill = %d" % n, 91, "Уровень лидера: %d." % n, "Leader level: %d." % n) for n in range(1, 11)] +
+         [("lv_xp", "+1000 опыта", "+1000 XP", 126, "add_experience = 1000", 91, "Добавить лидеру 1000 опыта (уровни и выбор черт — как в игре).", "Give the leader 1000 experience (levels and trait picks as in the game).")])
+# 3) возраст и бессмертие
+y = lrow(3, "Возраст", "Age")
+lbtns(y, [("lv_age%d" % a, str(a), str(a), 44, "set_age = %d" % a, 91, "Возраст лидера: %d." % a, "Leader age: %d." % a) for a in (25, 35, 50, 70, 90)] +
+         [("lv_imm1", "Бессмертен", "Immortal", 118, "set_immortal = yes", 91, "Сделать лидера бессмертным.", "Make the leader immortal.", "is_immortal = yes"),
+          ("lv_imm0", "Смертен", "Mortal", 96, "set_immortal = no", 91, "Снять бессмертие, выданное скриптом (бессмертие вида не снимается).", "Remove script-granted immortality (species immortality stays).", "is_immortal = no"),
+          ("lv_frz1", "Не стареет", "No aging", 112, "freeze_leader_age = yes", 91, "Остановить старение лидера.", "Stop the leader from aging."),
+          ("lv_frz0", "Стареет", "Ages", 96, "freeze_leader_age = no", 91, "Вернуть старение лидера.", "Let the leader age again.")])
+# 4) класс и пол
+y = lrow(4, "Класс · пол", "Class · gender")
+lbtns(y, [("lv_cl_%s" % k, ru, en, 112, "change_leader_class = %s" % k, 91, "Сменить класс лидера на «%s»." % ru, "Change the leader's class to %s." % en, "leader_class = %s" % k) for k, ru, en in LCLS] +
+         [("lv_g_%s" % g, ru, en, 104, "set_gender = %s" % g, 91, "Пол лидера: %s." % ru.lower(), "Leader gender: %s." % en.lower(), "gender = %s" % g)
+          for g, ru, en in (("male", "Мужской", "Male"), ("female", "Женский", "Female"), ("indeterminable", "Без пола", "None"))], gap=6)
+# 5) ранг
+y = lrow(5, "Ранг", "Rank")
+lbtns(y, [("lv_t_%s" % k.split("_")[-1], ru, en, 150, "set_leader_tier = %s" % k, 91, "Ранг лидера: %s." % ru.lower(), "Leader rank: %s." % en.lower(), "is_leader_tier = %s" % k)
+          for k, ru, en in (("leader_tier_default", "Обычный", "Regular"), ("leader_tier_renowned", "Прославленный", "Renowned"), ("leader_tier_legendary", "Легендарный", "Legendary"))])
+# 6) должность
+y = lrow(6, "Должность", "Post")
+lbtns(y, [("lv_unas", "Снять с должности", "Unassign", 190, "unassign_leader = this", 91, "Снять лидера с флота, планеты, сектора или армии.", "Remove the leader from their fleet, planet, sector or army."),
+          ("lv_uncl", "Убрать из совета", "Remove from council", 190, "remove_from_empire_council = yes", 91, "Убрать лидера из совета державы.", "Remove the leader from the empire council.")])
+# 7) черты разом
+y = lrow(7, "Черты", "Traits")
+lbtns(y, [("lv_rc", "+ случайная", "+ random", 120, "add_trait = { trait = random_common show_message = no }", 92, "Добавить случайную обычную черту.", "Add a random common trait."),
+          ("lv_rn", "+ отрицательная", "+ negative", 140, "add_trait = { trait = random_negative show_message = no }", 92, "Добавить случайную отрицательную черту.", "Add a random negative trait."),
+          ("lv_xn", "− отрицательные", "− negative", 140, "remove_all_negative_traits = yes", 92, "Убрать все отрицательные черты.", "Remove all negative traits."),
+          ("lv_xp2", "− положительные", "− positive", 140, "remove_all_positive_traits = yes", 92, "Убрать все положительные черты.", "Remove all positive traits."),
+          ("lv_xa", "− все", "− all", 80, "remove_all_traits = yes", 92, "Убрать все черты лидера.", "Remove all of the leader's traits.")])
+# 9) вид: тот же список видов державы A, что в «Чертах вида» (выбор общий)
+y = lrow(8, "Вид", "Species")
+_spk_row("lspk", EX0 + 156, y + 2, lambda extra="": EDP(11, 1, extra=extra),
+         ("Выбран этот вид: из него создаются новые лидеры и его получает лидер по кнопке «Вид лидера → выбранный».",
+          "This species is selected: new leaders are created of it, and «Leader species → picked» gives it to the leader."),
+         ("Выбрать этот вид державы A для новых лидеров и для кнопки «Вид лидера → выбранный».", "Pick this species of empire A for new leaders and for «Leader species → picked»."))
+# 10) прочее: вид, передача B, смерть
+y = lrow(9, "Прочее", "Other")
+lbtn("lv_sp", "Вид лидера → выбранный", "Leader species → picked", EX0 + 156, y, 210, "dtp_sp_load = yes\n" + B("event_target:dtp_lv", "change_species = event_target:dtp_sp"), 91,
+     "Сменить вид лидера на вид, выбранный в строке «Вид» (по умолчанию — основной вид A).", "Change the leader's species to the one picked in the Species row (A's main species by default).", lead=False)
+_gv = act("state", B("event_target:dtp_lv", "set_owner = event_target:dtp_r"), 93)
+eb("lv_give", "Передать получателю B", "Give to recipient B", EX0 + 372, y, 220, 38, pot=EDP(11, 1), allow=LVOK() + "\n" + N_RCP(), effect=_gv,
+   tt=("Передать лидера получателю B (выбирается в панели DTP, раздел «Держава»).", "Give the leader to recipient B (picked in the DTP panel, Empire section)."))
+eb("lv_kill", "Убить лидера", "Kill leader", EX0 + 598, y, 180, 38, pot=EDP(11, 1), allow=LVOK(),
+   effect=act("state", B("event_target:dtp_lv", "kill_leader = { show_notification = no }"), 94), sprite="GFX_dtp_btn_danger",
+   tt=("Лидер умрёт. Это нельзя отменить.", "The leader dies. This cannot be undone."))
+# ---- подразделы 2–6: черты (карточки: значок черты игры, зелёная рамка — есть у лидера, красная метка — не для класса лидера)
+_LTS = _ed.leader_traits(VC, _SPRT)
+_LKIND = {k: (ru, en) for k, ru, en in _ed.LT_MODS}
+def _ltmods(it, lang):
+    out = []
+    for blk, mods in it["mods"]:
+        txt = MODS(mods, "§g%s:§!\n" % _LKIND[blk][lang])
+        if txt: out.append(txt)
+    return "".join(out)
+_CLSOK = {}
+def _clsok(classes):
+    key = "_".join(c[:3] for c in classes)
+    if key not in _CLSOK:
+        _CLSOK[key] = nm = "dtp_lc_" + key
+        TRG.append(B(nm, B("OR", *["leader_class = %s" % c for c in classes])))
+        _OKN[nm] = 1
+    return "dtp_lvx = { T = %s }" % _CLSOK[key]
+def _lt_cat(it):
+    if it["cat"] == "negative": return 6
+    if len(it["classes"]) == 1: return {"official": 2, "scientist": 3, "commander": 4}[it["classes"][0]]
+    return 5
+_CLSRU = dict((k, ru) for k, ru, en in LCLS); _CLSEN = dict((k, en) for k, ru, en in LCLS)
+# у ступеней черт (_2, _3) своего названия в переводе игры нет — игра показывает название основной черты (replace_traits) со ступенью
+_LTLOC = json.load(open(os.path.join(os.path.dirname(os.path.abspath(_ed.__file__)), "i18n", "game_ltrait_loc.json"), encoding="utf-8"))
+_LTBY = {it["key"]: it for it in _LTS}
+_ROMAN = {2: "II", 3: "III", 4: "IV", 5: "V"}
+# 11.7.2: названия, собранные игрой из [скриптовой локализации] лидера — в окне державы дают «Wrong scope» в error.log; берём их обычный вариант
+_LTNAME_FIX = {"leader_trait_backup_clone": "leader_trait_backup_clone_default", "trait_imperial_heir": "imperial_heir",
+               "leader_trait_salvager": "leader_trait_salvager_regular", "leader_trait_chosen": "leader_trait_chosen_default", "leader_trait_ruler_hive_mind": "RULER"}
+def _ltname(it):
+    """(ключ названия, ключ описания или None, суффикс ступени)"""
+    k, seen = it["key"], set()
+    if k in _LTNAME_FIX:
+        return _LTNAME_FIX[k], (k + "_desc" if _LTLOC.get(k, [True, True])[1] else None), ""
+    base = k
+    if not _LTLOC.get(k, [True, True])[0]:
+        # нет своего названия: идём по цепочке replace_traits до корня (у _2 название уже содержит «II»)
+        chain = [k]
+        while _LTBY.get(chain[-1], {}).get("repl") and chain[-1] not in seen:
+            seen.add(chain[-1]); chain.append(_LTBY[chain[-1]]["repl"][0])
+        base = next((c for c in reversed(chain) if _LTLOC.get(c, [True, True])[0]), chain[-1])
+    suf = ""
+    if base != k:
+        m = re.search(r"_(\d)$", k); n = int(m.group(1)) if m else (it["tier"] or 2)
+        suf = " " + _ROMAN.get(n, str(n))
+    desc_base = base
+    base = _LTNAME_FIX.get(base, base)       # 11.7.4: и у ступеней II/III таких черт (backup_clone_2 → «Лидер-клон II»)
+    name_ok = _LTLOC.get(base, [True, True])[0] if base == desc_base else True
+    desc = desc_base + "_desc" if _LTLOC.get(desc_base, [True, True])[1] else None
+    return (base if name_ok else None), desc, suf
+def mk(i, it, x, y, w, pot):
+    k = it["key"]
+    nk, dk, suf = _ltname(it)
+    nm = ("$%s$%s" % (nk, suf)) if nk else re.sub(r"^(leader_trait_|trait_ruler_|trait_|subclass_)", "", k).replace("_", " ").capitalize()
+    desc = ("\n$%s$" % dk) if dk else ""
+    has = LVH % ("has_trait = %s" % k)
+    ok = _clsok(it["classes"]) if len(it["classes"]) < 3 else None
+    body = B("event_target:dtp_lv", B("if", B("limit", "has_trait = %s" % k), "remove_trait = %s" % k), B("else", "add_trait = { trait = %s show_message = no }" % k))
+    cls_ru = ", ".join(_CLSRU[c] for c in it["classes"]); cls_en = ", ".join(_CLSEN[c] for c in it["classes"])
+    card("lt_" + k, nm, nm, x, y, w, pot, it["icon"], has, ok, act("state", body, 92), "state",
+         "§Y%s§!  §g(%s)§!%s%s\n\n§gНажмите: добавить черту лидеру; если уже есть — убрать.§!" % (nm, cls_ru, desc, _ltmods(it, 0)),
+         "§Y%s§!  §g(%s)§!%s%s\n\n§gClick: add the trait to the leader; if present — remove it.§!" % (nm, cls_en, desc, _ltmods(it, 1)),
+         need=N_TC() + "\n" + N_LV(), light="leader_trait_icons" in (it["icon"] or ""))
+for _c in range(2, 7):
+    _items = sorted([it for it in _LTS if _lt_cat(it) == _c], key=lambda it: (it["cat"] != "basic", it["key"]))
+    grid_items(11, _c, _items, mk, dy=44)
+print("редактор: черт лидеров %d (%s)" % (len(_LTS), ", ".join("%d: %d" % (c, sum(1 for it in _LTS if _lt_cat(it) == c)) for c in range(2, 7))))
+
+# ================================================================ 12. ТЕХНОЛОГИИ (11.7): действия разом + карточки по областям; убрать технологию игра не умеет
+_TCH = _ed.technologies(VC, _SPRT)
+_TEL = json.load(open(os.path.join(os.path.dirname(os.path.abspath(_ed.__file__)), "i18n", "game_techedict_loc.json"), encoding="utf-8"))
+TAREA = [("physics", "Физика", "Physics"), ("society", "Общество", "Society"), ("engineering", "Инженерия", "Engineering")]
+_TAR = {k: (ru, en) for k, ru, en in TAREA}
+TSUB = [(1, "Действия", "Actions")] + [(i + 2, ru, en) for i, (_k, ru, en) in enumerate(TAREA)] + [(5, "Повторяемые", "Repeatable"), (6, "Особые", "Special")]
+subtabs(12, TSUB)
+def _t_cat(it):
+    if it["repeat"]: return 5
+    if it["special"]: return 6
+    return {"physics": 2, "society": 3, "engineering": 4}[it["area"]]
+# разом: «уровни 0…N области» — общие эффекты на каждую пару (область, уровень); без принудительного режима — только то, что держава может получить
+TFORCE = B("if", B("limit", B("from", "dtp_force_active = yes")), B("event_target:dtp_t", "set_country_flag = dtp_tforce"))
+def _tg(k):
+    return B("if", B("limit", "NOT = { has_technology = %s }" % k, B("OR", "has_country_flag = dtp_tforce", "can_research_technology = %s" % k)),
+             "give_technology = { tech = %s message = no }" % k)
+for _a, _ru, _en in TAREA:
+    for _tr in range(0, 6):
+        _ks = sorted(it["key"] for it in _TCH if it["area"] == _a and it["tier"] == _tr and not it["repeat"] and not it["special"])
+        EFF.append(B("dtp_tgv_%s_%d" % (_a, _tr), *([_tg(k) for k in _ks] or ['log = "DTP: no techs"'])))
+_TROW = 44
+def trow(i, ru, en):
+    elab("tr%d" % i, "§Y%s§!" % ru, "§Y%s§!" % en, EX0, EY0 + i * _TROW + 6, 150, pot=EDP(12, 1), h=26)
+    return EY0 + i * _TROW
+def tbtn(nm, ru, en, x, y, w, body, code, tr, te, extra_allow="", sprite="GFX_dtp_btn"):
+    eb(nm, ru, en, x, y, w, 38, pot=EDP(12, 1), allow=need_perm("state") + "\n" + N_TC() + extra_allow, effect=act("state", body, code), tt=(tr, te), sprite=sprite)
+def _tbulk(areas, n):
+    calls = ["dtp_tgv_%s_%d = yes" % (a, tr) for tr in range(0, n + 1) for a in areas]
+    return TFORCE + "\n" + B("event_target:dtp_t", *calls, "remove_country_flag = dtp_tforce")
+y = trow(0, "Текущие", "Current")
+_x = EX0 + 156
+for nm, ru, en, w, e, tr, te in (("t_fin", "Завершить все", "Finish all", 170, "finish_all_researches = yes", "Мгновенно завершить все текущие исследования державы A.", "Instantly finish all current research of empire A."),
+                                 ("t_p25", "+25%", "+25%", 90, "progress_all_researches = 0.25", "Продвинуть текущие исследования A на четверть.", "Advance A's current research by a quarter."),
+                                 ("t_p50", "+50%", "+50%", 90, "progress_all_researches = 0.5", "Продвинуть текущие исследования A на половину.", "Advance A's current research by half.")):
+    tbtn(nm, ru, en, _x, y, w, B("event_target:dtp_t", e), 97, tr, te); _x += w + 6
+_TLV = [(1, "Ур. 0–1", "Tier 0–1"), (2, "До 2", "Up to 2"), (3, "До 3", "Up to 3"), (4, "До 4", "Up to 4"), (5, "Все уровни", "All tiers")]
+for _i, (_areas, ru, en, gru, gen_) in enumerate([(["physics"], "Физика", "Physics", "области «Физика»", "Physics"), (["society"], "Общество", "Society", "области «Общество»", "Society"),
+                                                  (["engineering"], "Инженерия", "Engineering", "области «Инженерия»", "Engineering"),
+                                                  ([a for a, _r, _e in TAREA], "Все области", "All areas", "всех трёх областей", "all three areas")]):
+    y = trow(1 + _i, ru, en)
+    _x = EX0 + 156
+    for n, lru, len_ in _TLV:
+        w = 150 if n == 5 else 112
+        tbtn("t_%d_%d" % (_i, n), lru, len_, _x, y, w, _tbulk(_areas, n), 96,
+             "Изучить все обычные технологии %s уровней 0–%d (без повторяемых и особых), без затрат. Без принудительного режима — только те, что держава A может получить по правилам игры; в принудительном — все." % (gru, n),
+             "Research all regular technologies of %s, tiers 0–%d (no repeatable or special ones), for free. Without force mode — only those empire A may get by the game's rules; in force mode — all." % (gen_, n))
+        _x += w + 6
+_REP = sorted(it["key"] for it in _TCH if it["repeat"])
+y = trow(5, "Повторяемые", "Repeatable")
+tbtn("t_rep1", "+1 уровень всех", "+1 level of all", EX0 + 156, y, 190, B("event_target:dtp_t", *["give_technology = { tech = %s message = no }" % k for k in _REP]), 96,
+     "Дать державе A следующий уровень каждой повторяемой технологии (%d шт.)." % len(_REP), "Give empire A the next level of every repeatable technology (%d)." % len(_REP))
+y = trow(6, "Чужие", "Others'")
+tbtn("t_copy", "Все технологии получателя B", "All techs of recipient B", EX0 + 156, y, 290, B("event_target:dtp_t", "copy_techs_from = { target = event_target:dtp_r }"), 96,
+     "A получает технологии, которые есть у получателя B (правила игры учитываются: недоступные A технологии не копируются).",
+     "A gets the technologies recipient B has (the game's rules apply: techs A cannot have are not copied).", extra_allow="\n" + N_RCP())
+elab("t_note", "§gИзученную технологию игра убрать не позволяет.§!", "§gThe game cannot remove a researched technology.§!", EX0, EY0 + 7 * _TROW + 10, EXW, pot=EDP(12, 1), h=26)
+elab("t_note2", "§gОсобые технологии (Павших империй, событий) — по одной во вкладке «Особые».§!", "§gSpecial techs (Fallen Empires, events) — one by one in the Special tab.§!",
+     EX0, EY0 + 7 * _TROW + 38, EXW, pot=EDP(12, 1), h=26)
+# карточки
+def mk(i, it, x, y, w, pot):
+    k = it["key"]
+    TRG.append(B("dtp_has_th_%s" % k, "has_technology = %s" % k))
+    has = "dtp_tcx = { T = dtp_has_th_%s }" % k
+    ok = None      # 11.7.2: без красной метки — «нельзя изучить» у игры значит и «нет предыдущих технологий», метка была почти на всех; правила игры соблюдают кнопки «разом»
+    nm = "$%s$" % k if _TEL.get(k, [True])[0] else k
+    desc = ("\n$%s_desc$" % k) if _TEL.get(k, [True, True])[1] else ""
+    # область и направление — названиями самой игры ($PHYSICS$, $computing$): строка подсказки одна на все технологии (и для перевода)
+    cats = ", ".join("$%s$" % c_ for c_ in it["cats"])
+    tags = [("§Mредкая технология§!", "§Mrare technology§!")] if it["rare"] else []
+    tags += [("§Rопасная технология§!", "§Rdangerous technology§!")] if it["dangerous"] else []
+    tags += [("§Hособая: обычно не выпадает в исследованиях§!", "§Hspecial: normally not offered for research§!")] if it["special"] else []
+    def info(lang):
+        head = "§g($%s$%s · %s %d)§!" % (it["area"].upper(), (" / " + cats) if cats else "", ("уровень", "tier")[lang], it["tier"])
+        return head + "".join("\n" + tg[lang] for tg in tags)
+    if it["repeat"]:
+        body = B("event_target:dtp_t", "give_technology = { tech = %s message = no }" % k)
+        hr, he = "§gНажмите: следующий уровень технологии (повторно — ещё уровень).§!", "§gClick: the next level of the technology (click again for one more).§!"
+    else:
+        body = B("event_target:dtp_t", B("if", B("limit", "NOT = { has_technology = %s }" % k), "give_technology = { tech = %s message = no }" % k))
+        hr, he = "§gНажмите: изучить технологию. Убрать изученную игра не позволяет.§!", "§gClick: research the technology. The game cannot remove a researched one.§!"
+    card("th_" + k, nm, nm, x, y, w, pot, it["icon"], has, ok, act("state", body, 95), "state",
+         "§Y%s§!  %s%s%s\n\n%s" % (nm, info(0), desc, MODS(it["mods"]), hr), "§Y%s§!  %s%s%s\n\n%s" % (nm, info(1), desc, MODS(it["mods"]), he))
+for _c in range(2, 7):
+    _items = sorted([it for it in _TCH if _t_cat(it) == _c], key=lambda it: (it["tier"], it["key"]))
+    grid_items(12, _c, _items, mk)
+print("редактор: технологий %d (%s)" % (len(_TCH), ", ".join("%d: %d" % (c, sum(1 for it in _TCH if _t_cat(it) == c)) for c in range(2, 7))))
+
+# ================================================================ 13. УКАЗЫ (11.7): включить бесплатно; выключить — в окне указов игры (команды «убрать указ» в игре нет)
+_EDS = _ed.edicts(VC, _SPRT)
+ESUB13 = [(1, "Указы", "Edicts"), (2, "Кампании", "Campaigns"), (3, "Амбиции и жертвы", "Ambitions & sacrifices"), (4, "Из дополнений", "From DLC")]
+subtabs(13, ESUB13)
+def mk(i, it, x, y, w, pot):
+    k = it["key"]
+    TRG.append(B("dtp_has_ed_%s" % k, "has_edict = %s" % k))
+    has = "dtp_tcx = { T = dtp_has_ed_%s }" % k
+    ok = okx("ed_" + k, "\n".join(it["req"]))
+    lk = "edict_" + k
+    nm = "$%s$" % lk if _TEL.get(lk, [True])[0] else k
+    desc = ("\n$%s_desc$" % lk) if _TEL.get(lk, [True, True])[1] else ""
+    ln = ("§g(постоянный)§!", "§g(permanent)§!") if it["perpetual"] else ("§g(на время)§!", "§g(timed)§!")
+    body = B("event_target:dtp_t", B("if", B("limit", "NOT = { has_edict = %s }" % k), "add_edict = %s" % k))
+    card("edc_" + k, nm, nm, x, y, w, pot, it["icon"], has, ok, act("state", body, 98), "state",
+         "§Y%s§!  %s%s%s\n\n§gНажмите: включить указ бесплатно (без затрат единства и места). Выключить — в окне указов игры.§!" % (nm, ln[0], desc, MODS(it["mods"])),
+         "§Y%s§!  %s%s%s\n\n§gClick: enact the edict for free (no unity or capacity cost). Turn it off in the game's edicts window.§!" % (nm, ln[1], desc, MODS(it["mods"])))
+for _c in range(1, 5):
+    grid_items(13, _c, sorted([it for it in _EDS if it["grp"] == _c], key=lambda it: it["key"]), mk)
+print("редактор: указов %d (%s)" % (len(_EDS), ", ".join("%d: %d" % (c, sum(1 for it in _EDS if it["grp"] == c)) for c in range(1, 5))))
+
 _GI = "gfx/interface/icons/"
 _TRI = {g: next((x["icon"] for x in _TRS if x["grp"] == g and x["icon"].startswith(_GI + "traits/")), None) for g in ("bio", "robot", "ascend", "hab")}
 _TRI["bio"] = _GI + "traits/trait_intelligent.dds"
 NAVTEX = {1: _GI + "governments/authorities/auth_imperial.dds", 2: _GI + "governments/civics/civic_technocracy.dds", 3: _GI + "resources/unity.dds",
           4: _GI + "ascension_perks/slot_available.dds", 5: _GI + "resources/influence.dds", 6: _GI + "traits/trait_intelligent.dds",
-          7: _GI + "species_right_living_standards.dds", 10: _GI + "species_right_citizenship.dds", 8: _GI + "resources/alloys.dds", 9: _GI + "resources/society_research.dds"}
+          7: _GI + "species_right_living_standards.dds", 10: _GI + "species_right_citizenship.dds", 8: _GI + "resources/alloys.dds", 9: _GI + "resources/society_research.dds",
+          11: _GI + "icon_council.dds", 12: _GI + "resources/physics_research.dds", 13: _GI + "menu_icon_edicts.dds"}
 CIVTEX = {1: _GI + "governments/authorities/auth_democratic.dds", 2: _GI + "governments/authorities/auth_corporate.dds", 3: _GI + "governments/authorities/auth_hive_mind.dds",
           4: _GI + "governments/authorities/auth_machine_intelligence.dds", 5: _GI + "resources/minor_artifacts.dds"}
 TRTEX = {1: _TRI["bio"], 2: _TRI["robot"], 3: _TRI["ascend"], 4: _TRI["hab"]}

@@ -643,19 +643,23 @@ def snav_e(on, size=(140, 38)):
         fr.alpha_composite(_down(hx, 28, 28), (5, (h - 28) // 2))
         out.paste(fr, (i * w, 0))
     return out
-def edcard(size=(160, 38)):
+def edcard(size=(160, 38), light=False):
+    """light — светлая ячейка значка: значки черт лидеров 4.x тёмные (игра красит их слоями), на тёмной ячейке их не видно."""
     w, h = size; out = Image.new("RGBA", (w * 3, h), (0, 0, 0, 0))
     for i in range(3):
         kk = (1.0, 1.3, 0.8)[i]
         fr = sci_panel(w, h, 7, tuple(int(v * kk) for v in (24, 44, 52)), tuple(int(v * kk) for v in (12, 24, 30)), S_HI if i == 1 else (60, 130, 125), a=236, corners=(True, False, True, False))
-        well = sci_panel(34, h - 6, 4, (4, 10, 14), (8, 16, 22), (50, 100, 100), a=250, glow_top=False, corners=(True, False, True, False))
+        well = (sci_panel(34, h - 6, 4, (150, 176, 182), (118, 146, 154), (70, 130, 130), a=255, glow_top=False, corners=(True, False, True, False)) if light else
+                sci_panel(34, h - 6, 4, (4, 10, 14), (8, 16, 22), (50, 100, 100), a=250, glow_top=False, corners=(True, False, True, False)))
         fr.alpha_composite(well, (3, 3))
         out.paste(fr, (i * w, 0))
     return out
 SPR["GFX_dtp_ednav"] = ("dtp_ednav", snav_e(False), "corner", (40, 8), 3, "buttonstate")
 SPR["GFX_dtp_ednav_on"] = ("dtp_ednav_on", snav_e(True), "corner", (40, 8), 3, "buttonstate")
 SPR["GFX_dtp_ec"] = ("dtp_edcard", edcard(), "corner", (44, 8), 3, "buttonstate")
-_EBCOL = {1: (190, 160, 255), 2: (190, 160, 255), 3: (255, 214, 90), 4: (255, 214, 90), 5: (130, 200, 255), 6: (130, 225, 140), 7: (130, 225, 140), 8: S_HI, 9: S_OR2}
+SPR["GFX_dtp_ecl"] = ("dtp_edcard_l", edcard(light=True), "corner", (44, 8), 3, "buttonstate")
+_EBCOL = {1: (190, 160, 255), 2: (190, 160, 255), 3: (255, 214, 90), 4: (255, 214, 90), 5: (130, 200, 255), 6: (130, 225, 140), 7: (130, 225, 140), 8: S_HI, 9: S_OR2,
+          11: (255, 190, 120), 12: (120, 210, 255), 13: (200, 170, 255)}
 for _it in json.load(open(META, encoding="utf-8"))["items"]:
     _m = re.match(r"GFX_dtp_ebanner_(\d+)$", _it["sprite"])
     if _m and _it["sprite"] not in SPR:
