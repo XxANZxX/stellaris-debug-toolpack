@@ -156,13 +156,11 @@ for k in range(1, MAXP + 1):
     plab("pn_%d" % k, "[dtp_tp_%d.GetClassName] §g· система§! [dtp_tp_%d.System.GetName] §g· без владельца§!" % (k, k),
          "[dtp_tp_%d.GetClassName] §g· system§! [dtp_tp_%d.System.GetName] §g· no owner§!" % (k, k), 282, 34, 400,
          pot=pk + ex + "\n" + B("event_target:dtp_tp_%d" % k, "NOT = { exists = owner }"), h=20)
-    plab("p_%d_x" % k, "§gПланета не выбрана — откройте окно любой планеты и нажмите «Редактор планеты» на полосе Toolpack§!",
-         "§gNo planet selected — open any planet window and press 'Planet editor' on the Toolpack strip§!", 282, 12, 490,
+    plab("p_%d_x" % k, "§gПланета не выбрана: откройте окно планеты → «Редактор планеты»§!",
+         "§gNo planet selected: open a planet window → 'Planet editor'§!", 282, 12, 490,
          pot=pk + "\nNOT = { exists = event_target:dtp_tp_%d }" % k, h=40)
-pb("back", "← Панель DTP", "← DTP panel", EW - 228, 14, 166, 36, pot=PEP(), effect=B("from", "remove_country_flag = dtp_pe_open", "set_country_flag = dtp_open"),
-   tt=("Закрыть редактор планеты и вернуться в главную панель Debug Toolpack.", "Close the planet editor and return to the main Debug Toolpack panel."))
-pb("close", "✕", "✕", EW - 54, 14, 40, 36, pot=PEP(), effect=B("from", "remove_country_flag = dtp_pe_open"), sprite="GFX_dtp_btn_danger",
-   tt=("Закрыть редактор планеты.", "Close the planet editor."))
+pb("back", "Панель DTP", "DTP panel", EW - 282, 14, 166, 36, pot=PEP(), effect=B("from", "set_country_flag = dtp_open"),
+   tt=("Показать главную панель Debug Toolpack (редактор планеты остаётся открытым).", "Show the main Debug Toolpack panel (the planet editor stays open)."))
 PTABS = [(1, "Тип планеты", "Planet type"), (2, "Размер и колония", "Size & colony"), (3, "Звезда и система", "Star & system"),
          (4, "Залежи", "Deposits"), (5, "Районы", "Districts"), (6, "Зоны районов", "District zones"), (7, "Здания", "Buildings"),
          (8, "Аномалии и раскопки", "Anomalies & dig sites"), (9, "Специализация", "Designation"), (10, "Природа планеты", "Planet features"),
@@ -476,7 +474,7 @@ RX11, RW11 = EX0 + LW11 + 14, EXW - LW11 - 14
 _C11 = (LW11 - 2 * EGAP) // 3
 PSL_N, PSL_PG = 30, 6
 TABOPEN_11 = INIT + "\ndtp_load = yes\ndtp_esl_fill = yes"
-plab("h11", "§YВИД§!  §gлюбой вид державы A (её список видов); выбранный вид — общий с «Редактором держав»§!", "§YSPECIES§!  §gany species of empire A (its species list); the selection is shared with the empire editor§!",
+plab("h11", "§YВИД§!  §gлюбой вид державы A; выбор общий с «Редактором держав»§!", "§YSPECIES§!  §gany species of empire A; shared with the empire editor§!",
      EX0 + 6, EY0 - 40, LW11 - 12, pot=PEP(11), h=26)
 _SPW = (LW11 - 2 * 44 - 5 * EGAP) // 3
 pb("sp_prev", "‹", "‹", EX0, EY0 - 8, 40, 34, pot=PEP(11, extra=B("from", chk("dtp_espg", 1, ">"))), effect=B("from", "change_variable = { which = dtp_espg value = -1 }"),
@@ -813,7 +811,7 @@ for j, (k, ru, en, ef, tru, ten, spr, al) in enumerate([
 
 pslots()
 # ---- открыть редактор планеты (из главной панели и из окна планеты)
-PE_OPEN_EFF = B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_pe_open", "remove_country_flag = dtp_open", "remove_country_flag = dtp_ed_open",
+PE_OPEN_EFF = B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_pe_open", "remove_country_flag = dtp_open", "country_event = { id = dtp.1996 }",
     B("if", B("limit", "NOT = { is_variable_set = dtp_petab }"), setv("dtp_petab", 1), setv("dtp_pecat", 1), setv("dtp_pepg", 1)))
 print("редактор планеты: элементов %d, условий «разрешено игрой» %d" % (sum(1 for g in GUI if g["where"] == "peditor"), len(_POK)))
 

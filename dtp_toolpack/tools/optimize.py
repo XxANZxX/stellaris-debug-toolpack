@@ -95,13 +95,14 @@ def intern(btns, eff_depth, min_len=40, call_len=14):
     Возвращает (новые тексты кнопок, [определения триггеров], [определения эффектов])."""
     tree = [parse(b)[0] for b in btns]
     cnt = {}
+    AIN = os.environ.get("DTP_AINTERN") == "1"      # 11.9.7: вынос allow в общие условия — замер 11.9.7: память та же (3,1 ГБ), поэтому выключено
     def count(n, ctx):
         k, op, v = n
-        if k in NEVER or ctx == "A": return
+        if k in NEVER or (ctx == "A" and not (AIN and k == "custom_tooltip")): return
         key = ("E" if ctx == "E" else "T", ser([n], True))
         cnt[key] = cnt.get(key, 0) + 1
     for sec, ctx in _roots(tree):
-        if ctx == "T" and len(sec[2]) > 1:                         # всё содержимое potential целиком
+        if (ctx == "T" or (ctx == "A" and AIN)) and len(sec[2]) > 1:   # всё содержимое potential (и allow) целиком
             key = ("T", ser(sec[2], True)); cnt[key] = cnt.get(key, 0) + 1
         _walk(sec[2], ctx, count)
     used, trg, eff, made = {}, [], [], {}
@@ -121,14 +122,14 @@ def intern(btns, eff_depth, min_len=40, call_len=14):
         for i, n in enumerate(nodes):
             k, op, v = n
             if not isinstance(v, list) or k is None: continue
-            if k not in NEVER and ctx != "A":
+            if k not in NEVER and (ctx != "A" or (AIN and k == "custom_tooltip")):
                 key = ("E" if ctx == "E" else "T", ser([n], True))
                 if good(key) and (key[0] == "T" or eff_depth(key[1]) <= 2):
                     nodes[i] = call(key, [n]); continue
             c = _kids_ctx(k, ctx)
             if c: rewrite(v, c)
     for sec, ctx in _roots(tree):
-        if ctx == "T" and len(sec[2]) > 1:
+        if (ctx == "T" or (ctx == "A" and AIN)) and len(sec[2]) > 1:
             key = ("T", ser(sec[2], True))
             if good(key):
                 sec[2][:] = [call(key, list(sec[2]))]; continue

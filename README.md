@@ -19,6 +19,21 @@ When updating, delete the old `dtp_toolpack` folder first, so no stale files rem
 
 **UI Overhaul Dynamic users:** also copy `dtp_toolpack_uiod` and `dtp_toolpack_uiod.mod`, and enable the patch *together with* the base mod, loaded after UIOD and DTP. Update the patch together with the base mod — without the current patch the editors do not appear under UIOD.
 
+## Fleets & Armies, prebuilt designs, editors in their own windows (11.8–11.9)
+
+- **New "Fleets & Armies" tab** in the Empire Editor: **37 ship types** with the game's icons — military, bioships (all growth stages), offspring, Ember, paladin, star-eater, science ships, constructors, colony ships, transports. Design of empire A by number or any, or a copy of recipient B's design; count 1–100; location (A's capital, planet P, fleet F's system, B's capital); admiral (the selected leader or a new level 1/5/10 one).
+- **A red mark on a type** means empire A has no design of that type. In **force mode** the ship is still created: from another empire's design or, if nobody has the type, from a **DTP prebuilt design** (29 designs for 45 ship sizes, regular components; they never show up in empires' design lists). Bioships use the game's `growth_stages`.
+- **Fleet F:** stance, cloaking, admiral, all ships → selected design, repair (hull, armor and shields), 50% damage, return from MIA, go home, lease for 1/5/10 years, permanent transfer to recipient B.
+- **Armies:** 70 army types on planet P or straight into transports, of any species of the empire.
+- Civilian ships (science, construction, colony) are created one per fleet, as the game requires.
+- **FPS:** the Empire and Planet editors are now **separate event windows** (`interface/dtp_windows.gui`, events `dtp.1995` / `dtp.1996`) and cost nothing while closed — before, about 16,800 buttons in `maingui` were checked every frame. Close them with the **Close** button. These windows can't be dragged (the game does not move event windows).
+- Planet strip: while the planet editor is open, **To editor** switches it to this planet, **»** reopens the window.
+- Technologies: the red mark only shows on techs the game really won't give this empire. Leaders: an **Experience** row (+250 / +1000 / +5000 / +20,000). An opposite leader trait is removed automatically.
+- Other game languages (German, French, Spanish, Polish, Portuguese, Japanese, Korean) show English text instead of raw keys.
+- **Memory:** every DTP scripted effect and trigger has the `optimize_memory` tag (see `common/scripted_effects/99_advanced_documentation.txt` in the game): without it the game stores a copy of the body at every call site. Main menu: **~3.8 → ~3.1 GB** (with other mods installed). Set `DTP_NO_OPTMEM=1` when generating to build without it.
+- **Testing:** `tools/cwtcheck.py` checks every reference against the CWTools rules for 4.5 (238,000 references, 0 errors); `tools/selftest.py` builds a separate in-game test mod (console: `event dtpst.1`) — 52 of 52 checks pass.
+- **The UIOD patch changed** — update it together with the base mod.
+
 ## Leaders, Technologies and Edicts (11.7)
 
 Three new tabs in the Empire & Species Editor (they work on empire A).
@@ -64,7 +79,7 @@ Mods are given in load order. `--base` marks mods whose windows are already cove
 
 ## Movable windows and bonus tooltips (11.6)
 
-- Every DTP window can be dragged with the mouse, the same way as the game's own windows (`moveable = yes`, `respect_parent_boundaries = no`): the icon with the panel at the top left (by its plate), the strips in the planet, star, starbase and fleet windows (by their background), the empire and planet editors (by the **Drag the window** tab above the top-left corner).
+- Every DTP window can be dragged with the mouse, the same way as the game's own windows (`moveable = yes`, `respect_parent_boundaries = no`): the icon with the panel at the top left (by its plate), the strips in the planet, star, starbase and fleet windows (by their background). Since 11.9 the empire and planet editors are event windows and can't be dragged.
 - Empire editor tooltips show what each item gives — species traits, civics (with their description), ethics, authorities, ascension perks and policies — using the game's own modifier names. The real localisation keys of game modifiers are listed in `tools/i18n/game_modloc_keys.json`, so no bonus name is left empty.
 - Fixed empty bonus names in the planet editor's Modifiers tab.
 - **The UIOD patch changed** — update it together with the base mod.
@@ -102,7 +117,7 @@ A separate window for **any** planet, not only your own. Open a planet or star w
 | Hyperlanes | system 1 = the selected planet's system, system 2 = a remembered one: add/remove the lane between them, linked wormholes, isolate a system, lane to a nearby system, the neighbour list (remove a lane or make it system 2), lanes to/between/off the marked systems; close wormholes and gateways to everyone or to all but empire A (the game cannot delete them) |
 
 - The requirements (`potential`, `allow`, `prerequisites`) of buildings, districts, zones, deposits and designations are read from the game files (`tools/pedata.py`). A red **!** means the game normally forbids it (force mode only), a green frame means the planet already has it.
-- The editor lives in its own interface file, `interface/dtp_planet_editor.gui`: the game's always-present `maingui` window is moved there from `main.gui` and the editor is appended to it, so mods that replace `main.gui` do not touch it. Since 11.6.6 the DTP icon and panel live in this window too. The green frames and red marks are shared per grid slot (their logic is in the script files, not in the GUI file).
+- The game's always-present `maingui` window is moved from `main.gui` to `interface/dtp_planet_editor.gui`, where the DTP icon and panel live, so mods that replace `main.gui` do not touch it. Since 11.9 the editor itself is a separate event window (`interface/dtp_windows.gui`). The green frames and red marks are shared per grid slot (their logic is in the script files, not in the GUI file).
 - The main panel's Planet and Buildings sections were merged into the editor.
 
 ## Empire & Species Editor (11.2)
@@ -126,7 +141,7 @@ Traits, rights and portrait work on **any species of the empire**: a species pic
 - The game's own rules are checked: ethic points, opposite ethics and the `potential`/`possible` requirements of civics, authorities, traits, perks, traditions and policies are read from the game files (`tools/eddata.py`).
 - Anything the game normally forbids gets a red **!** and can only be set in **force mode**. A green frame means the empire already has it. Ethic points (3 total) are only enforced outside force mode.
 - Icons are the game's own textures.
-- Since 11.6.6 the editor lives in the game's `maingui` window (`interface/dtp_planet_editor.gui`), together with the DTP icon and panel and the planet editor.
+- Since 11.9 the editor is a separate event window (`interface/dtp_windows.gui`), like the planet editor.
 
 ## Getting HOST status
 

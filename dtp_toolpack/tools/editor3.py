@@ -133,19 +133,18 @@ for k in range(1, MAXP + 1):
     elab("a_%d" % k, "§Y[dtp_tc_%d.GetName]§!" % k, "§Y[dtp_tc_%d.GetName]§!" % k, 318, 8, 350, pot=pk + "\nexists = event_target:dtp_tc_%d" % k, h=26, font="malgun_goth_24")
     elab("s_%d" % k, "§gдержава A ·§! [dtp_tc_%d.GetSpeciesName] §g·§! [dtp_tc_%d.GetGovernmentName]" % (k, k), "§gempire A ·§! [dtp_tc_%d.GetSpeciesName] §g·§! [dtp_tc_%d.GetGovernmentName]" % (k, k),
          318, 34, 360, pot=pk + "\nexists = event_target:dtp_tc_%d" % k, h=20)
-    elab("a_%d_x" % k, "§gДержава A не выбрана — нажмите «Я» или выберите в панели DTP§!", "§gEmpire A is not selected — press 'Me' or pick one in the DTP panel§!", 318, 18, 360,
+    elab("a_%d_x" % k, "§gДержава A не выбрана: «Я» или выбор в панели DTP§!", "§gEmpire A not selected: 'Me' or pick in the DTP panel§!", 318, 18, 410,
          pot=pk + "\nNOT = { exists = event_target:dtp_tc_%d }" % k)
 eb("me", "Я", "Me", 734, 14, 46, 36, pot=EDP(), effect=INIT + "\n" + B("from", "dtp_set_tc = yes") + "\ndtp_result = { CODE = 29 }",
    tt=("Редактировать вашу собственную державу. Другую державу выберите в панели DTP (раздел «Держава») или кнопкой «Изменять эту державу» в окне планеты/флота.",
        "Edit your own empire. Pick another empire in the DTP panel (Empire section) or with 'Edit this empire' in a planet/fleet window."))
-eb("back", "← Панель DTP", "← DTP panel", EW - 228, 14, 166, 36, pot=EDP(), effect=B("from", "remove_country_flag = dtp_ed_open", "set_country_flag = dtp_open"),
-   tt=("Закрыть редактор и вернуться в главную панель Debug Toolpack.", "Close the editor and return to the main Debug Toolpack panel."))
-eb("close", "✕", "✕", EW - 54, 14, 40, 36, pot=EDP(), effect=B("from", "remove_country_flag = dtp_ed_open"), sprite="GFX_dtp_btn_danger",
-   tt=("Закрыть редактор.", "Close the editor."))
+# 11.9: редактор — отдельное окно (событие с custom_gui), закрывается кнопкой «Закрыть» окна (вариант события, см. gen3 DTP_WIN).
+eb("back", "Панель DTP", "DTP panel", EW - 282, 14, 166, 36, pot=EDP(), effect=B("from", "set_country_flag = dtp_open"),
+   tt=("Показать главную панель Debug Toolpack (редактор остаётся открытым).", "Show the main Debug Toolpack panel (the editor stays open)."))
 ETABS = [(1, "Этика и правление", "Ethics & authority"), (2, "Гражданские модели", "Civics"), (3, "Традиции", "Traditions"),
          (4, "Перки возвышения", "Ascension perks"), (5, "Политика", "Policies"), (6, "Черты вида", "Species traits"),
          (7, "Права вида", "Species rights"), (10, "Портрет вида", "Species portrait"), (8, "Облик и название", "Look & name"), (11, "Лидеры", "Leaders"),
-         (12, "Технологии", "Technologies"), (13, "Указы", "Edicts"), (9, "Модификаторы", "Modifiers")]
+         (12, "Технологии", "Technologies"), (13, "Указы", "Edicts"), (14, "Флот и армии", "Fleets & armies"), (9, "Модификаторы", "Modifiers")]
 ETT = {1: ("Этики державы (обычные и фанатичные), коллективное сознание и форма правления.", "Empire ethics (regular and fanatic), gestalt consciousness and authority."),
        2: ("Все гражданские модели игры: обычные, корпоративные, коллективного разума, машинные и особые.", "All civics in the game: regular, corporate, hive mind, machine and special."),
        3: ("Деревья традиций: принять целиком или убрать.", "Tradition trees: adopt fully or remove."),
@@ -158,13 +157,16 @@ ETT = {1: ("Этики державы (обычные и фанатичные), 
        9: ("Бонусы и штрафы державы A: свои модификаторы Toolpack и модификаторы самой игры.", "Bonuses and penalties for empire A: Toolpack modifiers and the game's own modifiers."),
        11: ("Лидеры державы A: выбрать лидера, изменить уровень, возраст, класс, черты; создать, передать или убить лидера.", "Leaders of empire A: pick a leader, change level, age, class, traits; create, give away or kill a leader."),
        12: ("Технологии державы A: изучить по одной или разом по областям и уровням, завершить текущие исследования.", "Technologies of empire A: research one by one or in bulk by area and tier, finish current research."),
-       13: ("Указы державы A: включить любой указ, кампанию или амбицию бесплатно.", "Edicts of empire A: enact any edict, campaign or ambition for free.")}
+       13: ("Указы державы A: включить любой указ, кампанию или амбицию бесплатно.", "Edicts of empire A: enact any edict, campaign or ambition for free."),
+       14: ("Флоты и армии державы A: корабли по проектам A по номерам, копии корабля флота F, проекты получателя B, правка флота F, армии.",
+            "Fleets and armies of empire A: ships by A's designs by number, copies of fleet F's ship, recipient B's designs, editing fleet F, armies.")}
 ESUB = {1: ("этики · коллективное сознание · правление", "ethics · gestalt · authority"), 2: ("как при создании державы", "as in empire creation"),
         3: ("деревья целиком", "whole trees"), 4: ("добавить или убрать", "add or remove"), 5: ("вариант каждой политики", "an option for each policy"),
         6: ("черты выбранного вида державы A", "traits of the selected species of A"), 7: ("права выбранного вида державы A", "rights of the selected species of A"), 10: ("класс · все портреты класса", "class · all portraits of the class"),
         8: ("корабли · города · флаг · название", "ships · cities · flag · name"), 9: ("бонусы и штрафы державы A", "bonuses and penalties of empire A"),
         11: ("лидер · черты · уровень · возраст", "leader · traits · level · age"),
-        12: ("изучить по одной или разом", "one by one or in bulk"), 13: ("включить бесплатно", "enact for free")}
+        12: ("изучить по одной или разом", "one by one or in bulk"), 13: ("включить бесплатно", "enact for free"),
+        14: ("корабли по проектам · флот F · армии", "ships by design · fleet F · armies")}
 # 11.7: вкладка «Лидеры» — лидер в редакторе: общая цель dtp_lv (редактор открыт только у одного игрока; dtp_vsync сбрасывает её,
 # если лидер не из державы A). При открытии вкладки без выбранного лидера выбирается правитель A.
 LV_AUTO = B("if", B("limit", "NOT = { exists = event_target:dtp_lv }", "exists = event_target:dtp_t"),
@@ -172,9 +174,9 @@ LV_AUTO = B("if", B("limit", "NOT = { exists = event_target:dtp_lv }", "exists =
 lab("ed_navbg", "", 8, 64, 206, h=EH - 72, potential=B("from", EDOPEN), where="editor"); GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_frame"
 elab("navh", "§gРАЗДЕЛЫ§!", "§gSECTIONS§!", 22, 70, 180, pot=EDP(), h=22)
 for i, (t, ru, en) in enumerate(ETABS):
-    y = 96 + i * 42
-    eb("tab%d_on" % t, ru, en, 14, y, 194, 38, pot=EDP(t), sprite="GFX_dtp_ednav_on", tt=ETT[t])
-    eb("tab%d" % t, ru, en, 14, y, 194, 38, pot=EDP(extra=B("from", "NOT = { %s }" % chk("dtp_edtab", t))),
+    y = 96 + i * 40                         # 11.8: 14 вкладок — шаг 40 (подпись «зелёная рамка» ниже, на EH-150)
+    eb("tab%d_on" % t, ru, en, 14, y, 194, 36, pot=EDP(t), sprite="GFX_dtp_ednav_on", tt=ETT[t])
+    eb("tab%d" % t, ru, en, 14, y, 194, 36, pot=EDP(extra=B("from", "NOT = { %s }" % chk("dtp_edtab", t))),
        effect=B("from", setv("dtp_edtab", t), setv("dtp_edcat", 1), setv("dtp_edpg", 1)) + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes" if t in (6, 7, 10) else "")
            + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes\n" + LV_AUTO if t == 11 else ""), sprite="GFX_dtp_ednav", tt=ETT[t])
     # шапка раздела — баннер, как в главной панели (значок раздела — значок самой игры)
@@ -383,9 +385,18 @@ for po in _POL:
     need_rows = (len(po["opts"]) + 2) // 3
     if r + need_rows > EROWS: pg += 1; r = 0
     rows.append((po, pg, r)); r += need_rows
+_POL_SHORT = {"platform_defense_preference": ("Защита: оборон. платформы", "Defense: Def. Platforms"), "platform_weapon_preference": ("Оружие: оборон. платформы", "Weapons: Def. Platforms"),
+              "starbase_weapon_preference": ("Оружие: космические базы", "Weapons: Starbases"), "starbase_defense_preference": ("Защита: космические базы", "Defense: Starbases"),
+              "waystation_defense_preference": ("Защита: маршрутные станции", "Defense: Waystations"), "waystation_weapon_preference": ("Оружие: маршрутные станции", "Weapons: Waystations"),
+              "arkship_weapon_preference": ("Оружие: корабли-ковчеги", "Weapons: Arkships"), "arkship_defense_preference": ("Защита: корабли-ковчеги", "Defense: Arkships"),
+              "weapon_preference": ("Оружие: флотилии", "Weapons: Fleets"), "defense_preference": ("Защита: флотилии", "Defense: Fleets"),
+              "computation_core_allocation": ("Вычислительные ядра", "Computation Core Focus"),
+              "society_research_policy": ("Упор на социологию", "Society Research Focus"), "engineering_research_policy": ("Упор на инженерию", "Engineering Research Focus"),
+              "physics_research_policy": ("Упор на физику", "Physics Research Focus")}
 for po, pg, r in rows:
     k = po["key"]; pot = EDP(5, None, pg)
-    elab("pl_" + k, "§Y$policy_%s$§!" % k, "§Y$policy_%s$§!" % k, EX0, EY0 + r * (ECH + EGAP) + 6, _PW, pot=pot, h=ECH - 8)
+    _sn = _POL_SHORT.get(k)          # 11.8.2: длинные названия политик игры не помещались в заголовок строки
+    elab("pl_" + k, "§Y%s§!" % (_sn[0] if _sn else "$policy_%s$" % k), "§Y%s§!" % (_sn[1] if _sn else "$policy_%s$" % k), EX0, EY0 + r * (ECH + EGAP) + 6, _PW, pot=pot, h=ECH - 8)
     for j, o in enumerate(po["opts"]):
         x = EX0 + 236 + (j % 3) * (_OW + EGAP); y = EY0 + (r + j // 3) * (ECH + EGAP)
         n = o["name"]
@@ -721,7 +732,7 @@ for j, (c, ru, en) in enumerate(CLS):
              "Портрет «%s» (%s, №%d). Нажмите, чтобы поставить его основному виду A." % (p_, ru, i + 1), "Portrait '%s' (%s, #%d). Click to give it to A's main species." % (p_, en, i + 1))
 
 # ---- кнопка «Открыть редактор» (главная панель) — эффект общий
-ED_OPEN_EFF = INIT + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open", "remove_country_flag = dtp_pe_open",
+ED_OPEN_EFF = INIT + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open", "country_event = { id = dtp.1995 }",
                                B("if", B("limit", "NOT = { is_variable_set = dtp_edtab }"), setv("dtp_edtab", 1), setv("dtp_edcat", 1), setv("dtp_edpg", 1)))
 print("редактор: элементов %d, условий «разрешено игрой» %d" % (sum(1 for g in GUI if g["where"] == "editor"), len(_OKN)))
 
@@ -794,43 +805,53 @@ lbtns(y, [("lv_c_%s" % k, "+ %s" % ru, "+ %s" % en, 150, "dtp_sp_load = yes\n" +
            "Create a NEW %s in empire A and select them. Species — the one picked in the Species row (A's main species by default)." % en.lower(), None, "GFX_dtp_btn", False) for k, ru, en in LCLS])
 # 2) уровень
 y = lrow(2, "Уровень", "Level")
-lbtns(y, [("lv_lvl%d" % n, str(n), str(n), 44, "set_skill = %d" % n, 91, "Уровень лидера: %d." % n, "Leader level: %d." % n) for n in range(1, 11)] +
-         [("lv_xp", "+1000 опыта", "+1000 XP", 126, "add_experience = 1000", 91, "Добавить лидеру 1000 опыта (уровни и выбор черт — как в игре).", "Give the leader 1000 experience (levels and trait picks as in the game).")])
+lbtns(y, [("lv_lvl%d" % n, str(n), str(n), 44, "set_skill = %d" % n, 91,
+           "Сразу поставить уровень %d. §HВыбора черт при этом не будет§! — чтобы выбирать черты на каждом уровне, давайте опыт (строка ниже)." % n,
+           "Set level %d right away. §HNo trait picks this way§! — to pick traits on each level, give experience (row below)." % n) for n in range(1, 11)])
+# 11.7.6: опыт — уровни растут как в игре, на каждом уровне игра предлагает черты (по замечанию: set_skill сразу на 10 — без выбора черт)
+y = lrow(3, "Опыт", "Experience")
+lbtns(y, [("lv_xp%d" % v, "+%s опыта" % lab_, "+%s XP" % lab_, w_, "add_experience = %d" % v, 91,
+           "Добавить лидеру %s опыта. Уровни растут как в игре, и на каждом новом уровне игра предлагает выбрать черту.%s" % (lab_, extra_ru),
+           "Give the leader %s experience. Levels go up as in the game, and on each new level the game offers a trait pick.%s" % (lab_, extra_en))
+          for v, lab_, w_, extra_ru, extra_en in ((250, "250", 120, " Примерно +1 уровень в начале.", " About +1 level early on."),
+                                                  (1000, "1000", 130, "", ""),
+                                                  (5000, "5000", 130, "", ""),
+                                                  (20000, "20 000", 150, " Хватает до 10 уровня с любого.", " Enough for level 10 from any level."))])
 # 3) возраст и бессмертие
-y = lrow(3, "Возраст", "Age")
+y = lrow(4, "Возраст", "Age")
 lbtns(y, [("lv_age%d" % a, str(a), str(a), 44, "set_age = %d" % a, 91, "Возраст лидера: %d." % a, "Leader age: %d." % a) for a in (25, 35, 50, 70, 90)] +
          [("lv_imm1", "Бессмертен", "Immortal", 118, "set_immortal = yes", 91, "Сделать лидера бессмертным.", "Make the leader immortal.", "is_immortal = yes"),
           ("lv_imm0", "Смертен", "Mortal", 96, "set_immortal = no", 91, "Снять бессмертие, выданное скриптом (бессмертие вида не снимается).", "Remove script-granted immortality (species immortality stays).", "is_immortal = no"),
           ("lv_frz1", "Не стареет", "No aging", 112, "freeze_leader_age = yes", 91, "Остановить старение лидера.", "Stop the leader from aging."),
           ("lv_frz0", "Стареет", "Ages", 96, "freeze_leader_age = no", 91, "Вернуть старение лидера.", "Let the leader age again.")])
 # 4) класс и пол
-y = lrow(4, "Класс · пол", "Class · gender")
+y = lrow(5, "Класс · пол", "Class · gender")
 lbtns(y, [("lv_cl_%s" % k, ru, en, 112, "change_leader_class = %s" % k, 91, "Сменить класс лидера на «%s»." % ru, "Change the leader's class to %s." % en, "leader_class = %s" % k) for k, ru, en in LCLS] +
          [("lv_g_%s" % g, ru, en, 104, "set_gender = %s" % g, 91, "Пол лидера: %s." % ru.lower(), "Leader gender: %s." % en.lower(), "gender = %s" % g)
           for g, ru, en in (("male", "Мужской", "Male"), ("female", "Женский", "Female"), ("indeterminable", "Без пола", "None"))], gap=6)
 # 5) ранг
-y = lrow(5, "Ранг", "Rank")
+y = lrow(6, "Ранг", "Rank")
 lbtns(y, [("lv_t_%s" % k.split("_")[-1], ru, en, 150, "set_leader_tier = %s" % k, 91, "Ранг лидера: %s." % ru.lower(), "Leader rank: %s." % en.lower(), "is_leader_tier = %s" % k)
           for k, ru, en in (("leader_tier_default", "Обычный", "Regular"), ("leader_tier_renowned", "Прославленный", "Renowned"), ("leader_tier_legendary", "Легендарный", "Legendary"))])
 # 6) должность
-y = lrow(6, "Должность", "Post")
+y = lrow(7, "Должность", "Post")
 lbtns(y, [("lv_unas", "Снять с должности", "Unassign", 190, "unassign_leader = this", 91, "Снять лидера с флота, планеты, сектора или армии.", "Remove the leader from their fleet, planet, sector or army."),
           ("lv_uncl", "Убрать из совета", "Remove from council", 190, "remove_from_empire_council = yes", 91, "Убрать лидера из совета державы.", "Remove the leader from the empire council.")])
 # 7) черты разом
-y = lrow(7, "Черты", "Traits")
+y = lrow(8, "Черты", "Traits")
 lbtns(y, [("lv_rc", "+ случайная", "+ random", 120, "add_trait = { trait = random_common show_message = no }", 92, "Добавить случайную обычную черту.", "Add a random common trait."),
           ("lv_rn", "+ отрицательная", "+ negative", 140, "add_trait = { trait = random_negative show_message = no }", 92, "Добавить случайную отрицательную черту.", "Add a random negative trait."),
           ("lv_xn", "− отрицательные", "− negative", 140, "remove_all_negative_traits = yes", 92, "Убрать все отрицательные черты.", "Remove all negative traits."),
           ("lv_xp2", "− положительные", "− positive", 140, "remove_all_positive_traits = yes", 92, "Убрать все положительные черты.", "Remove all positive traits."),
           ("lv_xa", "− все", "− all", 80, "remove_all_traits = yes", 92, "Убрать все черты лидера.", "Remove all of the leader's traits.")])
 # 9) вид: тот же список видов державы A, что в «Чертах вида» (выбор общий)
-y = lrow(8, "Вид", "Species")
+y = lrow(9, "Вид", "Species")
 _spk_row("lspk", EX0 + 156, y + 2, lambda extra="": EDP(11, 1, extra=extra),
          ("Выбран этот вид: из него создаются новые лидеры и его получает лидер по кнопке «Вид лидера → выбранный».",
           "This species is selected: new leaders are created of it, and «Leader species → picked» gives it to the leader."),
          ("Выбрать этот вид державы A для новых лидеров и для кнопки «Вид лидера → выбранный».", "Pick this species of empire A for new leaders and for «Leader species → picked»."))
 # 10) прочее: вид, передача B, смерть
-y = lrow(9, "Прочее", "Other")
+y = lrow(10, "Прочее", "Other")
 lbtn("lv_sp", "Вид лидера → выбранный", "Leader species → picked", EX0 + 156, y, 210, "dtp_sp_load = yes\n" + B("event_target:dtp_lv", "change_species = event_target:dtp_sp"), 91,
      "Сменить вид лидера на вид, выбранный в строке «Вид» (по умолчанию — основной вид A).", "Change the leader's species to the one picked in the Species row (A's main species by default).", lead=False)
 _gv = act("state", B("event_target:dtp_lv", "set_owner = event_target:dtp_r"), 93)
@@ -896,11 +917,14 @@ def mk(i, it, x, y, w, pot):
     desc = ("\n$%s$" % dk) if dk else ""
     has = LVH % ("has_trait = %s" % k)
     ok = _clsok(it["classes"]) if len(it["classes"]) < 3 else None
-    body = B("event_target:dtp_lv", B("if", B("limit", "has_trait = %s" % k), "remove_trait = %s" % k), B("else", "add_trait = { trait = %s show_message = no }" % k))
+    # 11.8.2: игра молча не даёт черту, если у лидера есть противоположная — сначала снимаем противоположные
+    opp = [B("if", B("limit", "has_trait = %s" % o), "remove_trait = %s" % o) for o in it.get("opp", [])]
+    body = B("event_target:dtp_lv", B("if", B("limit", "has_trait = %s" % k), "remove_trait = %s" % k), B("else", *opp, "add_trait = { trait = %s show_message = no }" % k))
+    oru = ("\n§gПротивоположные черты снимаются.§!" if opp else ""); oen = ("\n§gOpposite traits are removed.§!" if opp else "")
     cls_ru = ", ".join(_CLSRU[c] for c in it["classes"]); cls_en = ", ".join(_CLSEN[c] for c in it["classes"])
     card("lt_" + k, nm, nm, x, y, w, pot, it["icon"], has, ok, act("state", body, 92), "state",
-         "§Y%s§!  §g(%s)§!%s%s\n\n§gНажмите: добавить черту лидеру; если уже есть — убрать.§!" % (nm, cls_ru, desc, _ltmods(it, 0)),
-         "§Y%s§!  §g(%s)§!%s%s\n\n§gClick: add the trait to the leader; if present — remove it.§!" % (nm, cls_en, desc, _ltmods(it, 1)),
+         "§Y%s§!  §g(%s)§!%s%s\n\n§gНажмите: добавить черту лидеру; если уже есть — убрать.§!%s" % (nm, cls_ru, desc, _ltmods(it, 0), oru),
+         "§Y%s§!  §g(%s)§!%s%s\n\n§gClick: add the trait to the leader; if present — remove it.§!%s" % (nm, cls_en, desc, _ltmods(it, 1), oen),
          need=N_TC() + "\n" + N_LV(), light="leader_trait_icons" in (it["icon"] or ""))
 for _c in range(2, 7):
     _items = sorted([it for it in _LTS if _lt_cat(it) == _c], key=lambda it: (it["cat"] != "basic", it["key"]))
@@ -970,7 +994,9 @@ def mk(i, it, x, y, w, pot):
     k = it["key"]
     TRG.append(B("dtp_has_th_%s" % k, "has_technology = %s" % k))
     has = "dtp_tcx = { T = dtp_has_th_%s }" % k
-    ok = None      # 11.7.2: без красной метки — «нельзя изучить» у игры значит и «нет предыдущих технологий», метка была почти на всех; правила игры соблюдают кнопки «разом»
+    # 11.7.6: красная метка — только если у технологии есть своё условие (potential) и держава ему не подходит
+    # (биокорабли без «Биогенезиса», кочевники, машины, DLC…). Предыдущие технологии не учитываются — их нехватка не запрет.
+    ok = okx("th_" + k, "\n".join(it["req"]))
     nm = "$%s$" % k if _TEL.get(k, [True])[0] else k
     desc = ("\n$%s_desc$" % k) if _TEL.get(k, [True, True])[1] else ""
     # область и направление — названиями самой игры ($PHYSICS$, $computing$): строка подсказки одна на все технологии (и для перевода)
@@ -1015,13 +1041,302 @@ for _c in range(1, 5):
     grid_items(13, _c, sorted([it for it in _EDS if it["grp"] == _c], key=lambda it: it["key"]), mk)
 print("редактор: указов %d (%s)" % (len(_EDS), ", ".join("%d: %d" % (c, sum(1 for it in _EDS if it["grp"] == c)) for c in range(1, 5))))
 
+# ================================================================ 14. ФЛОТ И АРМИИ (11.8): конструктор флота по проектам державы, правка флота F, армии
+# Проекты кораблей перебираются скриптом (every_owned_design), но имя проекта игра в текст не отдаёт (проба 06.11: «Unknown property GetName»),
+# поэтому проекты — по номерам. Номера — порядок, в котором игра хранит проекты; списки A и B заполняются при выборе типа.
+FSUB = [(1, "Военные", "Military"), (2, "Биокорабли", "Bioships"), (3, "Прочие", "Other"), (4, "Флот F", "Fleet F"), (5, "Армии", "Armies")]
+subtabs(14, FSUB)
+FP13 = EDP(14, extra=B("from", B("OR", *[chk("dtp_edcat", c_) for c_ in (1, 2, 3)])))       # подразделы с кораблями (1–3)
+def FPC(c): return EDP(14, c)
+_FW = (EXW - 3 * EGAP) // 4
+def _fsel(i, k):
+    """Выбор типа: номер типа, сброс номера проекта, списки проектов A (dtp_fa_N) и B (dtp_fb_N) этого типа (dtp_ffill_*)."""
+    body = B("if", B("limit", "exists = event_target:dtp_t"), act("fleet", B("event_target:dtp_t", "dtp_ffill_a = yes"), 102)) + "\n" + B("else", "dtp_fclr_a = yes")
+    # получатель B может быть не выбран — его список заполняется вне проверки целей действия
+    return "\n".join([B("from", setv("dtp_fz", i), setv("dtp_fn", 0)), body,
+                      B("if", B("limit", "exists = event_target:dtp_r"), B("event_target:dtp_r", "dtp_ffill_b = yes")),
+                      B("else", "dtp_fclr_b = yes")])
+# 11.8.1: у державы A есть хоть один проект этого размера (= тип изучен и доступен ей)
+# 11.9.6: как у остальных проверок редактора — по общей цели открытого редактора dtp_ev (а не перебором 16 игроков)
+TRG.append(B("dtp_fhas", "exists = event_target:dtp_ev", B("event_target:dtp_ev", B("any_owned_design", "is_ship_size = $Z$"))))
+_FT_X = ("\n\n§R●§! — у державы A нет ни одного проекта этого типа (не изучен или ей недоступен). Создать такие корабли можно только в §Yпринудительном режиме§!: "
+         "по проекту другой державы, а если тип не изучен ни у кого — по готовому проекту DTP%s.",
+         "\n\n§R●§! — empire A has no design of this type (not researched or unavailable to it). Such ships can be created only in §Yforce mode§!: "
+         "from another empire's design, or, if nobody has researched the type, from a DTP prebuilt design%s.")
+for i, (c, k) in enumerate(FTYPES):
+    j = [k_ for c_, k_ in FTYPES if c_ == c].index(k)
+    x, y = EX0 + (j % 4) * (_FW + EGAP), EY0 + (j // 4) * 40
+    eff = _fsel(i, k)
+    pre_ru, pre_en = ("", "") if k in FPRE else (" (для этого типа готового проекта нет)", " (there is no prebuilt design for this type)")
+    xr, xe = _FT_X[0] % pre_ru, _FT_X[1] % pre_en
+    # 11.9.1: значок типа корабля (тот же, что в окнах флота игры: icon из ship_sizes)
+    _ic = _SZ[k][0] and _edf.get(_SZ[k][0], "icon")
+    _pad = "              " if _ic else ""      # как у карточек: в русском шрифте пробел узкий
+    eb("ft_%s_on" % k, _pad + "$%s$" % k, _pad + "$%s$" % k, x, y, _FW, 34, pot=FPC(c) + "\n" + B("from", chk("dtp_fz", i)), effect=eff, sprite="GFX_dtp_btn_on", left=bool(_ic),
+       tt=("Выбран этот тип. Нажмите ещё раз, чтобы перечитать проекты державы A и получателя B." + xr, "This type is selected. Click again to re-read the designs of empire A and recipient B." + xe))
+    eb("ft_%s" % k, _pad + "$%s$" % k, _pad + "$%s$" % k, x, y, _FW, 34, pot=FPC(c) + "\n" + B("from", "NOT = { %s }" % chk("dtp_fz", i)), effect=eff, left=bool(_ic),
+       tt=("Выбрать этот тип корабля: ниже появятся проекты державы A и получателя B этого типа." + xr, "Pick this ship type: the designs of empire A and recipient B of this type appear below." + xe))
+    if _ic:
+        eb("ft_%s_ic" % k, "", "", x + 5, y + 3, 28, 28, pot=FPC(c), sprite="GFX_" + _ic.strip('"'), transp=True, label=True); GUI[-1]["passthru"] = True
+    eb("ft_%s_x" % k, "", "", x + _FW - 20, y + 3, 17, 17, pot=FPC(c) + "\ndtp_has_tc = yes\nNOT = { dtp_fhas = { Z = %s } }" % k, sprite="GFX_dtp_sr", transp=True, label=True)
+    GUI[-1]["passthru"] = True
+_FY = EY0 + 4 * 40 + 6
+def frow(i, ru, en, pot=None):
+    elab("fr_%d" % i, "§Y%s§!" % ru, "§Y%s§!" % en, EX0, _FY + i * 42 + 6, 150, pot=pot or FP13, h=26)
+    return _FY + i * 42
+def fradio(nm, var, val, ru, en, x, y, w, pot, tr, te):
+    eb(nm + "_on", ru, en, x, y, w, 36, pot=pot + "\n" + B("from", chk(var, val)), sprite="GFX_dtp_btn_on", tt=(tr, te))
+    eb(nm, ru, en, x, y, w, 36, pot=pot + "\n" + B("from", "NOT = { %s }" % chk(var, val)), effect=B("from", setv(var, val)), tt=(tr, te))
+# 1) проекты A по номерам
+y = frow(0, "Проект A", "Design of A")
+fradio("fp_any", "dtp_fn", 0, "Любой", "Any", EX0 + 156, y, 96, FP13,
+       "Любой проект державы A этого типа.", "Any design of empire A of this type.")
+for n in range(1, FSLOTS + 1):
+    x = EX0 + 258 + (n - 1) * 52
+    pe = "exists = event_target:dtp_fa_%d" % n
+    fradio("fp_%d" % n, "dtp_fn", n, "№%d" % n, "#%d" % n, x, y, 48, FP13 + "\n" + pe,
+           "Проект №%d державы A этого типа (порядок, в котором игра хранит проекты; название видно в окне созданного флота)." % n,
+           "Design #%d of empire A of this type (the order the game stores designs in; the name shows in the created fleet's window)." % n)
+elab("fp_none", "§gУ державы A нет проектов этого типа — выберите тип ещё раз после смены A§!", "§gEmpire A has no designs of this type — click the type again after changing A§!",
+     EX0 + 258, y + 6, EXW - 258, pot=FP13 + "\nNOT = { exists = event_target:dtp_fa_1 }", h=26)
+# 2) проекты B → скопировать державе A
+y = frow(1, "Проект B → A", "B's design → A")
+for n in range(1, FSLOTS + 1):
+    x = EX0 + 156 + (n - 1) * 52
+    copy = B("event_target:dtp_t", "add_ship_design = event_target:dtp_fb_%d" % n) + "\n" + \
+        "\n".join(B("if" if m == 1 else "else_if", B("limit", "NOT = { exists = event_target:dtp_fa_%d }" % m), B("event_target:dtp_fb_%d" % n, "save_global_event_target_as = dtp_fa_%d" % m))
+                  for m in range(1, FSLOTS + 1))
+    eb("fb_%d" % n, "№%d" % n, "#%d" % n, x, y, 48, 36, pot=FP13 + "\nexists = event_target:dtp_fb_%d" % n, allow=need_perm("fleet") + "\n" + N_TC(),
+       effect=act("fleet", copy, 99),
+       tt=("Скопировать проект №%d получателя B этого типа в проекты державы A. Держава A сможет строить по нему сама; в списке A он появится последним." % n,
+           "Copy recipient B's design #%d of this type into empire A's designs. Empire A can then build it; it appears last in A's list." % n))
+elab("fb_none", "§gУ получателя B нет проектов этого типа (или B не выбран)§!", "§gRecipient B has no designs of this type (or B is not selected)§!",
+     EX0 + 156, y + 6, EXW - 156, pot=FP13 + "\nNOT = { exists = event_target:dtp_fb_1 }", h=26)
+# 3) количество (общее с окном флота игры: «+ N кораблей»)
+FCAP = B("if", B("limit", chk("dtp_shn", 100, ">")), setv("dtp_shn", 100)) + "\n" + B("if", B("limit", chk("dtp_shn", 1, "<")), setv("dtp_shn", 1))
+def fcount(pref, y, pot):
+    x = EX0 + 156
+    for k_, d in (("m10", -10), ("m1", -1)):
+        eb("%s_%s" % (pref, k_), str(d), str(d), x, y, 60, 36, pot=pot, effect=B("from", "change_variable = { which = dtp_shn value = %d }" % d, FCAP)); x += 66
+    elab("%s_n" % pref, "  §Y[From.dtp_shn]§!  шт.", "  §Y[From.dtp_shn]§!  pcs", x, y, 110, pot=pot, h=36, font="malgun_goth_24"); x += 116
+    for k_, d in (("p1", 1), ("p10", 10)):
+        eb("%s_%s" % (pref, k_), "+%d" % d, "+%d" % d, x, y, 60, 36, pot=pot, effect=B("from", "change_variable = { which = dtp_shn value = %d }" % d, FCAP)); x += 66
+y = frow(2, "Количество", "Count")
+fcount("fc", y, FP13)
+# 4) место
+y = frow(3, "Место", "Location")
+for v, ru, en, w in ((0, "Столица A", "A's capital", 150), (1, "Планета P", "Planet P", 150), (2, "Система флота F", "Fleet F's system", 190), (3, "Столица B", "B's capital", 150)):
+    fradio("fl_%d" % v, "dtp_shl", v, ru, en, EX0 + 156 + [0, 156, 312, 508][v], y, w, FP13,
+           "Где появится новый флот: %s." % {0: "у столицы державы A", 1: "у выбранной планеты P", 2: "в системе выбранного флота F", 3: "у столицы получателя B"}[v],
+           "Where the new fleet appears: %s." % {0: "at empire A's capital", 1: "at the selected planet P", 2: "in the selected fleet F's system", 3: "at recipient B's capital"}[v])
+# 5) адмирал
+y = frow(4, "Адмирал", "Admiral")
+for v, ru, en, w in ((0, "Без адмирала", "None", 150), (1, "Выбранный лидер", "Selected leader", 170), (2, "Новый, ур. 1", "New, lvl 1", 130), (3, "Новый, ур. 5", "New, lvl 5", 130), (4, "Новый, ур. 10", "New, lvl 10", 140)):
+    fradio("fa_%d" % v, "dtp_sha", v, ru, en, EX0 + 156 + [0, 156, 332, 468, 604][v], y, w, FP13,
+           {0: "Флот без адмирала.", 1: "Адмиралом станет лидер, выбранный во вкладке «Лидеры» (если он из державы A).", 2: "Создать нового командира 1 уровня.", 3: "Создать нового командира 5 уровня.", 4: "Создать нового командира 10 уровня."}[v],
+           {0: "No admiral.", 1: "The leader selected in the Leaders tab becomes the admiral (if they belong to empire A).", 2: "Create a new level 1 commander.", 3: "Create a new level 5 commander.", 4: "Create a new level 10 commander."}[v])
+# место и адмирал: служебные цели — до и после основного действия (в действии проверяется только держава A)
+FLOC = "\n".join(B("if" if v == 0 else "else_if", B("limit", B("from", chk("dtp_shl", v))), e) for v, e in (
+    (0, B("event_target:dtp_t", B("capital_scope", "save_event_target_as = dtp_floc"))),
+    (1, B("if", B("limit", "exists = event_target:dtp_p"), B("event_target:dtp_p", "save_event_target_as = dtp_floc"))),
+    (2, B("if", B("limit", "exists = event_target:dtp_f"), B("event_target:dtp_f", B("solar_system", B("star", "save_event_target_as = dtp_floc"))))),
+    (3, B("if", B("limit", "exists = event_target:dtp_r"), B("event_target:dtp_r", B("capital_scope", "save_event_target_as = dtp_floc"))))))
+FADM = B("if", B("limit", "exists = event_target:dtp_fnew"),
+         B("if", B("limit", B("from", chk("dtp_sha", 1)), "exists = event_target:dtp_lv", B("event_target:dtp_lv", "exists = owner", B("owner", "is_same_value = event_target:dtp_t"))),
+           B("event_target:dtp_fnew", "assign_leader = event_target:dtp_lv")),
+         *[B("if", B("limit", B("from", chk("dtp_sha", j))), B("event_target:dtp_t", B("owner_species", "save_event_target_as = dtp_fsp"),
+                                                                 B("create_leader", "class = commander", "species = event_target:dtp_fsp", "name = random", "skill = %d" % lv)),
+             B("event_target:dtp_fnew", "assign_leader = last_created_leader")) for j, lv in ((2, 1), (3, 5), (4, 10))])
+def FBUILD(ships, need=""):
+    """need — доп. условие (11.8.2: без образца корабля пустой флот не создаём)."""
+    return B("if", B("limit", "exists = event_target:dtp_floc", need),
+             B("event_target:dtp_t", setv("dtp_shc", "from.dtp_shn"),
+               B("create_fleet", "name = random", B("effect", "set_owner = event_target:dtp_t", ships,
+                                                    "set_location = { target = event_target:dtp_floc distance = 15 angle = random }", "save_event_target_as = dtp_fnew"))))
+FWHILE = B("if", B("limit", "exists = event_target:dtp_fproto"),
+           B("while", B("limit", B("event_target:dtp_t", chk("dtp_shc", 0, ">"))), B("create_ship", "name = random", "design = event_target:dtp_fproto", "graphical_culture = owner"),
+             B("event_target:dtp_t", "change_variable = { which = dtp_shc value = -1 }")))
+# 11.8.1: принудительный режим и у A нет проекта: образец — проект любой другой державы этого типа, иначе готовый проект DTP
+FFORCE = B("if", B("limit", "NOT = { exists = event_target:dtp_fproto }", FORCE_FROM, "exists = event_target:dtp_t"),
+           *[B("if" if i == 0 else "else_if", B("limit", B("from", chk("dtp_fz", i))),
+               B("if", B("limit", B("any_country", B("any_owned_design", "is_ship_size = %s" % k))),
+                 B("random_country", B("limit", B("any_owned_design", "is_ship_size = %s" % k)),
+                   B("random_owned_design", B("limit", "is_ship_size = %s" % k), "save_event_target_as = dtp_fproto")),
+                 *([B("else", B("event_target:dtp_t", "set_country_flag = dtp_fpre", setv("dtp_fpz", i)))] if k in FPRE else [])))
+             for i, (c, k) in enumerate(FTYPES)])
+def _cs(design, gs=None): return B("create_ship", "name = random", "design = %s" % design, "graphical_culture = owner", *(["growth_stage = %d" % gs] if gs else []))
+FPREB = B("else_if", B("limit", B("event_target:dtp_t", "has_country_flag = dtp_fpre")),
+          *[B("if" if n == 0 else "else_if", B("limit", B("event_target:dtp_t", chk("dtp_fpz", i))),
+              B("while", B("limit", B("event_target:dtp_t", chk("dtp_shc", 0, ">"))), _cs('"%s"' % FPRE[k]["name"], FPRE[k]["stage"] if (FPRE[k]["stage"] or 1) > 1 else None),
+                B("event_target:dtp_t", "change_variable = { which = dtp_shc value = -1 }")))
+            for n, (i, k) in enumerate([(i, k) for i, (c, k) in enumerate(FTYPES) if k in FPRE])])
+# 11.9.1: этап роста биокорабля. Проект Мучителя/Ткача/… описывает все этапы, create_ship без growth_stage даёт этап 1 —
+# для типов «Взрослый»/«Старейшина» передаём номер этапа (держава A хранит его в dtp_fgs на время нажатия).
+import re as _re
+_GS = {i: int(_re.search(r"_stage_(\d+)$", k).group(1)) for i, (c, k) in enumerate(FTYPES) if _re.search(r"_stage_(\d+)$", k)}
+FGS = B("if", B("limit", "exists = event_target:dtp_t"), B("event_target:dtp_t", setv("dtp_fgs", 1),
+        *[B("if", B("limit", B("from", B("OR", *[chk("dtp_fz", i) for i, s in _GS.items() if s == st]))), setv("dtp_fgs", st)) for st in (2, 3)
+          if any(s == st for s in _GS.values())]))
+def _cs(design, gs=None): return B("create_ship", "name = random", "design = %s" % design, "graphical_culture = owner", *(["growth_stage = %d" % gs] if gs else []))
+FWHILE_G = B("if", B("limit", "exists = event_target:dtp_fproto"),
+             B("while", B("limit", B("event_target:dtp_t", chk("dtp_shc", 0, ">"))),
+               B("if", B("limit", B("event_target:dtp_t", chk("dtp_fgs", 2))), _cs("event_target:dtp_fproto", 2)),
+               B("else_if", B("limit", B("event_target:dtp_t", chk("dtp_fgs", 3))), _cs("event_target:dtp_fproto", 3)),
+               B("else", _cs("event_target:dtp_fproto")),
+               B("event_target:dtp_t", "change_variable = { which = dtp_shc value = -1 }")))
+FWHILE_P = FWHILE_G + "\n" + FPREB          # только для «Создать N» (копиям флота F запасной проект не нужен)
+# 11.9.3: гражданские корабли (научный, строитель, колонизатор) игра держит только по одному во флоте — второй и дальше
+# не добавлялись («cannot add ship to fleet»). Для них — каждый корабль в своём флоте.
+_CIV = [i for i, (c, k) in enumerate(FTYPES) if _SZ[k][0] and _edf.get(_SZ[k][0], "is_civilian") == "yes"]
+def _one_ship():
+    pre = [B("if" if n == 0 else "else_if", B("limit", B("event_target:dtp_t", chk("dtp_fpz", i))), _cs('"%s"' % FPRE[k]["name"]))
+           for n, (i, k) in enumerate([(i, FTYPES[i][1]) for i in _CIV if FTYPES[i][1] in FPRE])]
+    return B("if", B("limit", "exists = event_target:dtp_fproto"), _cs("event_target:dtp_fproto")) + "\n" + B("else_if", B("limit", B("event_target:dtp_t", "has_country_flag = dtp_fpre")), *pre)
+FBUILD_CIV = B("if", B("limit", "exists = event_target:dtp_floc", B("OR", "exists = event_target:dtp_fproto", B("event_target:dtp_t", "has_country_flag = dtp_fpre"))),
+               B("event_target:dtp_t", setv("dtp_shc", "from.dtp_shn"),
+                 B("while", B("limit", chk("dtp_shc", 0, ">")),
+                   B("create_fleet", "name = random", B("effect", "set_owner = event_target:dtp_t", _one_ship(),
+                                                        "set_location = { target = event_target:dtp_floc distance = 15 angle = random }", "save_event_target_as = dtp_fnew")),
+                   "change_variable = { which = dtp_shc value = -1 }")))
+_ISCIV = B("from", B("OR", *[chk("dtp_fz", i) for i in _CIV])) if _CIV else "always = no"
+_CIVSZ = [FTYPES[i][1] for i in _CIV]
+def _civ_design(tgt): return B(tgt, B("OR", *["is_ship_size = %s" % s for s in _CIVSZ])) if _CIVSZ else "always = no"
+FPRE_CLR = B("if", B("limit", "exists = event_target:dtp_t"), B("event_target:dtp_t", "remove_country_flag = dtp_fpre"))
+FEACH = "\n".join(B("if", B("limit", "exists = event_target:dtp_fa_%d" % n), B("create_ship", "name = random", "design = event_target:dtp_fa_%d" % n, "graphical_culture = owner"))
+                  for n in range(1, FSLOTS + 1))
+# 11.9.3: гражданские — каждый в своём флоте
+FEACH_CIV = B("if", B("limit", "exists = event_target:dtp_floc"), B("event_target:dtp_t", *[
+    B("if", B("limit", "exists = event_target:dtp_fa_%d" % n),
+      B("create_fleet", "name = random", B("effect", "set_owner = event_target:dtp_t", _cs("event_target:dtp_fa_%d" % n),
+                                           "set_location = { target = event_target:dtp_floc distance = 15 angle = random }", "save_event_target_as = dtp_fnew")))
+    for n in range(1, FSLOTS + 1)]))
+# 6) создать
+y = frow(5, "Создать", "Create")
+loc("dtp_need_fdes", "§RУ державы A нет проекта этого типа§! — тип не изучен или ей недоступен (§R●§! на кнопке типа). Включите §Yпринудительный режим§!, чтобы создать "
+    "корабли по проекту другой державы или по готовому проекту DTP. Если вы сменили державу A — нажмите кнопку типа ещё раз.")
+tren(L["dtp_need_fdes"], "§REmpire A has no design of this type§! — not researched or unavailable to it (§R●§! on the type button). Turn on §Yforce mode§! to create "
+     "the ships from another empire's design or a DTP prebuilt design. If you changed empire A, click the type button again.")
+loc("dtp_need_fdes1", "§RУ державы A нет проектов этого типа§! — создавать не из чего (в принудительном режиме используйте «Создать N кораблей»).")
+tren(L["dtp_need_fdes1"], "§REmpire A has no designs of this type§! — nothing to build from (in force mode use 'Create N ships').")
+eb("fgo", "Создать §Y[From.dtp_shn]§! кораблей", "Create §Y[From.dtp_shn]§! ships", EX0 + 156, y, 260, 38, pot=FP13, sprite="GFX_dtp_btn_go",
+   allow=need_perm("fleet") + "\n" + N_TC() + "\n" + "custom_tooltip = { fail_text = dtp_need_fdes %s }" % B("OR", FORCE_FROM, "exists = event_target:dtp_fa_1"),
+   effect="\n".join([FLOC, FPROTO("event_target:dtp_t"), FFORCE, FGS, act("fleet", B("if", B("limit", B("OR", _ISCIV, B("AND", "exists = event_target:dtp_fproto", _civ_design("event_target:dtp_fproto")))), FBUILD_CIV) + "\n" + B("else", FBUILD(FWHILE_P, B("OR", "exists = event_target:dtp_fproto", B("event_target:dtp_t", "has_country_flag = dtp_fpre")))), 17), FPRE_CLR, FADM]),
+   tt=("Новый флот державы A: выбранный тип, проект (№ или любой), количество, место и адмирал.\nЕсли у A нет проекта этого типа (§R●§!) — только в принудительном режиме: "
+       "по проекту другой державы, а если тип не изучен ни у кого — по готовому проекту DTP (обычные детали из дерева технологий; в списке проектов державы его не будет).",
+       "A new fleet of empire A: the selected type, design (# or any), count, location and admiral.\nIf A has no design of this type (§R●§!) — force mode only: "
+       "from another empire's design, or if nobody has researched the type, from a DTP prebuilt design (regular tech-tree components; it does not appear in the empire's design list)."))
+eb("feach", "По 1 кораблю каждого проекта", "1 ship of each design", EX0 + 422, y, 250, 38, pot=FP13,
+   allow=need_perm("fleet") + "\n" + N_TC() + "\n" + "custom_tooltip = { fail_text = dtp_need_fdes1 exists = event_target:dtp_fa_1 }", effect="\n".join([FLOC, act("fleet", B("if", B("limit", "exists = event_target:dtp_fa_1", _civ_design("event_target:dtp_fa_1")), FEACH_CIV) + "\n" + B("else", FBUILD(FEACH)), 17), FADM]),
+   tt=("Один флот: по одному кораблю каждого проекта державы A этого типа — в окне флота видно, какой номер какой проект.",
+       "One fleet: one ship of each of empire A's designs of this type — the fleet window shows which number is which design."))
+FCOPYF = B("if", B("limit", "exists = event_target:dtp_f"), B("event_target:dtp_f", B("random_owned_ship", "save_event_target_as = dtp_fproto")))
+eb("fcopy", "§Y[From.dtp_shn]§! копий корабля флота F", "§Y[From.dtp_shn]§! copies of fleet F's ship", EX0 + 678, y, EXW - 678, 38, pot=FP13,
+   allow=need_perm("fleet") + "\n" + N_TC() + "\n" + N_TF(), effect="\n".join([FLOC, FCOPYF, act("fleet", B("if", B("limit", "exists = event_target:dtp_fproto", _civ_design("event_target:dtp_fproto")), FBUILD_CIV)
+                                                 + "\n" + B("else", FBUILD(FWHILE, "exists = event_target:dtp_fproto")), 17), FADM]),
+   tt=("Новый флот державы A из копий корабля выбранного флота F — проект любой державы, в том числе собранный вами в конструкторе кораблей игры. Флот F выбирается в окне флота: «Выбрать флот».",
+       "A new fleet of empire A made of copies of the selected fleet F's ship — any empire's design, including one you built in the game's ship designer. Pick fleet F in the fleet window: 'Select fleet'."))
+elab("fhint", "§gНомера проектов — в порядке, в котором их хранит игра; название проекта видно в окне созданного флота.§!",
+     "§gDesign numbers follow the order the game stores them in; the design's name shows in the created fleet's window.§!", EX0, _FY + 6 * 42 + 4, EXW, pot=FP13, h=26)
+
+# ---- подраздел 4: флот F
+def fbtn(nm, ru, en, x, y, w, body, tr, te, extra_allow="", sprite="GFX_dtp_btn", pre=""):
+    eb(nm, ru, en, x, y, w, 38, pot=FPC(4), allow=need_perm("fleet") + "\n" + N_TF() + extra_allow, effect=(pre + "\n" if pre else "") + act("fleet", body, 101), tt=(tr, te), sprite=sprite)
+def frow4(i, ru, en):
+    elab("f4r_%d" % i, "§Y%s§!" % ru, "§Y%s§!" % en, EX0, EY0 + i * 44 + 6, 150, pot=FPC(4), h=26)
+    return EY0 + i * 44
+F_ = "event_target:dtp_f"
+y = frow4(0, "Стойка", "Stance")
+for j, (v, ru, en) in enumerate((("aggressive", "Агрессивная", "Aggressive"), ("passive", "Пассивная", "Passive"), ("evasive", "Уклонение", "Evasive"))):
+    fbtn("f4_st_%s" % v, ru, en, EX0 + 156 + j * 176, y, 170, B(F_, "set_fleet_stance = %s" % v), "Стойка флота F: %s." % ru.lower(), "Fleet F stance: %s." % en.lower())
+y = frow4(1, "Маскировка", "Cloaking")
+fbtn("f4_cl1", "Включить", "On", EX0 + 156, y, 170, B(F_, "set_cloaking_active = yes"), "Включить маскировку флота F (нужен маскировочный модуль на кораблях).", "Turn on fleet F's cloaking (the ships need a cloaking device).")
+fbtn("f4_cl0", "Выключить", "Off", EX0 + 332, y, 170, B(F_, "set_cloaking_active = no"), "Выключить маскировку флота F.", "Turn off fleet F's cloaking.")
+y = frow4(2, "Адмирал", "Admiral")
+fbtn("f4_lv", "Выбранный лидер", "Selected leader", EX0 + 156, y, 170,
+     B(F_, B("owner", "save_event_target_as = dtp_fown"),
+       B("if", B("limit", B("event_target:dtp_lv", "exists = owner", B("owner", "is_same_value = event_target:dtp_fown"))), "assign_leader = event_target:dtp_lv")),
+     "Назначить адмиралом флота F лидера, выбранного во вкладке «Лидеры» (лидер должен принадлежать владельцу флота).", "Make the leader selected in the Leaders tab fleet F's admiral (the leader must belong to the fleet's owner).", extra_allow="\n" + N_LV())
+for j, lv in enumerate((1, 5, 10)):
+    fbtn("f4_new%d" % lv, "Новый, ур. %d" % lv, "New, lvl %d" % lv, EX0 + 332 + j * 136, y, 130,
+         B(F_, B("owner", B("owner_species", "save_event_target_as = dtp_fsp"), B("create_leader", "class = commander", "species = event_target:dtp_fsp", "name = random", "skill = %d" % lv)),
+           "assign_leader = last_created_leader"),
+         "Создать владельцу флота F нового командира %d уровня и назначить его адмиралом." % lv, "Create a new level %d commander for fleet F's owner and make them the admiral." % lv)
+fbtn("f4_unl", "Снять адмирала", "Remove admiral", EX0 + 744, y, EXW - 744, B(F_, B("if", B("limit", "exists = leader"), B("leader", "unassign_leader = this"))),
+     "Снять адмирала с флота F (лидер останется у державы).", "Remove fleet F's admiral (the leader stays with the empire).")
+y = frow4(3, "Проект", "Design")
+fbtn("f4_des", "Все корабли → выбранный проект A", "All ships → selected design of A", EX0 + 156, y, 330, B("if", B("limit", "exists = event_target:dtp_fproto"), B(F_, "set_ship_design = { design = event_target:dtp_fproto }")),
+     "Перевести все корабли флота F на проект, выбранный в подразделах с кораблями (тип и №; «Любой» — любой проект A этого типа). Тип кораблей лучше совпадать.",
+     "Switch every ship of fleet F to the design selected in the ship sub-sections (type and #; 'Any' — any design of A of that type). Ship types should match.",
+     extra_allow="\n" + N_TC(), pre=FPROTO("event_target:dtp_t"))
+fbtn("f4_cpy", "Скопировать проект корабля F державе A", "Copy fleet F's ship design to A", EX0 + 492, y, EXW - 492,
+     B(F_, B("random_owned_ship", B("design", "save_event_target_as = dtp_fdes"))) + "\n" + B("event_target:dtp_t", "add_ship_design = event_target:dtp_fdes"),
+     "Проект корабля флота F (любой державы — например, собранный вами в конструкторе кораблей игры) появится в проектах державы A: она сможет строить и менять его сама.",
+     "Fleet F's ship design (any empire's — e.g. one you built in the game's ship designer) is added to empire A's designs: A can build and edit it.", extra_allow="\n" + N_TC())
+y = frow4(4, "Корабли", "Ships")
+for j, (nm, ru, en, body, tr, te, sp) in enumerate((
+        ("rep", "Ремонт", "Repair", B(F_, "repair_percentage = 1", "repair_armor_percentage = 1", "repair_shield_percentage = 1"), "Полностью отремонтировать флот F (корпус, броня и щиты).", "Fully repair fleet F (hull, armor and shields).", "GFX_dtp_btn"),
+        ("dmg", "Повредить 50%", "Damage 50%", B(F_, B("every_owned_ship", "reduce_hp_percent = 0.5")), "Снять половину прочности корпуса каждому кораблю флота F.", "Remove half of each ship's hull points in fleet F.", "GFX_dtp_btn_warn"),
+        ("mia", "Вернуть из MIA", "Return from MIA", B(F_, "return_from_mia = yes"), "Если флот F пропал без вести (MIA) — вернуть его сразу.", "If fleet F is missing in action, bring it back now.", "GFX_dtp_btn"),
+        ("home", "Домой", "Go home", B(F_, "order_forced_return = yes"), "Отправить флот F на дружественную территорию.", "Send fleet F back to friendly territory.", "GFX_dtp_btn"))):
+    fbtn("f4_" + nm, ru, en, EX0 + 156 + j * 182, y, 176, body, tr, te, sprite=sp)
+y = frow4(5, "Передать B", "Give to B")
+for j, (d, ru, en) in enumerate(((360, "1 год", "1 year"), (1800, "5 лет", "5 years"), (3600, "10 лет", "10 years"))):
+    fbtn("f4_lease%d" % d, ru, en, EX0 + 156 + j * 136, y, 130, B(F_, "give_fleet = { controller = event_target:dtp_r days = %d }" % d),
+         "Отдать флот F получателю B в аренду на %s (владелец не меняется)." % ru, "Lease fleet F to recipient B for %s (the owner stays)." % en, extra_allow="\n" + N_RCP())
+# 11.9.2: передать флот насовсем (как в главной панели «Флот»)
+fbtn("f4_give", "Навсегда", "Permanently", EX0 + 156 + 3 * 136, y, 170, B(F_, "set_owner = event_target:dtp_r"),
+     "Передать флот F получателю B насовсем: B становится владельцем флота. Слева — аренда на срок (владелец не меняется).",
+     "Give fleet F to recipient B permanently: B becomes the fleet's owner. On the left — a lease for a term (the owner stays).", extra_allow="\n" + N_RCP(), sprite="GFX_dtp_btn_warn")
+elab("f4_hint", "§gФлот F выбирается в окне флота игры: «Выбрать флот». Создание копий его корабля — в подразделах с кораблями.§!",
+     "§gPick fleet F in the game's fleet window: 'Select fleet'. Copies of its ship are made in the ship sub-sections.§!", EX0, EY0 + 6 * 44 + 6, EXW, pot=FPC(4), h=26)
+
+# ---- подраздел 5: армии
+_ARM = _ed.top(os.path.join(VC, "armies/*.txt"))
+_ARMORD = {"01_assault_armies.txt": 0, "00_defense_armies.txt": 1, "03_occupation_armies.txt": 2}
+ARMIES = sorted(((k, b, f) for k, (b, f) in _ARM.items()), key=lambda x: (_ARMORD.get(x[2], 3), x[0]))
+y = EY0
+elab("f5r_cnt", "§YКоличество§!", "§YCount§!", EX0, y + 6, 150, pot=FPC(5), h=26)
+fcount("ac", y, FPC(5))
+y = EY0 + 44
+elab("f5r_where", "§YГде§!", "§YWhere§!", EX0, y + 6, 150, pot=FPC(5), h=26)
+fradio("aw0", "dtp_atr", 0, "На планете P", "On planet P", EX0 + 156, y, 200, FPC(5), "Армии появятся на выбранной планете P.", "The armies appear on the selected planet P.")
+fradio("aw1", "dtp_atr", 1, "В транспортах у P", "In transports near P", EX0 + 362, y, 220, FPC(5),
+       "Армии появятся в транспортах на орбите планеты P (оборонительные армии — всё равно на планете).", "The armies appear in transports orbiting planet P (defensive armies — still on the planet).")
+elab("f5_hint", "§gВладелец — держава A, вид — выбранный вид A (строка «Вид» во вкладке «Лидеры» или в «Чертах вида»).§!",
+     "§gOwner — empire A, species — A's selected species (the Species row in the Leaders tab or in Species traits).§!", EX0, EY0 + 88 + 4, EXW, pot=FPC(5), h=26)
+def mk(i, it, x, y, w, pot):
+    k, b, f = it
+    defensive = _ed.get(b, "defensive") == "yes"
+    sp = _ed.get(b, "has_species") != "no"
+    spl = ["species = event_target:dtp_sp"] if sp else []
+    onp = B("event_target:dtp_p", setv("dtp_ac", "from.dtp_shn"),
+            B("while", B("limit", chk("dtp_ac", 0, ">")), B("create_army", "name = random", "owner = event_target:dtp_t", "type = %s" % k, *spl),
+              "change_variable = { which = dtp_ac value = -1 }"))
+    if defensive:
+        body = onp
+    else:
+        tr = B("event_target:dtp_t", setv("dtp_shc", "from.dtp_shn"),
+               B("create_fleet", "name = random", B("effect", "set_owner = event_target:dtp_t",
+                 B("while", B("limit", B("event_target:dtp_t", chk("dtp_shc", 0, ">"))),
+                   B("create_army_transport", "ship_name = random", "army_name = random", "army_type = %s" % k, *spl), B("event_target:dtp_t", "change_variable = { which = dtp_shc value = -1 }")),
+                 "set_location = { target = event_target:dtp_p distance = 10 angle = random }")))
+        body = B("if", B("limit", B("from", chk("dtp_atr", 1))), tr) + "\n" + B("else", onp)
+    ic = _ed.get(b, "icon")
+    tex = _SPRT.get(ic.strip('"')) if isinstance(ic, str) else None
+    kind = ("оборонительная", "defensive") if defensive else ("штурмовая", "assault")
+    card("ar_" + k, "$%s$" % k, "$%s$" % k, x, y, w, pot, tex, None, None, act("fleet", body, 100), "fleet",
+         "§Y$%s$§!  §g(%s)§!\n\n§gНажмите: создать армии этого типа державе A — на планете P или в транспортах у неё.§!" % (k, kind[0]),
+         "§Y$%s$§!  §g(%s)§!\n\n§gClick: create armies of this type for empire A — on planet P or in transports near it.§!" % (k, kind[1]), need=N_TC() + "\n" + N_TP())
+grid_items(14, 5, ARMIES, mk, dy=132)
+print("редактор: флот — типов кораблей %d (%s), армий %d" % (len(FTYPES), ", ".join("%d: %d" % (c, sum(1 for c_, k_ in FTYPES if c_ == c)) for c in (1, 2, 3)), len(ARMIES)))
+
 _GI = "gfx/interface/icons/"
 _TRI = {g: next((x["icon"] for x in _TRS if x["grp"] == g and x["icon"].startswith(_GI + "traits/")), None) for g in ("bio", "robot", "ascend", "hab")}
 _TRI["bio"] = _GI + "traits/trait_intelligent.dds"
 NAVTEX = {1: _GI + "governments/authorities/auth_imperial.dds", 2: _GI + "governments/civics/civic_technocracy.dds", 3: _GI + "resources/unity.dds",
           4: _GI + "ascension_perks/slot_available.dds", 5: _GI + "resources/influence.dds", 6: _GI + "traits/trait_intelligent.dds",
           7: _GI + "species_right_living_standards.dds", 10: _GI + "species_right_citizenship.dds", 8: _GI + "resources/alloys.dds", 9: _GI + "resources/society_research.dds",
-          11: _GI + "icon_council.dds", 12: _GI + "resources/physics_research.dds", 13: _GI + "menu_icon_edicts.dds"}
+          11: _GI + "icon_council.dds", 12: _GI + "resources/physics_research.dds", 13: _GI + "menu_icon_edicts.dds", 14: _GI + "resources/alloys.dds"}
 CIVTEX = {1: _GI + "governments/authorities/auth_democratic.dds", 2: _GI + "governments/authorities/auth_corporate.dds", 3: _GI + "governments/authorities/auth_hive_mind.dds",
           4: _GI + "governments/authorities/auth_machine_intelligence.dds", 5: _GI + "resources/minor_artifacts.dds"}
 TRTEX = {1: _TRI["bio"], 2: _TRI["robot"], 3: _TRI["ascend"], 4: _TRI["hab"]}

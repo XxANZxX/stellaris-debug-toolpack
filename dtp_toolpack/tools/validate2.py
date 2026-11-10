@@ -35,7 +35,7 @@ opn |= starcls | defs("system_tooltips") | defs("megastructures") | {"dtp_gamema
 STRUCT = set("""id title desc option name trigger limit immediate text picture is_triggered_only hide_window which value namespace else else_if if
 modifier days multiplier time_multiplier who target type status amount num_of_claims show_notification resource variable species owner size fraction
 country cooldown authority civics class radius scaled_size skill design min max localization_key defined_text count weight ai_weight potential allow effect attacker_war_goal opinion decay base mult add_trait remove_trait flag side on_war_beginning events event on_monthly_pulse on_game_start parameters rounded setting color condition display_claims enable_terra_incognita icon can_change_point_of_view custom_tooltip dtp_rules_map_mode spawn_random_storm_weighted has_machine_age_dlc relations event_chain location poi situation_log_category surveyed surveyor dtp_marks_chain on_entering_system_fleet random_existing_design on_claim_system num_of_claims who target count Target Count
-fail_text root prev from this AND OR NOT NOR NAND K CODE RES OP P ACT R remove_invalid_civics icon icon_frame message tech angle required_component section ship_design ship_size slot template entity portrait show_in_outliner place_entity_on_planet_plane orbit_distance planet possible policy plural trait traits change_all homeworld category district district_type holding ignore_cap percentage pop_group random_pos zone ethos replace to bypass_type country duration show_message consume_selection job""".split())
+fail_text root prev from this AND OR NOT NOR NAND K CODE RES OP P ACT R remove_invalid_civics icon icon_frame message tech angle required_component section ship_design ship_size slot template entity portrait show_in_outliner place_entity_on_planet_plane orbit_distance planet possible policy plural trait traits change_all homeworld category district district_type holding ignore_cap percentage pop_group random_pos zone ethos replace to bypass_type country duration show_message consume_selection job army_name ship_name army_type component is_event_design custom_gui diplomatic growth_stage growth_stages""".split())
 RESKEYS = {"energy", "minerals", "food", "alloys", "consumer_goods", "influence", "unity", "physics_research", "society_research", "engineering_research",
            "astral_threads", "exotic_gases", "minor_artifacts", "nanites", "rare_crystals", "sr_dark_matter", "sr_living_metal", "sr_zro", "volatile_motes"}
 for k in sorted(set(re.findall(r'(?<![:\w.$@])([a-z_][a-z0-9_]*)\s*(?:=|>|<)', code))):
@@ -72,7 +72,7 @@ for f in txt:
 def depth(e, seen=()):
     if e in seen: errors.append("рекурсия: " + e); return 0
     return 1 + max([depth(c, seen + (e,)) for c in calls[e]] or [0])
-maxd = max(depth(e) for e in eff)
+maxd = max((depth(e) for e in eff), default=0)
 if maxd > 4: errors.append("вложенность scripted effects %d (> 4)" % maxd)
 # GUI: эффект кнопки существует, спрайт объявлен, текстура на месте, текст в локализации
 VANILLA_SPR = set()

@@ -143,5 +143,5 @@ tot = 0
 for k in sorted(R):
     v = sorted(set(R[k])); tot += len(v)
     print("\n== %s: %d" % (k, len(v)))
-    for x in v[:25]: print("   ", x)
+    for x in v[:int(os.environ.get("GA_N", "25"))]: print("   ", x)
 print("\nИТОГО замечаний:", tot)

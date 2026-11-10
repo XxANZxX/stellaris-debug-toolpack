@@ -260,7 +260,14 @@ def leader_traits(vc, spr):
             except ValueError: pass
         mods = [(blk, modlist(b, vc, keys=(blk,))) for blk, _r, _e in LT_MODS]
         repl = [x.strip('"') for _, _, x in (get(b, "replace_traits") or []) if isinstance(x, str)]
-        out.append(dict(key=k, classes=classes, cat=cat, icon=tex, tier=tier, repl=repl, mods=[(bk, m) for bk, m in mods if m], file=f))
+        opp = [x.strip('"') for _, _, x in (get(b, "opposites") or []) if isinstance(x, str)] if isinstance(get(b, "opposites"), list) else []
+        out.append(dict(key=k, classes=classes, cat=cat, icon=tex, tier=tier, repl=repl, opp=opp, mods=[(bk, m) for bk, m in mods if m], file=f))
+    # 11.8.2: противоположные черты — в обе стороны (в файлах игры часто указаны только у одной из пары)
+    by = {x["key"]: x for x in out}
+    for x in out: x["opp"] = [o for o in x["opp"] if o in by and o != x["key"]]
+    for x in out:
+        for o in x["opp"]:
+            if o in by and x["key"] not in by[o]["opp"]: by[o]["opp"].append(x["key"])
     return out
 
 def technologies(vc, spr):
@@ -286,8 +293,11 @@ def technologies(vc, spr):
             ic = get(b, "icon")
             ic = ic.strip('"') if isinstance(ic, str) else k
             tex = spr.get("GFX_" + ic) or "gfx/interface/icons/technologies/%s.dds" % ic
+            pot = get(b, "potential")         # 11.7.6: только своё условие технологии (без предыдущих) — «держава не может её иметь вообще»
+            req = resolve(ser(pot), vc) if isinstance(pot, list) and pot else None
             out.append(dict(key=k, area=area, tier=tier, cats=cats, rare=get(b, "is_rare") == "yes", dangerous=get(b, "is_dangerous") == "yes",
-                            repeat=repeat, start=start, special=special, icon=tex, mods=modlist(b, vc, keys=("modifier",)), file=os.path.basename(f)))
+                            repeat=repeat, start=start, special=special, icon=tex, mods=modlist(b, vc, keys=("modifier",)), file=os.path.basename(f),
+                            req=[req] if req else []))
     return out
 
 EDICT_GRP = {"00_edicts.txt": 1, "01_campaigns.txt": 2, "02_ambitions.txt": 3, "03_sacrifices.txt": 3}   # остальные файлы (DLC) — 4
@@ -301,4 +311,152 @@ def edicts(vc, spr):
         ic = (get(b, "icon") or "").strip('"')
         out.append(dict(key=k, grp=EDICT_GRP.get(f, 4), perpetual=ln in ("@EdictPerpetual", "-1"), icon=spr.get(ic) if ic.startswith("GFX_") else (ic or None),
                         req=[req] if req else [], mods=modlist(b, vc), file=f))
+    return out
+
+# ---------------------------------------------------------------- 11.8.1: готовые проекты DTP («пребилды») для типов, которых нет ни у одной державы
+def _cost(b, vc):
+    r = get(b, "resources")
+    if not isinstance(r, list): return 0.0
+    c = get(r, "cost")
+    tot = 0.0
+    for blk in ([c] if isinstance(c, list) else []):
+        for k, op, v in blk:
+            if isinstance(v, str):
+                try: tot += float(resolve(v, vc))
+                except (TypeError, ValueError): pass
+    return tot
+def components(vc):
+    out = []
+    for f in sorted(glob.glob(os.path.join(vc, "component_templates/*.txt"))):
+        if "documentation" in f: continue
+        for k, op, b in parse(open(f, encoding="utf-8-sig", errors="ignore").read()):
+            if not (isinstance(b, list) and k and k.endswith("component_template")): continue
+            pot = get(b, "potential")
+            pr = get(b, "prerequisites")
+            pr = [x.strip('"') for _, _, x in pr if isinstance(x, str)] if isinstance(pr, list) else []
+            out.append(dict(kind=k, key=(get(b, "key") or "").strip('"'), size=(get(b, "size") or "").lower(), set=(get(b, "component_set") or "").strip('"'),
+                            pre=bool(pr), prl=pr, pot=pot if isinstance(pot, list) else [], cost=_cost(b, vc), hidden=get(b, "hidden") == "yes"))
+    return out
+def _ship_triggers(vc):
+    """ship_uses_* (scripted triggers игры) → множество размеров кораблей, для которых условие верно."""
+    defs = {}
+    for f in glob.glob(os.path.join(vc, "scripted_triggers/*.txt")):
+        for k, op, b in parse(open(f, encoding="utf-8-sig", errors="ignore").read()):
+            if k and k.startswith("ship_uses_") and isinstance(b, list): defs[k] = b
+    memo = {}
+    def sizes(name, seen=()):
+        if name in memo: return memo[name]
+        acc = set()
+        def walk(nodes):
+            for k, op, v in nodes:
+                if k == "is_ship_size" and isinstance(v, str): acc.add(v)
+                elif k in defs and v == "yes" and k not in seen: acc.update(sizes(k, seen + (name,)))
+                elif isinstance(v, list) and k not in ("NOT", "NOR"): walk(v)
+        walk(defs.get(name, []))
+        memo[name] = acc
+        return acc
+    return {k: sizes(k) for k in defs}
+def _pot_ok(nodes, size, bio, ST):
+    """Мини-проверка potential детали для размера корабля: ship_uses_*, is_ship_size, country_uses_bio_ships; прочее — «да»."""
+    def ev(k, op, v):
+        if k in ("OR",): return any(ev(*n) for n in v) if isinstance(v, list) and v else True
+        if k in ("NOR",): return not any(ev(*n) for n in v) if isinstance(v, list) else True
+        if k in ("NOT",): return not all(ev(*n) for n in v) if isinstance(v, list) else True
+        if k in ("NAND",): return not all(ev(*n) for n in v) if isinstance(v, list) else True
+        if isinstance(v, list): return all(ev(*n) for n in v)
+        if k in ST: return (size in ST[k]) == (v == "yes")
+        if k == "is_ship_size": return size == v
+        if k == "country_uses_bio_ships": return bio == (v == "yes")
+        if k == "is_arkship_ship": return v == "no"
+        return True
+    return all(ev(*n) for n in nodes)
+_DEFKW = ("ARMOR", "SHIELD", "CARAPACE", "SKIN", "EPIDERMIS", "DEFLECTOR", "HULL")
+def prebuilt_designs(vc, sizes):
+    """{ship_size: текст ship_design} — секции с наибольшим числом слотов, лучшие (по цене) изучаемые детали подходящего размера."""
+    S = top(os.path.join(vc, "ship_sizes/*.txt"))
+    slot_t = {}
+    for f in glob.glob(os.path.join(vc, "component_slot_templates/*.txt")):
+        for k, op, b in parse(open(f, encoding="utf-8-sig", errors="ignore").read()):
+            if isinstance(b, list): slot_t[k] = ((get(b, "size") or "").lower(), (get(b, "component") or "").lower())
+    secs = []
+    for f in glob.glob(os.path.join(vc, "section_templates/*.txt")):
+        for k, op, b in parse(open(f, encoding="utf-8-sig", errors="ignore").read()):
+            if k != "ship_section_template" or not isinstance(b, list): continue
+            ss = get(b, "ship_size")
+            ss = [x for _, _, x in ss if isinstance(x, str)] if isinstance(ss, list) else [ss]
+            secs.append(dict(key=(get(b, "key") or "").strip('"'), sizes=ss, slot=(get(b, "fits_on_slot") or "").strip('"'),
+                             comps=[((get(c, "name") or "").strip('"'), (get(c, "template") or "").strip('"')) for c in getall(b, "component_slot") if isinstance(c, list)],
+                             util={u: int(get(b, "%s_utility_slots" % u) or 0) for u in ("small", "medium", "large", "aux")}))
+    C = components(vc)
+    ST = _ship_triggers(vc)
+    # «обычные» технологии дерева: не редкие, не особые (weight 0 / Павшие), не стартовые-событийные
+    TN = {x["key"] for x in technologies(vc, {}) if not x["rare"] and not x["special"]}
+    for c in C: c["norm"] = bool(c["prl"]) and all(p in TN for p in c["prl"])
+    cur = {}
+    def pick(cands, bio):
+        cands = [c for c in cands if not c["hidden"] and c["key"] and _pot_ok(c["pot"], cur["size"], bio, ST)]
+        pref = [c for c in cands if c["norm"]] or [c for c in cands if c["pre"]] or cands
+        exo = lambda k: any(w in k for w in ("LM_", "PSI", "ARCHAEO", "DARK_MATTER", "_ED_", "ED_WEAPON", "NANITE", "CRYSTAL", "DRAGON", "AMOEBA"))
+        return max(pref, key=lambda c: (not exo(c["key"]), c["cost"], c["key"]))["key"] if pref else None
+    body = {}
+    allsz = list(sizes) + [s for s in S if re.match(r"^(.+)_stage_\d+$", s) and get(S[s][0], "growth_stage_descriptor")
+                            and any(s.rsplit("_stage_", 1)[0] == x.rsplit("_stage_", 1)[0] for x in sizes)]
+    for size in dict.fromkeys(allsz):
+        if size not in S: continue
+        b, f = S[size]
+        cur["size"] = size
+        bio = any(x in size for x in ("mauler", "weaver", "harbinger", "stinger", "bio_titan"))
+        slots = [k_ for k_, op_, v_ in get(b, "section_slots")] if isinstance(get(b, "section_slots"), list) else []
+        slots = [s.strip('"') for s in slots if s]
+        parts = []
+        ok = True
+        for sl in slots:
+            cand = [s for s in secs if size in s["sizes"] and s["slot"] == sl]
+            if not cand: ok = False; break
+            sec = max(cand, key=lambda s: (len(s["comps"]) + sum(s["util"].values()), s["key"]))
+            comps = []
+            for nm, st in sec["comps"]:
+                sz, kind = slot_t.get(st, ("", ""))
+                if not sz: continue
+                if kind == "weapon":
+                    k_ = pick([c for c in C if c["kind"] == "weapon_component_template" and c["size"] == sz], bio)
+                else:
+                    k_ = pick([c for c in C if c["kind"] == "strike_craft_component_template" and c["size"] == sz], bio)
+                if k_: comps.append((nm, k_))
+            for u in ("small", "medium", "large"):
+                for n in range(1, sec["util"][u] + 1):
+                    cands = [c for c in C if c["kind"] == "utility_component_template" and c["size"] == u and any(w in c["key"] for w in _DEFKW)]
+                    want = "SHIELD" if n % 2 else "ARMOR"
+                    k_ = pick([c for c in cands if want in c["key"]], bio) or pick(cands, bio)
+                    if k_: comps.append(("%s_UTILITY_%d" % (u.upper(), n), k_))
+            parts.append('\tsection = {\n\t\ttemplate = "%s"\n\t\tslot = "%s"\n%s\t}\n' % (sec["key"], sl, "".join('\t\tcomponent = { slot = "%s" template = "%s" }\n' % c for c in comps)))
+        if not ok or not parts: continue
+        req = []
+        for rs in [x.strip('"') for x in getall(b, "required_component_set") if isinstance(x, str)]:
+            k_ = pick([c for c in C if c["set"] == rs], bio)
+            if k_: req.append(k_)
+        body[size] = "\tship_size = %s\n%s%s" % (size, "".join(parts), "".join('\trequired_component = "%s"\n' % r for r in req))
+    # 11.9.1: биокорабли с этапами роста (Мучитель, Ткач, Предвестник, Жало и их отпрыски) — проект игры обязан описать ВСЕ этапы
+    # в growth_stages = { {этап 1} {этап 2} {этап 3} } (иначе «Invalid Ship Design»); корабль нужного этапа — create_ship growth_stage = N.
+    out = {}
+    for size in sizes:
+        if size not in body: continue
+        m = re.match(r"^(.+)_stage_(\d+)$", size)
+        if m and get(S[size][0], "growth_stage_descriptor"):
+            fam, n = m.group(1), int(m.group(2))
+            stages = []
+            k = 1
+            while "%s_stage_%d" % (fam, k) in S:
+                st = "%s_stage_%d" % (fam, k)
+                if st not in body: break
+                stages.append(st); k += 1
+            if n > len(stages): continue
+            nm = "DTP_PREBUILT_%s" % fam
+            txt = 'ship_design = {\n\tname = "%s"\n\tis_event_design = yes\n\tgrowth_stages = {\n%s\t}\n}\n' % (
+                nm, "".join("\t\t{\n%s\t\t}\n" % "".join("\t\t" + l + "\n" for l in body[st].rstrip("\n").split("\n")) for st in stages))
+            out[size] = dict(name=nm, stage=n, text=txt, first=stages[0])
+        else:
+            nm = "DTP_PREBUILT_%s" % size
+            out[size] = dict(name=nm, stage=None, first=size,
+                             text='ship_design = {\n\tname = "%s"\n\tis_event_design = yes\n%s}\n' % (nm, body[size]))
     return out

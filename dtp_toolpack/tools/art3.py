@@ -659,7 +659,7 @@ SPR["GFX_dtp_ednav_on"] = ("dtp_ednav_on", snav_e(True), "corner", (40, 8), 3, "
 SPR["GFX_dtp_ec"] = ("dtp_edcard", edcard(), "corner", (44, 8), 3, "buttonstate")
 SPR["GFX_dtp_ecl"] = ("dtp_edcard_l", edcard(light=True), "corner", (44, 8), 3, "buttonstate")
 _EBCOL = {1: (190, 160, 255), 2: (190, 160, 255), 3: (255, 214, 90), 4: (255, 214, 90), 5: (130, 200, 255), 6: (130, 225, 140), 7: (130, 225, 140), 8: S_HI, 9: S_OR2,
-          11: (255, 190, 120), 12: (120, 210, 255), 13: (200, 170, 255)}
+          11: (255, 190, 120), 12: (120, 210, 255), 13: (200, 170, 255), 14: (255, 160, 110)}
 for _it in json.load(open(META, encoding="utf-8"))["items"]:
     _m = re.match(r"GFX_dtp_ebanner_(\d+)$", _it["sprite"])
     if _m and _it["sprite"] not in SPR:

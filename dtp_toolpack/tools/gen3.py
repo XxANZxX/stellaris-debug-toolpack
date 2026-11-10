@@ -17,7 +17,7 @@ python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/model
 import zlib, os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "11.7.5"
+VERSION = "11.9.8"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []
@@ -132,10 +132,12 @@ CODES = {1: "ресурсы добавлены", 2: "ресурсы вычтен
          44: "уровень жизни изменён", 45: "военная служба изменена", 46: "вид рабства изменён", 47: "вид чистки изменён",
          63: "традиции изменены", 64: "перк возвышения изменён", 65: "политика изменена", 66: "облик или название изменены", 67: "портрет вида изменён",
          90: "лидер выбран", 91: "лидер изменён", 92: "черта лидера изменена", 93: "лидер передан получателю", 94: "лидер убит",
-         95: "технология изучена", 96: "технологии изучены", 97: "исследования продвинуты", 98: "указ включён"}   # 11.7: 68–77 — у редактора планеты
+         95: "технология изучена", 96: "технологии изучены", 97: "исследования продвинуты", 98: "указ включён",
+         99: "проект корабля скопирован", 100: "армии созданы", 101: "флот изменён", 102: "тип корабля выбран"}   # 11.7: 68–77 — у редактора планеты
 CODES_EN = {63: "traditions changed", 64: "ascension perk changed", 65: "policy changed", 66: "look or name changed", 67: "species portrait changed",
             90: "leader selected", 91: "leader changed", 92: "leader trait changed", 93: "leader given to the recipient", 94: "leader killed",
-            95: "technology researched", 96: "technologies researched", 97: "research advanced", 98: "edict enacted"}
+            95: "technology researched", 96: "technologies researched", 97: "research advanced", 98: "edict enacted",
+            99: "ship design copied", 100: "armies created", 101: "fleet changed", 102: "ship type selected"}
 CATALOG = [(1, "Проверка связи", "Тестовое окно, ничего не меняет.", "country"),
            (2, "Дар Хранителей", "Выбор: энергия, сплавы или единство.", "country"),
            (3, "Волнения в столице", "Подавить (−стабильность) или откупиться.", "country"),
@@ -358,14 +360,16 @@ EFF.append(B("dtp_pidx_ensure", B("if", B("limit", "NOT = { is_variable_set = dt
     "remove_country_flag = dtp_pidx_self",
     B("if", B("limit", chk("dtp_pidx", MAXP, ">")), setv("dtp_pidx", MAXP)),
     setv("dtp_amount", 1000), setv("dtp_val", 10), setv("dtp_years", 0), setv("dtp_res", 1), setv("dtp_tab", 15), setv("dtp_in", 0), setv("dtp_cpage", 0),
-    setv("dtp_cn", 0), setv("dtp_coff", 0), setv("dtp_shn", 1), setv("dtp_shz", 0), setv("dtp_amt", 0), setv("dtp_stock", 0), *[setv("dtp_log%s_%d" % (n, k), 0) for n in ("code", "res") for k in range(1, 9)]),
+    setv("dtp_cn", 0), setv("dtp_coff", 0), setv("dtp_shn", 1), setv("dtp_shz", 0), setv("dtp_fz", 0), setv("dtp_fn", 0), setv("dtp_shl", 0), setv("dtp_sha", 0), setv("dtp_atr", 0), setv("dtp_amt", 0), setv("dtp_stock", 0), *[setv("dtp_log%s_%d" % (n, k), 0) for n in ("code", "res") for k in range(1, 9)]),
     # 11.1: счётчик отмеченных систем показывается на «Главной» сразу — без него error.log: «Unknown property dtp_mcount»
     B("if", B("limit", "NOT = { is_variable_set = dtp_mcount }"), setv("dtp_mcount", 0))))  # без пустых переменных — чище error.log
 # назначение целей (вызывается в области объекта; номер игрока — из from)
 for t in ("tc", "rcp", "tp", "tf"):
     EFF.append(B("dtp_set_%s" % t, chain(None, None) if False else "\n".join(
         B("if" if k == 1 else "else_if", B("limit", B("from", chk("dtp_pidx", k))), "save_global_event_target_as = dtp_%s_%d" % (t, k)) for k in range(1, MAXP + 1)),
-        B("from", "set_country_flag = dtp_ok_%s" % t)))
+        B("from", "set_country_flag = dtp_ok_%s" % t),
+        # 11.8.2: списки проектов конструктора флота — по новой державе (номер проекта A сбрасывается на «Любой»)
+        {"tc": B("from", setv("dtp_fn", 0)) + "\ndtp_ffill_a = yes", "rcp": "dtp_ffill_b = yes"}.get(t, "")))
 EFF.append(B("dtp_init_targets", "\n".join(B("if" if k == 1 else "else_if", B("limit", chk("dtp_pidx", k)),
     B("if", B("limit", "NOT = { exists = event_target:dtp_tc_%d }" % k), "save_global_event_target_as = dtp_tc_%d" % k),
     B("if", B("limit", "NOT = { exists = event_target:dtp_rcp_%d }" % k), "save_global_event_target_as = dtp_rcp_%d" % k)) for k in range(1, MAXP + 1))))
@@ -559,12 +563,15 @@ INIT = B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_ch
 EFF.append(B("dtp_host_check", B("if", B("limit", "NOT = { has_global_flag = dtp_host_set }", "NOT = { any_country = { has_country_flag = dtp_host_seat } }"), "dtp_auto_host = yes")))
 # открыть «Редактор держав и вида» на нужном разделе
 def ED_OPEN_AT(tab=None, cat=1):
-    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open", "remove_country_flag = dtp_pe_open",
+    # 11.9: редактор — отдельное окно-событие (dtp.1995): кнопки редактора существуют только пока окно открыто (FPS)
+    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open", "country_event = { id = dtp.1995 }",
         *([setv("dtp_edtab", tab), setv("dtp_edcat", cat), setv("dtp_edpg", 1)] if tab else
           [B("if", B("limit", "NOT = { is_variable_set = dtp_edtab }"), setv("dtp_edtab", 1), setv("dtp_edcat", 1), setv("dtp_edpg", 1))]))
 # 11.3: открыть «Редактор планеты и системы» (на нужном разделе); второй редактор при этом закрывается
-def PE_OPEN_AT(tab=None, cat=1):
-    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_pe_open", "remove_country_flag = dtp_open", "remove_country_flag = dtp_ed_open",
+def PE_OPEN_AT(tab=None, cat=1, reuse=False):
+    """reuse — кнопка в окне планеты: если окно редактора планеты уже открыто, только меняем планету (без второго окна)."""
+    fire = B("if", B("limit", "NOT = { has_country_flag = dtp_pe_open }"), "country_event = { id = dtp.1996 }") if reuse else "country_event = { id = dtp.1996 }"
+    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", fire, "set_country_flag = dtp_pe_open", "remove_country_flag = dtp_open",
         *([setv("dtp_petab", tab), setv("dtp_pecat", cat), setv("dtp_pepg", 1)] if tab else
           [B("if", B("limit", "NOT = { is_variable_set = dtp_petab }"), setv("dtp_petab", 1), setv("dtp_pecat", 1), setv("dtp_pepg", 1))]))
 def act(p, body, code, need_load=True):
@@ -622,7 +629,7 @@ button("handle_img", "", 0, 0, HW, HH, where="handle", sprite="GFX_dtp_handle", 
 GUI[-1]["passthru"] = True                     # 11.6: значок DTP тянут за плашку (клик проходит к перетаскиваемому корню)
 button("toggle", "", HW - 50, 2, 48, 48, where="handle", sprite="GFX_dtp_toggle", potential=ACC,
        effect=INIT + "\n" + B("from", B("if", B("limit", "has_country_flag = dtp_open"), "remove_country_flag = dtp_open"),
-                               B("else", "set_country_flag = dtp_open", "remove_country_flag = dtp_ed_open")),
+                               B("else", "set_country_flag = dtp_open")),
        tt="Debug Toolpack: открыть или закрыть окно.")
 # ---------- точки на карте: проверка, какой объект игра даёт кнопкам в значках карты
 # (в значке звезды — только империю игрока; проверяем остальные значки: станции, флоты, планеты, мегасооружения...)
@@ -713,7 +720,8 @@ for t, d in TABD.items():
     button("tta%d" % t, "", CX0, 50, cw, 40, sprite="GFX_dtp_banner_%d" % t, label=True, potential=T(t))
     lab("tt%d" % t, TN[t].upper(), CX0 + 50, 54, 240, potential=T(t), h=30, font="large_title_font")
     if t != 4:
-        lab("ts%d" % t, "§g%s§!" % d, CX0 + 290, 60, cw - 290 - (506 if t == 16 else 0), potential=T(t), h=22)
+        if t != 16:                     # 11.8.2: у «Мастера игры» справа кнопки страниц — подзаголовок не помещался (70 px)
+            lab("ts%d" % t, "§g%s§!" % d, CX0 + 290, 60, cw - 290, potential=T(t), h=22)
 
 # ---------------- карточка цели: кого изменят инструменты раздела
 GOTO = lambda t: INIT + "\n" + B("from", setv("dtp_tab", t)) + "\ndtp_disarm = yes" + ("\ndtp_clist = yes" if t == 2 else "")
@@ -735,7 +743,7 @@ def a_block(tabs, x, w, suffix):
                     pot_extra=TS(tabs), none_text="§gдержава A — на неё подействуют инструменты§!", tgt="dtp_tc", h=20)
     else:
         per_k_label("ca_role" + suffix, "§gдержава A ·§! [dtp_tc_#.GetSpeciesName]", x + 48, CARD_Y + 42, w - 220,
-                    pot_extra=TS(tabs), none_text="§gдержава A — на неё подействуют инструменты§!", tgt="dtp_tc", h=20)
+                    pot_extra=TS(tabs), none_text=tren("§gдержава A — цель инструментов§!", "§gempire A - the tools' target§!"), tgt="dtp_tc", h=20)   # 11.8.2: узкая карточка
     button("ca_me" + suffix, "Я", x + w - 166, CARD_Y + 20, 50, 32, potential=TS(tabs), sprite="GFX_dtp_btn_key",
            effect=INIT + "\n" + B("from", "dtp_set_tc = yes") + "\ndtp_result = { CODE = 29 }", tt="A = ваша империя")
     button("ca_chg" + suffix, "Сменить →", x + w - 110, CARD_Y + 20, 100, 32, potential=TS(tabs), sprite="GFX_dtp_btn_go",
@@ -821,7 +829,7 @@ button("kbd_on", "Клавиатура: цифры ВКЛ", PX + 12, 512, PW - 2
        tt="Цифры 0–9 над буквами набирают число. Игра при этом тоже видит нажатия (свои горячие клавиши она не отдаёт моду). Нажмите, чтобы выключить — тогда набирайте Alt+цифра или мышью.")
 button("kbd_off", "Клавиатура: только Alt+цифра", PX + 12, 512, PW - 24, 30, potential=PP + "\n" + B("from", "has_country_flag = dtp_kbd_off"),
        effect=B("from", "remove_country_flag = dtp_kbd_off"), tt="Сейчас число набирается Alt+цифра (игра на это не реагирует). Нажмите, чтобы снова набирать просто цифрами.")
-lab("p_hint", "§gAlt+цифра — без горячих клавиш игры§!", PX + 12, 548, PW - 24, potential=PP)
+lab("p_hint", tren("§gAlt+цифра — не мешает игре§!", "§gAlt+digit - no game hotkeys§!"), PX + 12, 548, PW - 24, potential=PP)
 
 # ---------------- строка итога под рабочей областью
 button("bar_idle", "   §gИтог последнего действия появится здесь§!", CX0, BAR_Y, CWF, 44, sprite="GFX_dtp_res_idle", label=True,
@@ -866,7 +874,8 @@ for j in range(1, 11):
            effect=act("planet", B("event_target:dtp_ml_%d" % j, "dtp_unmark_sys = yes"), 36, False) + "\ndtp_mlist = yes")
 x, y, w = grid(0, cols=1, row0=5)
 lab("ml_more", "§g…и ещё системы — показаны первые 10§!", x, y, w - 300, potential=T(1, LISTP + "\n" + B("from", chk("dtp_mcount", 10, ">"))))
-lab("ml_empty", "§gПока ничего не отмечено. Откройте окно планеты, звезды или станции и нажмите Alt+M — или включите навигатор (кнопка справа внизу).§!", x, CY, w, potential=T(1, LISTP + "\n" + B("from", chk("dtp_mcount", 0))))
+lab("ml_empty", tren("§gНичего не отмечено. Откройте окно планеты, звезды или станции и нажмите Alt+M — или включите навигатор (справа внизу).§!",
+                     "§gNothing is marked yet. Open a planet, star or station window and press Alt+M — or turn on the navigator (bottom right).§!"), x, CY, w, potential=T(1, LISTP + "\n" + B("from", chk("dtp_mcount", 0))))
 NAVHOME = B("from", B("capital_star", B("solar_system", "dtp_nav_set = yes")))
 button("nav_open", "Навигатор по карте →", x + w - 290, y, 290, potential=T(1, LISTP), sprite="GFX_dtp_btn_go",
        effect=B("from", setv("dtp_spage", 1)) + "\n" + B("if", B("limit", "NOT = { exists = event_target:dtp_cur }"), NAVHOME),
@@ -1241,7 +1250,7 @@ TF = "dtp_has_tf = yes"
 x, y, w = grid(0, cols=1)
 pass  # подсказка перенесена в карточку цели
 for i, (k, n, e, code, al, tt) in enumerate([
-        ("rep", "Ремонт флота", B("event_target:dtp_f", "repair_percentage = 1"), 16, N_TF(), None),
+        ("rep", "Ремонт флота", B("event_target:dtp_f", "repair_percentage = 1", "repair_armor_percentage = 1", "repair_shield_percentage = 1"), 16, N_TF(), None),
         ("move", "Перенести к планете", B("event_target:dtp_f", "set_location = event_target:dtp_p"), 18, N_TF() + "\n" + N_TP(), "Мгновенно перенести флот к выбранной планете.")]):
     x, y, w = grid(i, row0=1)
     button("fl_" + k, n, x, y, w, potential=T(6), allow=need_perm("fleet") + "\n" + al, effect=act("fleet", e, code), tt=tt)
@@ -1255,58 +1264,47 @@ for i, (fr, n) in enumerate([("0.1", "10%"), ("0.25", "25%"), ("0.5", "50%")]):
            effect=act("fleet", B("event_target:dtp_t", "create_fleet_from_naval_cap = { fraction = %s }" % fr), 17), tt="Флот из актуальных проектов кораблей державы (доля флотского лимита).")
 x, y, w = grid(0, cols=2, row0=4)
 button("fl_mrep", "Ремонт всех флотов державы", x, y, w, potential=T(6), allow=need_perm("fleet") + "\n" + N_TC(),
-       effect=act("fleet", B("event_target:dtp_t", B("every_owned_fleet", "repair_percentage = 1")), 16))
+       effect=act("fleet", B("event_target:dtp_t", B("every_owned_fleet", "repair_percentage = 1", "repair_armor_percentage = 1", "repair_shield_percentage = 1")), 16))
 x, y, w = grid(1, cols=2, row0=4)
 arm_btn("mass_fl", "Все военные флоты державы → B", x, y, w, T(6), need_perm("fleet") + "\n" + N_TC() + "\n" + N_RCP() + "\n" + N_DIFF(), "mass_fl", "Передать все военные флоты.")
-# 10.9.0: КОНСТРУКТОР ФЛОТА — тип корабля, количество, место; шаблон — проект державы A этого типа (как в её редакторе кораблей).
-SH_SIZES = [('corvette', 'Корвет'), ('destroyer', 'Эсминец'), ('cruiser', 'Крейсер'), ('battleship', 'Линкор'), ('titan', 'Титан'), ('juggernaut', 'Джаггернаут'), ('colossus', 'Колосс'), ('science', 'Научный'), ('constructor', 'Строитель')]
-SH_MAX = 100
+# 11.8: КОНСТРУКТОР ФЛОТА И АРМИЙ — во вкладке «Флот и армии» редактора держав (editor3.py). Здесь — кнопка открытия,
+# список типов кораблей (из файлов игры) и общие куски для окна флота игры («+ N кораблей»).
+import eddata as _edf
+_SZ = _edf.top(os.path.join(VC, "ship_sizes/*.txt"))
+FTYPES = [(c, k) for c, ks in (
+    (1, ("corvette", "frigate", "destroyer", "cruiser", "battleship", "titan", "juggernaut", "colossus")),
+    (2, tuple("%s_stage_%d" % (b, s) for b in ("mauler", "weaver", "harbinger", "stinger") for s in (1, 2, 3)) + ("bio_titan",)),
+    (3, ("offspring_corvette", "offspring_destroyer", "offspring_cruiser", "offspring_battleship", "offspring_mauler_stage_1", "offspring_weaver_stage_1",
+         "offspring_harbinger_stage_1", "offspring_stinger_stage_1", "ember_cruiser", "ember_battleship", "paladin_ship", "star_eater",
+         "science", "constructor", "colonizer", "transport"))) for k in ks if k in _SZ]
+# 11.8.1: свои готовые проекты (global_ship_designs, is_event_design — в списках проектов держав не видны) — запасной образец
+# в принудительном режиме, если тип не изучен ни у кого. Детали — лучшие обычные из дерева технологий, подходящие размеру.
+FPRE = _edf.prebuilt_designs(VC, [k for c, k in FTYPES])
+for _d in {v["name"]: v for v in FPRE.values()}.values(): loc(_d["name"], "DTP: $%s$" % _d["first"])
+FSLOTS = 12                  # проектов одного типа на выбор (по номерам: имя проекта игра в текст не отдаёт — проверено 06.11)
+# 11.8.2: общие куски конструктора — scripted effects (раньше цепочка по 49 типам копировалась в каждую кнопку)
+# dtp_fpany: область — держава-владелец; from — игрок: любой проект владельца выбранного типа → dtp_fproto
+EFF.append(B("dtp_fpany", *[B("if" if i == 0 else "else_if", B("limit", B("from", chk("dtp_fz", i))),
+                              B("random_owned_design", B("limit", "is_ship_size = %s" % k), "save_event_target_as = dtp_fproto")) for i, (c, k) in enumerate(FTYPES)]))
+# dtp_ffill_a / dtp_ffill_b: область — держава A / получатель B: список её проектов выбранного типа → dtp_fa_N / dtp_fb_N.
+# Вызываются при выборе типа и при смене A/B (раньше после смены A список оставался от прежней державы).
+def _ffill(s):
+    clr = ["if = { limit = { exists = event_target:dtp_f%s_%d } clear_global_event_target = dtp_f%s_%d }" % (s, n, s, n) for n in range(1, FSLOTS + 1)]
+    slots = "\n".join(B("if" if n == 1 else "else_if", B("limit", "NOT = { exists = event_target:dtp_f%s_%d }" % (s, n)), "save_global_event_target_as = dtp_f%s_%d" % (s, n))
+                      for n in range(1, FSLOTS + 1))
+    EFF.append(B("dtp_fclr_" + s, *clr))
+    return B("dtp_ffill_" + s, "dtp_fclr_%s = yes" % s, *[B("if" if i == 0 else "else_if", B("limit", B("from", chk("dtp_fz", i))),
+                                         B("every_owned_design", B("limit", "is_ship_size = %s" % k), slots)) for i, (c, k) in enumerate(FTYPES)])
+EFF.append(_ffill("a")); EFF.append(_ffill("b"))
+def FPROTO(owner):
+    """Образец для новых кораблей → event_target:dtp_fproto: выбранный проект №N (dtp_fn) или любой проект владельца выбранного типа (dtp_fz)."""
+    by_n = [B("if" if n == 1 else "else_if", B("limit", B("from", chk("dtp_fn", n)), "exists = event_target:dtp_fa_%d" % n),
+              B("event_target:dtp_fa_%d" % n, "save_event_target_as = dtp_fproto")) for n in range(1, FSLOTS + 1)]
+    return "\n".join(by_n) + "\n" + B("if", B("limit", "NOT = { exists = event_target:dtp_fproto }"), B(owner, "dtp_fpany = yes"))
 x, y, w = grid(0, cols=1, row0=5)
-lab("sh_h", "§YКОНСТРУКТОР ФЛОТА§!  §gполучает держава A · шаблон — её проект кораблей выбранного типа§!", x, y, w, potential=T(6))
-for i, (k, n) in enumerate(SH_SIZES):
-    x, y, w = grid(i, cols=5, row0=6)
-    button("sh_%s_on" % k, "● " + n, x, y, w, potential=T(6, B("from", chk("dtp_shz", i))), sprite="GFX_dtp_btn_on", tt="Выбран тип: %s." % n)
-    button("sh_" + k, n, x, y, w, potential=T(6, B("from", "NOT = { %s }" % chk("dtp_shz", i))), effect=B("from", setv("dtp_shz", i)), tt="Выбрать тип корабля: %s." % n)
-SHCAP = B("if", B("limit", chk("dtp_shn", SH_MAX, ">")), setv("dtp_shn", SH_MAX)) + "\n" + B("if", B("limit", chk("dtp_shn", 1, "<")), setv("dtp_shn", 1))
-x, y, w = grid(0, cols=6, row0=8)
-lab("sh_cnt_l", "§gКоличество:§!", x + 4, y + 4, w, potential=T(6))
-for i, (k, d) in enumerate([("m10", -10), ("m1", -1)]):
-    x, y, w = grid(1 + i, cols=6, row0=8)
-    button("sh_" + k, "%d" % d, x, y, w, potential=T(6), effect=B("from", "change_variable = { which = dtp_shn value = %d }" % d, SHCAP))
-x, y, w = grid(3, cols=6, row0=8)
-button("sh_cnt", "  §Y[From.dtp_shn]§!  §gшт.§!", x, y - 3, w, 36, sprite="GFX_dtp_field", label=True, font="malgun_goth_24", potential=T(6), tt="Сколько кораблей создать (1–%d)." % SH_MAX)
-for i, (k, d) in enumerate([("p1", 1), ("p10", 10)]):
-    x, y, w = grid(4 + i, cols=6, row0=8)
-    button("sh_" + k, "+%d" % d, x, y, w, potential=T(6), effect=B("from", "change_variable = { which = dtp_shn value = %d }" % d, SHCAP))
-ATP = B("from", "has_country_flag = dtp_sh_atp")
-x, y, w = grid(0, cols=2, row0=9)
-button("sh_loc_c", "● У столицы A", x, y, w, potential=T(6, "NOT = { %s }" % ATP), sprite="GFX_dtp_btn_on", tt="Флот появится у столицы державы A. Нажмите — у выбранной планеты P.",
-       effect=B("from", "set_country_flag = dtp_sh_atp"))
-button("sh_loc_p", "● У выбранной планеты P", x, y, w, potential=T(6, ATP), sprite="GFX_dtp_btn_on", tt="Флот появится у выбранной планеты P (окно планеты → «Выбрать»). Нажмите — у столицы A.",
-       effect=B("from", "remove_country_flag = dtp_sh_atp"))
-x, y, w = grid(1, cols=2, row0=9)
-lab("sh_tpl", "§gШаблон — корабль/проект A этого типа. §HТип не изучен у A — кораблей не будет.§!§!", x + 4, y + 4, w, potential=T(6))
-def SH_PROTO(owner):
-    """10.9.2: образец — любой корабль владельца этого типа (game.log 22.10: random_existing_design → «invalid design»)."""
-    return "\n".join([B("if", B("limit", "exists = event_target:dtp_sh_proto"), "clear_global_event_target = dtp_sh_proto")] + [B("if", B("limit", B(owner, chk("dtp_shk", i))),
-        B(owner, B("random_controlled_ship", B("limit", "is_ship_size = %s" % k), "save_global_event_target_as = dtp_sh_proto"))) for i, (k, n) in enumerate(SH_SIZES)])
-def SH_ONE(chk_owner):
-    return B("if", B("limit", "exists = event_target:dtp_sh_proto"), B("create_ship", "name = random", "design = event_target:dtp_sh_proto")) + "\n" + \
-        B("else", *[B("if" if i == 0 else "else_if", B("limit", B(chk_owner, chk("dtp_shk", i))), B("create_ship", "name = random", "random_existing_design = %s" % k)) for i, (k, n) in enumerate(SH_SIZES)])
-SHIPS = SH_ONE("event_target:dtp_t")
-SHBUILD = "\n".join([
-    B("event_target:dtp_t", setv("dtp_shc", "from.dtp_shn"), setv("dtp_shk", "from.dtp_shz"), B("capital_scope", "save_event_target_as = dtp_sh_loc")),
-    B("if", B("limit", ATP, "exists = event_target:dtp_p"), B("event_target:dtp_p", "save_event_target_as = dtp_sh_loc")),
-    SH_PROTO("event_target:dtp_t"),
-    B("event_target:dtp_t", B("create_fleet", "name = random", B("effect", "set_owner = event_target:dtp_t",
-        B("while", B("limit", B("event_target:dtp_t", chk("dtp_shc", 0, ">"))), SHIPS, B("event_target:dtp_t", "change_variable = { which = dtp_shc value = -1 }")),
-        "set_location = { target = event_target:dtp_sh_loc distance = 15 angle = random }"))),
-    'log = "DTP FLEET: constructor"'])
-x, y, w = grid(0, cols=1, row0=10)
-for i, (k, n) in enumerate(SH_SIZES):
-    button("sh_go_" + k, "Создать: §Y[From.dtp_shn]§! × %s" % n, x, y, w, potential=T(6, B("from", chk("dtp_shz", i))), sprite="GFX_dtp_btn_go",
-           allow=need_perm("fleet") + "\n" + N_TC() + "\n" + B("if", B("limit", ATP), N_TP()), effect=act("fleet", SHBUILD, 17),
-           tt="Создать новый флот державы A: %s — столько, сколько набрано (до %d). Шаблон — проект любого корабля A этого типа; если таких кораблей у A нет — её сохранённый проект. §HВажно:§! если у A этот тип корабля ещё не изучен (нет технологии, например титанов или джаггернаутов), кораблей не будет." % (n, SH_MAX))
+button("sh_open", tren("Открыть конструктор флота и армий", "Open the fleet & army builder"), x, y, w, 40, potential=T(6), effect=ED_OPEN_AT(14, 1), sprite="GFX_dtp_btn_go",
+       tt=tren("Редактор держав → «Флот и армии»: любой тип корабля, любой проект державы A по номеру, проекты получателя B, копии корабля флота F, место, адмирал, правка флота F и армии.",
+               "Empire editor → Fleets & armies: any ship type, any design of empire A by number, recipient B's designs, copies of fleet F's ship, location, admiral, editing fleet F and armies."))
 confirm("fl_tr_ok", "передать флот получателю", 15, T(6), need_perm("fleet") + "\n" + N_RCP(), "fl_tr", B("event_target:dtp_f", "set_owner = event_target:dtp_r"), "fleet", 14)
 confirm("fl_del_ok", "удалить флот", 15, T(6), need_perm("fleet"), "fl_del", B("event_target:dtp_f", "delete_fleet = this"), "fleet", 15)
 confirm("mass_fl_ok", "все военные флоты державы → получатель", 15, T(6), need_perm("fleet") + "\n" + N_RCP(), "mass_fl",
@@ -1620,7 +1618,7 @@ PACK = "add_resource = { energy = 5000 minerals = 5000 alloys = 2000 influence =
 for i, (k, n, body, al, code, tt) in enumerate([
         ("pack_a", "Пакет поддержки A", B("event_target:dtp_t", PACK), N_TC(), 1, "A получает: 5000 энергии, 5000 минералов, 2000 сплавов, 300 влияния, 1000 единства."),
         ("pack_all", "Пакет поддержки всем игрокам", PLAYERS(PACK), "", 1, "Каждый живой игрок получает тот же пакет."),
-        ("rep_all", "Ремонт всех флотов игроков", PLAYERS(B("every_owned_fleet", "repair_percentage = 1")), "", 16, "Полный ремонт всех флотов всех живых игроков."),
+        ("rep_all", "Ремонт всех флотов игроков", PLAYERS(B("every_owned_fleet", "repair_percentage = 1", "repair_armor_percentage = 1", "repair_shield_percentage = 1")), "", 16, "Полный ремонт всех флотов всех живых игроков."),
         ("tech_a", "A: технологии получателя B", B("event_target:dtp_t", "copy_techs_from = { target = event_target:dtp_r }"), N_TC() + "\n" + N_RCP(), 21, "Догоняющий: A получает все технологии, которые есть у B.")]):
     x, y, w = grid(i, cols=5, row0=6)
     button("go_" + k, n, x, y, w, potential=G2, allow=GM() + ("\n" + al if al else ""), effect=act("gm", body, code), tt=tt, sprite="GFX_dtp_btn_go")
@@ -1645,7 +1643,7 @@ for i, (k, n, body, code, tt) in enumerate([
 x, y, w = grid(0, cols=1, row0=9)
 lab("go_h4", "§YВОССТАНОВЛЕНИЕ ПОСЛЕ СБОЯ§!  §gдержава A§!", x, y, w, potential=G2)
 for i, (k, n, body, al, code, tt) in enumerate([
-        ("fix_rep", "Флоты A: полный ремонт", B("event_target:dtp_t", B("every_owned_fleet", "repair_percentage = 1")), N_TC(), 16, "Отремонтировать все флоты A."),
+        ("fix_rep", "Флоты A: полный ремонт", B("event_target:dtp_t", B("every_owned_fleet", "repair_percentage = 1", "repair_armor_percentage = 1", "repair_shield_percentage = 1")), N_TC(), 16, "Отремонтировать все флоты A."),
         ("fix_cd", "A: снять все откаты", B("event_target:dtp_t", "reset_policy_cooldowns = yes", "set_government_cooldown = no"), N_TC(), 28, "Снять откаты политик и правительства у A."),
         ("fix_mods", "A: снять бонусы Toolpack", B("event_target:dtp_t", *["remove_modifier = dtp_uc_%s" % k2 for k2, *_ in UMODS["c"]]), N_TC(), 31, "Убрать у A все модификаторы, выданные Toolpack."),
         ("fix_marks", "Снять все отметки систем", MK % "dtp_unmark_sys = yes" + "\n" + B("every_system", "dtp_star_fix = yes"), "", 36, "Вернуть всем отмеченным системам имя и звезду. Заодно чинит «застрявшие» красные и серые звёзды по всей галактике.")]):
@@ -1673,7 +1671,7 @@ lab("gr_st_off", "§gСейчас:§! §Oне действует§! §g— иг�
 lab("gr_st_inf", "§gСейчас:§! §GДЕЙСТВУЕТ бессрочно§! §g— пока ведущий не снимет запрет§!", x, y, w - 430, potential=G3 + "\n%s\nhas_global_flag = dtp_rule_forever" % RULE)
 lab("gr_st_t", "§gСейчас:§! §GДЕЙСТВУЕТ до [dtp_rule_owner.dtp_rule_endy] г.§! §g(лет: [dtp_rule_owner.dtp_rule_len]), потом снимется сам§!", x, y, w - 430,
     potential=G3 + "\n%s\nNOT = { has_global_flag = dtp_rule_forever }\n%s" % (RULE, OWN))
-lab("gr_st_t2", "§gСейчас:§! §GДЕЙСТВУЕТ§! §g— на срок, выбранный ведущим; потом снимется сам§!", x, y, w - 430,
+lab("gr_st_t2", tren("§gСейчас:§! §GДЕЙСТВУЕТ§! §g— на срок ведущего; потом снимется сам§!", "§gNow:§! §GIN EFFECT§! §g- for the GM's term; then it ends by itself§!"), x, y, w - 430,
     potential=G3 + "\n%s\nNOT = { has_global_flag = dtp_rule_forever }\nNOT = { %s }" % (RULE, OWN))
 button("gr_soft1", "Режим: МЯГКИЙ", x + w - 384, y, 220, potential=G3 + "\nhas_global_flag = dtp_war_soft", allow=GM(), sprite="GFX_dtp_btn_warn",
        effect=act("gm", "remove_global_flag = dtp_war_soft", 58, False) + "\ndtp_war_sync = yes",
@@ -1784,8 +1782,10 @@ x, y, w = grid(3, cols=4, row0=9)
 button("go_r_forgive", "Простить и закрыть", x, y, w, potential=G3 + "\n" + VOPEN, allow=GM(),
        effect=act("gm", "remove_global_flag = dtp_viol_open\n" + B("if", B("limit", "exists = event_target:dtp_violator"), PLAYERS("country_event = { id = dtp.1209 }")), 57, False),
        tt="Закрыть нарушение без санкций — всем игрокам придёт окно «Нарушение прощено». Счётчик нарушений державы сохраняется.")
-for i, t in enumerate(["§gЖёсткий режим: кнопка «Объявить войну» серая. Мягкий: объявить можно, но это нарушение — всем окно, здесь санкции.§!",
-                       "§gВойны с ИИ нарушением не считаются, пока справа сверху не выбрано «ИИ: тоже под запретом». Начатую войну скрипт не останавливает.§!"]):
+for i, t in enumerate([tren("§gЖёсткий режим: кнопка «Объявить войну» серая. Мягкий: объявить можно, но это нарушение — всем окно, здесь санкции.§!",
+                            "§gHard mode: «Declare war» is greyed out. Soft: war can be declared, but it is a violation - everyone gets a window, sanctions are here.§!"),
+                       tren("§gВойны с ИИ — не нарушение, пока справа сверху не выбрано «ИИ: тоже под запретом». Начатую войну скрипт не прервёт.§!",
+                            "§gWars with the AI are not violations unless «AI: also banned» is chosen at the top right. Script can't stop a started war.§!")]):
     x, y, w = grid(0, cols=1, row0=10 + i)
     lab("gr_how%d" % (i + 2), t, x, y, w, potential=G3)
 
@@ -2178,7 +2178,15 @@ button("ps_unmark", "✕ Снять отметку   Alt+M", 0, 60, 250 if UIOD 
 lab("ps_st_on", tren("§R● ОТМЕЧЕНА§!", "§R● MARKED§!"), 256 if UIOD else 306, 62, 110 if UIOD else 130, potential=SPL + "\n" + B("solar_system", "has_star_flag = dtp_marked"), where="planet")
 lab("ps_st_off", tren("§gне отмечена§!", "§gnot marked§!"), 256 if UIOD else 306, 62, 110 if UIOD else 130, potential=SPL + "\n" + B("solar_system", "NOT = { has_star_flag = dtp_marked }"), where="planet")
 # 11.3: открыть «Редактор планеты и системы» прямо из окна планеты (планета сразу становится выбранной)
-button("ps_ed", tren("Редактор планеты", "Planet editor"), 370 if UIOD else 440, 60, 140 if UIOD else 160, potential=SPL, effect=PE_OPEN_AT() + "\ndtp_set_tp = yes", where="planet", sprite="GFX_dtp_btn_go",
+# 11.9.1: редактор планеты — окно-событие. Пока он открыт: «В редактор» только меняет планету (без второго окна),
+# «»» открывает окно заново (если его закрыли не кнопкой «Закрыть» или загрузили сохранение).
+_PEX, _PEW = (370, 140) if UIOD else (440, 160)
+_PEO = B("from", "has_country_flag = dtp_pe_open")
+button("ps_edr", tren("В редактор", "To editor"), _PEX, 60, _PEW - 38, potential=SPL + "\n" + _PEO, effect=PE_OPEN_AT(reuse=True) + "\ndtp_set_tp = yes", where="planet", sprite="GFX_dtp_btn_go",
+       tt=tren("Сделать эту планету выбранной в открытом «Редакторе планеты и системы».", "Make this planet the selected one in the open 'Planet & System Editor'."))
+button("ps_edo", "»", _PEX + _PEW - 34, 60, 34, potential=SPL + "\n" + _PEO, effect=PE_OPEN_AT() + "\ndtp_set_tp = yes", where="planet", sprite="GFX_dtp_btn_go",
+       tt=tren("Окна редактора планеты нет на экране? Открыть его заново для этой планеты.", "The planet editor window isn't on screen? Open it again for this planet."))
+button("ps_ed", tren("Редактор планеты", "Planet editor"), _PEX, 60, _PEW, potential=SPL + "\nNOT = { %s }" % _PEO, effect=PE_OPEN_AT() + "\ndtp_set_tp = yes", where="planet", sprite="GFX_dtp_btn_go",
        tt=tren("Открыть «Редактор планеты и системы» для этой планеты (или звезды): тип, размер, звезда, залежи, районы, зоны, здания, аномалии, раскопки, специализация, природа, население.",
                "Open the 'Planet & System Editor' for this planet (or star): type, size, star, deposits, districts, zones, buildings, anomalies, dig sites, designation, features, population."))
 SFL = "OR = { is_scope_type = fleet is_scope_type = ship }\n" + ANY
@@ -2190,15 +2198,18 @@ button("fs_pick", "Выбрать флот", 0, 26, 140, potential=SFL + "\nNOT 
 button("fs_picked", "✔ Выбран", 0, 26, 140, potential=SFL + "\n" + IS_TF, effect=FLSAVE + "\ndtp_result = { CODE = 29 }", where="fleet", sprite="GFX_dtp_btn_on",
        tt="Этот флот уже выбран в Toolpack — с ним работает вкладка «Флот».")
 button("fs_tc", "Изменять эту державу", 146, 26, 170, potential=SFL + "\nexists = owner\n" + B("owner", "dtp_target_country = yes"), effect=B("owner", "dtp_set_tc = yes") + "\ndtp_result = { CODE = 29 }", where="fleet")
-button("fs_rep", "Ремонт", 322, 26, 100, potential=SFL, allow=need_perm("fleet"), effect=act("fleet", "repair_percentage = 1", 16, False), where="fleet")
+button("fs_rep", "Ремонт", 322, 26, 100, potential=SFL, allow=need_perm("fleet"), effect=act("fleet", "repair_percentage = 1\nrepair_armor_percentage = 1\nrepair_shield_percentage = 1", 16, False), where="fleet")
 button("fs_mark", "§R●§! Отметить систему флота", 0, 60, 260, potential=SFL + "\nexists = solar_system\n" + B("solar_system", "NOT = { has_star_flag = dtp_marked }"), allow=need_perm("planet"),
        effect=act("planet", B("solar_system", "dtp_mark_sys = yes"), 36, False) + "\ndtp_mlist = yes", where="fleet", sprite="GFX_dtp_btn_warn")
-SH_ADD = "\n".join([B("owner", setv("dtp_shc", "from.dtp_shn"), setv("dtp_shk", "from.dtp_shz")), SH_PROTO("owner"),
-    B("while", B("limit", B("owner", chk("dtp_shc", 0, ">"))), SH_ONE("owner"), B("owner", "change_variable = { which = dtp_shc value = -1 }")),
+SH_ADD = "\n".join([FPROTO("owner"),
+    B("owner", setv("dtp_shc", "from.dtp_shn")),
+    B("if", B("limit", "exists = event_target:dtp_fproto"),
+      B("while", B("limit", B("owner", chk("dtp_shc", 0, ">"))), B("create_ship", "name = random", "design = event_target:dtp_fproto", "graphical_culture = owner"),
+        B("owner", "change_variable = { which = dtp_shc value = -1 }"))),
     'log = "DTP FLEET: ships added to fleet"'])
 button("fs_add", "+ §Y[From.dtp_shn]§! кораблей", 266, 60, 166, potential="is_scope_type = fleet\n" + ANY + "\n" + B("from", "is_variable_set = dtp_shn"), allow=need_perm("fleet"), sprite="GFX_dtp_btn_go",
        effect=act("fleet", SH_ADD, 17, False), where="fleet",
-       tt="Добавить в ЭТОТ флот корабли из конструктора (Debug Toolpack → «Флот»): тип и количество — как выбрано там. Строятся по кораблю/проекту владельца флота этого типа. §HЕсли у владельца этот тип корабля не изучен — кораблей не будет.§!")
+       tt="Добавить в ЭТОТ флот корабли: тип, проект и количество — как выбрано в редакторе держав, вкладка «Флот и армии». Проект — выбранный там номер, иначе любой проект владельца флота этого типа.")
 button("fs_unmark", "✕ Снять отметку системы", 0, 60, 260, potential=SFL + "\nexists = solar_system\n" + B("solar_system", "has_star_flag = dtp_marked"), allow=need_perm("planet"),
        effect=act("planet", B("solar_system", "dtp_unmark_sys = yes"), 36, False) + "\ndtp_mlist = yes", where="fleet", sprite="GFX_dtp_btn_on")
 
@@ -2260,7 +2271,7 @@ cev(1001, "country_event", "Проверка связи", "Тестовое со
 cev(1002, "country_event", "Дар Хранителей", "Хранители предлагают вашей империи дар.", [("Энергия (+5000)", "add_resource = { energy = 5000 }"), ("Сплавы (+2000)", "add_resource = { alloys = 2000 }"), ("Единство (+1000)", "add_resource = { unity = 1000 }")])
 cev(1003, "country_event", "Волнения в столице", "В столице вспыхнули волнения.", [("Подавить силой", "capital_scope = { add_modifier = { modifier = dtp_up_stab days = 360 multiplier = -20 } }"), ("Откупиться (−1000 энергии)", "add_resource = { energy = -1000 }")])
 cev(1004, "planet_event", "Геологическое открытие", "На планете §Y[Root.GetName]§! найдены новые залежи.", [("Отлично", "add_random_non_blocker_deposit = yes")])
-cev(1005, "fleet_event", "Ремонтная бригада", "К флоту §Y[Root.GetName]§! прибыла ремонтная бригада.", [("Приступить", "repair_percentage = 1")])
+cev(1005, "fleet_event", "Ремонтная бригада", "К флоту §Y[Root.GetName]§! прибыла ремонтная бригада.", [("Приступить", "repair_percentage = 1\nrepair_armor_percentage = 1\nrepair_shield_percentage = 1")])
 cev(1006, "country_event", "Научный прорыв", "Учёные совершили прорыв.", [("Превосходно", "add_resource = { physics_research = 2000 society_research = 2000 engineering_research = 2000 }")])
 cev(1007, "country_event", "Мирное предложение", "§Y[dtp_last_actor.GetName]§! предлагает перемирие.", [("Отклонить", ""), ("Принять", "set_truce = { target = event_target:dtp_last_actor type = war }")])
 TOHOST = lambda eid: B("if", B("limit", "exists = event_target:dtp_host"), B("event_target:dtp_host", "country_event = { id = dtp.%d }" % eid))
@@ -2849,7 +2860,8 @@ def shorten(text): return re.sub(r"\bdtp_b_\w+|\bGFX_dtp_gi_\w+", _short, text)
 GRIP_W, GRIP_H = 260, 30
 ED_GRIP = ("size = { width = %d height = %d }" % (GRIP_W, GRIP_H), "moveable = yes", "respect_parent_boundaries = no",
            B("background", 'name = "grip_bg"', 'quadTextureSprite = "GFX_invisible"'))
-for _w, _flag in (("editor", "dtp_ed_open"), ("peditor", "dtp_pe_open")):
+DTP_WIN = os.environ.get("DTP_WIN", "1") != "0"      # 11.9: редакторы — окна-события (см. ниже); DTP_WIN=0 — как раньше, в maingui
+for _w, _flag in (("editor", "dtp_ed_open"), ("peditor", "dtp_pe_open")):      # 11.9.2: «язычок» и в окне-событии (за него тянут)
     lab("%s_grip" % _w, tren("   §Y:::§!  Перетащить окно", "   §Y:::§!  Drag the window"), 0, -GRIP_H, GRIP_W, h=GRIP_H, where=_w, potential=B("from", "has_country_flag = %s" % _flag))
     GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_tab"; GUI[-1]["passthru"] = True
 def _ed_els(where):
@@ -2861,6 +2873,89 @@ dtp_editor = B("containerWindowType", 'name = "dtp_editor"', "position = { x = %
 # моды, заменяющие main.gui, не задевают редактор планеты).
 dtp_peditor = B("containerWindowType", 'name = "dtp_peditor"', "position = { x = %d y = %d }" % (-EW // 2, -EH // 2 - 20 - GRIP_H), *ED_GRIP,
     "orientation = CENTER", "clipping = no", *_ed_els("peditor"))
+# 11.9: FPS. Всё, что лежит в maingui, игра обходит КАЖДЫЙ кадр — и проверяет условие видимости каждой кнопки, даже при закрытом
+# редакторе (≈19 300 кнопок: −23 FPS у игроков). Редакторы держав и планеты (≈16 800 кнопок) теперь — отдельные окна, которые
+# игра создаёт только на время показа: событие с custom_gui (как окна анклавов игры). Окно — копия окна дипломатического события
+# игры (элементы игры нельзя удалять — они спрятаны за экран), в него добавлено содержимое редактора.
+# Закрытие — вариант события «Закрыть» (снимает флаг открытого редактора); ESC окно не закрывает (иначе флаг остался бы).
+def _blk_end(s, i):
+    d = 0
+    for k in range(i, len(s)):
+        if s[k] == "{": d += 1
+        elif s[k] == "}":
+            d -= 1
+            if d == 0: return k
+    raise ValueError("нет закрывающей скобки")
+def _kids(s, a, b):
+    """Блоки «тип = { … }» первого уровня в s[a:b] → [(тип, начало, конец включительно)]."""
+    out, k, rx = [], a, re.compile(r"([A-Za-z_]+)\s*=\s*\{")
+    while True:
+        m = rx.search(s, k, b)
+        if not m: return out
+        e = _blk_end(s, m.end() - 1); out.append((m.group(1), m.start(), e)); k = e + 1
+def _set_attr(blk, attr, val):
+    """Заменить у блока его собственный атрибут «attr = { … }» (первый на верхнем уровне) или добавить после «{»."""
+    o = blk.index("{")
+    for typ, s0, e0 in _kids(blk, o + 1, len(blk) - 1):
+        if typ == attr: return blk[:s0] + "%s = %s" % (attr, val) + blk[e0 + 1:]
+    return blk[:o + 1] + "\n\t\t%s = %s" % (attr, val) + blk[o + 1:]
+OFF = "{ x = -6000 y = -6000 }"
+def _win_tpl():
+    src = re.sub(r"#[^\n]*", "", read_gui(os.path.join(VI, "diplomacy_event_view.gui")))
+    def top(nm):
+        i = src.index('name = "%s"' % nm); s0 = src.rindex("containerWindowType", 0, i); return src[s0:_blk_end(src, src.index("{", s0)) + 1]
+    return top("event_option_entry"), top("DiplomaticEventWindow")
+def dtp_window(wname, where, ox, oy, w_, h_):
+    """Окно-событие: шаблон игры (всё лишнее спрятано за экран).
+    11.9.5: само окно-событие игра двигать не даёт, а кнопку варианта («Закрыть») ищет строго в контейнере EVENT_DIPLO окна
+    (в 11.9.4 он был вложен глубже — вместо «Закрыть» появилась нерабочая «OK»). Поэтому подвижный контейнер — сам EVENT_DIPLO:
+    в нём язычок, всё содержимое редактора и список вариантов; его тянут за язычок и пустые места, можно увести за край экрана."""
+    _, win = _win_tpl()
+    win = win.replace('name = "DiplomaticEventWindow"', 'name = "%s"' % wname, 1)
+    o = win.index("{"); kids = _kids(win, o + 1, len(win) - 1)
+    els = "\n".join("\t\t\t" + gui_el(dict(g, y=g["y"] + GRIP_H, **({"passthru": True} if re.search(r"_(bg|decor)$", g["key"]) else {})))
+                     for g in GUI if g["where"] == where)
+    for typ, s0, e0 in reversed(kids):
+        blk = win[s0:e0 + 1]
+        nm = (re.search(r'name\s*=\s*"([^"]+)"', blk) or [None, ""])[1]
+        if typ == "size": blk = "size = { width = %d height = %d }\n\t\trespect_parent_boundaries = no\n\t\tclipping = no" % (w_, h_ + GRIP_H)
+        elif typ == "background": blk = re.sub(r'quadTextureSprite\s*=\s*"[^"]*"', 'quadTextureSprite = "GFX_invisible"', blk)
+        elif nm == "EVENT_DIPLO":
+            blk = _set_attr(_set_attr(blk, "position", "{ x = 0 y = 0 }"), "size", "{ width = %d height = %d }" % (w_, h_ + GRIP_H))
+            blk = re.sub(r"moveable\s*=\s*no", "moveable = yes\n\t\t\trespect_parent_boundaries = no\n\t\t\tclipping = no", blk, 1)
+            if "moveable = yes" not in blk:
+                blk = blk[:blk.index("{") + 1] + "\n\t\t\tmoveable = yes\n\t\t\trespect_parent_boundaries = no\n\t\t\tclipping = no" + blk[blk.index("{") + 1:]
+            o2 = blk.index("{")
+            for t2, a2, b2 in reversed(_kids(blk, o2 + 1, len(blk) - 1)):
+                sub = blk[a2:b2 + 1]; n2 = (re.search(r'name\s*=\s*"([^"]+)"', sub) or [None, ""])[1]
+                if n2 == "option_list": sub = _set_attr(_set_attr(sub, "position", "{ x = %d y = %d }" % (ox, oy + GRIP_H)), "size", "{ x = 120 y = 40 }")
+                elif t2 not in ("position", "size"): sub = _set_attr(sub, "position", OFF)
+                blk = blk[:a2] + sub + blk[b2 + 1:]
+            # содержимое — первым в контейнере (под списком вариантов, чтобы «Закрыть» было поверх)
+            k2 = _kids(blk, o2 + 1, len(blk) - 1)
+            first = next((a2 for t2, a2, b2 in k2 if t2 not in ("position", "size")), len(blk) - 1)
+            blk = blk[:first] + "### DEBUG TOOLPACK (DTP)\n" + els + "\n\t\t\t" + blk[first:]
+        elif typ not in ("position", "size", "orientation", "origo"):
+            # всё прочее окна игры — за экран (в т.ч. «OK» confirm_button); их клавиши не работают: ESC не закрывает окно
+            # (флаг редактора снимается только вариантом «Закрыть»), Q/T не срабатывают
+            blk = _set_attr(blk, "position", OFF)
+            blk = re.sub(r'(?i)shortcut\s*=\s*"[^"]*"', "", blk)
+        win = win[:s0] + blk + win[e0 + 1:]
+    return win
+def dtp_win_option():
+    opt, _ = _win_tpl()
+    opt = opt.replace('name = "event_option_entry"', 'name = "dtp_win_option"', 1)
+    opt = re.sub(r"size = \{ width = \d+ height = \d+ \}", "size = { width = 104 height = 36 }", opt, 1)
+    opt = opt.replace('quadTextureSprite = "GFX_event_button_452"', 'quadTextureSprite = "GFX_dtp_btn_danger"\n\t\t\tsize = { x = 104 y = 36 }', 1)
+    opt = opt.replace("position = { x=0 y=8 }", "position = { x=0 y=0 }", 1)
+    return opt
+if DTP_WIN:
+    for _eid, _wn, _flag, _ru, _en in ((1995, "dtp_ed_win", "dtp_ed_open", "Редактор держав и вида", "Empire & species editor"),
+                                      (1996, "dtp_pe_win", "dtp_pe_open", "Редактор планеты и системы", "Planet & system editor")):
+        _tk = loc("dtp.%d.name" % _eid, "Debug Toolpack: " + _ru); tren(L[_tk], "Debug Toolpack: " + _en)
+        _dk = loc("dtp.%d.desc" % _eid, ""); _ok = loc("dtp.%d.o0" % _eid, "Закрыть"); tren("Закрыть", "Close")
+        EVENTS.append(B("country_event", "id = dtp.%d" % _eid, "title = %s" % _tk, "desc = %s" % _dk, "picture = GFX_evt_dtp_access", "is_triggered_only = yes", "diplomatic = yes",
+                        'custom_gui = "%s"' % _wn, B("option", "name = %s" % _ok, 'custom_gui = "dtp_win_option"', B("hidden_effect", "remove_country_flag = %s" % _flag))))
 # 11.6.4: только символы, которые есть в переводах самой игры (шрифт/кодировка игры знает их). Символов «· ● → ← ±» в переводах
 # игры нет — в error.log «Failed conversion of utf8 string» при показе окон DTP. Замены — на символы, которые игра использует сама.
 SAFE_CHARS = {"russian": (("·", "•"), ("●", "•"), ("→", "»"), ("←", "«"), ("±", "~"), ("▶", "»")),
@@ -2881,6 +2976,12 @@ def w(path, text, bom=False):
         for _lg in SAFE_CHARS:
             if "/%s/" % _lg in path:
                 for _a, _b in SAFE_CHARS[_lg]: text = text.replace(_a, _b)
+    # 11.9.6: optimize_memory (документация игры, common/scripted_effects/99_advanced_documentation.txt): по умолчанию игра
+    # КОПИРУЕТ тело scripted trigger/effect в память на КАЖДОМ месте вызова; с этим тегом — хранит один раз. Это и было
+    # «используемые общие условия/эффекты стоят памяти» из замеров 11.7. Цена — менее точные строки в error.log.
+    # Копии файлов игры (00_/02_/zz_dtp_game_) не трогаем — они как у игры.
+    if re.search(r"common/scripted_(triggers|effects)/dtp_", path) and os.environ.get("DTP_NO_OPTMEM") != "1":
+        text = re.sub(r"^([A-Za-z0-9_]+) = \{\n(?![ \t]*optimize_memory)", r"\1 = {\n\toptimize_memory\n", text, flags=re.M)
     with open(p, "w", encoding="utf-8-sig" if bom else "utf-8", newline="\n") as f: f.write(text)
 GUI_REPORT = []
 # 11.7: СБОРЩИК ПАТЧЕЙ (tools/make_compat_patch.py). Окно игры может объявить не «свой» файл, а файл другого мода
@@ -2940,8 +3041,9 @@ def _split_maingui():
     pe = head + blk + "\n}\n"
     end = end_of_window(pe, "maingui")
     ins = ("\t\t### DEBUG TOOLPACK (DTP) — значок и панель (11.6.6: раньше — в окне флага maingui_flag)\n" + "\n".join(l.lstrip("\t") for l in pretty(dtp_root).splitlines()) + "\n"
+           + ("" if DTP_WIN else
            "\t\t### DEBUG TOOLPACK (DTP) — редактор держав и вида (11.6.7: раньше — в нижней панели maingui_bottombar)\n" + "\n".join(l.lstrip("\t") for l in pretty(dtp_editor).splitlines()) + "\n"
-           "\t\t### DEBUG TOOLPACK (DTP) — редактор планеты и системы\n" + "\n".join(l.lstrip("\t") for l in pretty(dtp_peditor).splitlines()) + "\n")
+           "\t\t### DEBUG TOOLPACK (DTP) — редактор планеты и системы\n" + "\n".join(l.lstrip("\t") for l in pretty(dtp_peditor).splitlines()) + "\n"))
     pef = "dtp_planet_editor.gui" if own == "main.gui" else own[:-4] + "_dtp.gui"
     w("interface/" + own, rest)
     w("interface/" + pef, pe[:end] + ins + pe[end:])
@@ -2949,6 +3051,10 @@ def _split_maingui():
         if f not in GUI_TARGETS: GUI_TARGETS.append(f)
     GUI_REPORT.append("%s → окно maingui перенесено в %s (+ панель DTP, редакторы держав и планеты)" % (own, pef))
 _split_maingui()
+if DTP_WIN:      # 11.9: окна редакторов — свой файл (игра создаёт их только при открытии события)
+    w("interface/dtp_windows.gui", "guiTypes = {\n" + dtp_win_option() + "\n" + dtp_window("dtp_ed_win", "editor", EW - 112, 14, EW, EH) + "\n"
+      + dtp_window("dtp_pe_win", "peditor", EW - 112, 14, EW, EH) + "\n}\n")
+    if "dtp_windows.gui" not in GUI_TARGETS: GUI_TARGETS.append("dtp_windows.gui")
 # 11.1.1: в UIOD картинка планеты рисуется поверх полосы, вставленной сразу после фона, — полосу кладём в конец окна (поверх всего)
 inject("planet_view.gui", None if UIOD else r'name = "planet_view_bg".*?\n\t\t\}\n', planet_strip, "\t\t", "planet_view", modded_end=True)
 if MAP_ICONS:
@@ -2973,7 +3079,7 @@ inject("fleet_view.gui", r'\tcontainerWindowType = \{\n\t\tname = "fleet_view".*
 print("встраивание в окна игры: " + "; ".join(GUI_REPORT))
 # 10.8.0: каждая кнопка с подтверждением должна сбрасываться dtp_disarm (иначе бар «ПОДТВЕРДИТЬ» висит — так было у Цетаны и Хана)
 assert not (ARMS_USED - set(ARMS)), "кнопки с подтверждением не сбрасываются dtp_disarm: %s" % sorted(ARMS_USED - set(ARMS))
-HDR = "# Debug Toolpack %s — сгенерировано tools/gen3.py. Правьте генератор, а не этот файл.\n" % VERSION
+HDR = "# Debug Toolpack %s - generated by tools/gen3.py. Edit the generator, not this file.\n" % VERSION      # 11.8.2: только ASCII (без BOM кириллица в файлах скрипта — лишний риск «Failed conversion of utf8 string»)
 # (Раньше считали, что игра читает из файла не больше ~1 МБ — неверно: проверено тестом 05.11 (4.5.3): окна, события, эффекты и условия по 3,6 МБ читаются целиком. Вероятно, тогда
 # игра споткнулась на ошибке в одной кнопке и бросила остаток файла — поэтому файлы кнопок по-прежнему небольшие.)
 # Кнопки раскладываются по файлам до ~120 КБ: если игра споткнётся на одной кнопке, она теряет только хвост своего файла.
@@ -3375,6 +3481,7 @@ loc("dtp_claimfree_desc", "Пока включён режим отметки п�
 w("common/static_modifiers/dtp_static_modifiers.txt", HDR + pretty("\n".join(UMOD_STATIC + INC_STATIC + MARKER_STATIC)))
 w("common/system_tooltips/dtp_system_tooltips.txt", HDR + "# root = система, from = смотрящий игрок\n" + pretty(B("dtp_marked_tooltip", B("custom_tooltip", "success_text = dtp_marked_tt", "has_star_flag = dtp_marked"))))
 loc("dtp_marked_tt", "§R●§! Отмечено в Debug Toolpack")
+w("common/global_ship_designs/dtp_prebuilt_designs.txt", HDR + "".join(v["text"] + "\n" for v in {FPRE[k]["name"]: FPRE[k] for c, k in FTYPES if k in FPRE}.values()))
 w("common/opinion_modifiers/dtp_opinion_modifiers.txt", HDR + "dtp_opinion_good = {\n\topinion = { base = 100 }\n\tdecay = { base = 1 }\n}\ndtp_opinion_bad = {\n\topinion = { base = -100 }\n\tdecay = { base = 1 }\n}\n")
 loc("dtp_opinion_good", "Toolpack: улучшение отношений"); loc("dtp_opinion_bad", "Toolpack: ухудшение отношений")
 w("events/dtp_events.txt", HDR + "namespace = dtp\n\n" + pretty("\n".join(EVENTS)))
@@ -3501,12 +3608,37 @@ def yml(lang, d):
             v = " " * (_pad_n(ICON_PAD[k], v) or 0) + v
         rows.append(' %s:0 "%s"' % (k, v))
     return "l_%s:\n" % lang + "\n".join(rows) + "\n"
+# 11.8.2: у нескольких объектов игры нет названия (ключа нет в переводах или он пустой) — на карточке был бы «$ключ$»/пусто.
+# Подставляем свои ключи dtp_fx_* (ключи игры не трогаем: если в обновлении игры название появится — конфликта не будет).
+_FIXN = {"pc_crystal_habitat": ("Кристальное поселение", "Crystal Habitat"), "pc_warden_guardian": ("Поселение Стража", "Warden Guardian Habitat"),
+         "trait_cyborg_climate_adjustment_volcanic": ("Модификации для вулканического климата", "Volcanic Climate Mods"),
+         "civic_caravaneer_caravansary": ("Караван-сарай (Караванщики)", "Caravansary (Caravaneers)")}
+for _k, (_ru, _en_) in _FIXN.items():
+    loc("dtp_fx_" + _k, _ru); tren(_ru, _en_)
+# 11.9.1: модификаторы, которые DTP использует, а у игры нет их названий (error.log: «modifier is used but not localized»)
+for _mk, _ru, _ena in (("physics", "Физические исследования", "Physics Research"), ("society", "Общественные исследования", "Society Research"),
+                       ("engineering", "Инженерные исследования", "Engineering Research")):
+    loc("mod_country_base_%s_research_produces_add" % _mk, _ru + " (база)"); tren(_ru + " (база)", _ena + " (base)")
+loc("mod_country_base_minor_artifacts_produces_add", "Малые артефакты (база)"); tren("Малые артефакты (база)", "Minor Artifacts (base)")
+_FIXD = ("pc_crystal_habitat_desc", "pc_warden_guardian_desc", "trait_cyborg_climate_adjustment_volcanic_desc")   # описаний нет в игре
+def _fixnames(text):
+    """Подмена — уже в готовом файле перевода (иначе ломается сопоставление русских строк с английскими/китайскими)."""
+    for _k in _FIXN: text = text.replace("$%s$" % _k, "$dtp_fx_%s$" % _k)
+    for _k in _FIXD: text = text.replace("\\n$%s$" % _k, "").replace("$%s$" % _k, "")
+    return text
 def safe_chars(lang, text):
+    text = _fixnames(text)
     for _a, _b in SAFE_CHARS[lang]: text = text.replace(_a, _b)
     return text
 for lang in ("russian", "english"):
     w("localisation/%s/dtp_l_%s.yml" % (lang, lang), safe_chars(lang, yml(lang, L)), True)
     w("localisation/%s/dtp_custom_l_%s.yml" % (lang, lang), safe_chars(lang, yml(lang, CUSTOM_L)), True)
+# 11.8.4: остальные языки игры получают английский текст (раньше там были служебные ключи вместо надписей — мод был нечитаем).
+# Игра загружает переводы только своего языка, так что на память это не влияет.
+_EN_ALL = safe_chars("english", yml("english", L)); _EN_C = safe_chars("english", yml("english", CUSTOM_L))
+for lang in ("braz_por", "french", "german", "japanese", "korean", "polish", "spanish"):
+    w("localisation/%s/dtp_l_%s.yml" % (lang, lang), _EN_ALL.replace("l_english:", "l_%s:" % lang, 1), True)
+    w("localisation/%s/dtp_custom_l_%s.yml" % (lang, lang), _EN_C.replace("l_english:", "l_%s:" % lang, 1), True)
 # 11.4: упрощённый китайский — перевод английских строк по шаблонам (i18n/zh_map.json; числа, $ключи$ и [скрипт] — подстановки)
 from i18n_zh import tmpl as _ztmpl, fill as _zfill
 _ZHMAP = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "i18n", "zh_map.json"), encoding="utf-8"))
