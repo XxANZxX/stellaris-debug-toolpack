@@ -1,4 +1,4 @@
-version="11.9.8"
+version="12.0.0"
 tags={
 	"Utilities"
 	"Gameplay"
@@ -6,4 +6,4 @@ tags={
 }
 name="Debug Toolpack (DTP)"
 picture="thumbnail.png"
-supported_version="v4.5.*"
+supported_version="v4.6.*"

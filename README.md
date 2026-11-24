@@ -4,7 +4,7 @@
 
 DTP was built to make life easier for **game masters** running multiplayer Stellaris sessions: rule enforcement, announcements, fixing things after a desync or a mistake, and quick changes, all from one in-game window, without the console.
 
-- Game version: **Stellaris 4.5.x**
+- Game version: **Stellaris 4.6.x** ("Corona Borealis")
 - Languages: **English, Russian, Simplified Chinese**
 - Current version: see `dtp_toolpack/descriptor.mod`
 
@@ -18,6 +18,19 @@ DTP was built to make life easier for **game masters** running multiplayer Stell
 When updating, delete the old `dtp_toolpack` folder first, so no stale files remain.
 
 **UI Overhaul Dynamic users:** also copy `dtp_toolpack_uiod` and `dtp_toolpack_uiod.mod`, and enable the patch *together with* the base mod, loaded after UIOD and DTP. Update the patch together with the base mod — without the current patch the editors do not appear under UIOD.
+
+## Stellaris 4.6, Ideology and absolute ethics (12.0)
+
+- **Built on the Stellaris 4.6.0 game files.** The planet, fleet and starbase windows, the main interface, game rules and shared triggers are regenerated from 4.6 — the planet window's new ideology block is back.
+- **Fixed:** MegaCorp-related buttons (4.6 renamed the scripted trigger `has_megacorp` to `has_megacorp_dlc`; the generator now picks it up from the game files).
+- **New "Ideology" tab** in the Empire Editor (Willpower DLC), using the 4.6 effects `create_ideology`, `adopt_ideology`, `abandon_adopted_ideology`, `destroy_ideology`, `add_ideological_strength`, `reroll_tenets` and `declare_ideological_rival`: create an ideology (from A's ethics, of any of the 9 types, or with B's tenets), adopt B's, abandon, destroy, strength +100 … +5000 / −500, reroll tenets (all tiers or one), declare B an ideological rival. The game has no effect that adds a single tenet.
+- **Absolute ethics** (3 points): a third column in "Ethics & authority"; authority changes swap absolute ethics too. The Game Master's closed ethic (1 point) is removed while an absolute ethic is set — together they exceeded the 3 points and the game rejected the government.
+- **`inline_script` objects:** 4.6 declares some edicts, traits and starbase buildings through top-level `inline_script` blocks. `eddata.py` and `cwtcheck.py` now expand them like the game does, so they appear in the editor and in the reference check.
+- **Faster editors:** every tab of both editors is its own event window (`interface/dtp_editor_windows.gui`, `interface/dtp_planet_windows.gui`); the game creates only one tab's buttons when it opens. Tabs are event options in the column on the left.
+- **DTP strips on top:** the planet and fleet strips are placed at the end of their windows, so the game's side panels no longer cover them.
+- Editor windows can be dragged only within the screen: tested in 12.0 — even an inner container with `respect_parent_boundaries = no` and its own background stays on screen inside an event window.
+- **New checks** (run on every build): `tools/scopecheck.py` (scopes of every effect and trigger against the game's own `script_documentation`, 85,000 checks), `tools/deepcheck.py` (raw variables in tooltips, unset variables, flags, event targets, unused sprites, vanilla key collisions, multiplayer-unsafe triggers …), `tools/prune_unused.py` (removes unreferenced textures left over from older builds). `tools/i18n_gameloc.py` refreshes the game-localisation snapshots for a new game version.
+- **UI Overhaul Dynamic patch** rebuilt for 12.0. Until UIOD itself is updated for 4.6, its planet window has no ideology block (`ideology_window` error in `error.log`) — that is UIOD's, not DTP's.
 
 ## Fleets & Armies, prebuilt designs, editors in their own windows (11.8–11.9)
 

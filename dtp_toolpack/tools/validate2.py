@@ -4,6 +4,7 @@
 python3 validate2.py <папка_мода> <папка_справочника>"""
 import os, re, sys, glob, collections
 ROOT, DOCS = sys.argv[1], sys.argv[2]
+DOCVER = os.environ.get("DTP_DOCVER", "4.6.0")      # 12.0: версия документации игры (script_documentation)
 errors, warns = [], []
 def strip(t): return re.sub(r'#.*', '', re.sub(r'"[^"]*"', '""', t))
 txt = {f: open(f, encoding="utf-8-sig").read() for f in glob.glob(os.path.join(ROOT, "**/*.txt"), recursive=True)
@@ -17,10 +18,10 @@ for f, t in {**txt, **gui, **gfx}.items():
         if d < 0: errors.append("лишняя } в " + f); break
     if d > 0: errors.append("незакрытые { в " + f)
 # справочник
-E = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, "4.5.3_game_effects.log")).read(), re.M))
-T = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, "4.5.3_game_triggers.log")).read(), re.M))
-S = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, "4.5.3_game_scopes.log")).read(), re.M))
-M = set(re.findall(r'^- (\w+), Category', open(os.path.join(DOCS, "4.5.3_game_modifiers.log")).read(), re.M))
+E = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, DOCVER + "_game_effects.log")).read(), re.M))
+T = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, DOCVER + "_game_triggers.log")).read(), re.M))
+S = set(re.findall(r'^([a-z_]\w*) - ', open(os.path.join(DOCS, DOCVER + "_game_scopes.log")).read(), re.M))
+M = set(re.findall(r'^- (\w+), Category', open(os.path.join(DOCS, DOCVER + "_game_modifiers.log")).read(), re.M))
 code = "\n".join(strip(t) for f, t in txt.items() if "static_modifiers" not in f and "star_classes" not in f)
 defs = lambda sub: set(re.findall(r'^(\w+)\s*=\s*\{', "\n".join(strip(txt[f]) for f in txt if sub in f), re.M))
 eff, trg, btn, smod, opn = defs("scripted_effects"), defs("scripted_triggers"), defs("button_effects"), defs("static_modifiers"), defs("opinion_modifiers")
@@ -35,7 +36,7 @@ opn |= starcls | defs("system_tooltips") | defs("megastructures") | {"dtp_gamema
 STRUCT = set("""id title desc option name trigger limit immediate text picture is_triggered_only hide_window which value namespace else else_if if
 modifier days multiplier time_multiplier who target type status amount num_of_claims show_notification resource variable species owner size fraction
 country cooldown authority civics class radius scaled_size skill design min max localization_key defined_text count weight ai_weight potential allow effect attacker_war_goal opinion decay base mult add_trait remove_trait flag side on_war_beginning events event on_monthly_pulse on_game_start parameters rounded setting color condition display_claims enable_terra_incognita icon can_change_point_of_view custom_tooltip dtp_rules_map_mode spawn_random_storm_weighted has_machine_age_dlc relations event_chain location poi situation_log_category surveyed surveyor dtp_marks_chain on_entering_system_fleet random_existing_design on_claim_system num_of_claims who target count Target Count
-fail_text root prev from this AND OR NOT NOR NAND K CODE RES OP P ACT R remove_invalid_civics icon icon_frame message tech angle required_component section ship_design ship_size slot template entity portrait show_in_outliner place_entity_on_planet_plane orbit_distance planet possible policy plural trait traits change_all homeworld category district district_type holding ignore_cap percentage pop_group random_pos zone ethos replace to bypass_type country duration show_message consume_selection job army_name ship_name army_type component is_event_design custom_gui diplomatic growth_stage growth_stages""".split())
+fail_text root prev from this AND OR NOT NOR NAND K CODE RES OP P ACT R remove_invalid_civics icon icon_frame message tech angle required_component section ship_design ship_size slot template entity portrait show_in_outliner place_entity_on_planet_plane orbit_distance planet possible policy plural trait traits change_all homeworld category district district_type holding ignore_cap percentage pop_group random_pos zone ethos replace to bypass_type country duration show_message consume_selection job army_name ship_name army_type component is_event_design custom_gui diplomatic growth_stage growth_stages scopes auto_adopt tenets tier tenet""".split())
 RESKEYS = {"energy", "minerals", "food", "alloys", "consumer_goods", "influence", "unity", "physics_research", "society_research", "engineering_research",
            "astral_threads", "exotic_gases", "minor_artifacts", "nanites", "rare_crystals", "sr_dark_matter", "sr_living_metal", "sr_zro", "volatile_motes"}
 for k in sorted(set(re.findall(r'(?<![:\w.$@])([a-z_][a-z0-9_]*)\s*(?:=|>|<)', code))):
@@ -44,7 +45,7 @@ for k in sorted(set(re.findall(r'(?<![:\w.$@])([a-z_][a-z0-9_]*)\s*(?:=|>|<)', c
     if any(re.search(r'^%s\s*=\s*\{' % k, strip(txt[f]), re.M) for f in txt if "static_modifiers" in f):
         if k not in M: errors.append("модификатора нет в 4.5: " + k)
         continue
-    errors.append("неизвестная команда/триггер (нет в справочнике 4.5.3): " + k)
+    errors.append("неизвестная команда/триггер (нет в справочнике игры): " + k)
 for f in txt:
     if "static_modifiers" in f:
         for k in re.findall(r'^[ \t]+(\w+)\s*=', strip(txt[f]), re.M):
@@ -93,8 +94,12 @@ for g in gui.values():
         if ef not in btn: errors.append("кнопка без эффекта: " + ef)
         if spr not in sprites and spr not in VANILLA_SPR: errors.append("спрайт не объявлен (ни в моде, ни в игре): " + spr)
         if bt not in loc: errors.append("нет текста кнопки: " + bt)
+_VTEX = set()                       # 12.0: текстуры, на которые ссылаются файлы интерфейса игры (картинки событий и т. п.)
+if len(sys.argv) > 3:
+    for _p in glob.glob(os.path.join(sys.argv[3], "**", "*.gfx"), recursive=True):
+        _VTEX |= {x.replace("\\", "/").lower() for x in re.findall(r'texturefile\s*=\s*"([^"]+)"', open(_p, encoding="utf-8-sig", errors="ignore").read(), re.I)}
 for n, f in sprites.items():
-    if not os.path.exists(os.path.join(ROOT, f)) and not (f.startswith('gfx/interface/icons/') and "dtp" not in f): errors.append("нет текстуры " + f)   # 11.1.3: значки из файлов игры
+    if not os.path.exists(os.path.join(ROOT, f)) and not (f.startswith('gfx/interface/icons/') and "dtp" not in f) and f.lower() not in _VTEX: errors.append("нет текстуры " + f)   # 11.1.3: значки из файлов игры
 for p in set(re.findall(r'picture = (GFX_\w+)', code)):
     if p not in sprites: errors.append("картинка события не объявлена: " + p)
 # локализация: ссылки и недопустимая одиночная [ (в 4.5 начинает команду)

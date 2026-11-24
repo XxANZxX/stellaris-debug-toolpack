@@ -12,8 +12,12 @@
 python3 cwtcheck.py <правила/config> <игра common> <мод>
 """
 import os, re, sys, glob, collections
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import eddata as _edd                     # 12.0: объекты игры, объявленные через inline_script (указы, черты 4.6), — разворачиваем, как игра
 
 RULES, VC, MOD = sys.argv[1:4]
+_edd.INLINE_ROOT = os.path.join(VC, "inline_scripts")
+def _inl(t): return _edd._inline(re.sub(r"#[^\n]*", "", t))
 GAME = os.path.dirname(VC.rstrip("/"))          # .../c  (common лежит внутри)
 
 def toks(text):
@@ -84,7 +88,7 @@ def tnames(t):
             d = tdir(base, p)
             for f in glob.glob(os.path.join(d, "**", "*.txt"), recursive=True):
                 if per_file: s.add(os.path.splitext(os.path.basename(f))[0]); continue
-                try: tree = parse(open(f, encoding="utf-8-sig", errors="ignore").read())
+                try: tree = parse(_inl(open(f, encoding="utf-8-sig", errors="ignore").read()) if base == VC else open(f, encoding="utf-8-sig", errors="ignore").read())
                 except RecursionError: continue
                 if skip: tree = [x for k, op, v in tree if isinstance(v, list) for x in v]
                 for k, op, v in tree:

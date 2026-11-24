@@ -17,8 +17,9 @@ python3 gen3.py <мод> <vanilla interface> <vanilla common> <vanilla gfx/model
 import zlib, os, sys, re, json, glob
 
 OUT, VI, VC, VMAP = sys.argv[1:5]
-VERSION = "11.9.8"
+VERSION = "12.0.0"
 UIOD = os.environ.get("DTP_LAYOUT") == "uiod"   # раскладка под UI Overhaul Dynamic (ставит make_uiod_patch.py)
+DTP_WIN = os.environ.get("DTP_WIN", "1") != "0"      # 11.9: редакторы — окна-события (см. ниже); DTP_WIN=0 — как раньше, в maingui
 MAXP = 16
 L, BTN, GUI, META, EFF, TRG, EVENTS = {}, [], [], [], [], [], []
 DEFTXT = []   # 11.1: common/scripted_loc
@@ -429,9 +430,12 @@ EFF.append(B("dtp_clist", *[B("if", B("limit", "exists = event_target:dtp_cl_%d"
 # Галактическое сообщество её не учитывает (не запускает голосование о создании, не принимает в члены), рост населения выключен.
 # Плюс закрытая этика «Гейм-мастер» (её нельзя выбрать при создании державы), огромные бонусы, разведка/шифровка 1000,
 # полный обзор сенсорами (правило игры has_full_sensor_range), вся карта и контакт со всеми; войну, гарантии и закрытие границ — нельзя.
+# 12.0 (4.6): при абсолютной этике (3 очка — все очки) закрытая этика Гейм-мастера не помещается — её не добавляем
+_ABSE = sorted(set(re.findall(r"^(ethic_absolute_\w+)\s*=", open(os.path.join(VC, "ethics", "00_ethics.txt"), encoding="utf-8-sig", errors="ignore").read(), re.M))) if os.path.exists(os.path.join(VC, "ethics", "00_ethics.txt")) else []
+_GM_NOABS = ["NOR = { %s }" % " ".join("has_ethic = %s" % e for e in _ABSE)] if _ABSE else []
 EFF.append(B("dtp_gm_on", B("if", B("limit", "NOT = { has_country_flag = dtp_gm_role }"),
     "set_country_flag = dtp_gm_role", "set_country_type = dtp_gamemaster",
-    B("if", B("limit", "NOT = { has_ethic = ethic_gestalt_consciousness }"), "country_add_ethic = ethic_dtp_gamemaster"),
+    B("if", B("limit", "NOT = { has_ethic = ethic_gestalt_consciousness }", *_GM_NOABS), "country_add_ethic = ethic_dtp_gamemaster"),
     "add_modifier = { modifier = dtp_gm_role days = -1 }",
     B("if", B("limit", "is_galactic_community_member = yes"), "remove_from_galactic_community = yes"),
     B("every_owned_planet", B("limit", "has_branch_office = yes"), "close_branch_office = yes"),
@@ -564,16 +568,19 @@ EFF.append(B("dtp_host_check", B("if", B("limit", "NOT = { has_global_flag = dtp
 # открыть «Редактор держав и вида» на нужном разделе
 def ED_OPEN_AT(tab=None, cat=1):
     # 11.9: редактор — отдельное окно-событие (dtp.1995): кнопки редактора существуют только пока окно открыто (FPS)
-    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open", "country_event = { id = dtp.1995 }",
+    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open",
         *([setv("dtp_edtab", tab), setv("dtp_edcat", cat), setv("dtp_edpg", 1)] if tab else
-          [B("if", B("limit", "NOT = { is_variable_set = dtp_edtab }"), setv("dtp_edtab", 1), setv("dtp_edcat", 1), setv("dtp_edpg", 1))]))
+          [B("if", B("limit", "NOT = { is_variable_set = dtp_edtab }"), setv("dtp_edtab", 1), setv("dtp_edcat", 1), setv("dtp_edpg", 1))]),
+        "country_event = { id = dtp.1995 scopes = { from = this } }")      # 11.9.9: событие — последним (dtp.1995 открывает окно вкладки dtp_edtab)
 # 11.3: открыть «Редактор планеты и системы» (на нужном разделе); второй редактор при этом закрывается
 def PE_OPEN_AT(tab=None, cat=1, reuse=False):
     """reuse — кнопка в окне планеты: если окно редактора планеты уже открыто, только меняем планету (без второго окна)."""
-    fire = B("if", B("limit", "NOT = { has_country_flag = dtp_pe_open }"), "country_event = { id = dtp.1996 }") if reuse else "country_event = { id = dtp.1996 }"
-    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", fire, "set_country_flag = dtp_pe_open", "remove_country_flag = dtp_open",
+    # 11.9.9: событие — последним (dtp.1996 открывает окно вкладки dtp_petab); «было ли окно открыто» запоминается до установки флага
+    pre = B("if", B("limit", "NOT = { has_country_flag = dtp_pe_open }"), "set_country_flag = dtp_pe_fire") if reuse else ""
+    fire = B("if", B("limit", "has_country_flag = dtp_pe_fire"), "remove_country_flag = dtp_pe_fire", "country_event = { id = dtp.1996 scopes = { from = this } }") if reuse else "country_event = { id = dtp.1996 scopes = { from = this } }"
+    return B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", pre, "set_country_flag = dtp_pe_open", "remove_country_flag = dtp_open",
         *([setv("dtp_petab", tab), setv("dtp_pecat", cat), setv("dtp_pepg", 1)] if tab else
-          [B("if", B("limit", "NOT = { is_variable_set = dtp_petab }"), setv("dtp_petab", 1), setv("dtp_pecat", 1), setv("dtp_pepg", 1))]))
+          [B("if", B("limit", "NOT = { is_variable_set = dtp_petab }"), setv("dtp_petab", 1), setv("dtp_pecat", 1), setv("dtp_pepg", 1))]), fire)
 def act(p, body, code, need_load=True):
     """Тело действия: загрузка целей, проверка прав и наличия целей В МОМЕНТ выполнения, журнал.
     Если выбранная цель исчезла (планета уничтожена, флот погиб, держава пала) — «НЕ ВЫПОЛНЕНО», а не ложное «ГОТОВО»."""
@@ -1270,6 +1277,7 @@ arm_btn("mass_fl", "Все военные флоты державы → B", x, y
 # 11.8: КОНСТРУКТОР ФЛОТА И АРМИЙ — во вкладке «Флот и армии» редактора держав (editor3.py). Здесь — кнопка открытия,
 # список типов кораблей (из файлов игры) и общие куски для окна флота игры («+ N кораблей»).
 import eddata as _edf
+_edf.INLINE_ROOT = os.path.join(VC, "inline_scripts")      # 12.0: разворачивать inline_script в файлах игры
 _SZ = _edf.top(os.path.join(VC, "ship_sizes/*.txt"))
 FTYPES = [(c, k) for c, ks in (
     (1, ("corvette", "frigate", "destroyer", "cruiser", "battleship", "titan", "juggernaut", "colossus")),
@@ -1423,12 +1431,14 @@ def gov_prep(k):
         return [B("if", B("limit", "NOT = { has_ethic = ethic_gestalt_consciousness }"), "shift_ethic = ethic_gestalt_consciousness")]
     out = [B("if", B("limit", "has_ethic = ethic_gestalt_consciousness"), "country_remove_ethic = ethic_gestalt_consciousness",
              "country_add_ethic = ethic_fanatic_pacifist", "country_add_ethic = ethic_materialist")]
+    # 12.0 (4.6): абсолютные этики (3 очка) — тоже меняются на допустимые
     if k == "auth_democratic":
-        out += swap([("ethic_fanatic_authoritarian", "ethic_fanatic_egalitarian"), ("ethic_authoritarian", "ethic_egalitarian")])
+        out += swap([("ethic_absolute_authoritarian", "ethic_absolute_egalitarian"), ("ethic_fanatic_authoritarian", "ethic_fanatic_egalitarian"), ("ethic_authoritarian", "ethic_egalitarian")])
     elif k in ("auth_dictatorial", "auth_imperial"):
-        out += swap([("ethic_fanatic_egalitarian", "ethic_fanatic_authoritarian"), ("ethic_egalitarian", "ethic_authoritarian")])
-    else:   # олигархия, корпорация: нельзя фанатичные эгалитаризм/авторитаризм
-        out += swap([("ethic_fanatic_egalitarian", "ethic_egalitarian"), ("ethic_fanatic_authoritarian", "ethic_authoritarian")])
+        out += swap([("ethic_absolute_egalitarian", "ethic_absolute_authoritarian"), ("ethic_fanatic_egalitarian", "ethic_fanatic_authoritarian"), ("ethic_egalitarian", "ethic_authoritarian")])
+    else:   # олигархия, корпорация: нельзя фанатичные и абсолютные эгалитаризм/авторитаризм
+        out += swap([("ethic_absolute_egalitarian", "ethic_egalitarian"), ("ethic_absolute_authoritarian", "ethic_authoritarian"),
+                     ("ethic_fanatic_egalitarian", "ethic_egalitarian"), ("ethic_fanatic_authoritarian", "ethic_authoritarian")])
     return out
 # 11.2.6: указы — в разделе «Государство» (разделы «Правление» и «Расы» убраны: всё это теперь в редакторе)
 area(8)
@@ -2860,7 +2870,6 @@ def shorten(text): return re.sub(r"\bdtp_b_\w+|\bGFX_dtp_gi_\w+", _short, text)
 GRIP_W, GRIP_H = 260, 30
 ED_GRIP = ("size = { width = %d height = %d }" % (GRIP_W, GRIP_H), "moveable = yes", "respect_parent_boundaries = no",
            B("background", 'name = "grip_bg"', 'quadTextureSprite = "GFX_invisible"'))
-DTP_WIN = os.environ.get("DTP_WIN", "1") != "0"      # 11.9: редакторы — окна-события (см. ниже); DTP_WIN=0 — как раньше, в maingui
 for _w, _flag in (("editor", "dtp_ed_open"), ("peditor", "dtp_pe_open")):      # 11.9.2: «язычок» и в окне-событии (за него тянут)
     lab("%s_grip" % _w, tren("   §Y:::§!  Перетащить окно", "   §Y:::§!  Drag the window"), 0, -GRIP_H, GRIP_W, h=GRIP_H, where=_w, potential=B("from", "has_country_flag = %s" % _flag))
     GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_tab"; GUI[-1]["passthru"] = True
@@ -2905,7 +2914,7 @@ def _win_tpl():
     def top(nm):
         i = src.index('name = "%s"' % nm); s0 = src.rindex("containerWindowType", 0, i); return src[s0:_blk_end(src, src.index("{", s0)) + 1]
     return top("event_option_entry"), top("DiplomaticEventWindow")
-def dtp_window(wname, where, ox, oy, w_, h_):
+def dtp_window(wname, where, ox, oy, w_, h_, tab=None, listsz=(120, 40)):
     """Окно-событие: шаблон игры (всё лишнее спрятано за экран).
     11.9.5: само окно-событие игра двигать не даёт, а кнопку варианта («Закрыть») ищет строго в контейнере EVENT_DIPLO окна
     (в 11.9.4 он был вложен глубже — вместо «Закрыть» появилась нерабочая «OK»). Поэтому подвижный контейнер — сам EVENT_DIPLO:
@@ -2914,7 +2923,7 @@ def dtp_window(wname, where, ox, oy, w_, h_):
     win = win.replace('name = "DiplomaticEventWindow"', 'name = "%s"' % wname, 1)
     o = win.index("{"); kids = _kids(win, o + 1, len(win) - 1)
     els = "\n".join("\t\t\t" + gui_el(dict(g, y=g["y"] + GRIP_H, **({"passthru": True} if re.search(r"_(bg|decor)$", g["key"]) else {})))
-                     for g in GUI if g["where"] == where)
+                     for g in GUI if g["where"] == where and (tab is None or tab_shows(g["key"], where, tab)))
     for typ, s0, e0 in reversed(kids):
         blk = win[s0:e0 + 1]
         nm = (re.search(r'name\s*=\s*"([^"]+)"', blk) or [None, ""])[1]
@@ -2928,20 +2937,101 @@ def dtp_window(wname, where, ox, oy, w_, h_):
             o2 = blk.index("{")
             for t2, a2, b2 in reversed(_kids(blk, o2 + 1, len(blk) - 1)):
                 sub = blk[a2:b2 + 1]; n2 = (re.search(r'name\s*=\s*"([^"]+)"', sub) or [None, ""])[1]
-                if n2 == "option_list": sub = _set_attr(_set_attr(sub, "position", "{ x = %d y = %d }" % (ox, oy + GRIP_H)), "size", "{ x = 120 y = 40 }")
+                if n2 == "option_list":
+                    sub = _set_attr(_set_attr(sub, "position", "{ x = %d y = %d }" % (ox, oy + GRIP_H)), "size", "{ x = %d y = %d }" % listsz)
+                    sub = re.sub(r"spacing\s*=\s*\d+", "spacing = 0", sub)
                 elif t2 not in ("position", "size"): sub = _set_attr(sub, "position", OFF)
                 blk = blk[:a2] + sub + blk[b2 + 1:]
             # содержимое — первым в контейнере (под списком вариантов, чтобы «Закрыть» было поверх)
             k2 = _kids(blk, o2 + 1, len(blk) - 1)
             first = next((a2 for t2, a2, b2 in k2 if t2 not in ("position", "size")), len(blk) - 1)
-            blk = blk[:first] + "### DEBUG TOOLPACK (DTP)\n" + els + "\n\t\t\t" + blk[first:]
+            # 12.0: у подвижного контейнера должен быть свой фон, ловящий мышь, иначе игра его не тянет (совет автора Custom UI:
+            # «для moveable нужен background, доступный событиям указателя») — тогда тянется EVENT_DIPLO (respect_parent_boundaries = no),
+            # а не само окно-событие, которое игра держит в пределах экрана
+            blk = blk[:first] + 'background = { name = "dtp_drag_bg" quadTextureSprite = "GFX_invisible" }\n\t\t\t### DEBUG TOOLPACK (DTP)\n' + els + "\n\t\t\t" + blk[first:]
         elif typ not in ("position", "size", "orientation", "origo"):
             # всё прочее окна игры — за экран (в т.ч. «OK» confirm_button); их клавиши не работают: ESC не закрывает окно
             # (флаг редактора снимается только вариантом «Закрыть»), Q/T не срабатывают
             blk = _set_attr(blk, "position", OFF)
             blk = re.sub(r'(?i)shortcut\s*=\s*"[^"]*"', "", blk)
         win = win[:s0] + blk + win[e0 + 1:]
+    if os.environ.get("DTP_DRAGTEST") == "1":       # проба 12.0: внешнее окно-событие не тянется — тянется только EVENT_DIPLO
+        _h = win.index("background")
+        win = win[:_h].replace("moveable = yes", "moveable = no", 1) + win[_h:]
     return win
+# 11.9.9: на какой вкладке элемент может быть виден — разбор его условия (potential) в трёхзначной логике: проверка номера
+# вкладки (dtp_edtab/dtp_petab) известна, всё прочее — «неизвестно». Элемент попадает в окно вкладки, если условие не ложно наверняка.
+_TRGD = {}
+def _trgd():
+    if not _TRGD:
+        for t in TRG:
+            m = re.match(r"(\w+) = \{\n", t)
+            if m: _TRGD[m.group(1)] = t[m.end():t.rindex("}")]
+    return _TRGD
+def _cw_parse(s):
+    toks = re.findall(r'\{|\}|[<>!]?=|[<>]|"[^"]*"|[^\s{}=<>!]+', s)
+    def block(i):
+        out = []
+        while i < len(toks):
+            k = toks[i]
+            if k == "}": return out, i + 1
+            if i + 1 < len(toks) and toks[i + 1] in ("=", "<", ">", "<=", ">=", "!="):
+                op = toks[i + 1]
+                if toks[i + 2] == "{": v, i = block(i + 3)
+                else: v, i = toks[i + 2], i + 3
+                out.append((k, op, v))
+            else: out.append((k, None, None)); i += 1
+        return out, i
+    return block(0)[0]
+def _and(vals):
+    if any(v is False for v in vals): return False
+    return True if all(v is True for v in vals) else None
+def _or(vals):
+    if any(v is True for v in vals): return True
+    return False if all(v is False for v in vals) else None
+def _neg(v): return None if v is None else (not v)
+def _cw_eval(items, var, t, d=0):
+    return _and([_cw_item(it, var, t, d) for it in items])
+def _cw_item(it, var, t, d):
+    k, op, v = it
+    if isinstance(v, list):
+        if k == "check_variable":
+            kv = {a: (o, b) for a, o, b in v if not isinstance(b, list)}
+            if kv.get("which", (0, ""))[1] == var and kv.get("value", ("", ""))[0] == "=" and re.fullmatch(r"-?\d+", kv["value"][1]):
+                return int(kv["value"][1]) == t
+            return None
+        sub = [_cw_item(x, var, t, d) for x in v]
+        if k == "OR": return _or(sub)
+        if k in ("NOT", "NOR"):
+            a, b = _neg(_or(sub)), _neg(_and(sub))
+            return a if (a == b or k == "NOR") else None
+        if k == "NAND": return _neg(_and(sub))
+        return _and(sub)
+    if v in ("yes", "no") and k in _trgd() and d < 8:
+        r = _cw_eval(_cw_parse(_trgd()[k]), var, t, d + 1)
+        return r if v == "yes" else _neg(r)
+    return None
+_POTS = {}
+def tab_shows(key, where, t):
+    if not _POTS:
+        for m in META: _POTS[m["key"]] = m.get("pot", "")
+    return _cw_eval(_cw_parse(_POTS.get(key, "")), TABWIN[where]["var"], t) is not False
+def dtp_tab_option(name, w_, h_, bh, sprite, icon=None):
+    """Вариант события в столбике вкладок: кнопка вкладки (как прежняя кнопка навигации) и значок игры."""
+    opt, _ = _win_tpl()
+    opt = opt.replace('name = "event_option_entry"', 'name = "%s"' % name, 1)
+    o = opt.index("{"); kids = _kids(opt, o + 1, len(opt) - 1)
+    for typ, s0, e0 in reversed(kids):
+        blk = opt[s0:e0 + 1]; nm = (re.search(r'name\s*=\s*"([^"]+)"', blk) or [None, ""])[1]
+        if typ == "size": blk = "size = { width = %d height = %d }" % (w_, h_)
+        elif nm == "option_button":
+            blk = re.sub(r'(quadTextureSprite|spriteType)\s*=\s*"[^"]*"', 'quadTextureSprite = "%s"' % sprite, blk)
+            blk = _set_attr(_set_attr(blk, "size", "{ x = %d y = %d }" % (w_, bh)), "position", "{ x = 0 y = 0 }")
+            if icon: blk = blk[:-1] + '\tformat = left\n\t\t}'
+            if icon: blk += '\n\t\tbuttonType = { name = "dtp_tab_icon" position = { x = 9 y = %d } size = { x = 20 y = 20 } quadTextureSprite = "%s" alwaysTransparent = yes }' % ((bh - 20) // 2, icon)
+        elif typ not in ("position", "size"): blk = _set_attr(blk, "position", OFF)
+        opt = opt[:s0] + blk + opt[e0 + 1:]
+    return opt
 def dtp_win_option():
     opt, _ = _win_tpl()
     opt = opt.replace('name = "event_option_entry"', 'name = "dtp_win_option"', 1)
@@ -2949,13 +3039,45 @@ def dtp_win_option():
     opt = opt.replace('quadTextureSprite = "GFX_event_button_452"', 'quadTextureSprite = "GFX_dtp_btn_danger"\n\t\t\tsize = { x = 104 y = 36 }', 1)
     opt = opt.replace("position = { x=0 y=8 }", "position = { x=0 y=0 }", 1)
     return opt
+# 11.9.9: ОКНО НА ВКЛАДКУ. Окно-событие игра создаёт целиком при открытии: в редакторе держав это было 11 800 кнопок
+# (на экране ~150) — лаг 1–2 с при открытии и проверка всех кнопок каждый кадр, пока окно открыто. Теперь у каждой вкладки
+# своё окно-событие с одинаковой рамкой на том же месте; вкладки — варианты события в столбике слева (вариант события —
+# единственная кнопка, которая закрывает окно, — сразу открывает окно другой вкладки). dtp.1995/dtp.1996 — скрытые события:
+# открывают окно вкладки, номер которой записан в dtp_edtab/dtp_petab. Кнопка «Закрыть» — последний вариант.
+# FROM в этих событиях задан явно (scopes = { from = this } — сама держава игрока): варианты и загрузка списков вкладок ждут from = игрок.
+TABWIN = {"editor": dict(ev=1995, base=1960, var="dtp_edtab", cat="dtp_edcat", pg="dtp_edpg", flag="dtp_ed_open", pref="ed", step=40, bh=36,
+                         ru="Редактор держав и вида", en="Empire & species editor"),
+          "peditor": dict(ev=1996, base=1980, var="dtp_petab", cat="dtp_pecat", pg="dtp_pepg", flag="dtp_pe_open", pref="pe", step=42, bh=38,
+                          ru="Редактор планеты и системы", en="Planet & system editor")}
 if DTP_WIN:
-    for _eid, _wn, _flag, _ru, _en in ((1995, "dtp_ed_win", "dtp_ed_open", "Редактор держав и вида", "Empire & species editor"),
-                                      (1996, "dtp_pe_win", "dtp_pe_open", "Редактор планеты и системы", "Planet & system editor")):
-        _tk = loc("dtp.%d.name" % _eid, "Debug Toolpack: " + _ru); tren(L[_tk], "Debug Toolpack: " + _en)
-        _dk = loc("dtp.%d.desc" % _eid, ""); _ok = loc("dtp.%d.o0" % _eid, "Закрыть"); tren("Закрыть", "Close")
-        EVENTS.append(B("country_event", "id = dtp.%d" % _eid, "title = %s" % _tk, "desc = %s" % _dk, "picture = GFX_evt_dtp_access", "is_triggered_only = yes", "diplomatic = yes",
-                        'custom_gui = "%s"' % _wn, B("option", "name = %s" % _ok, 'custom_gui = "dtp_win_option"', B("hidden_effect", "remove_country_flag = %s" % _flag))))
+    TABWIN["editor"].update(tabs=ETABS, tt=ETT, fx=ED_TABFX, ic=ED_TABIC)
+    if len(ETABS) > 14: TABWIN["editor"].update(step=37, bh=34)      # 12.0: 15 вкладок + «Закрыть» — столбик плотнее (подписи внизу не задеваются)
+    TABWIN["peditor"].update(tabs=PTABS, tt=PTT, fx=PE_TABFX, ic=PE_TABIC)
+    tren("Закрыть", "Close")
+    for _where, _c in TABWIN.items():
+        _tk = loc("dtp_%s_title" % _c["pref"], "Debug Toolpack: " + _c["ru"]); tren(L[_tk], "Debug Toolpack: " + _c["en"])
+        _dk = loc("dtp_%s_desc" % _c["pref"], ""); _ck = loc("dtp_%sopt_close" % _c["pref"], "Закрыть")
+        _pad = "            "
+        for _t, _ru, _en in _c["tabs"]:
+            loc("dtp_%sopt_%d" % (_c["pref"], _t), _pad + _ru); tren(_pad + _ru, _pad + _en)
+            _tr, _te = (x.replace("\n", "\\n") for x in _c["tt"][_t]); loc("dtp_%sopt_%d_tt" % (_c["pref"], _t), _tr); tren(_tr, _te)
+        # скрытое событие: открыть окно текущей вкладки
+        _chain = []
+        for _n, (_t, _, _) in enumerate(_c["tabs"]):
+            _chain.append(B("if" if _n == 0 else "else_if", B("limit", chk(_c["var"], _t)), "country_event = { id = dtp.%d scopes = { from = this } }" % (_c["base"] + _t)))
+        _chain.append(B("else", setv(_c["var"], 1), setv(_c["cat"], 1), setv(_c["pg"], 1), "country_event = { id = dtp.%d scopes = { from = this } }" % (_c["base"] + _c["tabs"][0][0])))
+        EVENTS.append(B("country_event", "id = dtp.%d" % _c["ev"], "hide_window = yes", "is_triggered_only = yes", B("immediate", *_chain)))
+        for _t, _, _ in _c["tabs"]:
+            _opts = []
+            for _u, _, _ in _c["tabs"]:
+                # переменные — в самой державе (scope варианта); загрузка списков (виды, лидер, гиперкоридоры) — как у прежней кнопки вкладки
+                _fx = _c["fx"][_u].replace(B("from", setv(_c["var"], _u), setv(_c["cat"], 1), setv(_c["pg"], 1)), "")
+                _opts.append(B("option", "name = dtp_%sopt_%d" % (_c["pref"], _u), 'custom_gui = "dtp_%sopt_%d%s"' % (_c["pref"], _u, "_on" if _u == _t else ""),
+                               "custom_tooltip = dtp_%sopt_%d_tt" % (_c["pref"], _u),
+                               B("hidden_effect", "set_country_flag = %s" % _c["flag"], setv(_c["var"], _u), setv(_c["cat"], 1), setv(_c["pg"], 1), _fx, B("from", "dtp_vsync = yes"), "country_event = { id = dtp.%d scopes = { from = this } }" % _c["ev"])))
+            _opts.append(B("option", "name = %s" % _ck, 'custom_gui = "dtp_%sopt_close"' % _c["pref"], B("hidden_effect", "remove_country_flag = %s" % _c["flag"])))
+            EVENTS.append(B("country_event", "id = dtp.%d" % (_c["base"] + _t), "title = %s" % _tk, "desc = %s" % _dk, "picture = GFX_evt_dtp_access", "is_triggered_only = yes",
+                            "diplomatic = yes", 'custom_gui = "dtp_%s_win_%d"' % (_c["pref"], _t), *_opts))
 # 11.6.4: только символы, которые есть в переводах самой игры (шрифт/кодировка игры знает их). Символов «· ● → ← ±» в переводах
 # игры нет — в error.log «Failed conversion of utf8 string» при показе окон DTP. Замены — на символы, которые игра использует сама.
 SAFE_CHARS = {"russian": (("·", "•"), ("●", "•"), ("→", "»"), ("←", "«"), ("±", "~"), ("▶", "»")),
@@ -3052,11 +3174,26 @@ def _split_maingui():
     GUI_REPORT.append("%s → окно maingui перенесено в %s (+ панель DTP, редакторы держав и планеты)" % (own, pef))
 _split_maingui()
 if DTP_WIN:      # 11.9: окна редакторов — свой файл (игра создаёт их только при открытии события)
-    w("interface/dtp_windows.gui", "guiTypes = {\n" + dtp_win_option() + "\n" + dtp_window("dtp_ed_win", "editor", EW - 112, 14, EW, EH) + "\n"
-      + dtp_window("dtp_pe_win", "peditor", EW - 112, 14, EW, EH) + "\n}\n")
-    if "dtp_windows.gui" not in GUI_TARGETS: GUI_TARGETS.append("dtp_windows.gui")
+    # 12.0: окна редакторов — по файлу на редактор (на 4.6 общий файл перерос 3,5 МБ, дальше не проверяли в игре)
+    _WFILE = {"editor": "dtp_editor_windows.gui", "peditor": "dtp_planet_windows.gui"}
+    for _where, _c in TABWIN.items():
+        _parts = []
+        _n = len(_c["tabs"]) + 1
+        for _t, _, _ in _c["tabs"]:
+            _parts.append(dtp_tab_option("dtp_%sopt_%d" % (_c["pref"], _t), 194, _c["step"], _c["bh"], SKIN.get("GFX_dtp_ednav", "GFX_dtp_ednav"), _c["ic"].get(_t)))
+            _parts.append(dtp_tab_option("dtp_%sopt_%d_on" % (_c["pref"], _t), 194, _c["step"], _c["bh"], SKIN.get("GFX_dtp_ednav_on", "GFX_dtp_ednav_on"), _c["ic"].get(_t)))
+        _parts.append(dtp_tab_option("dtp_%sopt_close" % _c["pref"], 194, _c["step"], _c["bh"], SKIN.get("GFX_dtp_btn_danger", "GFX_dtp_btn_danger")))
+        _cnt = []
+        for _t, _, _ in _c["tabs"]:
+            _parts.append(dtp_window("dtp_%s_win_%d" % (_c["pref"], _t), _where, 14, 96, EW, EH, tab=_t, listsz=(194, _n * _c["step"] + 4)))
+            _cnt.append(sum(1 for g in GUI if g["where"] == _where and tab_shows(g["key"], _where, _t)))
+        print("окна вкладок %s: элементов на вкладку %s (всего в редакторе %d)" % (_where, _cnt, sum(1 for g in GUI if g["where"] == _where)))
+    # 11.9.9: новое имя файла — старая копия dtp_windows.gui (в папке патча UIOD 11.9.x) не перекроет эти окна, а её окна просто не используются
+        w("interface/" + _WFILE[_where], "guiTypes = {\n" + "\n".join(_parts) + "\n}\n")
+        if _WFILE[_where] not in GUI_TARGETS: GUI_TARGETS.append(_WFILE[_where])
 # 11.1.1: в UIOD картинка планеты рисуется поверх полосы, вставленной сразу после фона, — полосу кладём в конец окна (поверх всего)
-inject("planet_view.gui", None if UIOD else r'name = "planet_view_bg".*?\n\t\t\}\n', planet_strip, "\t\t", "planet_view", modded_end=True)
+# 12.0: полоса — в конец окна и без UIOD (раньше — сразу после фона, и боковые панели окна планеты, например «Сведения о мире», её перекрывали)
+inject("planet_view.gui", None, planet_strip, "\t\t", "planet_view", modded_end=True)
 if MAP_ICONS:
     _mif = {}
     for ic in MAP_ICONS: _mif.setdefault(gui_owner(ic, "mapicons.gui"), []).append(ic)
@@ -3075,7 +3212,7 @@ if MAP_ICONS:
 for _old in ("interface/main_bottom.gui",):
     if os.path.exists(os.path.join(OUT, _old)): os.remove(os.path.join(OUT, _old))       # файл из прошлых версий
 inject("starbase_view.gui", None, starbase_strip, "\t\t", "starbase_view")     # окно станции: в конец корневого контейнера (поверх содержимого)
-inject("fleet_view.gui", r'\tcontainerWindowType = \{\n\t\tname = "fleet_view".*?name = "header".*?\n\t\t\}\n', fleet_strip, "\t\t", "fleet_view")
+inject("fleet_view.gui", None, fleet_strip, "\t\t", "fleet_view")     # 12.0: тоже в конец окна — поверх всего
 print("встраивание в окна игры: " + "; ".join(GUI_REPORT))
 # 10.8.0: каждая кнопка с подтверждением должна сбрасываться dtp_disarm (иначе бар «ПОДТВЕРДИТЬ» висит — так было у Цетаны и Хана)
 assert not (ARMS_USED - set(ARMS)), "кнопки с подтверждением не сбрасываются dtp_disarm: %s" % sorted(ARMS_USED - set(ARMS))
@@ -3437,7 +3574,7 @@ _ctv = "\n".join(sorted(set(v for v in re.findall(r"^@\w+ = .*$", _ct, re.M) if 
 w("common/country_types/dtp_country_types.txt", "# Debug Toolpack " + VERSION + ": Game Master country type (copy of 'default', not playable like Fallen Empires)\n" + (_ctv + "\n\n" if _ctv else "") + _gm + "\n")
 # закрытая этика: выбрать при создании нельзя, выдаётся только ролью Гейм-мастера
 w("common/ethics/dtp_ethics.txt", "# Debug Toolpack " + VERSION + ": closed Game Master ethic (only via the Game Master role)\n" + pretty(B("ethic_dtp_gamemaster",
-    "cost = 1", 'category = "hive"', "category_value = 1", "use_for_pops = no", B("playable", "always = no"),
+    "cost = 1", 'category = "hive"', "category_value = 1", "use_for_pops = no", B("playable", "always = no"),      # 0 игра не принимает (error.log 4.6: «Non-positive cost»)
     B("country_modifier", "intel_encryption_add = 5"), B("random_weight", "base = 0"))))
 w("common/event_chains/dtp_event_chains.txt", HDR + pretty(B("dtp_marks_chain", 'icon = "gfx/interface/icons/situation_log/situation_log_quest.dds"',
     "picture = GFX_evt_dtp_events", "situation_log_category = developments")))
@@ -3563,7 +3700,7 @@ for k in range(9, 17):
     CUSTOM_L["dtp_cat_%d_name" % k] = "Слот %d" % (k - 8); CUSTOM_L["dtp_cat_%d_desc" % k] = "Пустой пользовательский слот."
 w("common/scripted_effects/dtp_custom_catalog.txt", pretty("\n".join(CUSTOM)))
 w("common/scripted_triggers/dtp_custom_triggers.txt", pretty("\n".join(CUSTOM_T)))
-w("descriptor.mod", 'version="%s"\ntags={\n\t"Utilities"\n\t"Gameplay"\n\t"Graphics"\n}\nname="Debug Toolpack (DTP)"\npicture="thumbnail.png"\nsupported_version="v4.5.*"\n' % VERSION)
+w("descriptor.mod", 'version="%s"\ntags={\n\t"Utilities"\n\t"Gameplay"\n\t"Graphics"\n}\nname="Debug Toolpack (DTP)"\npicture="thumbnail.png"\nsupported_version="v4.6.*"\n' % VERSION)
 import re as _re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from i18n_extract import norm as _norm, digits as _digits, denorm as _denorm
@@ -3595,7 +3732,17 @@ def _realname(k, v):
     if k.startswith(_RN_THIS):
         v = v.replace("[This.GetName]", "[This.GetRealName]").replace("[From.GetName]", "[From.GetRealName]")
     return v
-def yml(lang, d):
+# 11.9.9: в подсказке окна игра не подставляет переменные ([From.dtp_amount] — на экране сырой текст; скриншот 11.9.7, «+ Влияние»).
+# Скобки «(сейчас [From.x])» из подсказок убираются, оставшаяся переменная заменяется словами (в надписи кнопки число остаётся).
+_TT_WORD = {"russian": "последнее количество", "english": "the last amount", "simp_chinese": "上次的数量"}
+_TTK = None
+def _ttclean(lang, k, v):
+    global _TTK
+    if _TTK is None: _TTK = {g["tt"] for g in GUI if g.get("tt")}
+    if k not in _TTK or "[From." not in v: return v
+    v = re.sub(r"\s*[(（][^()（）]*\[From\.\w+\][^()（）]*[)）]", "", v)
+    return re.sub(r"\[From\.\w+\]", _TT_WORD.get(lang, "the last amount"), v)
+def yml(lang, d, clean=True):
     rows = []
     for k, v in d.items():
         v = v.replace('"', "'")
@@ -3606,6 +3753,7 @@ def yml(lang, d):
         v = _realname(k, v)
         if k in ICON_PAD:                                  # 11.1.1: сдвиг текста вправо от значка
             v = " " * (_pad_n(ICON_PAD[k], v) or 0) + v
+        if clean: v = _ttclean(lang, k, v)
         rows.append(' %s:0 "%s"' % (k, v))
     return "l_%s:\n" % lang + "\n".join(rows) + "\n"
 # 11.8.2: у нескольких объектов игры нет названия (ключа нет в переводах или он пустой) — на карточке был бы «$ключ$»/пусто.
@@ -3618,8 +3766,10 @@ for _k, (_ru, _en_) in _FIXN.items():
 # 11.9.1: модификаторы, которые DTP использует, а у игры нет их названий (error.log: «modifier is used but not localized»)
 for _mk, _ru, _ena in (("physics", "Физические исследования", "Physics Research"), ("society", "Общественные исследования", "Society Research"),
                        ("engineering", "Инженерные исследования", "Engineering Research")):
-    loc("mod_country_base_%s_research_produces_add" % _mk, _ru + " (база)"); tren(_ru + " (база)", _ena + " (base)")
-loc("mod_country_base_minor_artifacts_produces_add", "Малые артефакты (база)"); tren("Малые артефакты (база)", "Minor Artifacts (base)")
+    if "mod_country_base_%s_research_produces_add" % _mk not in _GMK:      # 12.0: в 4.6 у игры эти названия появились — свои не нужны
+        loc("mod_country_base_%s_research_produces_add" % _mk, _ru + " (база)"); tren(_ru + " (база)", _ena + " (base)")
+if "mod_country_base_minor_artifacts_produces_add" not in _GMK:
+    loc("mod_country_base_minor_artifacts_produces_add", "Малые артефакты (база)"); tren("Малые артефакты (база)", "Minor Artifacts (base)")
 _FIXD = ("pc_crystal_habitat_desc", "pc_warden_guardian_desc", "trait_cyborg_climate_adjustment_volcanic_desc")   # описаний нет в игре
 def _fixnames(text):
     """Подмена — уже в готовом файле перевода (иначе ломается сопоставление русских строк с английскими/китайскими)."""
@@ -3691,7 +3841,7 @@ _YML_GLY = (("✔ ", "§G●§! "), ("✔", "§G●§!"), ("↻ ", ""), ("↻", 
             ("—", "-"), ("–", "-"), ("→", "->"), ("←", "<-"), ("−", "-"), ("…", "..."), ("●", "*"))
 def yml_zh(d):
     rows = []
-    for line in yml("english", d).splitlines()[1:]:
+    for line in yml("english", d, clean=False).splitlines()[1:]:
         k, v = _re.match(r'^ (\S+):0 "(.*)"$', line).groups()
         v = v.replace("§O", "§H")
         for _a, _b in _YML_GLY: v = v.replace(_a, _b)
@@ -3700,7 +3850,7 @@ def yml_zh(d):
         if z is None:
             if _re.search(r"[A-Za-z]{3}", _re.sub(r"\$[^$]*\$|\[[^\]]*\]|§.", "", t)): _ZH_MISS.append(t)
             z = t
-        rows.append(' %s:0 "%s"' % (k, _zfill(lead, z, args)))
+        rows.append(' %s:0 "%s"' % (k, _ttclean("simp_chinese", k, _zfill(lead, z, args))))
     return "l_simp_chinese:\n" + "\n".join(rows) + "\n"
 w("localisation/simp_chinese/dtp_l_simp_chinese.yml", safe_chars("simp_chinese", yml_zh(L)), True)
 w("localisation/simp_chinese/dtp_custom_l_simp_chinese.yml", safe_chars("simp_chinese", yml_zh(CUSTOM_L)), True)

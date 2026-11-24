@@ -1,4 +1,4 @@
-version="11.9.8"
+version="12.0.0"
 tags={
 	"Utilities"
 	"Interface"
@@ -8,5 +8,5 @@ dependencies={
 	"UI Overhaul Dynamic"
 	"Debug Toolpack (DTP)"
 }
-supported_version="v4.5.*"
+supported_version="v4.6.*"
 path="mod/dtp_toolpack_uiod"

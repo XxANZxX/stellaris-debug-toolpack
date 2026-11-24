@@ -39,15 +39,38 @@ sprites = set(re.findall(r'name = "(GFX_[\w]+)"', gfx))
 van = set()
 if len(sys.argv) > 2:
     for g in glob.glob(os.path.join(sys.argv[2], "**/*.gfx"), recursive=True): van |= set(re.findall(r'name\s*=\s*"(GFX_\w+)"', txt(g)))
+VTEX = set()                                                  # 12.0: текстуры, на которые ссылаются файлы интерфейса игры, — есть в игре
+if len(sys.argv) > 2:
+    for g in glob.glob(os.path.join(sys.argv[2], "**/*.gfx"), recursive=True): VTEX |= {x.replace("\\", "/").lower() for x in re.findall(r'texturefile\s*=\s*"([^"]+)"', txt(g), re.I)}
 for s in set(re.findall(r'(?:picture|spriteType|quadTextureSprite|icon)\s*=\s*"?(GFX_\w+)"?', alltxt)):
     if s not in sprites and s not in van: P.append("нет картинки/спрайта: " + s)
 for f, t in files.items():                                    # текстуры существуют
     for tf in re.findall(r'texture[fF]ile = "([^"]+)"', t):
-        if not os.path.exists(os.path.join(R, tf)) and not (tf.startswith('gfx/interface/icons/') and "dtp" not in tf): P.append("нет файла текстуры: " + tf)   # значки игры
+        if not os.path.exists(os.path.join(R, tf)) and not (tf.startswith('gfx/interface/icons/') and "dtp" not in tf) and tf.lower() not in VTEX: P.append("нет файла текстуры: " + tf)   # значки и картинки игры
 gui = "\n".join(t for f, t in files.items() if f.endswith(".gui"))
-names = collections.Counter(re.findall(r'name\s*=\s*"((?:dtp_|dq)[^"]+)"', gui))
-for n, c in names.items():
-    if c > 1: P.append("элемент окна дважды: %s (%d)" % (n, c))
+# 11.9.9: имена элементов — уникальны внутри окна верхнего уровня (окна вкладок — копии одной рамки с общими элементами);
+# имена самих окон верхнего уровня — уникальны во всех файлах
+def _tops(t):
+    t = re.sub(r"#[^\n]*", "", t); d, st, out = 0, None, []
+    for k, ch in enumerate(t):
+        if ch == "{":
+            d += 1
+            if d == 2: st = t.rfind("\n", 0, k)
+        elif ch == "}":
+            if d == 2 and st is not None: out.append(t[st:k + 1])
+            d -= 1
+    return out
+tops = collections.Counter()
+for f, t in files.items():
+    if not f.endswith(".gui"): continue
+    for blk in _tops(t):
+        nm = re.search(r'name\s*=\s*"([^"]+)"', blk)
+        if nm: tops[nm.group(1)] += 1
+        names = collections.Counter(re.findall(r'name\s*=\s*"((?:dtp_|dq)[^"]+)"', blk))
+        for n, c in names.items():
+            if c > 1: P.append("элемент окна дважды: %s (%d) в окне %s" % (n, c, nm.group(1) if nm else "?"))
+for n, c in tops.items():
+    if c > 1 and (n.startswith("dtp_") or n.startswith("dq")): P.append("окно верхнего уровня дважды: %s (%d)" % (n, c))
 be = "\n".join(t for f, t in files.items() if "button_effects" in f)
 keys = collections.Counter(re.findall(r"^((?:dtp_|dq)\w+) = \{", be, re.M))
 for k, c in keys.items():
@@ -77,6 +100,6 @@ if len(sys.argv) > 3:
             c = form.get(k)
             if k.startswith("dtp") or not c or c[kind(v)]: continue
             P.append("«%s = %s»: в игре эта запись бывает только как %s — сломает остаток файла: %s" % (k, v, "/".join(c), f))
-print("файлов %d · событий %d · кнопок %d · элементов окна %d · спрайтов %d" % (len(files), len(ids), len(keys), len(names), len(sprites)))
+print("файлов %d · событий %d · кнопок %d · элементов окна %d · спрайтов %d" % (len(files), len(ids), len(keys), len(set(re.findall(r'name\s*=\s*"((?:dtp_|dq)[^"]+)"', gui))), len(sprites)))
 for p in sorted(set(P)): print("ПРОБЛЕМА:", p)
 print("Итого проблем:", len(set(P)))

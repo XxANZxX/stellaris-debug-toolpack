@@ -165,7 +165,7 @@ ev.append('''country_event = {
 root = os.path.join(OUT, "dtp_selftest")
 os.makedirs(os.path.join(root, "events"), exist_ok=True)
 open(os.path.join(root, "events", "dtp_selftest_events.txt"), "w", encoding="utf-8").write("\n\n".join(ev) + "\n")
-desc = 'version="%s"\ntags={\n\t"Utilities"\n}\nname="DTP Self-Test"\nsupported_version="v4.5.*"\n' % VER
+desc = 'version="%s"\ntags={\n\t"Utilities"\n}\nname="DTP Self-Test"\nsupported_version="v4.6.*"\n' % VER
 open(os.path.join(root, "descriptor.mod"), "w", encoding="utf-8").write(desc)
 open(os.path.join(OUT, "dtp_selftest.mod"), "w", encoding="utf-8").write(desc + 'path="mod/dtp_selftest"\n')
 zp = os.path.join(OUT, "dtp_selftest_v%s.zip" % VER)

@@ -63,12 +63,12 @@ GSPR = {}
 def gspr(tex):
     if not tex: return None
     return GAME_SPR.setdefault(tex, "GFX_dtp_gi_" + re.sub(r"\W", "_", tex.split("/")[-1][:-4]))
-def card(name, ru, en, x, y, w, pot, tex, has, ok, effect, p, tt_ru, tt_en, sp=False, need=None, soft=None, light=False):
+def card(name, ru, en, x, y, w, pot, tex, has, ok, effect, p, tt_ru, tt_en, sp=False, need=None, soft=None, light=False, pad=None):
     """Карточка как в редакторе игры: значок игры + название; зелёная рамка — есть у A; красный знак — игра запрещает."""
     allow = need_perm(p) + "\n" + (need or N_TC())
     okall = B("AND", ok, soft) if soft else ok      # soft — правило только для обычного режима (очки этик): в принудительном не считается
     if ok is not None: allow += "\n" + LOCKED(B("OR", has, okall) if has else okall)
-    pad = "              " if tex else "  "        # 11.2.5: в русском шрифте пробел уже — отступ больше (текст наезжал на значок)
+    pad = pad if pad is not None else ("              " if tex else "  ")        # 11.2.5: в русском шрифте пробел уже — отступ больше (текст наезжал на значок)
     k = eb(name, pad + ru, pad + en, x, y, w, ECH, pot=pot, allow=allow, effect=effect, tt=(tt_ru, tt_en), left=True, sprite=("GFX_dtp_ecl" if light else "GFX_dtp_ec") if tex else "GFX_dtp_btn")
     GUI[-1]["quiet"] = True              # карточек сотни — без звука щелчка файл окна меньше
     if tex:
@@ -145,6 +145,9 @@ ETABS = [(1, "Этика и правление", "Ethics & authority"), (2, "Г�
          (4, "Перки возвышения", "Ascension perks"), (5, "Политика", "Policies"), (6, "Черты вида", "Species traits"),
          (7, "Права вида", "Species rights"), (10, "Портрет вида", "Species portrait"), (8, "Облик и название", "Look & name"), (11, "Лидеры", "Leaders"),
          (12, "Технологии", "Technologies"), (13, "Указы", "Edicts"), (14, "Флот и армии", "Fleets & armies"), (9, "Модификаторы", "Modifiers")]
+# 12.0 (4.6 «Corona Borealis», дополнение Willpower): вкладка «Идеология» — только если в игре есть идеологии
+IDEO = os.path.isdir(os.path.join(VC, "ideologies"))
+if IDEO: ETABS.insert(ETABS.index((13, "Указы", "Edicts")) + 1, (15, "Идеология", "Ideology"))
 ETT = {1: ("Этики державы (обычные и фанатичные), коллективное сознание и форма правления.", "Empire ethics (regular and fanatic), gestalt consciousness and authority."),
        2: ("Все гражданские модели игры: обычные, корпоративные, коллективного разума, машинные и особые.", "All civics in the game: regular, corporate, hive mind, machine and special."),
        3: ("Деревья традиций: принять целиком или убрать.", "Tradition trees: adopt fully or remove."),
@@ -160,38 +163,49 @@ ETT = {1: ("Этики державы (обычные и фанатичные), 
        13: ("Указы державы A: включить любой указ, кампанию или амбицию бесплатно.", "Edicts of empire A: enact any edict, campaign or ambition for free."),
        14: ("Флоты и армии державы A: корабли по проектам A по номерам, копии корабля флота F, проекты получателя B, правка флота F, армии.",
             "Fleets and armies of empire A: ships by A's designs by number, copies of fleet F's ship, recipient B's designs, editing fleet F, armies.")}
+ETT[15] = ("Идеология державы A (дополнение Willpower): создать, принять, отказаться, сила идеологии, переброс принципов, идеологический соперник.",
+           "Empire A's ideology (Willpower DLC): create, adopt, abandon, ideological strength, reroll tenets, ideological rival.")
 ESUB = {1: ("этики · коллективное сознание · правление", "ethics · gestalt · authority"), 2: ("как при создании державы", "as in empire creation"),
         3: ("деревья целиком", "whole trees"), 4: ("добавить или убрать", "add or remove"), 5: ("вариант каждой политики", "an option for each policy"),
         6: ("черты выбранного вида державы A", "traits of the selected species of A"), 7: ("права выбранного вида державы A", "rights of the selected species of A"), 10: ("класс · все портреты класса", "class · all portraits of the class"),
         8: ("корабли · города · флаг · название", "ships · cities · flag · name"), 9: ("бонусы и штрафы державы A", "bonuses and penalties of empire A"),
         11: ("лидер · черты · уровень · возраст", "leader · traits · level · age"),
         12: ("изучить по одной или разом", "one by one or in bulk"), 13: ("включить бесплатно", "enact for free"),
-        14: ("корабли по проектам · флот F · армии", "ships by design · fleet F · armies")}
+        14: ("корабли по проектам · флот F · армии", "ships by design · fleet F · armies"),
+        15: ("создать · принять · сила · принципы", "create · adopt · strength · tenets")}
 # 11.7: вкладка «Лидеры» — лидер в редакторе: общая цель dtp_lv (редактор открыт только у одного игрока; dtp_vsync сбрасывает её,
 # если лидер не из державы A). При открытии вкладки без выбранного лидера выбирается правитель A.
 LV_AUTO = B("if", B("limit", "NOT = { exists = event_target:dtp_lv }", "exists = event_target:dtp_t"),
             B("event_target:dtp_t", B("if", B("limit", "exists = ruler"), B("ruler", "save_global_event_target_as = dtp_lv"))))
 lab("ed_navbg", "", 8, 64, 206, h=EH - 72, potential=B("from", EDOPEN), where="editor"); GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_frame"
 elab("navh", "§gРАЗДЕЛЫ§!", "§gSECTIONS§!", 22, 70, 180, pot=EDP(), h=22)
+ED_TABFX = {}
 for i, (t, ru, en) in enumerate(ETABS):
     y = 96 + i * 40                         # 11.8: 14 вкладок — шаг 40 (подпись «зелёная рамка» ниже, на EH-150)
-    eb("tab%d_on" % t, ru, en, 14, y, 194, 36, pot=EDP(t), sprite="GFX_dtp_ednav_on", tt=ETT[t])
-    eb("tab%d" % t, ru, en, 14, y, 194, 36, pot=EDP(extra=B("from", "NOT = { %s }" % chk("dtp_edtab", t))),
-       effect=B("from", setv("dtp_edtab", t), setv("dtp_edcat", 1), setv("dtp_edpg", 1)) + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes" if t in (6, 7, 10) else "")
-           + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes\n" + LV_AUTO if t == 11 else ""), sprite="GFX_dtp_ednav", tt=ETT[t])
+    _fx = B("from", setv("dtp_edtab", t), setv("dtp_edcat", 1), setv("dtp_edpg", 1)) + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes" if t in (6, 7, 10) else "") \
+          + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes\n" + LV_AUTO if t == 11 else "")
+    if DTP_WIN:      # 11.9.9: вкладки — варианты события (у каждой вкладки своё окно, см. gen3 «окна вкладок»)
+        ED_TABFX[t] = _fx
+    else:
+        eb("tab%d_on" % t, ru, en, 14, y, 194, 36, pot=EDP(t), sprite="GFX_dtp_ednav_on", tt=ETT[t])
+        eb("tab%d" % t, ru, en, 14, y, 194, 36, pot=EDP(extra=B("from", "NOT = { %s }" % chk("dtp_edtab", t))), effect=_fx, sprite="GFX_dtp_ednav", tt=ETT[t])
     # шапка раздела — баннер, как в главной панели (значок раздела — значок самой игры)
     lab("ed_ban%d" % t, "", EX0, 62, EXW, h=40, potential=B("from", EDOPEN, chk("dtp_edtab", t)), where="editor"); GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_ebanner_%d" % t
     elab("bt%d" % t, ru.upper(), en.upper(), EX0 + 50, 66, 500, pot=EDP(t), h=30, font="large_title_font")
     elab("bs%d" % t, "§g%s§!" % ESUB[t][0], "§g%s§!" % ESUB[t][1], EX0 + 560, 72, EXW - 570, pot=EDP(t), h=22)
 lab("ed_grp", "", EX0 - 6, EY0 - 46, EXW + 12, h=EH - 104 - EY0 + 50, potential=B("from", EDOPEN, "NOT = { %s }" % chk("dtp_edtab", 1)), where="editor"); GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_group"
 # раздел 1: две отдельные рамки — «Этика» слева, «Форма правления» справа
-ETW = 2 * 280 + EGAP                      # ширина блока этик
+# 12.0 (4.6): третья ступень этик — абсолютная (3 очка); если в игре её нет — две колонки, как раньше
+ABS_ETH = os.path.exists(os.path.join(VC, "ethics", "00_ethics.txt")) and "ethic_absolute_" in open(os.path.join(VC, "ethics", "00_ethics.txt"), encoding="utf-8-sig", errors="ignore").read()
+ECW_E = 186 if ABS_ETH else 280            # ширина карточки этики
+ETW = (3 if ABS_ETH else 2) * ECW_E + (2 if ABS_ETH else 1) * EGAP      # ширина блока этик
 AUX = EX0 + ETW + 26                      # левый край блока правления
 AUW = EX0 + EXW - AUX
 lab("ed_grp_e", "", EX0 - 6, EY0 - 46, ETW + 12, h=EH - 104 - EY0 + 50, potential=B("from", EDOPEN, chk("dtp_edtab", 1)), where="editor"); GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_group"
 lab("ed_grp_a", "", AUX - 6, EY0 - 46, AUW + 12, h=EH - 104 - EY0 + 50, potential=B("from", EDOPEN, chk("dtp_edtab", 1)), where="editor"); GUI[-1]["sprite"] = META[-1]["sprite"] = "GFX_dtp_group"
-elab("lg1", "§Gзелёная рамка§! — есть у A", "§Ggreen frame§! — A has it", 18, EH - 150, 190, pot=EDP())
-elab("lg2", "§R●§! — игра обычно запрещает", "§R●§! — normally forbidden", 18, EH - 126, 190, pot=EDP())
+_LGY = EH - 110 if DTP_WIN else EH - 150      # 11.9.9: под столбиком вкладок — кнопка «Закрыть»
+elab("lg1", "§Gзелёная рамка§! — есть у A", "§Ggreen frame§! — A has it", 18, _LGY, 190, pot=EDP())
+elab("lg2", "§R●§! — игра обычно запрещает", "§R●§! — normally forbidden", 18, _LGY + 24, 190, pot=EDP())
 # низ окна: итог действия и принудительный режим
 for nm, ru, en, cond, spr in [("r_idle", "   §gИтог последнего действия появится здесь§!", "   §gThe result of your last action will appear here§!", "NOT = { is_variable_set = dtp_last_ok }", "GFX_dtp_res_idle"),
                               ("r_ok", "   §GГОТОВО§!  ·  изменение применено к державе A", "   §GDONE§!  ·  the change was applied to empire A", chk("dtp_last_ok", 1), "GFX_dtp_res_ok"),
@@ -217,39 +231,49 @@ _EMODS = _ed.ethic_mods(VC)
 ETH_EN = {"militarist": "Militarist", "pacifist": "Pacifist", "xenophobe": "Xenophobe", "xenophile": "Xenophile", "authoritarian": "Authoritarian",
           "egalitarian": "Egalitarian", "spiritualist": "Spiritualist", "materialist": "Materialist"}
 def _pts(excl, amount):
-    """«очков этик у остальных осей не меньше amount» (фанатичная = 2)."""
+    """«очков этик у остальных осей не меньше amount» (фанатичная = 2, абсолютная = 3)."""
     ts = []
     for a, _o in AXES:
         if a in excl: continue
         ts += ["has_ethic = ethic_%s" % a, "has_ethic = ethic_fanatic_%s" % a, B("AND", "has_ethic = ethic_fanatic_%s" % a)]
+        if ABS_ETH: ts += ["has_ethic = ethic_absolute_%s" % a] * 3
     return B("calc_true_if", "amount >= %d" % amount, *ts)        # «amount = N» у игры — ровно N; нужно «не меньше»
+def _tiers(a):
+    """ступени этики: (ключ, очки)."""
+    return [("ethic_%s" % a, 1), ("ethic_fanatic_%s" % a, 2)] + ([("ethic_absolute_%s" % a, 3)] if ABS_ETH else [])
 elab("e1h", "§YЭТИКА§!  §gвсего 3 очка · противоположные несовместимы§!", "§YETHICS§!  §g3 points total · opposites are incompatible§!", EX0 + 4, EY0 - 42, ETW - 8, pot=EDP(1), h=24)
-elab("e1c1", "§gобычная — 1 очко§!", "§gregular — 1 point§!", EX0 + 44, EY0 - 20, 230, pot=EDP(1), h=18)
-elab("e1c2", "§gфанатичная — 2 очка§!", "§gfanatic — 2 points§!", EX0 + 280 + EGAP + 44, EY0 - 20, 230, pot=EDP(1), h=18)
+_ECOLH = [("§gобычная — 1 очко§!", "§gregular — 1 point§!"), ("§gфанатичная — 2 очка§!", "§gfanatic — 2 points§!"), ("§gабсолютная — 3 очка§!", "§gabsolute — 3 points§!")]
+for _c in range(3 if ABS_ETH else 2):
+    elab("e1c%d" % (_c + 1), _ECOLH[_c][0], _ECOLH[_c][1], EX0 + _c * (ECW_E + EGAP) + 40, EY0 - 20, ECW_E - 40, pot=EDP(1), h=18)
 elab("a1h", "§YФОРМА ПРАВЛЕНИЯ§!", "§YAUTHORITY§!", AUX + 4, EY0 - 42, AUW - 8, pot=EDP(1), h=24)
 elab("a1c", "§gэтики подстроятся сами§!", "§gethics adjust automatically§!", AUX + 4, EY0 - 20, AUW - 8, pot=EDP(1), h=18)
+_TIER_RU = {1: "добавить этику", 2: "сделать этику фанатичной (2 очка)", 3: "сделать этику абсолютной (3 очка — все очки державы)"}
+_TIER_EN = {1: "add the ethic", 2: "make the ethic fanatic (2 points)", 3: "make the ethic absolute (3 points — all of the empire's points)"}
+_TPFX = {1: ("", ""), 2: ("Фан. ", "Fan. "), 3: ("Абс. ", "Abs. ")}
 for i, (a, o) in enumerate(AXES):
     y = EY0 + i * (ECH + EGAP) + (i // 2) * 10          # противоположные этики — парой, между парами промежуток
-    ex = "has_ethic = ethic_%s" % a; fx = "has_ethic = ethic_fanatic_%s" % a
-    base = ["NOT = { has_ethic = ethic_gestalt_consciousness }", "NOR = { has_ethic = ethic_%s has_ethic = ethic_fanatic_%s }" % (o, o)]
-    ok_n = okx("eth_" + a, "\n".join(base)); pt_n = okx("ethp_" + a, "NOT = { %s }" % _pts((a, o), 3))     # 11.2.7: очки — только в обычном режиме
-    ok_f = okx("eth_f_" + a, "\n".join(base)); pt_f = okx("ethp_f_" + a, "NOT = { %s }" % _pts((a, o), 2))
-    tx = "gfx/interface/icons/ethics/ethic_%s.dds" % a; tf = "gfx/interface/icons/ethics/ethic_fanatic_%s.dds" % a
-    card("eth_" + a, ETH_RU[a], ETH_EN[a], EX0, y, 280, EDP(1), tx, "dtp_tcx = { T = dtp_has_e_%s }" % a, ok_n,
-         act("state", B("event_target:dtp_t", B("if", B("limit", ex), "country_remove_ethic = ethic_%s" % a),
-                         B("else_if", B("limit", fx), "country_remove_ethic = ethic_fanatic_%s" % a, "country_add_ethic = ethic_%s" % a),
-                         B("else", "country_add_ethic = ethic_%s" % a)), 20), "state",
-         "§Y$ethic_%s$§!\n$ethic_%s_desc$%s\n\n§gНажмите: добавить этику (у фанатичной — сделать обычной); если уже есть — убрать.§!" % (a, a, MODS(_EMODS.get("ethic_" + a, []))),
-         "§Y$ethic_%s$§!\n$ethic_%s_desc$%s\n\n§gClick: add the ethic (a fanatic one becomes regular); if already present — remove it.§!" % (a, a, MODS(_EMODS.get("ethic_" + a, []))), soft=pt_n)
-    TRG.append(B("dtp_has_e_%s" % a, ex))
-    TRG.append(B("dtp_has_ef_%s" % a, fx))
-    card("ethf_" + a, "Фанат. " + ETH_RU[a].lower(), "Fanatic " + ETH_EN[a].lower(), EX0 + 280 + EGAP, y, 280, EDP(1), tf, "dtp_tcx = { T = dtp_has_ef_%s }" % a, ok_f,
-         act("state", B("event_target:dtp_t", B("if", B("limit", fx), "country_remove_ethic = ethic_fanatic_%s" % a),
-                         B("else", B("if", B("limit", ex), "country_remove_ethic = ethic_%s" % a), "country_add_ethic = ethic_fanatic_%s" % a)), 20), "state",
-         "§Y$ethic_fanatic_%s$§!\n$ethic_fanatic_%s_desc$%s\n\n§gНажмите: сделать этику фанатичной (2 очка); если уже есть — убрать.§!" % (a, a, MODS(_EMODS.get("ethic_fanatic_" + a, []))),
-         "§Y$ethic_fanatic_%s$§!\n$ethic_fanatic_%s_desc$%s\n\n§gClick: make the ethic fanatic (2 points); if already present — remove it.§!" % (a, a, MODS(_EMODS.get("ethic_fanatic_" + a, []))), soft=pt_f)
+    base = ["NOT = { has_ethic = ethic_gestalt_consciousness }", "NOR = { %s }" % " ".join("has_ethic = %s" % k for k, _ in _tiers(o))]
+    for n, (key, pts) in enumerate(_tiers(a)):
+        tag = {1: "", 2: "f_", 3: "a_"}[pts]
+        has = "has_ethic = %s" % key
+        ok = okx("eth_%s%s" % (tag, a), "\n".join(base)); pt = okx("ethp_%s%s" % (tag, a), "NOT = { %s }" % _pts((a, o), 4 - pts))     # 11.2.7: очки — только в обычном режиме
+        others = [k for k, _ in _tiers(a) if k != key]
+        # 12.0: абсолютная этика — 3 очка, все очки державы; закрытая этика Гейм-мастера (1 очко) с ней не помещается —
+        # игра отказывала правлению (error.log: «ethic_dtp_gamemaster cannot be added»), поэтому на время абсолютной этики её снимаем
+        _gm = [B("if", B("limit", "has_ethic = ethic_dtp_gamemaster"), "country_remove_ethic = ethic_dtp_gamemaster")] if pts == 3 else []
+        fx = B("event_target:dtp_t", B("if", B("limit", has), "country_remove_ethic = %s" % key),
+               B("else", *_gm, *[B("if", B("limit", "has_ethic = %s" % k), "country_remove_ethic = %s" % k) for k in others], "country_add_ethic = %s" % key))
+        TRG.append(B("dtp_has_e%s_%s" % ({1: "", 2: "f", 3: "a"}[pts], a), has))
+        tex = "gfx/interface/icons/ethics/%s.dds" % key
+        # 12.0: в три колонки — только название этики (ступень — в заголовке колонки): с приставкой текст наезжал на значок
+        ru_n, en_n = ETH_RU[a], ETH_EN[a]
+        if not ABS_ETH and pts == 2: ru_n, en_n = "Фанат. " + ETH_RU[a].lower(), "Fanatic " + ETH_EN[a].lower()
+        card(("eth_" if pts == 1 else "ethf_" if pts == 2 else "etha_") + a, ru_n, en_n, EX0 + n * (ECW_E + EGAP), y, ECW_E, EDP(1), tex,
+             "dtp_tcx = { T = dtp_has_e%s_%s }" % ({1: "", 2: "f", 3: "a"}[pts], a), ok, act("state", fx, 20), "state",
+             "§Y$%s$§!\n$%s_desc$%s\n\n§gНажмите: %s; если уже есть — убрать.§!" % (key, key, MODS(_EMODS.get(key, [])), _TIER_RU[pts]),
+             "§Y$%s$§!\n$%s_desc$%s\n\n§gClick: %s; if already present — remove it.§!" % (key, key, MODS(_EMODS.get(key, [])), _TIER_EN[pts]), soft=pt)
 TRG.append(B("dtp_has_e_gestalt", "has_ethic = ethic_gestalt_consciousness"))
-_REGULAR_ETH = ["ethic_%s" % a for a, _o in AXES] + ["ethic_fanatic_%s" % a for a, _o in AXES]
+_REGULAR_ETH = [k for a, _o in AXES for k, _p in _tiers(a)]
 ok_g = okx("eth_gestalt", "OR = { has_authority = auth_hive_mind has_authority = auth_machine_intelligence }")
 elab("e1g", "§gили, для коллективного и машинного разума:§!", "§gor, for hive minds and machine intelligences:§!", EX0 + 4, EY0 + 8 * (ECH + EGAP) + 3 * 10 + 6, ETW - 8, pot=EDP(1), h=18)
 card("eth_gestalt", "Коллективное сознание", "Gestalt Consciousness", EX0, EY0 + 8 * (ECH + EGAP) + 3 * 10 + 28, ETW, EDP(1), "gfx/interface/icons/ethics/ethic_gestalt_consciousness.dds",
@@ -732,8 +756,8 @@ for j, (c, ru, en) in enumerate(CLS):
              "Портрет «%s» (%s, №%d). Нажмите, чтобы поставить его основному виду A." % (p_, ru, i + 1), "Portrait '%s' (%s, #%d). Click to give it to A's main species." % (p_, en, i + 1))
 
 # ---- кнопка «Открыть редактор» (главная панель) — эффект общий
-ED_OPEN_EFF = INIT + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open", "country_event = { id = dtp.1995 }",
-                               B("if", B("limit", "NOT = { is_variable_set = dtp_edtab }"), setv("dtp_edtab", 1), setv("dtp_edcat", 1), setv("dtp_edpg", 1)))
+ED_OPEN_EFF = INIT + "\n" + B("from", "set_country_flag = dtp_ed_open", "remove_country_flag = dtp_open",
+                               B("if", B("limit", "NOT = { is_variable_set = dtp_edtab }"), setv("dtp_edtab", 1), setv("dtp_edcat", 1), setv("dtp_edpg", 1)), "country_event = { id = dtp.1995 scopes = { from = this } }")
 print("редактор: элементов %d, условий «разрешено игрой» %d" % (sum(1 for g in GUI if g["where"] == "editor"), len(_OKN)))
 
 # ================================================================ ЗНАЧКИ ИГРЫ на кнопках редактора (вкладки, подразделы, права, облик, модификаторы)
@@ -1041,6 +1065,88 @@ for _c in range(1, 5):
     grid_items(13, _c, sorted([it for it in _EDS if it["grp"] == _c], key=lambda it: it["key"]), mk)
 print("редактор: указов %d (%s)" % (len(_EDS), ", ".join("%d: %d" % (c, sum(1 for it in _EDS if it["grp"] == c)) for c in range(1, 5))))
 
+# ================================================================ 15. ИДЕОЛОГИЯ (12.0, игра 4.6 + дополнение Willpower)
+# Эффекты — из документации игры 4.6 (script_documentation): create_ideology, adopt_ideology, abandon_adopted_ideology,
+# add_ideological_strength, reroll_tenets (ступени 1–3: TENETS_TIER_MIN/MAX), declare_ideological_rival, destroy_ideology.
+# Отдельного эффекта «добавить принцип» в игре нет: принципы даёт сила идеологии, их можно перебросить или взять у державы B.
+if IDEO:
+    _IT = _ed.top(os.path.join(VC, "ideologies/00_ideology_types.txt"))
+    _ITYPES = [k for k in _IT if not k.startswith("#")]
+    TRG.append(B("dtp_has_ideo", "adopted_ideology_level >= 0"))
+    TRG.append(B("dtp_ideo_on", "ideologies_enabled = yes"))
+    tren("У державы A нет идеологии — сначала создайте или примите её", "Empire A has no ideology — create or adopt one first")
+    IDOK = lambda: need("dtp_need_ideo", "У державы A нет идеологии — сначала создайте или примите её", "dtp_tcx = { T = dtp_has_ideo }")
+    def irow(i, ru, en):
+        elab("i15r_%d" % i, "§Y%s§!" % ru, "§Y%s§!" % en, EX0, EY0 + i * 44 + 6, 150, pot=EDP(15), h=26)
+        return EY0 + i * 44
+    _ID = "gfx/interface/icons/"
+    def ibtn(nm, ru, en, x, y, w, body, tr, te, extra_allow="", sprite="GFX_dtp_btn", ic=None):
+        """Кнопка вкладки «Идеология»; ic — значок игры слева (как на карточках редактора)."""
+        pad = "              " if ic else ""
+        eb(nm, pad + ru, pad + en, x, y, w, 38, pot=EDP(15), allow=need_perm("state") + "\n" + N_TC() + extra_allow, effect=act("state", B("event_target:dtp_t", body), 20),
+           tt=(tr, te), sprite=sprite, left=bool(ic))
+        if ic:
+            eb(nm + "_ic", "", "", x + 5, y + 4, 30, 30, pot=EDP(15), sprite=gspr(ic), transp=True, label=True); GUI[-1]["passthru"] = True
+    T_ = "event_target:dtp_t"
+    elab("i15_off", "§RИдеологии выключены в настройках этой партии — кнопки ничего не сделают.§!", "§RIdeologies are disabled in this game's setup — the buttons will do nothing.§!",
+         EX0, EY0 - 40, EXW, pot=EDP(15, extra="NOT = { dtp_ideo_on = yes }"), h=26)
+    elab("i15_st1", "§gУ державы A сейчас §Gесть§! идеология.§!", "§gEmpire A §Ghas§! an ideology now.§!", EX0, EY0 - 40, EXW, pot=EDP(15, extra="dtp_ideo_on = yes\ndtp_tcx = { T = dtp_has_ideo }"), h=26)
+    elab("i15_st0", "§gУ державы A §Yнет§! идеологии.§!", "§gEmpire A has §Yno§! ideology.§!", EX0, EY0 - 40, EXW, pot=EDP(15, extra="dtp_ideo_on = yes\ndtp_has_tc = yes\nNOT = { dtp_tcx = { T = dtp_has_ideo } }"), h=26)
+    # ряд 0–1: создать
+    y = irow(0, "Создать", "Create")
+    _IW = (EXW - 156 - 4 * EGAP) // 5      # ряд «Сила» — 5 кнопок
+    _IW4 = (EXW - 156 - 3 * EGAP) // 4     # остальные ряды — 4 кнопки со значками
+    ibtn("i15_new", "По этикам A", "From A's ethics", EX0 + 156, y, _IW4, "set_country_flag = ideology_initiated\ncreate_ideology = { auto_adopt = yes }",
+         "Создать державе A новую идеологию по её этикам и сразу принять её (как это делает игра). Если у A уже есть идеология — новая её заменит.",
+         "Create a new ideology for empire A from its ethics and adopt it right away (as the game does). If A already has an ideology, the new one replaces it.", ic=_ID + "diplomacy/diplomacy_ideology.dds")
+    ibtn("i15_newb", "С принципами B", "With B's tenets", EX0 + 156 + (_IW4 + EGAP), y, _IW4, "set_country_flag = ideology_initiated\ncreate_ideology = { tenets = event_target:dtp_r auto_adopt = yes }",
+         "Создать державе A новую идеологию с принципами идеологии получателя B и сразу принять её.",
+         "Create a new ideology for empire A with the tenets of recipient B's ideology and adopt it right away.", extra_allow="\n" + N_RCP(), ic=_ID + "diplomacy/diplomacy_impose_ideology.dds")
+    _ITN = {"xenophobe_militarist": ("Ксенофоб.+милит.", "Xenophobe+Milit."), "xenophobe_pacifist": ("Ксенофоб.+пациф.", "Xenophobe+Pacif.")}      # кнопка ~140 px
+    _ITF = {"xenophobe_militarist": ("Ксенофобия + милитаризм", "Xenophobe + Militarist"), "xenophobe_pacifist": ("Ксенофобия + пацифизм", "Xenophobe + Pacifist")}      # в подсказке — полностью
+    for j, k in enumerate(_ITYPES):
+        ru_, en_ = _ITN.get(k, (ETH_RU.get(k, k), ETH_EN.get(k, k)))
+        rf_, ef_ = _ITF.get(k, (ru_, en_))
+        x = EX0 + 156 + ((j + 2) % 4) * (_IW4 + EGAP); yy = y + ((j + 2) // 4) * 44
+        _eth = "xenophobe" if k.startswith("xenophobe") else k        # значок фракции этой этики (как у идеологических фракций игры)
+        ibtn("i15_t_%s" % k, ru_, en_, x, yy, _IW4, "set_country_flag = ideology_initiated\ncreate_ideology = { type = %s auto_adopt = yes }" % k,
+             "Создать державе A идеологию типа «%s» и сразу принять её. Если у A уже есть идеология — новая её заменит." % rf_,
+             "Create an ideology of type '%s' for empire A and adopt it right away. If A already has an ideology, the new one replaces it." % ef_,
+             ic=_ID + "factions/types/faction_icons_ideological_%s.dds" % _eth)
+    _r = (len(_ITYPES) + 2 + 3) // 4      # строк под «Создать»
+    y = irow(_r, "Принять", "Adopt")
+    ibtn("i15_adb", "Идеологию B", "B's ideology", EX0 + 156, y, _IW4, B("event_target:dtp_r", B("ideology", "save_event_target_as = dtp_ideo_b")) + "\nadopt_ideology = event_target:dtp_ideo_b",
+         "Держава A принимает идеологию получателя B.", "Empire A adopts recipient B's ideology.", extra_allow="\n" + N_RCP() + "\n" + N_DIFF(), ic=_ID + "diplomacy/diplomacy_impose_ideology.dds")
+    ibtn("i15_ab", "Отказаться", "Abandon", EX0 + 156 + (_IW4 + EGAP), y, _IW4, "abandon_adopted_ideology = yes",
+         "Держава A отказывается от своей идеологии (сама идеология остаётся в игре).", "Empire A abandons its ideology (the ideology itself stays in the game).", extra_allow="\n" + IDOK(), sprite="GFX_dtp_btn_warn", ic=_ID + "alerts/alert_ideology.dds")
+    ibtn("i15_del", "Уничтожить", "Destroy", EX0 + 156 + 2 * (_IW4 + EGAP), y, _IW4, B("ideology", "destroy_ideology = yes"),
+         "Уничтожить идеологию державы A целиком — её потеряют все, кто её принял.", "Destroy empire A's ideology entirely — everyone who adopted it loses it.", extra_allow="\n" + IDOK(), sprite="GFX_dtp_btn_danger", ic=_ID + "diplomacy/diplomacy_force_ideology.dds")
+    ibtn("i15_riv", "B — соперник", "B — rival", EX0 + 156 + 3 * (_IW4 + EGAP), y, _IW4, "declare_ideological_rival = event_target:dtp_r",
+         "Объявить получателя B идеологическим соперником державы A (без ограничения на число соперников).",
+         "Declare recipient B an ideological rival of empire A (ignores the rivalry limit).", extra_allow="\n" + N_RCP() + "\n" + N_DIFF() + "\n" + IDOK(), ic=_ID + "diplomacy/diplomacy_ideological_rival.dds")
+    y = irow(_r + 1, "Сила", "Strength")
+    for j, v in enumerate((100, 500, 1000, 5000, -500)):
+        ibtn("i15_s%s" % str(v).replace("-", "m"), ("%+d" % v), ("%+d" % v), EX0 + 156 + j * (_IW + EGAP), y, _IW, "add_ideological_strength = %d" % v,
+             ("Идеологическая сила державы A: %+d (растёт уровень идеологии — открываются принципы)." % v) if v > 0 else ("Идеологическая сила державы A: %+d (уровень идеологии может упасть — принципы закроются)." % v),
+             ("Empire A's ideological strength: %+d (the ideology level grows — tenets unlock)." % v) if v > 0 else ("Empire A's ideological strength: %+d (the ideology level may drop — tenets lock)." % v), extra_allow="\n" + IDOK(), sprite="GFX_dtp_btn_warn" if v < 0 else "GFX_dtp_btn")
+    y = irow(_r + 2, "Принципы", "Tenets")
+    ibtn("i15_rr", "Перебросить все", "Reroll all", EX0 + 156, y, _IW4, B("ideology", B("reroll_tenets", "tier = 1", "tier = 2", "tier = 3")),
+         "Перебросить принципы идеологии державы A на всех трёх ступенях (бесплатно, без ожидания).",
+         "Reroll the tenets of empire A's ideology at all three tiers (free, no cooldown).", extra_allow="\n" + IDOK(), ic=_ID + "alerts/alert_ideology_authority_amendment.dds")
+    for j in (1, 2, 3):
+        ibtn("i15_rr%d" % j, "Ступень %d" % j, "Tier %d" % j, EX0 + 156 + j * (_IW4 + EGAP), y, _IW4, B("ideology", B("reroll_tenets", "tier = %d" % j)),
+             "Перебросить принципы идеологии державы A на ступени %d." % j, "Reroll the tenets of empire A's ideology at tier %d." % j, extra_allow="\n" + IDOK())
+    elab("i15_hint", "§gПринципы открываются с ростом силы идеологии. Добавить один принцип игра не даёт — только перебросить или взять у B.§!",
+         "§gTenets unlock as ideological strength grows. The game can't add a single tenet — only reroll them or take B's.§!", EX0, EY0 + (_r + 3) * 44 + 6, EXW, pot=EDP(15), h=26)
+    # 12.0: картинки событий игры внизу вкладки (иначе половина окна пустая): слева — совет идеологов, справа — по типу державы A
+    TRG.append(B("dtp_is_hive", "is_hive_empire = yes")); TRG.append(B("dtp_is_mach", "is_machine_empire = yes"))
+    _PY = EY0 + (_r + 3) * 44 + 40; _PW = (EXW - EGAP) // 2; _PH = min(_PW // 3, EH - 110 - _PY)
+    eb("i15_pic1", "", "", EX0, _PY, _PW, _PH, pot=EDP(15), sprite=gspr("gfx/event_pictures/ideological_council.dds"), transp=True, label=True)
+    for _n, (_tex, _cond) in enumerate((("hive_ideology", "dtp_tcx = { T = dtp_is_hive }"), ("machine_ideology", "dtp_tcx = { T = dtp_is_mach }"),
+                                        ("spiritualist_ideology", "NOR = { dtp_tcx = { T = dtp_is_hive } dtp_tcx = { T = dtp_is_mach } }"))):
+        eb("i15_pic2_%d" % _n, "", "", EX0 + _PW + EGAP, _PY, _PW, _PH, pot=EDP(15, extra=_cond), sprite=gspr("gfx/event_pictures/%s.dds" % _tex), transp=True, label=True)
+    print("редактор: идеология — типов %d" % len(_ITYPES))
+
 # ================================================================ 14. ФЛОТ И АРМИИ (11.8): конструктор флота по проектам державы, правка флота F, армии
 # Проекты кораблей перебираются скриптом (every_owned_design), но имя проекта игра в текст не отдаёт (проба 06.11: «Unknown property GetName»),
 # поэтому проекты — по номерам. Номера — порядок, в котором игра хранит проекты; списки A и B заполняются при выборе типа.
@@ -1336,7 +1442,8 @@ _TRI["bio"] = _GI + "traits/trait_intelligent.dds"
 NAVTEX = {1: _GI + "governments/authorities/auth_imperial.dds", 2: _GI + "governments/civics/civic_technocracy.dds", 3: _GI + "resources/unity.dds",
           4: _GI + "ascension_perks/slot_available.dds", 5: _GI + "resources/influence.dds", 6: _GI + "traits/trait_intelligent.dds",
           7: _GI + "species_right_living_standards.dds", 10: _GI + "species_right_citizenship.dds", 8: _GI + "resources/alloys.dds", 9: _GI + "resources/society_research.dds",
-          11: _GI + "icon_council.dds", 12: _GI + "resources/physics_research.dds", 13: _GI + "menu_icon_edicts.dds", 14: _GI + "resources/alloys.dds"}
+          11: _GI + "icon_council.dds", 12: _GI + "resources/physics_research.dds", 13: _GI + "menu_icon_edicts.dds", 14: _GI + "resources/alloys.dds",
+          15: _GI + "diplomacy/diplomacy_ideology.dds"}
 CIVTEX = {1: _GI + "governments/authorities/auth_democratic.dds", 2: _GI + "governments/authorities/auth_corporate.dds", 3: _GI + "governments/authorities/auth_hive_mind.dds",
           4: _GI + "governments/authorities/auth_machine_intelligence.dds", 5: _GI + "resources/minor_artifacts.dds"}
 TRTEX = {1: _TRI["bio"], 2: _TRI["robot"], 3: _TRI["ascend"], 4: _TRI["hab"]}
@@ -1384,4 +1491,5 @@ for _g, _m in list(zip(GUI, META)):
 for _t in NAVTEX:                                                     # значок раздела в гексе баннера
     lab("ed_ban%d_ic" % _t, "", EX0 + 13, 62 + 9, 22, h=22, potential=B("from", EDOPEN, chk("dtp_edtab", _t)), where="editor")
     GUI[-1]["sprite"] = META[-1]["sprite"] = gspr(NAVTEX[_t]); GUI[-1]["transp"] = True
+ED_TABIC = {_t: gspr(_etex("tab%d" % _t)) for _t, _, _ in ETABS}      # 11.9.9: значки вкладок-вариантов события
 print("редактор: значков игры на кнопках %d" % _n_ic)

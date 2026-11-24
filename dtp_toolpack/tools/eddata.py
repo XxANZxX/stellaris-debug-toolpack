@@ -4,7 +4,31 @@
 в обычные условия державы, чтобы редактор показывал красную пометку там же, где её показывает редактор игры."""
 import os, re, glob
 
-def _strip(t): return re.sub(r"#[^\n]*", "", t)
+def _strip(t): return _inline(re.sub(r"#[^\n]*", "", t))
+# 12.0 (4.6): игра всё чаще объявляет объекты через inline_script (указы, черты, постройки) — разворачиваем их, как игра:
+# inline_script = { script = путь ПАРАМЕТР = значение } или inline_script = путь; $ПАРАМЕТР$, $ПАРАМЕТР|по_умолчанию$,
+# [[ПАРАМЕТР] … ] (если задан) и [[!ПАРАМЕТР] … ] (если не задан). Папку задаёт генератор: eddata.INLINE_ROOT = <common>/inline_scripts
+INLINE_ROOT = None
+# только на верхнем уровне файла (так объявляются целые объекты); вложенные inline_script (значки черт trait/icon и т. п.)
+# оставляем как есть — их параметры читают разборщики ниже
+_IL = re.compile(r'(?m)^inline_script\s*=\s*(\{[^{}]*\}|"[^"]+"|[\w/]+)')
+def _inline(t, depth=0):
+    if not INLINE_ROOT or "inline_script" not in t or depth > 6: return t
+    def rep(m):
+        v = m.group(1); args = {}
+        if v.startswith("{"):
+            for k, val in re.findall(r'(\w+)\s*=\s*("[^"]*"|\S+)', v[1:-1]): args[k] = val.strip('"')
+            path = args.pop("script", "")
+        else: path = v.strip('"')
+        f = os.path.join(INLINE_ROOT, path + ".txt")
+        if not path or not os.path.exists(f): return ""
+        body = re.sub(r"#[^\n]*", "", open(f, encoding="utf-8-sig", errors="ignore").read())
+        for _ in range(3):        # [[P] … ] / [[!P] … ] (без вложенных скобок внутри)
+            body = re.sub(r"\[\[(!?)(\w+)\]([^\[\]]*)\]", lambda mm: mm.group(3) if ((mm.group(2) in args) != bool(mm.group(1))) else "", body)
+        body = re.sub(r"\$(\w+)\|([^$]*)\$", lambda mm: args.get(mm.group(1), mm.group(2)), body)
+        body = re.sub(r"\$(\w+)\$", lambda mm: args.get(mm.group(1), mm.group(0)), body)
+        return _inline(body, depth + 1)
+    return _IL.sub(rep, t)
 _TOK = re.compile(r'"[^"]*"|[{}]|[<>!]=|[=<>]|[^\s{}=<>"]+')
 def parse(text):
     toks = _TOK.findall(_strip(text)); i = 0

@@ -185,17 +185,22 @@ PSUB = {1: ("класс планеты · как у игры", "planet class · 
         10: ("особенности природы", "natural features"), 11: ("группы населения", "pop groups"), 12: ("бонусы и штрафы планеты", "planet bonuses and penalties"), 13: ("коридоры между системами", "lanes between systems")}
 pdeco("navbg", 8, 64, 206, EH - 72, "GFX_dtp_frame", PO)
 plab("navh", "§gРАЗДЕЛЫ§!", "§gSECTIONS§!", 22, 70, 180, pot=PEP(), h=22)
+PE_TABFX = {}
 for i, (t, ru, en) in enumerate(PTABS):
     y = 96 + i * 42
-    pb("tab%d_on" % t, ru, en, 14, y, 194, 38, pot=PEP(t), sprite="GFX_dtp_ednav_on", tt=PTT[t])
-    pb("tab%d" % t, ru, en, 14, y, 194, 38, pot=PEP(extra=B("from", "NOT = { %s }" % chk("dtp_petab", t))),
-       effect=B("from", setv("dtp_petab", t), setv("dtp_pecat", 1), setv("dtp_pepg", 1)) + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes" if t == 11 else "") + ("\n" + INIT + "\ndtp_load = yes\ndtp_hn_fill = yes" if t == 13 else ""), sprite="GFX_dtp_ednav", tt=PTT[t])
+    _fx = B("from", setv("dtp_petab", t), setv("dtp_pecat", 1), setv("dtp_pepg", 1)) + ("\n" + INIT + "\ndtp_load = yes\ndtp_esl_fill = yes" if t == 11 else "") + ("\n" + INIT + "\ndtp_load = yes\ndtp_hn_fill = yes" if t == 13 else "")
+    if DTP_WIN:      # 11.9.9: вкладки — варианты события (окно на вкладку)
+        PE_TABFX[t] = _fx
+    else:
+        pb("tab%d_on" % t, ru, en, 14, y, 194, 38, pot=PEP(t), sprite="GFX_dtp_ednav_on", tt=PTT[t])
+        pb("tab%d" % t, ru, en, 14, y, 194, 38, pot=PEP(extra=B("from", "NOT = { %s }" % chk("dtp_petab", t))), effect=_fx, sprite="GFX_dtp_ednav", tt=PTT[t])
     pdeco("ban%d" % t, EX0, 62, EXW, 40, "GFX_dtp_pbanner_%d" % t, B("from", PEOPEN, chk("dtp_petab", t)))
     plab("bt%d" % t, ru.upper(), en.upper(), EX0 + 50, 66, 500, pot=PEP(t), h=30, font="large_title_font")
     plab("bs%d" % t, "§g%s§!" % PSUB[t][0], "§g%s§!" % PSUB[t][1], EX0 + 560, 72, EXW - 570, pot=PEP(t), h=22)
 pdeco("grp", EX0 - 6, EY0 - 46, EXW + 12, EH - 104 - EY0 + 50, "GFX_dtp_group", PO)
-plab("lg1", "§Gзелёная рамка§! — уже есть", "§Ggreen frame§! — already there", 18, EH - 150, 190, pot=PEP())
-plab("lg2", "§R●§! — игра обычно запрещает", "§R●§! — normally forbidden", 18, EH - 126, 190, pot=PEP())
+_LGY = EH - 110 if DTP_WIN else EH - 150
+plab("lg1", "§Gзелёная рамка§! — уже есть", "§Ggreen frame§! — already there", 18, _LGY, 190, pot=PEP())
+plab("lg2", "§R●§! — игра обычно запрещает", "§R●§! — normally forbidden", 18, _LGY + 24, 190, pot=PEP())
 # низ окна: итог, режим «добавлять / убирать», принудительный режим
 _RW = EXW - 330 - 250
 for nm, ru, en, cond, spr in [("r_idle", "   §gИтог последнего действия появится здесь§!", "   §gThe result of your last action will appear here§!", "NOT = { is_variable_set = dtp_last_ok }", "GFX_dtp_res_idle"),
@@ -811,8 +816,8 @@ for j, (k, ru, en, ef, tru, ten, spr, al) in enumerate([
 
 pslots()
 # ---- открыть редактор планеты (из главной панели и из окна планеты)
-PE_OPEN_EFF = B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_pe_open", "remove_country_flag = dtp_open", "country_event = { id = dtp.1996 }",
-    B("if", B("limit", "NOT = { is_variable_set = dtp_petab }"), setv("dtp_petab", 1), setv("dtp_pecat", 1), setv("dtp_pepg", 1)))
+PE_OPEN_EFF = B("from", "dtp_pidx_ensure = yes", "dtp_init_targets = yes", "dtp_host_check = yes") + "\n" + B("from", "set_country_flag = dtp_pe_open", "remove_country_flag = dtp_open",
+    B("if", B("limit", "NOT = { is_variable_set = dtp_petab }"), setv("dtp_petab", 1), setv("dtp_pecat", 1), setv("dtp_pepg", 1)), "country_event = { id = dtp.1996 scopes = { from = this } }")
 print("редактор планеты: элементов %d, условий «разрешено игрой» %d" % (sum(1 for g in GUI if g["where"] == "peditor"), len(_POK)))
 
 # ---- значки игры на вкладках и в баннерах
@@ -832,6 +837,7 @@ for _g, _m in list(zip(GUI, META)):
     GUI.append(dict(_g, key=_g["key"] + "_ic", x=_g["x"] + 9, y=_g["y"] + 9, w=20, h=20, sprite=_s, label=True, eff=_g["key"], left=False, transp=True, tt=None))
     META.append(dict(_m, key=_g["key"] + "_ic", x=_g["x"] + 9, y=_g["y"] + 9, w=20, h=20, sprite=_s, label=True, text=""))
     L[_g["key"] + "_ic"] = ""
+PE_TABIC = {_t: picon(PNAVTEX.get(_t)) for _t, _, _ in PTABS}      # 11.9.9: значки вкладок-вариантов события
 for _t in PNAVTEX:
     lab("pe_ban%d_ic" % _t, "", EX0 + 13, 62 + 9, 22, h=22, potential=B("from", PEOPEN, chk("dtp_petab", _t)), where="peditor")
     GUI[-1]["sprite"] = META[-1]["sprite"] = picon(PNAVTEX[_t]); GUI[-1]["transp"] = True

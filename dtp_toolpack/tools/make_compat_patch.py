@@ -85,6 +85,7 @@ def build(mods, vi, vc, vmap, dest, folder, name, layout="auto", readme_title=No
         else: take = [t for t in R["gui"] if layout == "uiod" or from_mod(t, src_of)]
         if take and "main.gui" in take and "dtp_planet_editor.gui" not in take: take.append("dtp_planet_editor.gui")
         if "dtp_planet_editor.gui" in take and "main.gui" not in take: take.append("main.gui")
+        take = [t for t in take if t not in ("dtp_windows.gui", "dtp_editor_windows.gui", "dtp_planet_windows.gui")]     # 11.9.9: окна редакторов — свой файл DTP, от раскладки и других модов не зависит (в патче была копия 3,5 МБ)
         ctake = sorted(csrc)
         warn = []
         for m in mods:                                          # чего сборщик не объединит сам
@@ -111,7 +112,7 @@ def build(mods, vi, vc, vmap, dest, folder, name, layout="auto", readme_title=No
             shutil.copy(os.path.join(out, co), dst)
         if big: warn.append("файл больше 3,5 МБ — больше в игре не проверяли: " + ", ".join(big))
         deps = (deps or [mod_name(m) for m in mods]) + ["Debug Toolpack (DTP)"]
-        desc = ('version="%s"\ntags={\n\t"Utilities"\n\t"Interface"\n}\nname="%s"\ndependencies={\n%s}\nsupported_version="v4.5.*"\n'
+        desc = ('version="%s"\ntags={\n\t"Utilities"\n\t"Interface"\n}\nname="%s"\ndependencies={\n%s}\nsupported_version="v4.6.*"\n'
                 % (ver, name, "".join('\t"%s"\n' % d for d in deps)))
         open(os.path.join(pdir, "descriptor.mod"), "w", encoding="utf-8").write(desc)
         open(os.path.join(dest, folder + ".mod"), "w", encoding="utf-8").write(desc + 'path="mod/%s"\n' % folder)
